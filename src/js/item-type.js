@@ -1,3 +1,4 @@
+define(
 function handleType() {
     return function
         (data) {
@@ -113,7 +114,7 @@ function handleType() {
         });
     };
 }
-
+)
 function getFilter() {
     let $itemType = $('#itemType');
     const val = $itemType.val();

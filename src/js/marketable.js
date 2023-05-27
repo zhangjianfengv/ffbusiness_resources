@@ -227,7 +227,13 @@ $(document).ready(function () {
     })
     initMarketableNum();
     $.ajax({
-        url: "/ffbusiness/itemType/all", async: true, method: "post", contentType: "application/json", success: handleType()
+        url: "/ffbusiness/itemType/all",
+        async: true,
+        method: "post",
+        contentType: "application/json",
+        success: require(["./item-type"], function () {
+            handleType();
+        })
     });
 })
 $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});

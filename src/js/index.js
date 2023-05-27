@@ -99,7 +99,8 @@ function searchItem() {
 function formatIcon(row, value) {
     let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
     if (row.hq)
-        return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
+        return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img' +
+            ' src="./img/hq.png"' +
             ' decoding="async" width="16" height="16" alt="hq">';
     else
         return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
@@ -142,7 +143,7 @@ function queryCurrent(name, id, itemName) {
         }, {
             field: 'hq',
             formatter: function addButton(value, row, index, field) {
-                if (value === 'true') return '<img src="/hq.png"' +
+                if (value === 'true') return '<img src="./img/hq.png"' +
                     ' decoding="async" width="16" height="16" alt="hq">';
                 else return '';
             },
