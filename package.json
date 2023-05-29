@@ -1,28 +1,47 @@
 {
-  "name": "ffbusiness_resources",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "ffbusiness_res",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
   "dependencies": {
-    "html-webpack-plugin": "^5.5.1",
-    "terser-webpack-plugin": "^5.3.9"
+    "bootstrap": "^5.2.3",
+    "bootstrap-table": "^1.21.4",
+    "core-js": "^3.8.3",
+    "popper.js": "^1.16.1",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
-    "webpack": "^5.84.1",
-    "webpack-cli": "^5.1.1"
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "jquery": "^3.7.0"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    },
+    "rules": {}
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zhangjianfengv/ffbusiness_resources.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/zhangjianfengv/ffbusiness_resources/issues"
-  },
-  "homepage": "https://github.com/zhangjianfengv/ffbusiness_resources#readme"
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ]
 }
