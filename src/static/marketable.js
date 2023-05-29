@@ -227,13 +227,7 @@ $(document).ready(function () {
     })
     initMarketableNum();
     $.ajax({
-        url: "/ffbusiness/itemType/all",
-        async: true,
-        method: "post",
-        contentType: "application/json",
-        success: require(["./item-type"], function () {
-            handleType();
-        })
+        url: "/ffbusiness/itemType/all", async: true, method: "post", contentType: "application/json", success: handleType()
     });
 })
 $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});

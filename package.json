@@ -1,20 +1,28 @@
 {
-  "name": "resources",
+  "name": "ffbusiness_resources",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "dependencies": {
+    "html-webpack-plugin": "^5.5.1",
+    "terser-webpack-plugin": "^5.3.9"
+  },
+  "devDependencies": {
+    "webpack": "^5.84.1",
+    "webpack-cli": "^5.1.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangjianfengv/ffbusiness_resources.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "terser-webpack-plugin": "^5.3.9",
-    "webpack": "^5.84.1",
-    "webpack-cli": "^5.1.1"
+  "bugs": {
+    "url": "https://github.com/zhangjianfengv/ffbusiness_resources/issues"
   },
-  "dependencies": {
-    "html-webpack-plugin": "^5.5.1"
-  }
+  "homepage": "https://github.com/zhangjianfengv/ffbusiness_resources#readme"
 }
