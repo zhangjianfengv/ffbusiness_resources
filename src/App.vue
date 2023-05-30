@@ -1,52 +1,28 @@
 <template>
-
-
   <div id="app">
-    <BootstrapTable
-        :columns="columns"
-        :data="data"
-        :options="options"
-    />
+    <img alt="Bootstrap Table logo" src="./assets/logo.png" width="64" height="64">
+    <HelloWorld msg="Welcome to Bootstrap Table App"/>
   </div>
-
-
 </template>
 
 <script>
-import BootstrapTable from 'bootstrap-table/dist/bootstrap-table-vue.esm.js'
+import HelloWorld from './components/HelloWorld.vue'
 
 export default {
+  name: 'app',
   components: {
-    BootstrapTable
-  },
-  data() {
-    return {
-      columns: [
-        {
-          title: 'Item ID',
-          field: 'id'
-        },
-        {
-          field: 'name',
-          title: 'Item Name'
-        },
-        {
-          field: 'price',
-          title: 'Item Price'
-        }
-      ],
-      data: [
-        {
-          id: 1,
-          name: 'Item 1',
-          price: '$1'
-        }
-      ],
-      options: {
-        search: true,
-        showColumns: true
-      }
-    }
+    HelloWorld
   }
 }
 </script>
+
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
