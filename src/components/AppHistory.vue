@@ -55,7 +55,7 @@
       </div>
     </form>
     <div>
-      <BootstrapTable
+      <BootstrapTable id="table"
           ref="table"
           :columns="columns"
           :data="data"
