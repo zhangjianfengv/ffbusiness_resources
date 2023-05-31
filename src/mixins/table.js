@@ -1,14 +1,14 @@
-import {createApp} from 'vue'
+import Vue from 'vue'
 
 export default {
-    data() {
+    data () {
         return {
             vueFormatters: []
         }
     },
 
     methods: {
-        vueFormatter(obj) {
+        vueFormatter (obj) {
             const key = `_vue_formatter_${this.vueFormatters.length}`
             this.vueFormatters.push({
                 el: `.${key}`,
@@ -18,7 +18,7 @@ export default {
             return `<div class="${key}"></div>`
         },
 
-        vueFormatterPostBody() {
+        vueFormatterPostBody () {
             if (!this.vueFormatters.length) {
                 return
             }
@@ -27,7 +27,7 @@ export default {
                 const formatter = this.vueFormatters[i]
 
                 if (document.getElementsByClassName(formatter.name)) {
-                    createApp(formatter)
+                    new Vue(formatter)
                     this.vueFormatters.splice(i, 1)
                 }
             }

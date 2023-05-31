@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {BootstrapVue, DropdownPlugin, IconsPlugin, TablePlugin} from 'bootstrap-vue'
+import {BootstrapVue} from 'bootstrap-vue'
 import History from './components/AppHistory.vue'
 import './plugins/table.js'
 import $ from "jquery";
@@ -9,10 +9,63 @@ let query = {
 };
 let paramCurrent = {};
 Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
-Vue.use(DropdownPlugin);
-Vue.use(TablePlugin);
 Vue.config.productionTip = false
+new Vue({
+    render: h => h(History),
+    methods: {
+        queryCurrent(row) {
+            let name = row.worldName;
+            let id = row.itemId;
+            $.ajax({
+                url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+                data: JSON.stringify({worldName: name}),
+                contentType: "application/json", success: function (data) {
+                    $('#myModalLabel').html(data.worldName + row.itemName + '低价')
+                }
+            });
+            $('#myModal').modal('show');
+            let $currentTable = $('#currentTable');
+            $currentTable.bootstrapTable('destroy');
+            $currentTable.bootstrapTable({
+                url: '/ffbusiness/currentData/queryCurrent',
+                pagination: "true",
+                columns: [{
+                    field: 'worldName',
+                    title: '服务器'
+                }, {
+                    field: 'retainerName',
+                    title: '雇员名'
+                }, {
+                    field: 'hq',
+                    formatter: function addButton(value) {
+                        if (value === 'true') return '<img src="/hq.png"' +
+                            ' decoding="async" width="16" height="16" alt="hq">';
+                        else return '';
+                    },
+                    title: '高品质'
+                }, {
+                    field: 'pricePerUnit',
+                    title: '单价'
+                }, {
+                    field: 'quantity',
+                    title: '数量'
+                }, {
+                    field: 'total',
+                    title: '总计'
+                }], method: 'post',
+                queryParams: function () {
+                    paramCurrent.worldName = name;
+                    paramCurrent.itemId = id;
+                    return paramCurrent;
+                },
+                contentType: "application/json",
+                pageNumber: 1,//初始化加载第一页，默认第一页
+                pageSize: 10,
+                pageList: [20, 50]
+            });
+        }
+    }
+}).$mount('#app')
 
 export function initTable() {
     $('#table').bootstrapTable({
@@ -80,60 +133,3 @@ export function initTable() {
     });
 }
 
-new Vue({
-    render: h => h(History),
-    methods: {
-
-        queryCurrent(row) {
-            let name = row.worldName;
-            let id = row.itemId;
-            $.ajax({
-                url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
-                data: JSON.stringify({worldName: name}),
-                contentType: "application/json", success: function (data) {
-                    $('#myModalLabel').html(data.worldName + row.itemName + '低价')
-                }
-            });
-            $('#myModal').modal('show');
-            let $currentTable = $('#currentTable');
-            $currentTable.bootstrapTable('destroy');
-            $currentTable.bootstrapTable({
-                url: '/ffbusiness/currentData/queryCurrent',
-                pagination: "true",
-                columns: [{
-                    field: 'worldName',
-                    title: '服务器'
-                }, {
-                    field: 'retainerName',
-                    title: '雇员名'
-                }, {
-                    field: 'hq',
-                    formatter: function addButton(value) {
-                        if (value === 'true') return '<img src="/hq.png"' +
-                            ' decoding="async" width="16" height="16" alt="hq">';
-                        else return '';
-                    },
-                    title: '高品质'
-                }, {
-                    field: 'pricePerUnit',
-                    title: '单价'
-                }, {
-                    field: 'quantity',
-                    title: '数量'
-                }, {
-                    field: 'total',
-                    title: '总计'
-                }], method: 'post',
-                queryParams: function () {
-                    paramCurrent.worldName = name;
-                    paramCurrent.itemId = id;
-                    return paramCurrent;
-                },
-                contentType: "application/json",
-                pageNumber: 1,//初始化加载第一页，默认第一页
-                pageSize: 10,
-                pageList: [20, 50]
-            });
-        }
-    }
-}).$mount('#app')
