@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
+import {BootstrapVue, DropdownPlugin, IconsPlugin, TablePlugin} from 'bootstrap-vue'
 import History from './components/AppHistory.vue'
 import './plugins/table.js'
 import $ from "jquery";
@@ -8,9 +8,12 @@ let query = {
     worldName: '中国'
 };
 let paramCurrent = {};
-Vue.use(BootstrapVue)
-
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+Vue.use(DropdownPlugin);
+Vue.use(TablePlugin);
 Vue.config.productionTip = false
+
 export function initTable() {
     $('#table').bootstrapTable({
         url: '/ffbusiness/saleHistory/realData',
@@ -76,6 +79,7 @@ export function initTable() {
         pageList: [20, 100, 200, 500, 1000],
     });
 }
+
 new Vue({
     render: h => h(History),
     methods: {
