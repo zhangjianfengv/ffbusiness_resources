@@ -56,11 +56,11 @@
     </form>
     <div>
       <BootstrapTable id="table"
-          ref="table"
-          :columns="columns"
-          :data="data"
-          :options="options"
-          @on-post-body="vueFormatterPostBody"
+                      ref="table"
+                      :columns="columns"
+                      :data="data"
+                      :options="options"
+                      @on-post-body="vueFormatterPostBody"
       />
     </div>
 
@@ -180,12 +180,11 @@ export default {
     searchItem() {
       $('#table').bootstrapTable('destroy');
       query = {
-        id: $('#id').val(),
-        name: $('#name').val(),
-        description: $('#description').val(),
-        itemUICategory: $('#itemUICategory').val(),
-        levelItem: $('#levelItem').val(),
-        itemTypes: $('#itemType').val()
+        itemId: $('#itemId').val(),
+        itemName: $('#itemName').val(),
+        worldName: $('#worldName').val(),
+        buyerName: $('#buyerName').val(),
+        timestamp: $('#date').val()
       };
       $('#table').bootstrapTable({
         url: '/ffbusiness/saleHistory/realData',
