@@ -1,9 +1,3 @@
-// 引入jQuery
-import $ from 'jquery'
-// 引用bootstrap
-import './bootstrap.min.css'
-import './bootstrap.bundle.min.js'
-
 let query = {
     worldName: '中国'
 };

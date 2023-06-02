@@ -12,7 +12,7 @@
             <b-form-input class="w-25" id="date" placeholder="请选择或输入日期" type="text"></b-form-input>
           </b-col>
           <b-col cols="2">
-            <b-form-select class="w-100" id="worldName">
+            <b-form-select v-model="worldName" class="w-100" id="worldName">
               <option value="摩杜纳">摩杜纳</option>
               <option value="旅人栈桥">旅人栈桥</option>
               <option value="琥珀原">琥珀原</option>
@@ -100,183 +100,69 @@ import $ from "jquery";
 let query = {
   worldName: '中国'
 };
-
-export function queryCurrent(name, id, itemName) {
-  $.ajax({
-    url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
-    data: JSON.stringify({worldName: name}),
-    contentType: "application/json", success: function (data) {
-      $('#myModalLabel').html(data.worldName + itemName + '低价')
-    }
-  });
-  $('#myModal').modal('show');
-  let $currentTable = $('#currentTable');
-  $currentTable.bootstrapTable('destroy');
-  $currentTable.bootstrapTable({
-    url: '/ffbusiness/currentData/queryCurrent',
-    pagination: "true",
-    columns: [{
-      field: 'worldName',
-      title: '服务器'
-    }, {
-      field: 'retainerName',
-      title: '雇员名'
-    }, {
-      field: 'hq',
-      formatter: function addButton(value) {
-        if (value === 'true') return '<img src="/hq.png"' +
+let columns = [
+  {
+    field: 'itemId',
+    title: '物品ID'
+  }, {
+    field: 'itemName',
+    formatter: (value, row) => {
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
+      if (row.hq)
+        return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
             ' decoding="async" width="16" height="16" alt="hq">';
-        else return '';
-      },
-      title: '高品质'
-    }, {
-      field: 'pricePerUnit',
-      title: '单价'
-    }, {
-      field: 'quantity',
-      title: '数量'
-    }, {
-      field: 'total',
-      title: '总计'
-    }], method: 'post',
-    queryParams: function () {
-      let paramCurrent = {};
-      paramCurrent.worldName = name;
-      paramCurrent.itemId = id;
-      return paramCurrent;
-    },
-    contentType: "application/json",
-    pageNumber: 1,//初始化加载第一页，默认第一页
-    pageSize: 10,
-    pageList: [20, 50]
-  });
-}
-
-function initTable() {
-  $('#table').bootstrapTable({
-    url: '/ffbusiness/saleHistory/realData',
-    pagination: "true",
-    sidePagination: "server",
-    columns: [{
-      field: 'itemId',
-      title: '物品ID'
-    }, {
-      field: 'itemName',
-      formatter: function iconFormatter(value, row) {
-        let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
+      else
         return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
-      },
-      title: '物品名称'
-    }, {
-      field: 'pricePerUnit',
-      visible: false,
-      title: '单价'
-    }, {
-      field: 'quantity',
-      visible: false,
-      title: '数量'
-    }, {
-      field: 'sum',
-      formatter: function sumFormatter(value, row) {
-        return row.pricePerUnit + 'X' + row.quantity + '=' + value
-      },
-      title: '总计'
-    }, {
-      field: 'buyerName',
-      title: '购买者'
-    }, {
-      field: 'worldName',
-      title: '服务器'
-    }, {
-      field: 'hq',
-      visible: false,
-      title: '高品质'
-    }, {
-      field: 'timestamp',
-      title: '购买时间'
-    }, {
-      title: '操作',
-      width: 100,
-      formatter:
-          function operation(value, row) {
-            return ' <b-button onclick="queryCurrent(\'' + row.worldName + '\',' + row.itemId + ',\'' +
-                row.itemName +
-                '\')"' +
-                ' type="button">现价</>';
-          }
-    }], method: 'post',
-    contentType: "application/json",
-    queryParamsType: '',
-    queryParams: function (params) {
-      query.pageSize = params.pageSize;
-      query.pageNumber = params.pageNumber;
-      return query
     },
-    showJumpto: true,
-    pageNumber: 1,//初始化加载第一页，默认第一页
-    pageSize: 10,
-    pageList: [20, 100, 200, 500, 1000],
-  });
-}
-
+    title: '物品名称'
+  }, {
+    field: 'pricePerUnit',
+    visible: false,
+    title: '单价'
+  }, {
+    field: 'quantity',
+    visible: false,
+    title: '数量'
+  }, {
+    field: 'sum',
+    formatter: (value, row) => {
+      return row.pricePerUnit + 'X' + row.quantity + '=' + value
+    },
+    title: '总计'
+  }, {
+    field: 'buyerName',
+    title: '购买者'
+  }, {
+    field: 'worldName',
+    title: '服务器'
+  }, {
+    field: 'hq',
+    visible: false,
+    title: '高品质'
+  }, {
+    field: 'timestamp',
+    title: '购买时间'
+  }
+];
 export default {
   mixins: [tableMixin],
   data() {
+    columns.push({
+      title: '操作',
+      width: 100,
+      formatter: (value, row) => {
+        return this.vueFormatter({
+          template: '<b-button @click="clickRow(row)">现价</b-button>',
+          data: {row},
+          methods: {
+            clickRow: this.clickRow
+          }
+        })
+      }
+    });
     return {
-      columns: [
-        {
-          field: 'itemId',
-          title: '物品ID'
-        }, {
-          field: 'itemName',
-          formatter: (value, row) => {
-            let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
-            if (row.hq)
-              return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
-                  ' decoding="async" width="16" height="16" alt="hq">';
-            else
-              return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
-          },
-          title: '物品名称'
-        }, {
-          field: 'pricePerUnit',
-          visible: false,
-          title: '单价'
-        }, {
-          field: 'quantity',
-          visible: false,
-          title: '数量'
-        }, {
-          field: 'sum',
-          formatter: (value, row) => {
-            return row.pricePerUnit + 'X' + row.quantity + '=' + value
-          },
-          title: '总计'
-        }, {
-          field: 'buyerName',
-          title: '购买者'
-        }, {
-          field: 'worldName',
-          title: '服务器'
-        }, {
-          field: 'hq',
-          visible: false,
-          title: '高品质'
-        }, {
-          field: 'timestamp',
-          title: '购买时间'
-        }, {
-          title: '操作',
-          width: 100,
-          formatter:
-              function operation(value, row) {
-                return ' <b-button onclick="queryCurrent(\'' + row.worldName + '\',' + row.itemId + ',\'' +
-                    row.itemName +
-                    '\')"' +
-                    ' type="button">现价</>';
-              }
-        }
-      ],
+      worldName: '中国',
+      columns: columns,
       options: {
         url: '/ffbusiness/saleHistory/realData',
         pagination: "true",
@@ -298,34 +184,150 @@ export default {
   },
   methods: {
     searchItem() {
-      $('#table').bootstrapTable('destroy');
+      let $table = $('#table');
+      $table.bootstrapTable('destroy');
       query = {
         itemId: $('#itemId').val(),
         itemName: $('#itemName').val(),
-        worldName: $('#worldName').val(),
+        worldName: this.worldName,
         buyerName: $('#buyerName').val(),
         timestamp: $('#date').val()
       };
-      initTable();
-      $('#table').bootstrapTable('refresh', {
+      columns.pop();
+      columns.push({
+        title: '操作',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: '<b-button @click="clickRow(row)">现价</b-button>',
+            data: {row},
+            methods: {
+              clickRow: this.clickRow
+            }
+          })
+        }
+      });
+      $table.bootstrapTable({
+        url: '/ffbusiness/saleHistory/realData',
+        pagination: "true",
+        columns: columns,
+        sidePagination: "server",
+        method: 'post',
+        contentType: "application/json",
+        queryParamsType: '',
+        queryParams: function (params) {
+          query.pageSize = params.pageSize;
+          query.pageNumber = params.pageNumber;
+          return query
+        },
+        showJumpto: true,
+        pageNumber: 1,//初始化加载第一页，默认第一页
+        pageSize: 10,
+        pageList: [20, 100, 200, 500, 1000]
+      })
+      $table.bootstrapTable('refresh', {
         query: query
       });
     },
     resetQueryParams() {
+      let $table = $('#table');
       $('#queryForm')[0].reset();
-      $('#table').bootstrapTable('destroy');
+      $table.bootstrapTable('destroy');
       query = {
         worldName: '中国'
       };
       let $worldName = $('#worldName');
       $worldName.val('中国');
-      initTable()
+      columns.pop();
+      columns.push({
+        title: '操作',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: '<b-button @click="clickRow(row)">现价</b-button>',
+            data: {row},
+            methods: {
+              clickRow: this.clickRow
+            }
+          })
+        }
+      });
+      $table.bootstrapTable({
+        url: '/ffbusiness/saleHistory/realData',
+        pagination: "true",
+        columns: columns,
+        sidePagination: "server",
+        method: 'post',
+        contentType: "application/json",
+        queryParamsType: '',
+        queryParams: function (params) {
+          query.pageSize = params.pageSize;
+          query.pageNumber = params.pageNumber;
+          return query
+        },
+        showJumpto: true,
+        pageNumber: 1,//初始化加载第一页，默认第一页
+        pageSize: 10,
+        pageList: [20, 100, 200, 500, 1000]
+      })
+    },
+    clickRow(row) {
+      let name = row.worldName;
+      let id = row.itemId;
+      let itemName = row.itemName;
+      $.ajax({
+        url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+        data: JSON.stringify({worldName: name}),
+        contentType: "application/json", success: function (data) {
+          $('#myModalLabel').html(data.worldName + itemName + '低价')
+        }
+      });
+      $('#myModal').modal('show');
+      let $currentTable = $('#currentTable');
+      $currentTable.bootstrapTable('destroy');
+      $currentTable.bootstrapTable({
+        url: '/ffbusiness/currentData/queryCurrent',
+        pagination: "true",
+        columns: [{
+          field: 'worldName',
+          title: '服务器'
+        }, {
+          field: 'retainerName',
+          title: '雇员名'
+        }, {
+          field: 'hq',
+          formatter: function addButton(value) {
+            if (value === 'true') return '<img src="/hq.png"' +
+                ' decoding="async" width="16" height="16" alt="hq">';
+            else return '';
+          },
+          title: '高品质'
+        }, {
+          field: 'pricePerUnit',
+          title: '单价'
+        }, {
+          field: 'quantity',
+          title: '数量'
+        }, {
+          field: 'total',
+          title: '总计'
+        }], method: 'post',
+        queryParams: function () {
+          let paramCurrent = {};
+          paramCurrent.worldName = name;
+          paramCurrent.itemId = id;
+          return paramCurrent;
+        },
+        contentType: "application/json",
+        pageNumber: 1,//初始化加载第一页，默认第一页
+        pageSize: 10,
+        pageList: [20, 50]
+      });
     }
   },
   mounted() {
     $(document).ready(function () {
       $('#date').datepicker({language: 'zh-CN'});
-      initTable();
     })
   }
 }
