@@ -326,9 +326,7 @@ export default {
     }
   },
   mounted() {
-    $(document).ready(function () {
-      $('#date').datepicker({language: 'zh-CN'});
-    })
+    $('#date').datepicker({language: 'zh-CN'});
   }
 }
 
