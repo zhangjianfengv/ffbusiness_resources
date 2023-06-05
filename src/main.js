@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {BootstrapVue} from 'bootstrap-vue'
-import History from './components/AppHistory.vue'
+import History from './components/AppMarketable.vue'
 import './plugins/table.js'
 import $ from 'jquery'
 
