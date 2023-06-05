@@ -1,4 +1,8 @@
-function handleType() {
+let itemTypes = {};
+let oldSelected;
+import $ from "jquery";
+
+export function handleType() {
     return function
         (data) {
         const map = {};
@@ -22,7 +26,7 @@ function handleType() {
                 data[i].typeName + "</option>");
         }
         $itemType.selectpicker('refresh');
-        $itemType.on('changed.bs.select', function (e) {
+        $itemType.on('changed.bs.select', function () {
             let selectedValues = $itemType.val();
             let newSelectedValues = [];
             for (let i = 0; i < selectedValues.length; i++) {
@@ -114,12 +118,12 @@ function handleType() {
     };
 }
 
-function getFilter() {
-    let $itemType = $('#itemType');
-    const val = $itemType.val();
-    let filterVal = [];
-    for (let valKey of val) {
-        filterVal.push(parseInt(valKey));
-    }
-    return filterVal;
-}
+// function getFilter() {
+//     let $itemType = $('#itemType');
+//     const val = $itemType.val();
+//     let filterVal = [];
+//     for (let valKey of val) {
+//         filterVal.push(parseInt(valKey));
+//     }
+//     return filterVal;
+// }
