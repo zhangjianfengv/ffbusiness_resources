@@ -37,7 +37,7 @@
           <option value="豆豆柴">豆豆柴</option>
           <option selected value="中国">中国</option>
         </b-form-select>
-        <b-form-select class="form-control" id="timeScale">
+        <b-form-select class="form-control" id="timeScale" v-model="scale">
           <option value="8">统计8小时</option>
           <option selected value="24">统计24小时</option>
           <option value="72">统计3天</option>
@@ -59,7 +59,15 @@
         <b-button class="btn btn-primary" onclick="openUpdateTimeTable()" type="button">统计更新情况</b-button>
       </div>
     </b-form>
-    <table data-show-columns="true" data-show-columns-toggle-all="true" id="marketableTable"></table>
+    <div>
+      <BootstrapTable id="marketableTable"
+                      ref="table"
+                      :columns="columns"
+                      :data="data"
+                      :options="options"
+                      @on-post-body="vueFormatterPostBody"
+      />
+    </div>
     <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -104,11 +112,11 @@ let columns = [{
   field: 'quantity',
   sortable: true,
   visible: false,
-  title: $('#timeScale option:selected').html().slice(2) + '售出数'
+  // title: this.scale / 24 <= 1 ? this.scale + '小时售出数' : this.scale / 24 + '天售出数'
 }, {
   field: 'num',
   sortable: true,
-  title: $('#timeScale option:selected').html().slice(2) + '交易次数'
+  //title: this.scale / 24 <= 1 ? this.scale + '交易次数' : this.scale / 24 + '交易次数'
 }, {
   field: 'numIndexCurrent',
   sortable: true,
@@ -163,8 +171,24 @@ let columns = [{
 export default {
   mixins: [tableMixin],
   data() {
-
-    return {}
+    return {
+      url: '/ffbusiness/saleHistory/marketableData',
+      search: true,
+      searchAlign: 'left',
+      searchSelector: '#search',
+      toolbar: '#marketableForm',
+      sortName: "numIndexCurrent",
+      sortOrder: 'asc',
+      columns: columns,
+      method: 'post',
+      queryParams: function () {
+        return queryMarketable;
+      },
+      pageList: [20, 100, 200, 500, 1000],
+      pagination: "true",
+      showJumpto: true,
+      contentType: "application/json"
+    }
   },
   methods: {
     filterMarketable() {
@@ -289,7 +313,6 @@ export default {
     }
   },
   mounted() {
-
     $('select').selectpicker();
     let $sortType = $('#sortType');
     $sortType.change(function () {
@@ -318,24 +341,6 @@ export default {
         // });
       }
     })
-    $('#marketableTable').bootstrapTable({
-      url: '/ffbusiness/saleHistory/marketableData',
-      search: true,
-      searchAlign: 'left',
-      searchSelector: '#search',
-      toolbar: '#marketableForm',
-      sortName: "numIndexCurrent",
-      sortOrder: 'asc',
-      columns: columns,
-      method: 'post',
-      queryParams: function () {
-        return queryMarketable;
-      },
-      pageList: [20, 100, 200, 500, 1000],
-      pagination: "true",
-      showJumpto: true,
-      contentType: "application/json"
-    });
     $.ajax({
       url: "/ffbusiness/itemType/all", async: true, method: "post", contentType: "application/json", success: handleType()
     });
