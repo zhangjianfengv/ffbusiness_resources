@@ -4,6 +4,8 @@ import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'bootstrap-table/dist/extensions/fixed-columns/bootstrap-table-fixed-columns.min.css'
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
+import '../assets/bootstrap-table-jumpto.css'
+
 //import 'bootstrap-table/dist/themes/materialize/bootstrap-table-materialize.min.css'
 import './jquery.js'
 import Vue from 'vue'
@@ -18,5 +20,6 @@ import 'bootstrap-table/dist/extensions/export/bootstrap-table-export'
 import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min'
 import 'bootstrap-datepicker/dist/locales/bootstrap-datepicker.zh-CN.min'
 import 'bootstrap-select/dist/js/bootstrap-select.min'
+import '../assets/bootstrap-table-jumpto'
 
 Vue.component('BootstrapTable', BootstrapTable)

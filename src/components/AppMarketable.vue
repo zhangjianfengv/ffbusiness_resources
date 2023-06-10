@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <b-form inline id="marketableForm">
+      <b-row no-gutters>
       <div class="input-group" id="marketableParam">
-        <b-form-select class="form-control" id="worldName">
+        <b-form-select class="form-control" id="worldName" v-model="worldName">
           <option value="摩杜纳">摩杜纳</option>
           <option value="旅人栈桥">旅人栈桥</option>
           <option value="琥珀原">琥珀原</option>
@@ -49,15 +50,16 @@
         </b-form-select>
         <b-form-input class="form-control" id="min" min="0" placeholder="低价" type="number" value=""></b-form-input>
         <b-form-input class="form-control" id="max" placeholder="高价" type="number" value=""></b-form-input>
-        <b-button class="btn btn-primary mx-1" onclick="filterMarketable()" type="button">查询</b-button>
-        <b-button class="btn btn-primary mx-1" onclick="resetMarketable()" type="button">重置</b-button>
+        <b-button class="btn btn-primary mx-1" @click="filterMarketable()" type="button">查询</b-button>
+        <b-button class="btn btn-primary mx-1" @click="resetMarketable()" type="button">重置</b-button>
         <b-form-input class="form-control" id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
-        <b-form-select class="form-control mx-1" id="sortType">
+        <b-form-select class="form-control mx-1" id="sortType" v-model="sortType">
           <option selected value="1">按交易次数排序</option>
           <option value="2">按售出总数排序</option>
         </b-form-select>
-        <b-button class="btn btn-primary" onclick="openUpdateTimeTable()" type="button">统计更新情况</b-button>
+        <b-button class="btn btn-primary" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
       </div>
+      </b-row>
     </b-form>
     <div>
       <BootstrapTable id="marketableTable"
@@ -85,6 +87,11 @@
     </div>
   </div>
 </template>
+<style>
+.custom-select {
+   padding: 0 !important;
+}
+</style>
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
@@ -112,11 +119,11 @@ let columns = [{
   field: 'quantity',
   sortable: true,
   visible: false,
-  // title: this.scale / 24 <= 1 ? this.scale + '小时售出数' : this.scale / 24 + '天售出数'
+  title:'24小时售出数'
 }, {
   field: 'num',
   sortable: true,
-  //title: this.scale / 24 <= 1 ? this.scale + '交易次数' : this.scale / 24 + '交易次数'
+  title:'24小时交易次数'
 }, {
   field: 'numIndexCurrent',
   sortable: true,
@@ -172,28 +179,31 @@ export default {
   mixins: [tableMixin],
   data() {
     return {
-      url: '/ffbusiness/saleHistory/marketableData',
-      search: true,
-      searchAlign: 'left',
-      searchSelector: '#search',
-      toolbar: '#marketableForm',
-      sortName: "numIndexCurrent",
-      sortOrder: 'asc',
+      scale:24,
+      worldName: '中国',
+      sortType:"1",
       columns: columns,
-      method: 'post',
-      queryParams: function () {
-        return queryMarketable;
-      },
-      pageList: [20, 100, 200, 500, 1000],
-      pagination: "true",
-      showJumpto: true,
-      contentType: "application/json"
+      options:{ url: '/ffbusiness/saleHistory/marketableData',
+        search: true,
+        searchAlign: 'left',
+        searchSelector: '#search',
+        toolbar: '#marketableForm',
+        sortName: "numIndexCurrent",
+        sortOrder: 'asc',
+        method: 'post',
+        queryParams: function () {
+          return queryMarketable;
+        },
+        pageList: [20, 100, 200, 500, 1000],
+        pagination: "true",
+        showJumpto: true,
+        contentType: "application/json"},
     }
   },
   methods: {
     filterMarketable() {
       const $marketableTable = $('#marketableTable');
-      const timeScale = $('#timeScale').val();
+      const timeScale = this.scale;
       queryMarketable = {
         worldName: $('#worldName').val(),
         timeScale: timeScale,
