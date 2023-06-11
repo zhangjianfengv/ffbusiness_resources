@@ -48,8 +48,8 @@
         </b-form-select>
         <b-form-select class="selectpicker" id="itemType" multiple title="选择物品类别">
         </b-form-select>
-        <b-form-input class="form-control" id="min" min="0" placeholder="低价" type="number" value=""></b-form-input>
-        <b-form-input class="form-control" id="max" placeholder="高价" type="number" value=""></b-form-input>
+        <b-form-input class="form-control" id="min" min="0" placeholder="低价" type="number" value="" v-model="min"></b-form-input>
+        <b-form-input class="form-control" id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
         <b-button class="btn btn-primary mx-1" @click="filterMarketable()" type="button">查询</b-button>
         <b-button class="btn btn-primary mx-1" @click="resetMarketable()" type="button">重置</b-button>
         <b-form-input class="form-control" id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
@@ -80,7 +80,7 @@
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" data-dismiss="modal" onclick="closeUpdateTimeTable()" type="button">关闭</button>
+            <button class="btn btn-primary" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">关闭</button>
           </div>
         </div>
       </div>
@@ -181,6 +181,8 @@ export default {
     return {
       scale:24,
       worldName: '中国',
+      min: null,
+      max: null,
       sortType:"1",
       columns: columns,
       options:{ url: '/ffbusiness/saleHistory/marketableData',
