@@ -1,95 +1,110 @@
 <template>
-  <div id="app">
-    <b-form inline id="queryForm">
-      <b-col id="queryParam" cols="12">
-        <b-row no-gutters>
-          <b-col cols="8">
-            <b-form-input class="w-25" id="itemId" placeholder="请输入完整物品ID" type="text" value=""></b-form-input>
-            <b-form-input class="w-25" id="itemName" placeholder="请输入部分或完整物品名" type="text"
-                          value=""></b-form-input>
-            <b-form-input class="w-25" id="buyerName" placeholder="请输入完整购买者角色名" type="text"
-                          value=""></b-form-input>
-            <b-form-input class="w-25" id="date" placeholder="请选择或输入日期" type="text"></b-form-input>
-          </b-col>
-          <b-col cols="2">
-            <b-form-select v-model="worldName" class="w-100" id="worldName">
-              <option value="摩杜纳">摩杜纳</option>
-              <option value="旅人栈桥">旅人栈桥</option>
-              <option value="琥珀原">琥珀原</option>
-              <option value="拉诺西亚">拉诺西亚</option>
-              <option value="紫水栈桥">紫水栈桥</option>
-              <option value="延夏">延夏</option>
-              <option value="神意之地">神意之地</option>
-              <option value="红玉海">红玉海</option>
-              <option value="柔风海湾">柔风海湾</option>
-              <option value="银泪湖">银泪湖</option>
-              <option value="伊修加德">伊修加德</option>
-              <option value="梦羽宝境">梦羽宝境</option>
-              <option value="红茶川">红茶川</option>
-              <option value="太阳海岸">太阳海岸</option>
-              <option value="宇宙和音">宇宙和音</option>
-              <option value="幻影群岛">幻影群岛</option>
-              <option value="白银乡">白银乡</option>
-              <option value="晨曦王座">晨曦王座</option>
-              <option value="海猫茶屋">海猫茶屋</option>
-              <option value="沃仙曦染">沃仙曦染</option>
-              <option value="水晶塔">水晶塔</option>
-              <option value="萌芽池">萌芽池</option>
-              <option value="白金幻象">白金幻象</option>
-              <option value="拂晓之间">拂晓之间</option>
-              <option value="神拳痕">神拳痕</option>
-              <option value="龙巢神殿">龙巢神殿</option>
-              <option value="静语庄园">静语庄园</option>
-              <option value="潮风亭">潮风亭</option>
-              <option value="陆行鸟">陆行鸟</option>
-              <option value="猫小胖">猫小胖</option>
-              <option value="莫古力">莫古力</option>
-              <option value="豆豆柴">豆豆柴</option>
-              <option selected value="中国">中国</option>
-            </b-form-select>
-          </b-col>
-          <b-button class="btn btn-primary mx-1" @click="searchItem()" type="button">搜索</b-button>
-          <b-button class="btn btn-primary" @click="searchMarketable()" type="button">
-            畅销排行
-          </b-button>
-          <b-button class="btn btn-primary mx-1" @click="openSearchItem()" type="button">
-            物品查询
-          </b-button>
-          <b-button class="btn btn-primary" @click="resetQueryParams()" type="button">重置</b-button>
-        </b-row>
-      </b-col>
-    </b-form>
+  <div>
     <div>
-      <BootstrapTable id="table"
-                      ref="table"
-                      :columns="columns"
-                      :data="data"
-                      :options="options"
-                      @on-post-body="vueFormatterPostBody"
-      />
+      <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="#">锤子攻略站</b-navbar-brand>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item href="#">Link</b-nav-item>
+            <b-nav-item href="#">Disabled</b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
     </div>
-    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel"></h4>
-          </div>
-          <div class="modal-body">
-            <table id="currentTable"></table>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-primary" data-dismiss="modal" onclick="closeCurrentTable()" type="button">关闭</button>
+
+    <div id="app">
+      <b-form inline id="queryForm">
+        <b-col id="queryParam" cols="12">
+          <b-row no-gutters>
+            <b-col cols="8">
+              <b-form-input class="w-25" id="itemId" placeholder="请输入完整物品ID" type="text" value=""></b-form-input>
+              <b-form-input class="w-25" id="itemName" placeholder="请输入部分或完整物品名" type="text"
+                            value=""></b-form-input>
+              <b-form-input class="w-25" id="buyerName" placeholder="请输入完整购买者角色名" type="text"
+                            value=""></b-form-input>
+              <b-form-input class="w-25" id="date" placeholder="请选择或输入日期" type="text"></b-form-input>
+            </b-col>
+            <b-col cols="2">
+              <b-form-select v-model="worldName" class="w-100" id="worldName">
+                <option value="摩杜纳">摩杜纳</option>
+                <option value="旅人栈桥">旅人栈桥</option>
+                <option value="琥珀原">琥珀原</option>
+                <option value="拉诺西亚">拉诺西亚</option>
+                <option value="紫水栈桥">紫水栈桥</option>
+                <option value="延夏">延夏</option>
+                <option value="神意之地">神意之地</option>
+                <option value="红玉海">红玉海</option>
+                <option value="柔风海湾">柔风海湾</option>
+                <option value="银泪湖">银泪湖</option>
+                <option value="伊修加德">伊修加德</option>
+                <option value="梦羽宝境">梦羽宝境</option>
+                <option value="红茶川">红茶川</option>
+                <option value="太阳海岸">太阳海岸</option>
+                <option value="宇宙和音">宇宙和音</option>
+                <option value="幻影群岛">幻影群岛</option>
+                <option value="白银乡">白银乡</option>
+                <option value="晨曦王座">晨曦王座</option>
+                <option value="海猫茶屋">海猫茶屋</option>
+                <option value="沃仙曦染">沃仙曦染</option>
+                <option value="水晶塔">水晶塔</option>
+                <option value="萌芽池">萌芽池</option>
+                <option value="白金幻象">白金幻象</option>
+                <option value="拂晓之间">拂晓之间</option>
+                <option value="神拳痕">神拳痕</option>
+                <option value="龙巢神殿">龙巢神殿</option>
+                <option value="静语庄园">静语庄园</option>
+                <option value="潮风亭">潮风亭</option>
+                <option value="陆行鸟">陆行鸟</option>
+                <option value="猫小胖">猫小胖</option>
+                <option value="莫古力">莫古力</option>
+                <option value="豆豆柴">豆豆柴</option>
+                <option selected value="中国">中国</option>
+              </b-form-select>
+            </b-col>
+            <b-button class="btn btn-primary mx-1" @click="searchItem()" type="button">搜索</b-button>
+            <b-button class="btn btn-primary" @click="searchMarketable()" type="button">
+              畅销排行
+            </b-button>
+            <b-button class="btn btn-primary mx-1" @click="openSearchItem()" type="button">
+              物品查询
+            </b-button>
+            <b-button class="btn btn-primary" @click="resetQueryParams()" type="button">重置</b-button>
+          </b-row>
+        </b-col>
+      </b-form>
+      <div>
+        <BootstrapTable id="table"
+                        ref="table"
+                        :columns="columns"
+                        :data="data"
+                        :options="options"
+                        @on-post-body="vueFormatterPostBody"
+        />
+      </div>
+      <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+              <table id="currentTable"></table>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-primary" data-dismiss="modal" onclick="closeCurrentTable()" type="button">关闭</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div style="text-align:center;">
-      <a href="http://www.beian.gov.cn/portal/registerSystemInfo"
-         style="color: #bbb;font-size: 12px;text-decoration: none;"
-         target="_blank"><img src="/beian.png" style="width: 12px;height: 12px" alt="公安机关联网备案"/>
-        闽公网安备 35012102500734号
-      </a>
-      <a href="https://beian.miit.gov.cn/" style="color: #bbb;font-size: 12px;text-decoration: none;" target="_blank">闽ICP备2023003454号-1</a>
+      <div style="text-align:center;">
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo"
+           style="color: #bbb;font-size: 12px;text-decoration: none;"
+           target="_blank"><img src="/beian.png" style="width: 12px;height: 12px" alt="公安机关联网备案"/>
+          闽公网安备 35012102500734号
+        </a>
+        <a href="https://beian.miit.gov.cn/" style="color: #bbb;font-size: 12px;text-decoration: none;" target="_blank">闽ICP备2023003454号-1</a>
+      </div>
     </div>
   </div>
 </template>
