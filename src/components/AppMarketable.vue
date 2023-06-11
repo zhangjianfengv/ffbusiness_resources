@@ -2,63 +2,64 @@
   <div id="app">
     <b-form inline id="marketableForm">
       <b-row no-gutters>
-      <div class="input-group" id="marketableParam">
-        <b-form-select class="form-control" id="worldName" v-model="worldName">
-          <option value="摩杜纳">摩杜纳</option>
-          <option value="旅人栈桥">旅人栈桥</option>
-          <option value="琥珀原">琥珀原</option>
-          <option value="拉诺西亚">拉诺西亚</option>
-          <option value="紫水栈桥">紫水栈桥</option>
-          <option value="延夏">延夏</option>
-          <option value="神意之地">神意之地</option>
-          <option value="红玉海">红玉海</option>
-          <option value="柔风海湾">柔风海湾</option>
-          <option value="银泪湖">银泪湖</option>
-          <option value="伊修加德">伊修加德</option>
-          <option value="梦羽宝境">梦羽宝境</option>
-          <option value="红茶川">红茶川</option>
-          <option value="太阳海岸">太阳海岸</option>
-          <option value="宇宙和音">宇宙和音</option>
-          <option value="幻影群岛">幻影群岛</option>
-          <option value="白银乡">白银乡</option>
-          <option value="晨曦王座">晨曦王座</option>
-          <option value="海猫茶屋">海猫茶屋</option>
-          <option value="沃仙曦染">沃仙曦染</option>
-          <option value="水晶塔">水晶塔</option>
-          <option value="萌芽池">萌芽池</option>
-          <option value="白金幻象">白金幻象</option>
-          <option value="拂晓之间">拂晓之间</option>
-          <option value="神拳痕">神拳痕</option>
-          <option value="龙巢神殿">龙巢神殿</option>
-          <option value="静语庄园">静语庄园</option>
-          <option value="潮风亭">潮风亭</option>
-          <option value="陆行鸟">陆行鸟</option>
-          <option value="猫小胖">猫小胖</option>
-          <option value="莫古力">莫古力</option>
-          <option value="豆豆柴">豆豆柴</option>
-          <option selected value="中国">中国</option>
-        </b-form-select>
-        <b-form-select class="form-control" id="timeScale" v-model="scale">
-          <option value="8">统计8小时</option>
-          <option selected value="24">统计24小时</option>
-          <option value="72">统计3天</option>
-          <option value="168">统计7天</option>
-          <option value="360">统计15天</option>
-          <option value="720">统计30天</option>
-        </b-form-select>
-        <b-form-select class="selectpicker" id="itemType" multiple title="选择物品类别">
-        </b-form-select>
-        <b-form-input class="form-control" id="min" min="0" placeholder="低价" type="number" value="" v-model="min"></b-form-input>
-        <b-form-input class="form-control" id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-        <b-button class="btn btn-primary mx-1" @click="filterMarketable()" type="button">查询</b-button>
-        <b-button class="btn btn-primary mx-1" @click="resetMarketable()" type="button">重置</b-button>
-        <b-form-input class="form-control" id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
-        <b-form-select class="form-control mx-1" id="sortType" v-model="sortType">
-          <option selected value="1">按交易次数排序</option>
-          <option value="2">按售出总数排序</option>
-        </b-form-select>
-        <b-button class="btn btn-primary" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
-      </div>
+        <div class="input-group" id="marketableParam">
+          <b-form-select v-model="worldName" id="worldName">
+            <option value="陆行鸟" style="font-weight: bold;">陆行鸟</option>
+            <option value="拉诺西亚">拉诺西亚</option>
+            <option value="幻影群岛">幻影群岛</option>
+            <option value="神意之地">神意之地</option>
+            <option value="萌芽池">萌芽池</option>
+            <option value="红玉海">红玉海</option>
+            <option value="宇宙和音">宇宙和音</option>
+            <option value="沃仙曦染">沃仙曦染</option>
+            <option value="晨曦王座">晨曦王座</option>
+            <option value="猫小胖" style="font-weight: bold;">猫小胖</option>
+            <option value="紫水栈桥">紫水栈桥</option>
+            <option value="摩杜纳">摩杜纳</option>
+            <option value="海猫茶屋">海猫茶屋</option>
+            <option value="琥珀原">琥珀原</option>
+            <option value="静语庄园">静语庄园</option>
+            <option value="延夏">延夏</option>
+            <option value="柔风海湾">柔风海湾</option>
+            <option value="莫古力" style="font-weight: bold;">莫古力</option>
+            <option value="梦羽宝境">梦羽宝境</option>
+            <option value="旅人栈桥">旅人栈桥</option>
+            <option value="白银乡">白银乡</option>
+            <option value="白金幻象">白金幻象</option>
+            <option value="拂晓之间">拂晓之间</option>
+            <option value="神拳痕">神拳痕</option>
+            <option value="龙巢神殿">龙巢神殿</option>
+            <option value="潮风亭">潮风亭</option>
+            <option value="豆豆柴" style="font-weight: bold;">豆豆柴</option>
+            <option value="银泪湖">银泪湖</option>
+            <option value="伊修加德">伊修加德</option>
+            <option value="红茶川">红茶川</option>
+            <option value="太阳海岸">太阳海岸</option>
+            <option value="水晶塔">水晶塔</option>
+            <option selected value="中国" style="font-weight: bold;">中国</option>
+          </b-form-select>
+          <b-form-select class="form-control" id="timeScale" v-model="scale">
+            <option value="8">统计8小时</option>
+            <option selected value="24">统计24小时</option>
+            <option value="72">统计3天</option>
+            <option value="168">统计7天</option>
+            <option value="360">统计15天</option>
+            <option value="720">统计30天</option>
+          </b-form-select>
+          <bt-select :options="options" v-model="itemTypes" ref="typeSelect">
+          </bt-select>
+          <b-form-input class="form-control" id="min" min="0" placeholder="低价" type="number" value=""
+                        v-model="min"></b-form-input>
+          <b-form-input class="form-control" id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
+          <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
+          <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
+          <b-form-input class="form-control" id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
+          <b-form-select class="form-control mx-1" id="sortType" v-model="sortType">
+            <option selected value="1">按交易次数排序</option>
+            <option value="2">按售出总数排序</option>
+          </b-form-select>
+          <b-button variant="info" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
+        </div>
       </b-row>
     </b-form>
     <div>
@@ -80,7 +81,7 @@
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">关闭</button>
+            <b-button variant="info" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">关闭</b-button>
           </div>
         </div>
       </div>
@@ -89,15 +90,28 @@
 </template>
 <style>
 .custom-select {
-   padding: 0 !important;
+  padding: 0 !important;
+}
+
+.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 94%;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: #17a2b8 !important;
 }
 </style>
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
-import '../assets/itemType'
-import {handleType} from "@/assets/itemType";
 
+let itemTypes = {};
+let oldSelected;
 let queryMarketable = {
   worldName: '中国',
   timeScale: 24
@@ -119,11 +133,11 @@ let columns = [{
   field: 'quantity',
   sortable: true,
   visible: false,
-  title:'24小时售出数'
+  title: '24小时售出数'
 }, {
   field: 'num',
   sortable: true,
-  title:'24小时交易次数'
+  title: '24小时交易次数'
 }, {
   field: 'numIndexCurrent',
   sortable: true,
@@ -174,32 +188,38 @@ let columns = [{
   visible: false,
   title: '等级'
 }];
-
+let options = {
+  url: '/ffbusiness/saleHistory/marketableData',
+  search: true,
+  searchAlign: 'left',
+  searchSelector: '#search',
+  toolbar: '#marketableForm',
+  sortName: "numIndexCurrent",
+  sortOrder: 'asc',
+  method: 'post',
+  queryParams: function () {
+    return queryMarketable;
+  },
+  pageList: [20, 100, 200, 500, 1000],
+  pagination: "true",
+  showJumpto: true,
+  showColumns: true,
+  showColumnsToggleAll: true,
+  showExport: true,
+  contentType: "application/json"
+};
 export default {
   mixins: [tableMixin],
   data() {
     return {
-      scale:24,
+      scale: 24,
       worldName: '中国',
       min: null,
       max: null,
-      sortType:"1",
+      itemTypes: [],
+      sortType: "1",
       columns: columns,
-      options:{ url: '/ffbusiness/saleHistory/marketableData',
-        search: true,
-        searchAlign: 'left',
-        searchSelector: '#search',
-        toolbar: '#marketableForm',
-        sortName: "numIndexCurrent",
-        sortOrder: 'asc',
-        method: 'post',
-        queryParams: function () {
-          return queryMarketable;
-        },
-        pageList: [20, 100, 200, 500, 1000],
-        pagination: "true",
-        showJumpto: true,
-        contentType: "application/json"},
+      options: options,
     }
   },
   methods: {
@@ -211,7 +231,7 @@ export default {
         timeScale: timeScale,
         max: $('#max').val(),
         min: $('#min').val(),
-        itemTypes: $('#itemType').val()
+        itemTypes: this.itemTypes
       };
       let $sortType = $('#sortType');
       let val = $sortType.val();
@@ -223,9 +243,6 @@ export default {
         table.bootstrapTable('hideColumn', 'numIndexCurrent');
         table.bootstrapTable('hideColumn', 'num');
         table.bootstrapTable('hideColumn', 'numIndexChange');
-        // table.bootstrapTable('refreshOptions', {
-        //     sortName: "quantityIndexCurrent"
-        // })
       } else {
         table.bootstrapTable('showColumn', 'numIndexCurrent');
         table.bootstrapTable('showColumn', 'numIndexChange');
@@ -233,9 +250,6 @@ export default {
         table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
         table.bootstrapTable('hideColumn', 'quantityIndexChange');
         table.bootstrapTable('hideColumn', 'quantity');
-        // table.bootstrapTable('refreshOptions', {
-        //     sortName: "numIndexCurrent"
-        // });
       }
       if (timeScale > 24) {
         columns[2].title = timeScale / 24 + '天售出数';
@@ -294,6 +308,9 @@ export default {
         pageList: [20, 100, 200, 500, 1000],
         pagination: "true",
         showJumpto: true,
+        showColumns: true,
+        showColumnsToggleAll: true,
+        showExport: true,
         contentType: "application/json"
       });
     },
@@ -338,9 +355,6 @@ export default {
         table.bootstrapTable('hideColumn', 'numIndexCurrent');
         table.bootstrapTable('hideColumn', 'num');
         table.bootstrapTable('hideColumn', 'numIndexChange');
-        // table.bootstrapTable('refreshOptions', {
-        //     sortName: "quantityIndexCurrent"
-        // })
       } else {
         table.bootstrapTable('showColumn', 'numIndexCurrent');
         table.bootstrapTable('showColumn', 'numIndexChange');
@@ -348,13 +362,105 @@ export default {
         table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
         table.bootstrapTable('hideColumn', 'quantityIndexChange');
         table.bootstrapTable('hideColumn', 'quantity');
-        // table.bootstrapTable('refreshOptions', {
-        //     sortName: "numIndexCurrent"
-        // });
       }
     })
+    let $itemType = $('#itemType');
+    const map = {};
+    const parentMap = {};
+    $itemType.on('changed.bs.select', function () {
+      let selectedValues = $itemType.val();
+      let newSelectedValues = [];
+      for (let i = 0; i < selectedValues.length; i++) {
+        let number = parseInt(selectedValues[i]);
+        let exists = false;
+        if (oldSelected && oldSelected.length > 0) {
+          for (let oldSelectedElement of oldSelected) {
+            if (number === oldSelectedElement) exists = true;
+          }
+        }
+        if (itemTypes[number].isParent) {
+          let element = parentMap[number];
+          if (!exists) {
+            for (let e of element) {
+              newSelectedValues.push(e);
+            }
+          }
+        }
+        newSelectedValues.push(number);
+      }
+      if (oldSelected) {
+        let rmValS = [];
+        for (let oldSelectedElement of oldSelected) {
+          let exist = false;
+          for (let newSelectedValue of newSelectedValues) {
+            if (newSelectedValue === oldSelectedElement) {
+              exist = true;
+              break;
+            }
+          }
+          if (!exist)
+            rmValS.push(oldSelectedElement);
+        }
+        if (rmValS) {
+          let rmLength = rmValS.length;
+          for (let rmVal of rmValS) {
+            let parentMapElement = parentMap[rmVal];
+            if (parentMapElement) {
+              for (let parentMapElementKey in parentMapElement) {
+                rmValS.push(parentMapElement[parentMapElementKey]);
+              }
+            }
+          }
+          rmValS.splice(0, rmLength);
+          let rmIndex = []
+          for (let i = 0; i < newSelectedValues.length; i++) {
+            for (let rmVal of rmValS) {
+              if (rmVal === newSelectedValues[i]) rmIndex.push(i);
+            }
+          }
+          let values = [];
+          for (let i = 0; i < newSelectedValues.length; i++) {
+            let shouldRm = false;
+            for (let index of rmIndex) {
+              if (index === i) {
+                shouldRm = true;
+                break;
+              }
+            }
+            if (!shouldRm)
+              values.push(newSelectedValues[i]);
+          }
+          newSelectedValues = values;
+        }
+
+      }
+      oldSelected = newSelectedValues;
+      this.itemTypes = newSelectedValues;
+      $itemType.selectpicker('refresh');
+    });
     $.ajax({
-      url: "/ffbusiness/itemType/all", async: true, method: "post", contentType: "application/json", success: handleType()
+      url: "/ffbusiness/itemType/all", async: true, method: "post", contentType: "application/json", success: function (data) {
+
+        for (let i = 0; i < data.length; i++) {
+          let datum = data[i];
+          map[datum.typeId] = datum;
+          if (!datum.isParent && datum.parentType) {
+            if (parentMap[datum.parentType]) parentMap[datum.parentType].push(datum.typeId);
+            else {
+              parentMap[datum.parentType] = [];
+              parentMap[datum.parentType].push(datum.typeId);
+            }
+          }
+        }
+        itemTypes = map;
+        let $itemType = $('#itemType');
+        for (let i = 0; i < data.length; i++) {
+          $itemType.append("<option value='" +
+              data[i].typeId + "'>" +
+              data[i].typeName + "</option>");
+        }
+        $itemType.selectpicker('refresh');
+      }
     });
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
   }
