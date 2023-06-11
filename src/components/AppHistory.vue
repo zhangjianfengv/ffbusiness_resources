@@ -49,12 +49,12 @@
             </b-form-select>
           </b-col>
           <b-button class="btn btn-primary mx-1" @click="searchItem()" type="button">搜索</b-button>
-          <b-button class="btn btn-primary" @click="searchMarketable()" type="button">
-            畅销排行
-          </b-button>
-          <b-button class="btn btn-primary mx-1" @click="openSearchItem()" type="button">
-            物品查询
-          </b-button>
+          <!--          <b-button class="btn btn-primary" @click="searchMarketable()" type="button">-->
+          <!--            畅销排行-->
+          <!--          </b-button>-->
+          <!--          <b-button class="btn btn-primary mx-1" @click="openSearchItem()" type="button">-->
+          <!--            物品查询-->
+          <!--          </b-button>-->
           <b-button class="btn btn-primary" @click="resetQueryParams()" type="button">重置</b-button>
         </b-row>
       </b-col>
