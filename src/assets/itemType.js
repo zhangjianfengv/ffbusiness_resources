@@ -96,24 +96,6 @@ export function handleType() {
             oldSelected = newSelectedValues;
             $itemType.val(newSelectedValues);
             $itemType.selectpicker('refresh');
-
-            //TODO: 浏览器端类别过滤
-
-            // let $table = $("#marketableTable");
-            // if ($table) {
-            //     let filterVal = getFilter();
-            //     if (filterVal.length === 0) {
-            //         $table.bootstrapTable('filterBy', {}, {
-            //             'filterAlgorithm': (row, filters) => {
-            //                 return true;
-            //             }
-            //         })
-            //     } else {
-            //         $table.bootstrapTable('filterBy', {
-            //             itemType: filterVal
-            //         });
-            //     }
-            // }
         });
     };
 }

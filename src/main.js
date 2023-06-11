@@ -13,6 +13,109 @@ import AppItem from "@/components/AppItem.vue";
 window.jQuery = $
 window.$ = $
 
+Vue.component('bt-select', {
+    props: ['options', 'value'],
+    template: "<select class='selectpicker' data-live-search='true' data-live-search-placeholder='搜索'><option" +
+        " :value='option.typeId' v-for='option in options'>{{option.typeName}}</option></select> ",
+    mounted: function () {
+        const vm = this;
+        $(this.$el).selectpicker('val', this.value != null ? this.value : null);
+        $(this.$el).on('changed.bs.select', function () {
+            vm.$emit('input', $(this).val());
+            if (typeof (vm.method) != 'undefined') {
+                vm.method(vm.index, vm.childidx, this.value);
+            }
+        });
+        $(this.$el).on('show.bs.select', function () {
+            if (typeof (vm.load) != 'undefined') {
+                vm.load(vm.index, vm.childidx);
+            }
+            let selectedValues = $itemType.val();
+            let newSelectedValues = [];
+            for (let i = 0; i < selectedValues.length; i++) {
+                let number = parseInt(selectedValues[i]);
+                let exists = false;
+                if (oldSelected && oldSelected.length > 0) {
+                    for (let oldSelectedElement of oldSelected) {
+                        if (number === oldSelectedElement) exists = true;
+                    }
+                }
+                if (itemTypes[number].isParent) {
+                    let element = parentMap[number];
+                    if (!exists) {
+                        for (let e of element) {
+                            newSelectedValues.push(e);
+                        }
+                    }
+                }
+                newSelectedValues.push(number);
+            }
+            if (oldSelected) {
+                let rmValS = [];
+                for (let oldSelectedElement of oldSelected) {
+                    let exist = false;
+                    for (let newSelectedValue of newSelectedValues) {
+                        if (newSelectedValue === oldSelectedElement) {
+                            exist = true;
+                            break;
+                        }
+                    }
+                    if (!exist)
+                        rmValS.push(oldSelectedElement);
+                }
+                if (rmValS) {
+                    let rmLength = rmValS.length;
+                    for (let rmVal of rmValS) {
+                        let parentMapElement = parentMap[rmVal];
+                        if (parentMapElement) {
+                            for (let parentMapElementKey in parentMapElement) {
+                                rmValS.push(parentMapElement[parentMapElementKey]);
+                            }
+                        }
+                    }
+                    rmValS.splice(0, rmLength);
+                    let rmIndex = []
+                    for (let i = 0; i < newSelectedValues.length; i++) {
+                        for (let rmVal of rmValS) {
+                            if (rmVal === newSelectedValues[i]) rmIndex.push(i);
+                        }
+                    }
+                    let values = [];
+                    for (let i = 0; i < newSelectedValues.length; i++) {
+                        let shouldRm = false;
+                        for (let index of rmIndex) {
+                            if (index === i) {
+                                shouldRm = true;
+                                break;
+                            }
+                        }
+                        if (!shouldRm)
+                            values.push(newSelectedValues[i]);
+                    }
+                    newSelectedValues = values;
+                }
+
+            }
+            oldSelected = newSelectedValues;
+            this.itemTypes = newSelectedValues;
+            $itemType.selectpicker('refresh');
+
+        })
+    },
+    watch: {
+        value(newV, oldV) {
+            $(this.$el).selectpicker('val', newV);
+        }
+    },
+    updated: function () {
+        this.$nextTick(function () {
+            $(this.$el).selectpicker('refresh');
+        })
+    },
+    destroyed: function () {
+        $(this.$el).selectpicker('destroy');
+    }
+})
 Vue.use(VueRouter)
 Vue.use(BootstrapVue);
 Vue.config.productionTip = false

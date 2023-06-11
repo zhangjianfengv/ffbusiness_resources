@@ -13,49 +13,43 @@
           </b-col>
           <b-col cols="2">
             <b-form-select v-model="worldName" class="w-100" id="worldName">
-              <option value="摩杜纳">摩杜纳</option>
-              <option value="旅人栈桥">旅人栈桥</option>
-              <option value="琥珀原">琥珀原</option>
+              <option value="陆行鸟" style="font-weight: bold;">陆行鸟</option>
               <option value="拉诺西亚">拉诺西亚</option>
-              <option value="紫水栈桥">紫水栈桥</option>
-              <option value="延夏">延夏</option>
-              <option value="神意之地">神意之地</option>
-              <option value="红玉海">红玉海</option>
-              <option value="柔风海湾">柔风海湾</option>
-              <option value="银泪湖">银泪湖</option>
-              <option value="伊修加德">伊修加德</option>
-              <option value="梦羽宝境">梦羽宝境</option>
-              <option value="红茶川">红茶川</option>
-              <option value="太阳海岸">太阳海岸</option>
-              <option value="宇宙和音">宇宙和音</option>
               <option value="幻影群岛">幻影群岛</option>
-              <option value="白银乡">白银乡</option>
-              <option value="晨曦王座">晨曦王座</option>
-              <option value="海猫茶屋">海猫茶屋</option>
-              <option value="沃仙曦染">沃仙曦染</option>
-              <option value="水晶塔">水晶塔</option>
+              <option value="神意之地">神意之地</option>
               <option value="萌芽池">萌芽池</option>
+              <option value="红玉海">红玉海</option>
+              <option value="宇宙和音">宇宙和音</option>
+              <option value="沃仙曦染">沃仙曦染</option>
+              <option value="晨曦王座">晨曦王座</option>
+              <option value="猫小胖" style="font-weight: bold;">猫小胖</option>
+              <option value="紫水栈桥">紫水栈桥</option>
+              <option value="摩杜纳">摩杜纳</option>
+              <option value="海猫茶屋">海猫茶屋</option>
+              <option value="琥珀原">琥珀原</option>
+              <option value="静语庄园">静语庄园</option>
+              <option value="延夏">延夏</option>
+              <option value="柔风海湾">柔风海湾</option>
+              <option value="莫古力" style="font-weight: bold;">莫古力</option>
+              <option value="梦羽宝境">梦羽宝境</option>
+              <option value="旅人栈桥">旅人栈桥</option>
+              <option value="白银乡">白银乡</option>
               <option value="白金幻象">白金幻象</option>
               <option value="拂晓之间">拂晓之间</option>
               <option value="神拳痕">神拳痕</option>
               <option value="龙巢神殿">龙巢神殿</option>
-              <option value="静语庄园">静语庄园</option>
               <option value="潮风亭">潮风亭</option>
-              <option value="陆行鸟">陆行鸟</option>
-              <option value="猫小胖">猫小胖</option>
-              <option value="莫古力">莫古力</option>
-              <option value="豆豆柴">豆豆柴</option>
-              <option selected value="中国">中国</option>
+              <option value="豆豆柴" style="font-weight: bold;">豆豆柴</option>
+              <option value="银泪湖">银泪湖</option>
+              <option value="伊修加德">伊修加德</option>
+              <option value="红茶川">红茶川</option>
+              <option value="太阳海岸">太阳海岸</option>
+              <option value="水晶塔">水晶塔</option>
+              <option selected value="中国" style="font-weight: bold;">中国</option>
             </b-form-select>
           </b-col>
-          <b-button class="btn btn-primary mx-1" @click="searchItem()" type="button">搜索</b-button>
-          <!--          <b-button class="btn btn-primary" @click="searchMarketable()" type="button">-->
-          <!--            畅销排行-->
-          <!--          </b-button>-->
-          <!--          <b-button class="btn btn-primary mx-1" @click="openSearchItem()" type="button">-->
-          <!--            物品查询-->
-          <!--          </b-button>-->
-          <b-button class="btn btn-primary" @click="resetQueryParams()" type="button">重置</b-button>
+          <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
+          <b-button variant="info" @click="resetQueryParams()" type="button">重置</b-button>
         </b-row>
       </b-col>
     </b-form>
@@ -94,6 +88,13 @@
   </div>
 
 </template>
+<style>
+.dropdown-item.active, .dropdown-item:active {
+  color: #fff;
+  text-decoration: none;
+  background-color: #17a2b8 !important;
+}
+</style>
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
@@ -153,7 +154,7 @@ export default {
       width: 100,
       formatter: (value, row) => {
         return this.vueFormatter({
-          template: '<b-button @click="clickRow(row)">现价</b-button>',
+          template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
           data: {row},
           methods: {
             clickRow: this.clickRow
@@ -200,7 +201,7 @@ export default {
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button @click="clickRow(row)">现价</b-button>',
+            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
             data: {row},
             methods: {
               clickRow: this.clickRow
@@ -245,7 +246,7 @@ export default {
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button @click="clickRow(row)">现价</b-button>',
+            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
             data: {row},
             methods: {
               clickRow: this.clickRow
@@ -327,6 +328,7 @@ export default {
     }
   },
   mounted() {
+    $('select').selectpicker();
     $('#date').datepicker({language: 'zh-CN'});
   }
 }
