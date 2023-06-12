@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <b-form inline id="queryForm">
-      <b-row no-gutters>
-        <b-form-input class="w-25" id="itemId" placeholder="请输入完整物品ID" type="text" value=""></b-form-input>
-        <b-form-input class="w-25" id="itemName" placeholder="请输入部分或完整物品名" type="text"
+      <b-row>
+        <b-form-input id="itemId" placeholder="请输入完整物品ID" type="text" value=""></b-form-input>
+        <b-form-input id="itemName" placeholder="请输入部分或完整物品名" type="text"
                       value=""></b-form-input>
-        <b-form-input class="w-25" id="buyerName" placeholder="请输入完整购买者角色名" type="text"
+        <b-form-input id="buyerName" placeholder="请输入完整购买者角色名" type="text"
                       value=""></b-form-input>
-        <b-form-input class="w-25" id="date" placeholder="请选择或输入日期" type="text"></b-form-input>
-        <b-form-select v-model="worldName" class="w-100" id="worldName">
-          <option value="陆行鸟" style="font-weight: bold;">陆行鸟</option>
+        <b-form-input id="date" placeholder="请选择或输入日期" type="text"></b-form-input>
+        <b-form-select v-model="worldName" id="worldName">
+          <option value="陆行鸟" style="font-weight: bold;color: #17a2b8;">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
           <option value="幻影群岛">幻影群岛</option>
           <option value="神意之地">神意之地</option>
@@ -18,7 +18,7 @@
           <option value="宇宙和音">宇宙和音</option>
           <option value="沃仙曦染">沃仙曦染</option>
           <option value="晨曦王座">晨曦王座</option>
-          <option value="猫小胖" style="font-weight: bold;">猫小胖</option>
+          <option value="猫小胖" style="font-weight: bold;color: #17a2b8;">猫小胖</option>
           <option value="紫水栈桥">紫水栈桥</option>
           <option value="摩杜纳">摩杜纳</option>
           <option value="海猫茶屋">海猫茶屋</option>
@@ -26,7 +26,7 @@
           <option value="静语庄园">静语庄园</option>
           <option value="延夏">延夏</option>
           <option value="柔风海湾">柔风海湾</option>
-          <option value="莫古力" style="font-weight: bold;">莫古力</option>
+          <option value="莫古力" style="font-weight: bold;color: #17a2b8;">莫古力</option>
           <option value="梦羽宝境">梦羽宝境</option>
           <option value="旅人栈桥">旅人栈桥</option>
           <option value="白银乡">白银乡</option>
@@ -35,13 +35,13 @@
           <option value="神拳痕">神拳痕</option>
           <option value="龙巢神殿">龙巢神殿</option>
           <option value="潮风亭">潮风亭</option>
-          <option value="豆豆柴" style="font-weight: bold;">豆豆柴</option>
+          <option value="豆豆柴" style="font-weight: bold;color: #17a2b8;">豆豆柴</option>
           <option value="银泪湖">银泪湖</option>
           <option value="伊修加德">伊修加德</option>
           <option value="红茶川">红茶川</option>
           <option value="太阳海岸">太阳海岸</option>
           <option value="水晶塔">水晶塔</option>
-          <option selected value="中国" style="font-weight: bold;">中国</option>
+          <option selected value="中国" style="font-weight: bold;color: #17a2b8;">中国</option>
         </b-form-select>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
         <b-button variant="info" @click="resetQueryParams()" type="button">重置</b-button>
@@ -66,7 +66,7 @@
             <table id="currentTable"></table>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" data-dismiss="modal" onclick="closeCurrentTable()" type="button">关闭</button>
+            <button class="btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button">关闭</button>
           </div>
         </div>
       </div>
@@ -83,10 +83,16 @@
 
 </template>
 <style>
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .page-item.active, .page-link {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
+}
+
+.page-item.active, .page-link {
+  color: #17a2b8 !important;
+  text-decoration: none;
+  background-color: #fff !important;
 }
 </style>
 <script>
@@ -322,6 +328,9 @@ export default {
         pageSize: 10,
         pageList: [20, 50]
       });
+    },
+    closeCurrentTable() {
+      $('#myModal').modal('toggle');
     }
   },
   mounted() {

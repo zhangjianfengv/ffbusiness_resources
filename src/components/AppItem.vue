@@ -2,7 +2,7 @@
   <div id="app">
     <b-form inline id="itemForm">
       <b-col id="queryParam">
-        <b-row no-gutters>
+        <b-row>
           <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>
           <b-form-input class="form-control  mx-1" id="name" placeholder="名称" type="text" value=""></b-form-input>
           <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
@@ -25,10 +25,16 @@
   </div>
 </template>
 <style>
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .page-item.active, .page-link {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
+}
+
+.page-item.active, .page-link {
+  color: #17a2b8 !important;
+  text-decoration: none;
+  background-color: #fff !important;
 }
 </style>
 <script>
