@@ -1,65 +1,63 @@
 <template>
   <div id="app">
     <b-form inline id="marketableForm">
-      <b-row no-gutters>
-        <div class="input-group" id="marketableParam">
-          <b-form-select v-model="worldName" id="worldName">
-            <option value="陆行鸟" style="font-weight: bold;">陆行鸟</option>
-            <option value="拉诺西亚">拉诺西亚</option>
-            <option value="幻影群岛">幻影群岛</option>
-            <option value="神意之地">神意之地</option>
-            <option value="萌芽池">萌芽池</option>
-            <option value="红玉海">红玉海</option>
-            <option value="宇宙和音">宇宙和音</option>
-            <option value="沃仙曦染">沃仙曦染</option>
-            <option value="晨曦王座">晨曦王座</option>
-            <option value="猫小胖" style="font-weight: bold;">猫小胖</option>
-            <option value="紫水栈桥">紫水栈桥</option>
-            <option value="摩杜纳">摩杜纳</option>
-            <option value="海猫茶屋">海猫茶屋</option>
-            <option value="琥珀原">琥珀原</option>
-            <option value="静语庄园">静语庄园</option>
-            <option value="延夏">延夏</option>
-            <option value="柔风海湾">柔风海湾</option>
-            <option value="莫古力" style="font-weight: bold;">莫古力</option>
-            <option value="梦羽宝境">梦羽宝境</option>
-            <option value="旅人栈桥">旅人栈桥</option>
-            <option value="白银乡">白银乡</option>
-            <option value="白金幻象">白金幻象</option>
-            <option value="拂晓之间">拂晓之间</option>
-            <option value="神拳痕">神拳痕</option>
-            <option value="龙巢神殿">龙巢神殿</option>
-            <option value="潮风亭">潮风亭</option>
-            <option value="豆豆柴" style="font-weight: bold;">豆豆柴</option>
-            <option value="银泪湖">银泪湖</option>
-            <option value="伊修加德">伊修加德</option>
-            <option value="红茶川">红茶川</option>
-            <option value="太阳海岸">太阳海岸</option>
-            <option value="水晶塔">水晶塔</option>
-            <option selected value="中国" style="font-weight: bold;">中国</option>
-          </b-form-select>
-          <b-form-select class="form-control" id="timeScale" v-model="scale">
-            <option value="8">统计8小时</option>
-            <option selected value="24">统计24小时</option>
-            <option value="72">统计3天</option>
-            <option value="168">统计7天</option>
-            <option value="360">统计15天</option>
-            <option value="720">统计30天</option>
-          </b-form-select>
-          <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
-          </bt-select>
-          <b-form-input class="form-control" id="min" min="0" placeholder="低价" type="number" value=""
-                        v-model="min"></b-form-input>
-          <b-form-input class="form-control" id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-          <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
-          <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
-          <b-form-input class="form-control" id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
-          <b-form-select class="form-control mx-1" id="sortType" v-model="sortType">
-            <option selected value="1">按交易次数排序</option>
-            <option value="2">按售出总数排序</option>
-          </b-form-select>
-          <b-button variant="info" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
-        </div>
+      <b-row>
+        <b-form-select v-model="worldName" id="worldName">
+          <option value="陆行鸟" style="font-weight: bold;color: #17a2b8;">陆行鸟</option>
+          <option value="拉诺西亚">拉诺西亚</option>
+          <option value="幻影群岛">幻影群岛</option>
+          <option value="神意之地">神意之地</option>
+          <option value="萌芽池">萌芽池</option>
+          <option value="红玉海">红玉海</option>
+          <option value="宇宙和音">宇宙和音</option>
+          <option value="沃仙曦染">沃仙曦染</option>
+          <option value="晨曦王座">晨曦王座</option>
+          <option value="猫小胖" style="font-weight: bold;color: #17a2b8;">猫小胖</option>
+          <option value="紫水栈桥">紫水栈桥</option>
+          <option value="摩杜纳">摩杜纳</option>
+          <option value="海猫茶屋">海猫茶屋</option>
+          <option value="琥珀原">琥珀原</option>
+          <option value="静语庄园">静语庄园</option>
+          <option value="延夏">延夏</option>
+          <option value="柔风海湾">柔风海湾</option>
+          <option value="莫古力" style="font-weight: bold;color: #17a2b8;">莫古力</option>
+          <option value="梦羽宝境">梦羽宝境</option>
+          <option value="旅人栈桥">旅人栈桥</option>
+          <option value="白银乡">白银乡</option>
+          <option value="白金幻象">白金幻象</option>
+          <option value="拂晓之间">拂晓之间</option>
+          <option value="神拳痕">神拳痕</option>
+          <option value="龙巢神殿">龙巢神殿</option>
+          <option value="潮风亭">潮风亭</option>
+          <option value="豆豆柴" style="font-weight: bold;color: #17a2b8;">豆豆柴</option>
+          <option value="银泪湖">银泪湖</option>
+          <option value="伊修加德">伊修加德</option>
+          <option value="红茶川">红茶川</option>
+          <option value="太阳海岸">太阳海岸</option>
+          <option value="水晶塔">水晶塔</option>
+          <option selected value="中国" style="font-weight: bold;color: #17a2b8;">中国</option>
+        </b-form-select>
+        <b-form-select id="timeScale" v-model="scale">
+          <option value="8">统计8小时</option>
+          <option selected value="24">统计24小时</option>
+          <option value="72">统计3天</option>
+          <option value="168">统计7天</option>
+          <option value="360">统计15天</option>
+          <option value="720">统计30天</option>
+        </b-form-select>
+        <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+        </bt-select>
+        <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
+                      v-model="min"></b-form-input>
+        <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
+        <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
+        <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
+        <b-form-input id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
+        <b-form-select class="mx-1" id="sortType" v-model="sortType">
+          <option selected value="1">按交易次数排序</option>
+          <option value="2">按售出总数排序</option>
+        </b-form-select>
+        <b-button variant="info" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
       </b-row>
     </b-form>
     <div>
@@ -100,10 +98,19 @@
   max-width: 94%;
 }
 
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .page-item.active, .page-link {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
+}
+
+.page-item.active, .page-link {
+  color: #17a2b8 !important;
+  text-decoration: none;
+  background-color: #fff !important;
+}
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+  width: auto;
 }
 </style>
 <script>
