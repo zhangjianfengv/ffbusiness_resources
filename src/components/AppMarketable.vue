@@ -46,7 +46,7 @@
             <option value="360">统计15天</option>
             <option value="720">统计30天</option>
           </b-form-select>
-          <bt-select :options="options" v-model="itemTypes" ref="typeSelect">
+          <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
           </bt-select>
           <b-form-input class="form-control" id="min" min="0" placeholder="低价" type="number" value=""
                         v-model="min"></b-form-input>
@@ -67,7 +67,7 @@
                       ref="table"
                       :columns="columns"
                       :data="data"
-                      :options="options"
+                      :options="tableOptions"
                       @on-post-body="vueFormatterPostBody"
       />
     </div>
@@ -186,7 +186,7 @@ let columns = [{
   visible: false,
   title: '等级'
 }];
-let options = {
+let tableOptions = {
   url: '/ffbusiness/saleHistory/marketableData',
   search: true,
   searchAlign: 'left',
@@ -217,7 +217,8 @@ export default {
       itemTypes: [],
       sortType: "1",
       columns: columns,
-      options: options,
+      itemTypeOptions: [],
+      tableOptions: tableOptions,
     }
   },
   methods: {
@@ -362,11 +363,6 @@ export default {
         table.bootstrapTable('hideColumn', 'quantity');
       }
     })
-    $.ajax({
-      url: "/ffbusiness/itemType/all", async: true, method: "post", contentType: "application/json", success: function (data) {
-        this.options = data;
-      }
-    });
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
   }
 }
