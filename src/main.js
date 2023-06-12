@@ -15,22 +15,19 @@ window.$ = $
 
 Vue.component('bt-select', {
     props: ['options', 'value'],
-    template: "<select class='selectpicker' data-live-search='true' data-live-search-placeholder='搜索'><option" +
+    template: "<select class='selectpicker' multiple data-live-search='true' data-live-search-placeholder='搜索'><option" +
         " :value='option.typeId' v-for='option in options'>{{option.typeName}}</option></select> ",
     mounted: function () {
         const vm = this;
+        const parentMap = {};
         $(this.$el).selectpicker('val', this.value != null ? this.value : null);
-        $(this.$el).on('changed.bs.select', function () {
+        $(this.$el).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
             vm.$emit('input', $(this).val());
             if (typeof (vm.method) != 'undefined') {
                 vm.method(vm.index, vm.childidx, this.value);
             }
-        });
-        $(this.$el).on('show.bs.select', function () {
-            if (typeof (vm.load) != 'undefined') {
-                vm.load(vm.index, vm.childidx);
-            }
-            let selectedValues = $itemType.val();
+            let selectedValues = isSelected;
+            let oldSelected = previousValue;
             let newSelectedValues = [];
             for (let i = 0; i < selectedValues.length; i++) {
                 let number = parseInt(selectedValues[i]);
@@ -94,16 +91,19 @@ Vue.component('bt-select', {
                     }
                     newSelectedValues = values;
                 }
-
             }
-            oldSelected = newSelectedValues;
             this.itemTypes = newSelectedValues;
-            $itemType.selectpicker('refresh');
+            $(this.$el).selectpicker('refresh');
 
+        });
+        $(this.$el).on('show.bs.select', function () {
+            if (typeof (vm.load) != 'undefined') {
+                vm.load(vm.index, vm.childidx);
+            }
         })
     },
     watch: {
-        value(newV, oldV) {
+        value(newV) {
             $(this.$el).selectpicker('val', newV);
         }
     },
