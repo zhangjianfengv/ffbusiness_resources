@@ -214,9 +214,9 @@ export default {
       worldName: '中国',
       min: null,
       max: null,
-      itemTypes: [],
       sortType: "1",
       columns: columns,
+      itemTypes: [],
       itemTypeOptions: [],
       tableOptions: tableOptions,
     }
@@ -310,6 +310,8 @@ export default {
         showColumns: true,
         showColumnsToggleAll: true,
         showExport: true,
+        itemTypes: [],
+        itemTypeOptions: [],
         contentType: "application/json"
       });
     },

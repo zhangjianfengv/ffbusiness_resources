@@ -50,12 +50,10 @@ Vue.component('bt-select', {
                 }
                 $itemType.selectpicker('refresh');
                 $itemType.on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
-                    console.log('clickedIndex' + clickedIndex);
-                    console.log(previousValue);
                     vm.$emit('input', $itemType.val());
-                    if (typeof (vm.method) != 'undefined') {
-                        vm.method(vm.index, vm.childidx, vm.value);
-                    }
+                    // if (typeof (vm.method) != 'undefined') {
+                    //     vm.method(vm.index, vm.childidx, vm.value);
+                    // }
                     let selectedValues = $itemType.val();
                     let oldSelected = previousValue;
                     let newSelectedValues = [];
@@ -67,7 +65,7 @@ Vue.component('bt-select', {
                                 if (number === oldSelectedElement) exists = true;
                             }
                         }
-                        if (selectedValues[number].isParent) {
+                        if (map[number].isParent) {
                             let element = parentMap[number];
                             if (!exists) {
                                 for (let e of element) {
@@ -124,14 +122,15 @@ Vue.component('bt-select', {
                     }
                     this.itemTypes = newSelectedValues;
                     $itemType.val(newSelectedValues);
+                    vm.$emit('input', newSelectedValues);
                     $itemType.selectpicker('refresh');
 
                 });
-                $itemType.on('show.bs.select', function () {
-                    if (typeof (vm.load) != 'undefined') {
-                        vm.load(vm.index, vm.childidx);
-                    }
-                })
+                // $itemType.on('show.bs.select', function () {
+                //     if (typeof (vm.load) != 'undefined') {
+                //         vm.load(vm.index, vm.childidx);
+                //     }
+                // })
             }
         });
 

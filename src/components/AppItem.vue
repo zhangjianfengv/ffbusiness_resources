@@ -1,22 +1,17 @@
 <template>
   <div id="app">
-    <b-form inline id="queryForm">
-      <b-col id="queryParam" cols="12">
-        <b-col id="queryParam" cols="12">
-          <b-row no-gutters>
-            <b-col cols="8">
-              <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>
-              <b-form-input class="form-control  mx-1" id="name" placeholder="名称" type="text" value=""></b-form-input>
-              <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
-              <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
-              <b-form-select class="selectpicker" id="itemType" multiple title="选择物品类别" v-model="itemTypes"></b-form-select>
-            </b-col>
-            <b-col cols="2">
-            </b-col>
-            <b-button variant="info" @click="searchItem()" type="button">搜索</b-button>
-            <b-button variant="info" class="mx-1" @click="resetQueryParams()" type="button">重置</b-button>
-          </b-row>
-        </b-col>
+    <b-form inline id="itemForm">
+      <b-col id="queryParam">
+        <b-row no-gutters>
+          <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>
+          <b-form-input class="form-control  mx-1" id="name" placeholder="名称" type="text" value=""></b-form-input>
+          <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
+          <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
+          <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+          </bt-select>
+          <b-button variant="info" @click="searchItem()" type="button">搜索</b-button>
+          <b-button variant="info" class="mx-1" @click="resetQueryParams()" type="button">重置</b-button>
+        </b-row>
       </b-col>
     </b-form>
     <div>
@@ -83,6 +78,9 @@ export default {
         showJumpto: true,
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 100,
+        toolbar: '#itemForm',
+        itemTypes: [],
+        itemTypeOptions: [],
         pageList: [20, 100, 200, 500, 1000]
       }
     }
@@ -113,6 +111,9 @@ export default {
         showJumpto: true,
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 100,
+        toolbar: '#itemForm',
+        itemTypes: [],
+        itemTypeOptions: [],
         pageList: [20, 100, 200, 500, 1000],
       });
       $('#table').bootstrapTable('refresh', {
@@ -120,7 +121,7 @@ export default {
       });
     },
     resetQueryParams() {
-      $('#queryForm')[0].reset();
+      $('#itemForm')[0].reset();
       $('#table').bootstrapTable('destroy');
       query = {};
       let $itemType = $('#itemType');
@@ -141,6 +142,9 @@ export default {
         showJumpto: true,
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 100,
+        toolbar: '#itemForm',
+        itemTypes: [],
+        itemTypeOptions: [],
         pageList: [20, 100, 200, 500, 1000],
       });
     },
