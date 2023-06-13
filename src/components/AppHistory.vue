@@ -144,25 +144,25 @@ let columns = [
   }, {
     field: 'timestamp',
     title: '购买时间'
-  },
-  {
-    title: '操作',
-    width: 100,
-    formatter: (value, row) => {
-      return tableMixin.methods.vueFormatter({
-        template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
-        data: {row},
-        methods: {
-          clickRow: this.clickRow
-        }
-      })
-
-    }
-  }
+  }, {}
 ];
 export default {
   mixins: [tableMixin],
   data() {
+    columns.pop();
+    columns.push({
+      title: '操作',
+      width: 100,
+      formatter: (value, row) => {
+        return this.vueFormatter({
+          template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
+          data: {row},
+          methods: {
+            clickRow: this.clickRow
+          }
+        })
+      }
+    });
     return {
       worldName: '中国',
       columns: columns,
@@ -197,6 +197,20 @@ export default {
         buyerName: $('#buyerName').val(),
         timestamp: $('#date').val()
       };
+      columns.pop();
+      columns.push({
+        title: '操作',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
+            data: {row},
+            methods: {
+              clickRow: this.clickRow
+            }
+          })
+        }
+      });
       $table.bootstrapTable({
         url: '/ffbusiness/saleHistory/realData',
         pagination: "true",
@@ -229,6 +243,20 @@ export default {
       };
       let $worldName = $('#worldName');
       $worldName.val('中国');
+      columns.pop();
+      columns.push({
+        title: '操作',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
+            data: {row},
+            methods: {
+              clickRow: this.clickRow
+            }
+          })
+        }
+      });
       $table.bootstrapTable({
         url: '/ffbusiness/saleHistory/realData',
         pagination: "true",
