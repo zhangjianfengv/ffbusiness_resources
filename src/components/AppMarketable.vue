@@ -50,13 +50,13 @@
         <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
                       v-model="min"></b-form-input>
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-        <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
-        <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
         <b-form-input id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
         <b-form-select class="mx-1" id="sortType" v-model="sortType">
           <option selected value="1">按交易次数排序</option>
           <option value="2">按售出总数排序</option>
         </b-form-select>
+        <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
+        <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
         <b-button variant="info" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
       </b-form-group>
     </b-form>
@@ -64,7 +64,6 @@
       <BootstrapTable id="marketableTable"
                       ref="table"
                       :columns="columns"
-                      :data="data"
                       :options="tableOptions"
                       @on-post-body="vueFormatterPostBody"
       />
@@ -93,12 +92,11 @@
 
 .bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
   position: relative;
-  margin-top: 10px;
-  margin-bottom: 10px;
   max-width: 94%;
+  margin: 10px 5px;
 }
 
-.dropdown-item.active, .dropdown-item:active, .btn-secondary {
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
@@ -118,9 +116,11 @@
   max-width: 200px;
 }
 
-input {
-  max-width: 100px;
+input.form-control {
+  max-width: 205px;
+  display: inline !important;
 }
+
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -208,6 +208,10 @@ let tableOptions = {
   searchAlign: 'left',
   searchSelector: '#search',
   toolbar: '#marketableForm',
+  stickyHeader: true,
+  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  theadClasses: 'thead-light',
   sortName: "numIndexCurrent",
   sortOrder: 'asc',
   method: 'post',
@@ -313,6 +317,10 @@ export default {
         searchAlign: 'left',
         searchSelector: '#search',
         toolbar: '#marketableForm',
+        stickyHeader: true,
+        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+        theadClasses: 'thead-light',
         sortName: "numIndexCurrent",
         sortOrder: 'asc',
         columns: columns,

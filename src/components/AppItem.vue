@@ -18,14 +18,19 @@
       <BootstrapTable id="table"
                       ref="table"
                       :columns="columns"
-                      :data="data"
                       :options="options"
                       @on-post-body="vueFormatterPostBody"/>
     </div>
   </div>
 </template>
 <style>
-.dropdown-item.active, .dropdown-item:active, .btn-secondary {
+.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
+  position: relative;
+  max-width: 94%;
+  margin: 10px 5px;
+}
+
+.dropdown-item.active, .dropdown-item:active, .btn-secondary ,.btn-info{
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
@@ -41,8 +46,9 @@
   max-width: 200px;
 }
 
-input {
-  max-width: 100px;
+input.form-control {
+  max-width: 205px;
+  display: inline !important;
 }
 </style>
 <script>
@@ -93,6 +99,10 @@ export default {
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 100,
         toolbar: '#itemForm',
+        stickyHeader: true,
+        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+        theadClasses: 'thead-light',
         itemTypes: [],
         itemTypeOptions: [],
         pageList: [20, 100, 200, 500, 1000]
@@ -126,6 +136,10 @@ export default {
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 100,
         toolbar: '#itemForm',
+        stickyHeader: true,
+        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+        theadClasses: 'thead-light',
         itemTypes: [],
         itemTypeOptions: [],
         pageList: [20, 100, 200, 500, 1000],
@@ -157,6 +171,10 @@ export default {
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 100,
         toolbar: '#itemForm',
+        stickyHeader: true,
+        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+        theadClasses: 'thead-light',
         itemTypes: [],
         itemTypeOptions: [],
         pageList: [20, 100, 200, 500, 1000],
