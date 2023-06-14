@@ -25,7 +25,7 @@
   </div>
 </template>
 <style>
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .page-item.active, .page-link {
+.dropdown-item.active, .dropdown-item:active, .btn-secondary {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
@@ -36,8 +36,13 @@
   text-decoration: none;
   background-color: #fff !important;
 }
-.dropdown,.dropdown-menu{
+
+.dropdown, .dropdown-menu {
   max-width: 200px;
+}
+
+input {
+  max-width: 100px;
 }
 </style>
 <script>
