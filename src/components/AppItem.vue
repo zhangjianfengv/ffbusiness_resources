@@ -36,6 +36,9 @@
   text-decoration: none;
   background-color: #fff !important;
 }
+.dropdown,.dropdown-menu{
+  max-width: 200px;
+}
 </style>
 <script>
 import tableMixin from '../mixins/table'

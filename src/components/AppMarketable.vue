@@ -109,8 +109,13 @@
   text-decoration: none;
   background-color: #fff !important;
 }
+
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
   width: auto;
+}
+
+.dropdown, .dropdown-menu {
+  max-width: 200px;
 }
 </style>
 <script>
