@@ -160,6 +160,28 @@ let columns = [
     title: '购买时间'
   }, {}
 ];
+let options = {
+  url: '/ffbusiness/saleHistory/realData',
+  pagination: "true",
+  sidePagination: "server",
+  method: 'post',
+  contentType: "application/json",
+  queryParamsType: '',
+  queryParams: function (params) {
+    query.pageSize = params.pageSize;
+    query.pageNumber = params.pageNumber;
+    return query
+  },
+  showJumpto: true,
+  pageNumber: 1,//初始化加载第一页，默认第一页
+  pageSize: 10,
+  toolbar: '#queryForm',
+  stickyHeader: true,
+  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  theadClasses: 'thead-light',
+  pageList: [20, 100, 200, 500, 1000]
+};
 export default {
   mixins: [tableMixin],
   data() {
@@ -177,32 +199,10 @@ export default {
         })
       }
     });
-    let $body = $('body');
     return {
       worldName: '中国',
       columns: columns,
-      options: {
-        url: '/ffbusiness/saleHistory/realData',
-        pagination: "true",
-        sidePagination: "server",
-        method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 10,
-        toolbar: '#queryForm',
-        stickyHeader: true,
-        stickyHeaderOffsetLeft: parseInt($body.css('padding-left'), 10),
-        stickyHeaderOffsetRight: parseInt($body.css('padding-right'), 10),
-        theadClasses: 'thead-light',
-        pageList: [20, 100, 200, 500, 1000]
-      }
+      options: options
     }
   },
   methods: {
@@ -230,29 +230,8 @@ export default {
           })
         }
       });
-      $table.bootstrapTable({
-        url: '/ffbusiness/saleHistory/realData',
-        pagination: "true",
-        columns: columns,
-        sidePagination: "server",
-        method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 10,
-        toolbar: '#queryForm',
-        stickyHeader: true,
-        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-        theadClasses: 'thead-light',
-        pageList: [20, 100, 200, 500, 1000]
-      })
+      options.columns = columns;
+      $table.bootstrapTable(options)
       $table.bootstrapTable('refresh', {
         query: query
       });
@@ -280,29 +259,8 @@ export default {
           })
         }
       });
-      $table.bootstrapTable({
-        url: '/ffbusiness/saleHistory/realData',
-        pagination: "true",
-        columns: columns,
-        sidePagination: "server",
-        method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 10,
-        toolbar: '#queryForm',
-        stickyHeader: true,
-        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-        theadClasses: 'thead-light',
-        pageList: [20, 100, 200, 500, 1000]
-      })
+      options.columns = columns;
+      $table.bootstrapTable(options)
     },
     clickRow(row) {
       let name = row.worldName;

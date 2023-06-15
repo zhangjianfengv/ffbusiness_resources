@@ -287,6 +287,12 @@ export default {
     resetMarketable() {
       $('#marketableForm')[0].reset();
       let $itemType = $('#itemType');
+      this.scale = 24;
+      this.worldName = '中国';
+      this.min = null;
+      this.max = null;
+      this.sortType = "1";
+      this.itemTypes = [];
       $itemType.selectpicker('val', []);
       queryMarketable = {
         worldName: '中国',
@@ -302,7 +308,8 @@ export default {
       $timeScale.selectpicker('refresh');
       $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
-      $('#marketableTable').bootstrapTable('destroy');
+      let $marketableTable = $('#marketableTable');
+      $marketableTable.bootstrapTable('destroy');
       const timeScale = $timeScale.val();
       if (timeScale > 24) {
         columns[2].title = timeScale / 24 + '天售出数';
@@ -311,33 +318,8 @@ export default {
         columns[2].title = timeScale + '小时售出数';
         columns[3].title = timeScale + '小时交易次数';
       }
-      $('#marketableTable').bootstrapTable({
-        url: '/ffbusiness/saleHistory/marketableData',
-        search: true,
-        searchAlign: 'left',
-        searchSelector: '#search',
-        toolbar: '#marketableForm',
-        stickyHeader: true,
-        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-        theadClasses: 'thead-light',
-        sortName: "numIndexCurrent",
-        sortOrder: 'asc',
-        columns: columns,
-        method: 'post',
-        queryParams: function () {
-          return queryMarketable;
-        },
-        pageList: [20, 100, 200, 500, 1000],
-        pagination: "true",
-        showJumpto: true,
-        showColumns: true,
-        showColumnsToggleAll: true,
-        showExport: true,
-        itemTypes: [],
-        itemTypeOptions: [],
-        contentType: "application/json"
-      });
+      tableOptions.columns = columns;
+      $marketableTable.bootstrapTable(tableOptions)
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
