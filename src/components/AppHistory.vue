@@ -2,8 +2,7 @@
   <div id="app">
     <b-form inline id="queryForm">
       <b-row>
-        <b-form-input id="itemId" placeholder="请输入完整物品ID" :state="idState" type="number" min="1" max="99999"
-                      value=""></b-form-input>
+        <b-form-input v-model="itemId" id="itemId" placeholder="请输入数字物品ID" :state="idState" trim></b-form-input>
         <b-form-input id="itemName" placeholder="请输入部分或完整物品名" type="text"
                       value=""></b-form-input>
         <b-form-input id="buyerName" placeholder="请输入完整购买者角色名" type="text"
@@ -187,6 +186,7 @@ export default {
   mixins: [tableMixin],
   computed: {
     idState() {
+      if (!this.itemId) return null;
       return $.isNumeric(this.itemId)
     }
   },
@@ -207,6 +207,7 @@ export default {
     });
     return {
       itemId: null,
+      state: null,
       worldName: '中国',
       columns: columns,
       options: options
@@ -217,7 +218,7 @@ export default {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       query = {
-        itemId: $('#itemId').val(),
+        itemId: this.itemId,
         itemName: $('#itemName').val(),
         worldName: this.worldName,
         buyerName: $('#buyerName').val(),
