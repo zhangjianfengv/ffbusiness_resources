@@ -2,7 +2,7 @@
   <div id="app">
     <b-form inline id="queryForm">
       <b-row>
-        <b-form-input id="itemId" placeholder="请输入完整物品ID" type="text" value=""></b-form-input>
+        <b-form-input id="itemId" placeholder="请输入完整物品ID" type="number" min="1" max="99999" value=""></b-form-input>
         <b-form-input id="itemName" placeholder="请输入部分或完整物品名" type="text"
                       value=""></b-form-input>
         <b-form-input id="buyerName" placeholder="请输入完整购买者角色名" type="text"
@@ -88,7 +88,7 @@
   margin: 10px 5px;
 }
 
-.dropdown-item.active, .dropdown-item:active, .btn-secondary ,.btn-info{
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
