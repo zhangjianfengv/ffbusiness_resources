@@ -252,6 +252,7 @@ export default {
         worldName: '中国'
       };
       this.worldName = '中国';
+      $('worldName').selectpicker('refresh');
       columns.pop();
       columns.push({
         title: '操作',
