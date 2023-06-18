@@ -2,6 +2,9 @@ import Vue from "vue";
 import $ from "jquery";
 
 Vue.component('bt-select', {
+    data: function () {
+        return {oldSelected: null}
+    },
     props: ['options', 'value'],
     template: "<select class='selectpicker' multiple data-live-search='true'" +
         " data-live-search-placeholder='搜索'><option" +
@@ -16,6 +19,7 @@ Vue.component('bt-select', {
             success: function (data) {
                 const map = {};
                 const parentMap = {};
+                let oldSelected = this.oldSelected;
                 for (let i = 0; i < data.length; i++) {
                     let datum = data[i];
                     map[datum.typeId] = datum;
@@ -34,13 +38,10 @@ Vue.component('bt-select', {
                         data[i].typeName + "</option>");
                 }
                 $itemType.selectpicker('refresh');
-                $itemType.on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                $itemType.on('changed.bs.select', function () {
+                    let itemTypes = map;
                     vm.$emit('input', $itemType.val());
-                    // if (typeof (vm.method) != 'undefined') {
-                    //     vm.method(vm.index, vm.childidx, vm.value);
-                    // }
                     let selectedValues = $itemType.val();
-                    let oldSelected = previousValue;
                     let newSelectedValues = [];
                     for (let i = 0; i < selectedValues.length; i++) {
                         let number = parseInt(selectedValues[i]);
@@ -50,7 +51,7 @@ Vue.component('bt-select', {
                                 if (number === oldSelectedElement) exists = true;
                             }
                         }
-                        if (map[number].isParent) {
+                        if (itemTypes[number].isParent) {
                             let element = parentMap[number];
                             if (!exists) {
                                 for (let e of element) {
@@ -105,32 +106,21 @@ Vue.component('bt-select', {
                             newSelectedValues = values;
                         }
                     }
-                    this.itemTypes = newSelectedValues;
+                    oldSelected = newSelectedValues;
                     $itemType.val(newSelectedValues);
                     vm.$emit('input', newSelectedValues);
                     $itemType.selectpicker('refresh');
-
-                });
-                // $itemType.on('show.bs.select', function () {
-                //     if (typeof (vm.load) != 'undefined') {
-                //         vm.load(vm.index, vm.childidx);
-                //     }
-                // })
+                })
+            },
+            watch: {},
+            updated: function () {
+                this.$nextTick(function () {
+                    $(this.$el).selectpicker('refresh');
+                })
+            },
+            destroyed: function () {
+                $(this.$el).selectpicker('destroy');
             }
-        });
-
-    },
-    watch: {
-        //value(newV) {
-        // $(this.$el).selectpicker('val', newV);
-        // }
-    },
-    updated: function () {
-        this.$nextTick(function () {
-            $(this.$el).selectpicker('refresh');
         })
-    },
-    destroyed: function () {
-        $(this.$el).selectpicker('destroy');
     }
 })
