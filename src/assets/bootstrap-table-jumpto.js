@@ -1,6 +1,7 @@
 /**
  * @author Jay <jwang@dizsoft.com>
  */
+import jQuery from "jquery";
 
 (function ($) {
     'use strict';
