@@ -224,6 +224,7 @@ let tableOptions = {
   showColumns: true,
   showColumnsToggleAll: true,
   showExport: true,
+  icons:{ columns: 'bi bi-list-ul',export:"bi bi-download"},
   contentType: "application/json"
 };
 export default {

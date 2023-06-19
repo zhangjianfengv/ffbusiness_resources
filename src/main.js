@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import {BootstrapVue} from 'bootstrap-vue'
+import "bootstrap-icons/font/bootstrap-icons.css";
 import './plugins/table.js'
 import './plugins/selectpicker'
 import $ from 'jquery'
@@ -10,6 +11,9 @@ import AppMarketable from "@/components/AppMarketable.vue";
 import App from "@/components/App.vue";
 import AppItem from "@/components/AppItem.vue";
 
+Vue.use(BootstrapVue)
+Vue.use(VueRouter)
+
 window.jQuery = $
 window.$ = $
 Vue.config.errorHandler = function (err, vm, info) {
@@ -17,8 +21,6 @@ Vue.config.errorHandler = function (err, vm, info) {
     console.log(info);
 }
 
-Vue.use(VueRouter)
-Vue.use(BootstrapVue);
 Vue.config.productionTip = false
 const routes = [
     // {path: '/', redirect: AppHistory},
