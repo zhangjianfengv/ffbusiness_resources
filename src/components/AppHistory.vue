@@ -2,14 +2,14 @@
   <div id="app">
     <b-form inline id="queryForm">
       <b-row>
-        <b-form-input id="itemId" placeholder="请输入完整物品ID" type="text" value=""></b-form-input>
+        <b-form-input v-model="itemId" id="itemId" placeholder="请输入数字物品ID" :state="idState" trim></b-form-input>
         <b-form-input id="itemName" placeholder="请输入部分或完整物品名" type="text"
                       value=""></b-form-input>
         <b-form-input id="buyerName" placeholder="请输入完整购买者角色名" type="text"
                       value=""></b-form-input>
         <b-form-input id="date" placeholder="请选择或输入日期" type="text"></b-form-input>
         <b-form-select v-model="worldName" id="worldName">
-          <option value="陆行鸟" style="font-weight: bold;color: #17a2b8;">陆行鸟</option>
+          <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
           <option value="幻影群岛">幻影群岛</option>
           <option value="神意之地">神意之地</option>
@@ -18,7 +18,7 @@
           <option value="宇宙和音">宇宙和音</option>
           <option value="沃仙曦染">沃仙曦染</option>
           <option value="晨曦王座">晨曦王座</option>
-          <option value="猫小胖" style="font-weight: bold;color: #17a2b8;">猫小胖</option>
+          <option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</option>
           <option value="紫水栈桥">紫水栈桥</option>
           <option value="摩杜纳">摩杜纳</option>
           <option value="海猫茶屋">海猫茶屋</option>
@@ -26,7 +26,7 @@
           <option value="静语庄园">静语庄园</option>
           <option value="延夏">延夏</option>
           <option value="柔风海湾">柔风海湾</option>
-          <option value="莫古力" style="font-weight: bold;color: #17a2b8;">莫古力</option>
+          <option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</option>
           <option value="梦羽宝境">梦羽宝境</option>
           <option value="旅人栈桥">旅人栈桥</option>
           <option value="白银乡">白银乡</option>
@@ -35,13 +35,13 @@
           <option value="神拳痕">神拳痕</option>
           <option value="龙巢神殿">龙巢神殿</option>
           <option value="潮风亭">潮风亭</option>
-          <option value="豆豆柴" style="font-weight: bold;color: #17a2b8;">豆豆柴</option>
+          <option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</option>
           <option value="银泪湖">银泪湖</option>
           <option value="伊修加德">伊修加德</option>
           <option value="红茶川">红茶川</option>
           <option value="太阳海岸">太阳海岸</option>
           <option value="水晶塔">水晶塔</option>
-          <option selected value="中国" style="font-weight: bold;color: #17a2b8;">中国</option>
+          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
         </b-form-select>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
         <b-button variant="info" @click="resetQueryParams()" type="button">重置</b-button>
@@ -51,7 +51,6 @@
       <BootstrapTable id="table"
                       ref="table"
                       :columns="columns"
-                      :data="data"
                       :options="options"
                       @on-post-body="vueFormatterPostBody"
       />
@@ -66,7 +65,7 @@
             <table id="currentTable"></table>
           </div>
           <div class="modal-footer">
-            <button class="btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button">关闭</button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button">关闭</button>
           </div>
         </div>
       </div>
@@ -83,7 +82,13 @@
 
 </template>
 <style>
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .page-item.active, .page-link {
+.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
+  position: relative;
+  max-width: 94%;
+  margin: 10px 5px;
+}
+
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
@@ -93,6 +98,15 @@
   color: #17a2b8 !important;
   text-decoration: none;
   background-color: #fff !important;
+}
+
+.dropdown, .dropdown-menu {
+  max-width: 200px;
+}
+
+input.form-control {
+  max-width: 205px;
+  display: inline !important;
 }
 </style>
 <script>
@@ -144,11 +158,40 @@ let columns = [
   }, {
     field: 'timestamp',
     title: '购买时间'
-  }
+  }, {}
 ];
+let options = {
+  url: '/ffbusiness/saleHistory/realData',
+  pagination: "true",
+  sidePagination: "server",
+  method: 'post',
+  contentType: "application/json",
+  queryParamsType: '',
+  queryParams: function (params) {
+    query.pageSize = params.pageSize;
+    query.pageNumber = params.pageNumber;
+    return query
+  },
+  showJumpto: true,
+  pageNumber: 1,//初始化加载第一页，默认第一页
+  pageSize: 10,
+  toolbar: '#queryForm',
+  stickyHeader: true,
+  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  theadClasses: 'thead-light',
+  pageList: [20, 100, 200, 500, 1000]
+};
 export default {
   mixins: [tableMixin],
+  computed: {
+    idState() {
+      if (!this.itemId) return null;
+      return $.isNumeric(this.itemId)
+    }
+  },
   data() {
+    columns.pop();
     columns.push({
       title: '操作',
       width: 100,
@@ -163,26 +206,11 @@ export default {
       }
     });
     return {
+      itemId: null,
+      state: null,
       worldName: '中国',
       columns: columns,
-      options: {
-        url: '/ffbusiness/saleHistory/realData',
-        pagination: "true",
-        sidePagination: "server",
-        method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 10,
-        toolbar: '#queryForm',
-        pageList: [20, 100, 200, 500, 1000]
-      }
+      options: options
     }
   },
   methods: {
@@ -190,7 +218,7 @@ export default {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       query = {
-        itemId: $('#itemId').val(),
+        itemId: this.itemId,
         itemName: $('#itemName').val(),
         worldName: this.worldName,
         buyerName: $('#buyerName').val(),
@@ -210,25 +238,8 @@ export default {
           })
         }
       });
-      $table.bootstrapTable({
-        url: '/ffbusiness/saleHistory/realData',
-        pagination: "true",
-        columns: columns,
-        sidePagination: "server",
-        method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 10,
-        toolbar: '#queryForm',
-        pageList: [20, 100, 200, 500, 1000]
-      })
+      options.columns = columns;
+      $table.bootstrapTable(options)
       $table.bootstrapTable('refresh', {
         query: query
       });
@@ -240,8 +251,8 @@ export default {
       query = {
         worldName: '中国'
       };
-      let $worldName = $('#worldName');
-      $worldName.val('中国');
+      this.worldName = '中国';
+      $('#worldName').selectpicker('refresh');
       columns.pop();
       columns.push({
         title: '操作',
@@ -256,25 +267,8 @@ export default {
           })
         }
       });
-      $table.bootstrapTable({
-        url: '/ffbusiness/saleHistory/realData',
-        pagination: "true",
-        columns: columns,
-        sidePagination: "server",
-        method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 10,
-        toolbar: '#queryForm',
-        pageList: [20, 100, 200, 500, 1000]
-      })
+      options.columns = columns;
+      $table.bootstrapTable(options)
     },
     clickRow(row) {
       let name = row.worldName;

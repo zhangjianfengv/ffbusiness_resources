@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <b-form inline id="marketableForm">
-      <b-row>
+      <b-form-group>
         <b-form-select v-model="worldName" id="worldName">
-          <option value="陆行鸟" style="font-weight: bold;color: #17a2b8;">陆行鸟</option>
+          <option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
           <option value="幻影群岛">幻影群岛</option>
           <option value="神意之地">神意之地</option>
@@ -12,7 +12,7 @@
           <option value="宇宙和音">宇宙和音</option>
           <option value="沃仙曦染">沃仙曦染</option>
           <option value="晨曦王座">晨曦王座</option>
-          <option value="猫小胖" style="font-weight: bold;color: #17a2b8;">猫小胖</option>
+          <option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</option>
           <option value="紫水栈桥">紫水栈桥</option>
           <option value="摩杜纳">摩杜纳</option>
           <option value="海猫茶屋">海猫茶屋</option>
@@ -20,7 +20,7 @@
           <option value="静语庄园">静语庄园</option>
           <option value="延夏">延夏</option>
           <option value="柔风海湾">柔风海湾</option>
-          <option value="莫古力" style="font-weight: bold;color: #17a2b8;">莫古力</option>
+          <option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</option>
           <option value="梦羽宝境">梦羽宝境</option>
           <option value="旅人栈桥">旅人栈桥</option>
           <option value="白银乡">白银乡</option>
@@ -29,13 +29,13 @@
           <option value="神拳痕">神拳痕</option>
           <option value="龙巢神殿">龙巢神殿</option>
           <option value="潮风亭">潮风亭</option>
-          <option value="豆豆柴" style="font-weight: bold;color: #17a2b8;">豆豆柴</option>
+          <option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</option>
           <option value="银泪湖">银泪湖</option>
           <option value="伊修加德">伊修加德</option>
           <option value="红茶川">红茶川</option>
           <option value="太阳海岸">太阳海岸</option>
           <option value="水晶塔">水晶塔</option>
-          <option selected value="中国" style="font-weight: bold;color: #17a2b8;">中国</option>
+          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
         </b-form-select>
         <b-form-select id="timeScale" v-model="scale">
           <option value="8">统计8小时</option>
@@ -50,21 +50,20 @@
         <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
                       v-model="min"></b-form-input>
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-        <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
-        <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
         <b-form-input id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
         <b-form-select class="mx-1" id="sortType" v-model="sortType">
           <option selected value="1">按交易次数排序</option>
           <option value="2">按售出总数排序</option>
         </b-form-select>
+        <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
+        <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
         <b-button variant="info" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
-      </b-row>
+      </b-form-group>
     </b-form>
     <div>
       <BootstrapTable id="marketableTable"
                       ref="table"
                       :columns="columns"
-                      :data="data"
                       :options="tableOptions"
                       @on-post-body="vueFormatterPostBody"
       />
@@ -93,12 +92,11 @@
 
 .bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
   position: relative;
-  margin-top: 10px;
-  margin-bottom: 10px;
   max-width: 94%;
+  margin: 10px 5px;
 }
 
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .page-item.active, .page-link {
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
@@ -109,9 +107,20 @@
   text-decoration: none;
   background-color: #fff !important;
 }
+
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
   width: auto;
 }
+
+.dropdown, .dropdown-menu {
+  max-width: 200px;
+}
+
+input.form-control {
+  max-width: 205px;
+  display: inline !important;
+}
+
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -199,6 +208,10 @@ let tableOptions = {
   searchAlign: 'left',
   searchSelector: '#search',
   toolbar: '#marketableForm',
+  stickyHeader: true,
+  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  theadClasses: 'thead-light',
   sortName: "numIndexCurrent",
   sortOrder: 'asc',
   method: 'post',
@@ -211,6 +224,7 @@ let tableOptions = {
   showColumns: true,
   showColumnsToggleAll: true,
   showExport: true,
+  icons:{ columns: 'bi bi-list-ul',export:"bi bi-download"},
   contentType: "application/json"
 };
 export default {
@@ -274,6 +288,12 @@ export default {
     resetMarketable() {
       $('#marketableForm')[0].reset();
       let $itemType = $('#itemType');
+      this.scale = 24;
+      this.worldName = '中国';
+      this.min = null;
+      this.max = null;
+      this.sortType = "1";
+      this.itemTypes = [];
       $itemType.selectpicker('val', []);
       queryMarketable = {
         worldName: '中国',
@@ -289,7 +309,8 @@ export default {
       $timeScale.selectpicker('refresh');
       $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
-      $('#marketableTable').bootstrapTable('destroy');
+      let $marketableTable = $('#marketableTable');
+      $marketableTable.bootstrapTable('destroy');
       const timeScale = $timeScale.val();
       if (timeScale > 24) {
         columns[2].title = timeScale / 24 + '天售出数';
@@ -298,29 +319,8 @@ export default {
         columns[2].title = timeScale + '小时售出数';
         columns[3].title = timeScale + '小时交易次数';
       }
-      $('#marketableTable').bootstrapTable({
-        url: '/ffbusiness/saleHistory/marketableData',
-        search: true,
-        searchAlign: 'left',
-        searchSelector: '#search',
-        toolbar: '#marketableForm',
-        sortName: "numIndexCurrent",
-        sortOrder: 'asc',
-        columns: columns,
-        method: 'post',
-        queryParams: function () {
-          return queryMarketable;
-        },
-        pageList: [20, 100, 200, 500, 1000],
-        pagination: "true",
-        showJumpto: true,
-        showColumns: true,
-        showColumnsToggleAll: true,
-        showExport: true,
-        itemTypes: [],
-        itemTypeOptions: [],
-        contentType: "application/json"
-      });
+      tableOptions.columns = columns;
+      $marketableTable.bootstrapTable(tableOptions)
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');

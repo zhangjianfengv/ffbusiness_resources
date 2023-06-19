@@ -18,14 +18,19 @@
       <BootstrapTable id="table"
                       ref="table"
                       :columns="columns"
-                      :data="data"
                       :options="options"
                       @on-post-body="vueFormatterPostBody"/>
     </div>
   </div>
 </template>
 <style>
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .page-item.active, .page-link {
+.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
+  position: relative;
+  max-width: 94%;
+  margin: 10px 5px;
+}
+
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
   background-color: #17a2b8 !important;
@@ -35,6 +40,15 @@
   color: #17a2b8 !important;
   text-decoration: none;
   background-color: #fff !important;
+}
+
+.dropdown, .dropdown-menu {
+  max-width: 200px;
+}
+
+input.form-control {
+  max-width: 205px;
+  display: inline !important;
 }
 </style>
 <script>
@@ -58,6 +72,30 @@ let columns = [{
   field: 'levelItem',
   title: '品级'
 }];
+let options = {
+  url: '/ffbusiness/itemNew/realData',
+  pagination: "true",
+  sidePagination: "server",
+  method: 'post',
+  contentType: "application/json",
+  queryParamsType: '',
+  queryParams: function (params) {
+    query.pageSize = params.pageSize;
+    query.pageNumber = params.pageNumber;
+    return query
+  },
+  showJumpto: true,
+  pageNumber: 1,//初始化加载第一页，默认第一页
+  pageSize: 100,
+  toolbar: '#itemForm',
+  stickyHeader: true,
+  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  theadClasses: 'thead-light',
+  itemTypes: [],
+  itemTypeOptions: [],
+  pageList: [20, 100, 200, 500, 1000]
+};
 export default {
   mixins: [tableMixin],
   data() {
@@ -68,32 +106,14 @@ export default {
       max: null,
       sortType: "1",
       columns: columns,
-      itemTypes: [],
-      options: {
-        url: '/ffbusiness/itemNew/realData',
-        pagination: "true",
-        sidePagination: "server",
-        method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 100,
-        toolbar: '#itemForm',
-        itemTypes: [],
-        itemTypeOptions: [],
-        pageList: [20, 100, 200, 500, 1000]
-      }
+      options: options,
+      itemTypes: []
     }
   },
   methods: {
     searchItem() {
-      $('#table').bootstrapTable('destroy');
+      let $table = $('#table');
+      $table.bootstrapTable('destroy');
       query = {
         id: $('#id').val(),
         name: $('#name').val(),
@@ -102,57 +122,22 @@ export default {
         levelItem: $('#levelItem').val(),
         itemTypes: this.itemTypes
       };
-      $('#table').bootstrapTable({
-        url: '/ffbusiness/itemNew/realData',
-        pagination: "true",
-        sidePagination: "server",
-        columns: columns, method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 100,
-        toolbar: '#itemForm',
-        itemTypes: [],
-        itemTypeOptions: [],
-        pageList: [20, 100, 200, 500, 1000],
-      });
-      $('#table').bootstrapTable('refresh', {
+      options.columns = columns;
+      $table.bootstrapTable(options)
+      $table.bootstrapTable('refresh', {
         query: query
       });
     },
     resetQueryParams() {
+      let $table = $('#table');
       $('#itemForm')[0].reset();
       $('#table').bootstrapTable('destroy');
       query = {};
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
-      $('#table').bootstrapTable({
-        url: '/ffbusiness/itemNew/realData',
-        pagination: "true",
-        sidePagination: "server",
-        columns: columns, method: 'post',
-        contentType: "application/json",
-        queryParamsType: '',
-        queryParams: function (params) {
-          query.pageSize = params.pageSize;
-          query.pageNumber = params.pageNumber;
-          return query
-        },
-        showJumpto: true,
-        pageNumber: 1,//初始化加载第一页，默认第一页
-        pageSize: 100,
-        toolbar: '#itemForm',
-        itemTypes: [],
-        itemTypeOptions: [],
-        pageList: [20, 100, 200, 500, 1000],
-      });
+      options.columns = columns;
+      $table.bootstrapTable(options)
     },
   },
   mounted() {
