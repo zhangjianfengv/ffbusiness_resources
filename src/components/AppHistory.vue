@@ -1,13 +1,13 @@
 <template>
   <div id="app">
-    <b-form inline id="queryForm">
+    <b-form inline id="queryForm" @reset="onReset">
       <b-row>
         <b-form-input v-model="itemId" id="itemId" placeholder="请输入数字物品ID" :state="idState" trim></b-form-input>
-        <b-form-input id="itemName" placeholder="请输入部分或完整物品名" type="text"
+        <b-form-input v-model="itemName" placeholder="请输入部分或完整物品名" type="text"
                       value=""></b-form-input>
-        <b-form-input id="buyerName" placeholder="请输入完整购买者角色名" type="text"
+        <b-form-input v-model="buyerName" placeholder="请输入完整购买者角色名" type="text"
                       value=""></b-form-input>
-        <b-form-input id="date" placeholder="请选择或输入日期" type="text"></b-form-input>
+        <b-form-input id="date" v-model="date" placeholder="请选择或输入日期" type="text"></b-form-input>
         <b-form-select v-model="worldName" id="worldName">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
@@ -44,7 +44,7 @@
           <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
         </b-form-select>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
-        <b-button variant="info" @click="resetQueryParams()" type="button">重置</b-button>
+        <b-button variant="info" type="reset">重置</b-button>
       </b-row>
     </b-form>
     <div>
@@ -208,6 +208,9 @@ export default {
     return {
       itemId: null,
       state: null,
+      itemName: null,
+      buyerName: null,
+      date: null,
       worldName: '中国',
       columns: columns,
       options: options
@@ -219,10 +222,10 @@ export default {
       $table.bootstrapTable('destroy');
       query = {
         itemId: this.itemId,
-        itemName: $('#itemName').val(),
+        itemName: this.itemName,
         worldName: this.worldName,
-        buyerName: $('#buyerName').val(),
-        timestamp: $('#date').val()
+        buyerName: this.buyerName,
+        timestamp: this.date
       };
       columns.pop();
       columns.push({
@@ -244,13 +247,18 @@ export default {
         query: query
       });
     },
-    resetQueryParams() {
+    onReset(event) {
+      event.preventDefault()
       let $table = $('#table');
-      $('#queryForm')[0].reset();
       $table.bootstrapTable('destroy');
       query = {
         worldName: '中国'
       };
+      this.itemId = null;
+      this.state = null;
+      this.itemName = null;
+      this.buyerName = null;
+      this.date = null;
       this.worldName = '中国';
       $('#worldName').selectpicker('refresh');
       columns.pop();
