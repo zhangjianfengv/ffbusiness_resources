@@ -260,7 +260,9 @@ export default {
       this.buyerName = null;
       this.date = null;
       this.worldName = '中国';
-      $('#worldName').selectpicker('refresh');
+      let $worldName = $('#worldName');
+      $worldName.selectpicker('val', '中国');
+      $worldName.selectpicker('refresh');
       columns.pop();
       columns.push({
         title: '操作',
