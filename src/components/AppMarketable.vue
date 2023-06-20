@@ -254,23 +254,9 @@ export default {
         itemTypes: this.itemTypes
       };
       let $sortType = $('#sortType');
-      let val = $sortType.val();
-      let table = $("#marketableTable");
-      if (val === '2') {
-        table.bootstrapTable('showColumn', 'quantityIndexCurrent');
-        table.bootstrapTable('showColumn', 'quantityIndexChange');
-        table.bootstrapTable('showColumn', 'quantity');
-        table.bootstrapTable('hideColumn', 'numIndexCurrent');
-        table.bootstrapTable('hideColumn', 'num');
-        table.bootstrapTable('hideColumn', 'numIndexChange');
-      } else {
-        table.bootstrapTable('showColumn', 'numIndexCurrent');
-        table.bootstrapTable('showColumn', 'numIndexChange');
-        table.bootstrapTable('showColumn', 'num');
-        table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
-        table.bootstrapTable('hideColumn', 'quantityIndexChange');
-        table.bootstrapTable('hideColumn', 'quantity');
-      }
+      this.sortType = "1";
+      $sortType.selectpicker('val', '1');
+      $sortType.selectpicker('refresh');
       if (timeScale > 24) {
         columns[2].title = timeScale / 24 + '天售出数';
         columns[3].title = timeScale / 24 + '天交易次数';
@@ -281,11 +267,6 @@ export default {
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
-      $marketableTable.bootstrapTable('refreshOptions', {
-        sortOrder: 'asc',
-        sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
-        columns: columns
-      })
     },
     resetMarketable() {
       $('#marketableForm')[0].reset();
