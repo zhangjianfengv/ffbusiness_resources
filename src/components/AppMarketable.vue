@@ -224,7 +224,7 @@ let tableOptions = {
   showColumns: true,
   showColumnsToggleAll: true,
   showExport: true,
-  icons:{ columns: 'bi bi-list-ul',export:"bi bi-download"},
+  icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
   contentType: "application/json"
 };
 export default {
@@ -279,6 +279,8 @@ export default {
         columns[3].title = timeScale + '小时交易次数';
       }
       $marketableTable.bootstrapTable('refreshOptions', {
+        sortOrder: 'asc',
+        sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
         columns: columns
       })
       $marketableTable.bootstrapTable('refresh', {
@@ -356,6 +358,11 @@ export default {
       let $sortType1 = $('#sortType');
       let val = $sortType1.val();
       let table = $("#marketableTable");
+      table.bootstrapTable('refreshOptions', {
+        sortOrder: 'asc',
+        sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
+        columns: columns
+      })
       if (val === '2') {
         table.bootstrapTable('showColumn', 'quantityIndexCurrent');
         table.bootstrapTable('showColumn', 'quantityIndexChange');
