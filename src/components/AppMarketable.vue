@@ -278,14 +278,14 @@ export default {
         columns[2].title = timeScale + '小时售出数';
         columns[3].title = timeScale + '小时交易次数';
       }
+      $marketableTable.bootstrapTable('refresh', {
+        query: queryMarketable
+      });
       $marketableTable.bootstrapTable('refreshOptions', {
         sortOrder: 'asc',
         sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
         columns: columns
       })
-      $marketableTable.bootstrapTable('refresh', {
-        query: queryMarketable
-      });
     },
     resetMarketable() {
       $('#marketableForm')[0].reset();
