@@ -134,7 +134,8 @@ let columns = [{
   field: 'itemId',
   sortable: true,
   visible: false,
-  title: '物品ID'
+  title: '物品ID',
+  filterControl: 'input'
 }, {
   field: 'name',
   sortable: true,
@@ -147,11 +148,11 @@ let columns = [{
   field: 'quantity',
   sortable: true,
   visible: false,
-  title: '24小时售出数'
+  title: '24小时售出数',
 }, {
   field: 'num',
   sortable: true,
-  title: '24小时交易次数'
+  title: '24小时交易次数',
 }, {
   field: 'numIndexCurrent',
   sortable: true,
@@ -160,8 +161,9 @@ let columns = [{
   field: 'numIndexChange',
   sortable: true,
   title: '排序较上次',
-  formatter: function changeFormatter(value) {
-    if (value === 0) return "持平"
+  formatter: function changeFormatter(value, row) {
+    if (!$.isNumeric(row.quantityIndexChange)) return "无此物品"
+    else if (value === 0) return "持平"
     else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
     else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
     else return "无此物品"
@@ -189,17 +191,20 @@ let columns = [{
 }, {
   field: 'itemTypeName',
   sortable: true,
+  filterControl: 'input',
   visible: false,
   title: '分类'
 }, {
   field: 'itemLevel',
   sortable: true,
   visible: false,
+  filterControl: 'input',
   title: '品级'
 }, {
   field: 'equipLevel',
   sortable: true,
   visible: false,
+  filterControl: 'input',
   title: '等级'
 }];
 let tableOptions = {
@@ -214,6 +219,7 @@ let tableOptions = {
   theadClasses: 'thead-light',
   sortName: "numIndexCurrent",
   sortOrder: 'asc',
+  filterControl: true,
   method: 'post',
   queryParams: function () {
     return queryMarketable;
@@ -224,7 +230,7 @@ let tableOptions = {
   showColumns: true,
   showColumnsToggleAll: true,
   showExport: true,
-  icons:{ columns: 'bi bi-list-ul',export:"bi bi-download"},
+  icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
   contentType: "application/json"
 };
 export default {
@@ -254,23 +260,9 @@ export default {
         itemTypes: this.itemTypes
       };
       let $sortType = $('#sortType');
-      let val = $sortType.val();
-      let table = $("#marketableTable");
-      if (val === '2') {
-        table.bootstrapTable('showColumn', 'quantityIndexCurrent');
-        table.bootstrapTable('showColumn', 'quantityIndexChange');
-        table.bootstrapTable('showColumn', 'quantity');
-        table.bootstrapTable('hideColumn', 'numIndexCurrent');
-        table.bootstrapTable('hideColumn', 'num');
-        table.bootstrapTable('hideColumn', 'numIndexChange');
-      } else {
-        table.bootstrapTable('showColumn', 'numIndexCurrent');
-        table.bootstrapTable('showColumn', 'numIndexChange');
-        table.bootstrapTable('showColumn', 'num');
-        table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
-        table.bootstrapTable('hideColumn', 'quantityIndexChange');
-        table.bootstrapTable('hideColumn', 'quantity');
-      }
+      this.sortType = "1";
+      $sortType.selectpicker('val', '1');
+      $sortType.selectpicker('refresh');
       if (timeScale > 24) {
         columns[2].title = timeScale / 24 + '天售出数';
         columns[3].title = timeScale / 24 + '天交易次数';
@@ -278,9 +270,6 @@ export default {
         columns[2].title = timeScale + '小时售出数';
         columns[3].title = timeScale + '小时交易次数';
       }
-      $marketableTable.bootstrapTable('refreshOptions', {
-        columns: columns
-      })
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
@@ -356,6 +345,11 @@ export default {
       let $sortType1 = $('#sortType');
       let val = $sortType1.val();
       let table = $("#marketableTable");
+      table.bootstrapTable('refreshOptions', {
+        sortOrder: 'asc',
+        sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
+        columns: columns
+      })
       if (val === '2') {
         table.bootstrapTable('showColumn', 'quantityIndexCurrent');
         table.bootstrapTable('showColumn', 'quantityIndexChange');

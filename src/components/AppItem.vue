@@ -131,7 +131,7 @@ export default {
     resetQueryParams() {
       let $table = $('#table');
       $('#itemForm')[0].reset();
-      $('#table').bootstrapTable('destroy');
+      $table.bootstrapTable('destroy');
       query = {};
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
