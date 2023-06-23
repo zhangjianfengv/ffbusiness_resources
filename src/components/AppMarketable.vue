@@ -134,7 +134,8 @@ let columns = [{
   field: 'itemId',
   sortable: true,
   visible: false,
-  title: '物品ID'
+  title: '物品ID',
+  filterControl: 'input'
 }, {
   field: 'name',
   sortable: true,
@@ -147,11 +148,11 @@ let columns = [{
   field: 'quantity',
   sortable: true,
   visible: false,
-  title: '24小时售出数'
+  title: '24小时售出数',
 }, {
   field: 'num',
   sortable: true,
-  title: '24小时交易次数'
+  title: '24小时交易次数',
 }, {
   field: 'numIndexCurrent',
   sortable: true,
@@ -190,17 +191,20 @@ let columns = [{
 }, {
   field: 'itemTypeName',
   sortable: true,
+  filterControl: 'input',
   visible: false,
   title: '分类'
 }, {
   field: 'itemLevel',
   sortable: true,
   visible: false,
+  filterControl: 'input',
   title: '品级'
 }, {
   field: 'equipLevel',
   sortable: true,
   visible: false,
+  filterControl: 'input',
   title: '等级'
 }];
 let tableOptions = {
@@ -215,6 +219,7 @@ let tableOptions = {
   theadClasses: 'thead-light',
   sortName: "numIndexCurrent",
   sortOrder: 'asc',
+  filterControl: true,
   method: 'post',
   queryParams: function () {
     return queryMarketable;
