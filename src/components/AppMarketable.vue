@@ -57,7 +57,7 @@
         </b-form-select>
         <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
         <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
-        <b-button variant="info" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
+        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
       </b-form-group>
     </b-form>
     <div>
@@ -90,12 +90,6 @@
   padding: 0 !important;
 }
 
-.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
-  position: relative;
-  max-width: 94%;
-  margin: 10px 5px;
-}
-
 .dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
@@ -110,6 +104,10 @@
 
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
   width: auto;
+}
+
+.form-control {
+  max-width: 180px !important;
 }
 
 .dropdown, .dropdown-menu {
@@ -339,6 +337,12 @@ export default {
     }
   },
   mounted() {
+
+    let $columns = $('.columns');
+    $columns.css('margin', '0')
+    $columns.removeClass('float-right')
+    $('#marketableForm>fieldset.form-group>div').append($columns)
+    // $columns.remove();
     $('select').selectpicker();
     let $sortType = $('#sortType');
     $sortType.change(function () {
