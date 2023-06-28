@@ -45,9 +45,10 @@
 .dropdown, .dropdown-menu {
   max-width: 200px;
 }
-
+</style>
+<style scoped>
 input.form-control {
-  max-width: 205px;
+  max-width: 100px;
   display: inline !important;
 }
 </style>
