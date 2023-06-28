@@ -340,6 +340,7 @@ export default {
   mounted() {
     $('select').selectpicker();
     $('#date').datepicker({language: 'zh-CN'});
+    $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
   }
 }
 

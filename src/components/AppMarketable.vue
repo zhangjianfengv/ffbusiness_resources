@@ -50,13 +50,13 @@
         <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
                       v-model="min"></b-form-input>
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-        <b-form-input id="search" placeholder="模糊过滤" type="text" value=""></b-form-input>
-        <b-form-select class="mx-1" id="sortType" v-model="sortType">
+        <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" value=""></b-form-input>
+        <b-form-select id="sortType" v-model="sortType">
           <option selected value="1">按交易次数排序</option>
           <option value="2">按售出总数排序</option>
         </b-form-select>
-        <b-button variant="info" @click="filterMarketable()" type="button">查询</b-button>
-        <b-button variant="info" class="mx-1" @click="resetMarketable()" type="button">重置</b-button>
+        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button">查询</b-button>
+        <b-button variant="info" @click="resetMarketable()" type="button">重置</b-button>
         <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
       </b-form-group>
     </b-form>
@@ -231,6 +231,16 @@ let tableOptions = {
   icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
   contentType: "application/json"
 };
+
+function adjustButton() {
+  let $columns = $('.columns');
+  $columns.css('margin', '0')
+  $columns.removeClass('float-right')
+  let form = $('#marketableForm>fieldset.form-group>div');
+  form.append($columns);
+  $('.columns:not(:first)').remove();
+}
+
 export default {
   mixins: [tableMixin],
   data() {
@@ -271,6 +281,7 @@ export default {
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
+      adjustButton();
     },
     resetMarketable() {
       $('#marketableForm')[0].reset();
@@ -307,7 +318,8 @@ export default {
         columns[3].title = timeScale + '小时交易次数';
       }
       tableOptions.columns = columns;
-      $marketableTable.bootstrapTable(tableOptions)
+      $marketableTable.bootstrapTable(tableOptions);
+      adjustButton();
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
@@ -337,12 +349,7 @@ export default {
     }
   },
   mounted() {
-
-    let $columns = $('.columns');
-    $columns.css('margin', '0')
-    $columns.removeClass('float-right')
-    $('#marketableForm>fieldset.form-group>div').append($columns)
-    // $columns.remove();
+    adjustButton();
     $('select').selectpicker();
     let $sortType = $('#sortType');
     $sortType.change(function () {
@@ -369,8 +376,8 @@ export default {
         table.bootstrapTable('hideColumn', 'quantityIndexChange');
         table.bootstrapTable('hideColumn', 'quantity');
       }
+      adjustButton();
     })
-    $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
   }
 }
 
