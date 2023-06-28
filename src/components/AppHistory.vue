@@ -100,13 +100,13 @@
   background-color: #fff !important;
 }
 
-.dropdown, .dropdown-menu {
-  max-width: 200px;
+input.form-control {
+  max-width: 180px;
+  display: inline !important;
 }
 
-input.form-control {
-  max-width: 205px;
-  display: inline !important;
+.dropdown, .dropdown-menu {
+  max-width: 200px;
 }
 </style>
 <script>

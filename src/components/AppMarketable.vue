@@ -110,11 +110,6 @@
   max-width: 200px;
 }
 
-input.form-control {
-  max-width: 205px;
-  display: inline !important;
-}
-
 </style>
 
 <style scoped>
