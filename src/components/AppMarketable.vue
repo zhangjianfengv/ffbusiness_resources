@@ -106,10 +106,6 @@
   width: auto;
 }
 
-.form-control {
-  max-width: 180px !important;
-}
-
 .dropdown, .dropdown-menu {
   max-width: 200px;
 }
@@ -119,6 +115,12 @@ input.form-control {
   display: inline !important;
 }
 
+</style>
+
+<style scoped>
+.form-control {
+  max-width: 100px !important;
+}
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -229,17 +231,18 @@ let tableOptions = {
   showColumnsToggleAll: true,
   showExport: true,
   icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
-  contentType: "application/json"
+  contentType: "application/json",
+  onAll: function () {
+    let $columns = $('.columns');
+    $columns.css('margin', '0')
+    $columns.removeClass('float-right')
+    let form = $('#marketableForm>fieldset.form-group>div');
+    form.append($columns);
+    $('select').selectpicker();
+    $('.fixed-table-toolbar>div:not(:first)').remove();
+    if (form.children().length > 11) form.children().last().remove();//TODO 魔法值
+  }
 };
-
-function adjustButton() {
-  let $columns = $('.columns');
-  $columns.css('margin', '0')
-  $columns.removeClass('float-right')
-  let form = $('#marketableForm>fieldset.form-group>div');
-  form.append($columns);
-  $('.columns:not(:first)').remove();
-}
 
 export default {
   mixins: [tableMixin],
@@ -281,7 +284,6 @@ export default {
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
-      adjustButton();
     },
     resetMarketable() {
       $('#marketableForm')[0].reset();
@@ -319,7 +321,6 @@ export default {
       }
       tableOptions.columns = columns;
       $marketableTable.bootstrapTable(tableOptions);
-      adjustButton();
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
@@ -349,8 +350,6 @@ export default {
     }
   },
   mounted() {
-    adjustButton();
-    $('select').selectpicker();
     let $sortType = $('#sortType');
     $sortType.change(function () {
       let $sortType1 = $('#sortType');
@@ -376,7 +375,6 @@ export default {
         table.bootstrapTable('hideColumn', 'quantityIndexChange');
         table.bootstrapTable('hideColumn', 'quantity');
       }
-      adjustButton();
     })
   }
 }
