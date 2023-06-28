@@ -233,7 +233,6 @@ let tableOptions = {
     $columns.removeClass('float-right')
     let form = $('#marketableForm>fieldset.form-group>div');
     form.append($columns);
-    $('select').selectpicker();
     $('.fixed-table-toolbar>div:not(:first)').remove();
     if (form.children().length > 11) form.children().last().remove();//TODO 魔法值
   }
@@ -345,6 +344,7 @@ export default {
     }
   },
   mounted() {
+    $('select').selectpicker();
     let $sortType = $('#sortType');
     $sortType.change(function () {
       let $sortType1 = $('#sortType');
