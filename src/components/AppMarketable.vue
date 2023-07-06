@@ -47,6 +47,8 @@
         </b-form-select>
         <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
         </bt-select>
+        <b-form-input min="0" placeholder="最少数量" type="number" value=""
+                      v-model="minQuantity"></b-form-input>
         <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
                       v-model="min"></b-form-input>
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
@@ -114,7 +116,7 @@
 
 <style scoped>
 .form-control {
-  max-width: 100px !important;
+  max-width: 108px !important;
 }
 </style>
 <script>
@@ -250,6 +252,7 @@ export default {
       columns: columns,
       itemTypes: [],
       itemTypeOptions: [],
+      minQuantity: null,
       tableOptions: tableOptions,
     }
   },
@@ -262,6 +265,7 @@ export default {
         timeScale: timeScale,
         max: $('#max').val(),
         min: $('#min').val(),
+        minQuantity: this.minQuantity,
         itemTypes: this.itemTypes
       };
       let $sortType = $('#sortType');
@@ -288,6 +292,7 @@ export default {
       this.max = null;
       this.sortType = "1";
       this.itemTypes = [];
+      this.minQuantity = null;
       $itemType.selectpicker('val', []);
       queryMarketable = {
         worldName: '中国',
@@ -373,5 +378,4 @@ export default {
     })
   }
 }
-
 </script>
