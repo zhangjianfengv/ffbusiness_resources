@@ -236,7 +236,7 @@ let tableOptions = {
     let form = $('#marketableForm>fieldset.form-group>div');
     form.append($columns);
     $('.fixed-table-toolbar>div:not(:first)').remove();
-    if (form.children().length > 11) form.children().last().remove();//TODO 魔法值
+    if (form.children().length > 12) form.children().last().remove();//TODO 魔法值
   }
 };
 
