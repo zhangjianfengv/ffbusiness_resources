@@ -47,7 +47,7 @@
         </b-form-select>
         <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
         </bt-select>
-        <b-form-input min="0" placeholder="最低售出" type="number" value=""
+        <b-form-input min="0" placeholder="至少售出" type="number" value=""
                       v-model="minQuantity"></b-form-input>
         <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
                       v-model="min"></b-form-input>
