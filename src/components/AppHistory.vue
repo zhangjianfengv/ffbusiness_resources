@@ -2,12 +2,12 @@
   <div id="app">
     <b-form inline id="queryForm" @reset="onReset">
       <b-row>
-        <b-form-input v-model="itemId" id="itemId" placeholder="请输入数字物品ID" :state="idState" trim></b-form-input>
-        <b-form-input v-model="itemName" placeholder="请输入部分或完整物品名" type="text"
+        <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>
+        <b-form-input v-model="itemName" placeholder="物品名" type="text"
                       value=""></b-form-input>
-        <b-form-input v-model="buyerName" placeholder="请输入完整购买者角色名" type="text"
+        <b-form-input v-model="buyerName" placeholder="完整购买者角色名" type="text"
                       value=""></b-form-input>
-        <b-form-input id="date" v-model="date" placeholder="请选择或输入日期" type="text"></b-form-input>
+        <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
         <b-form-select v-model="worldName" id="worldName">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>

@@ -1,5 +1,3 @@
-# 锤子攻略站
-
 ## Project setup
 
 ```
