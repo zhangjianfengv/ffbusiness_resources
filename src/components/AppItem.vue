@@ -72,6 +72,46 @@ let columns = [{
 }, {
   field: 'levelItem',
   title: '品级'
+}, {
+  field: 'canBeHq',
+  title: '高品质',
+  formatter: (value) => {
+    return value === false ? '无' : '有'
+  }
+}, {
+  field: 'stackSize',
+  title: '堆叠'
+}, {
+  field: 'isUnique',
+  title: '独占',
+  formatter: (value) => {
+    return value === true ? '是' : '否'
+  }
+}, {
+  field: 'isCrestWorthy',
+  title: '珍稀',
+  formatter: (value) => {
+    return value === true ? '是' : '否'
+  }
+}, {
+  field: 'isUntradable',
+  title: '可出售',
+  formatter: (value) => {
+    return value === false ? '是' : '否'
+  }
+
+}, {
+  field: 'isDyeable',
+  title: '可分解',
+  formatter: (value) => {
+    return value === true ? '是' : '否'
+  }
+}, {
+  field: 'isIndisposable',
+  title: '可丢弃',
+  formatter: (value) => {
+    return value === false ? '是' : '否'
+  }
 }];
 let options = {
   url: '/ffbusiness/itemNew/realData',
