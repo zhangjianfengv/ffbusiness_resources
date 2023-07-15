@@ -63,7 +63,7 @@ let columns = [{
 }, {
   formatter: (value, row) => {
     let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png';
-    return '<img src="' + url + '" width="32" height="32" alt="">';
+    return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
   },
   title: '图标'
 }, {
