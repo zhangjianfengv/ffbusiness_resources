@@ -61,6 +61,12 @@ let columns = [{
   field: 'id',
   title: 'id'
 }, {
+  formatter: (value, row) => {
+    let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png';
+    return '<img src="' + url + '" width="32" height="32" alt="">';
+  },
+  title: '图标'
+}, {
   field: 'name',
   title: '名称'
 }, {
@@ -73,44 +79,44 @@ let columns = [{
   field: 'levelItem',
   title: '品级'
 }, {
+  field: 'stackSize',
+  title: '堆叠'
+}, {
   field: 'canBeHq',
   title: '高品质',
   formatter: (value) => {
-    return value === false ? '无' : '有'
+    return value === false ? '' : '✔'
   }
-}, {
-  field: 'stackSize',
-  title: '堆叠'
 }, {
   field: 'isUnique',
   title: '独占',
   formatter: (value) => {
-    return value === true ? '是' : '否'
+    return value === true ? '✔' : ''
   }
 }, {
   field: 'isCrestWorthy',
   title: '珍稀',
   formatter: (value) => {
-    return value === true ? '是' : '否'
+    return value === true ? '✔' : ''
   }
 }, {
   field: 'isUntradable',
   title: '可出售',
   formatter: (value) => {
-    return value === false ? '是' : '否'
+    return value === false ? '✔' : ''
   }
 
 }, {
   field: 'isDyeable',
   title: '可分解',
   formatter: (value) => {
-    return value === true ? '是' : '否'
+    return value === true ? '✔' : ''
   }
 }, {
   field: 'isIndisposable',
   title: '可丢弃',
   formatter: (value) => {
-    return value === false ? '是' : '否'
+    return value === false ? '✔' : ''
   }
 }];
 let options = {
