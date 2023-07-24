@@ -247,9 +247,6 @@ export default {
         query: query
       });
     },
-    jumpToTest() {
-      window.open('http://www.ff14pvp.top:82/#/', '_blank');
-    },
     onReset(event) {
       event.preventDefault()
       let $table = $('#table');
