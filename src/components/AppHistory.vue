@@ -45,7 +45,7 @@
         </b-form-select>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
         <b-button variant="info" type="reset">重置</b-button>
-        <b-button variant="info" class="mx-1" @click="jumpToTest" type="button">旧市场数据查询加速版(测试中)</b-button>
+        <b-button variant="info" class="mx-1" @click="jumpToTest" type="button">旧数据加速测试版</b-button>
       </b-row>
     </b-form>
     <div>
