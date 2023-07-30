@@ -127,83 +127,92 @@ let queryMarketable = {
   worldName: '中国',
   timeScale: 24
 };
-let columns = [{
-  field: 'itemId',
-  sortable: true,
-  visible: false,
-  title: '物品ID',
-  filterControl: 'input'
-}, {
-  field: 'name',
-  sortable: true,
-  formatter: function iconFormatter(value, row) {
-    let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
-    return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
-  },
-  title: '物品名称'
-}, {
-  field: 'quantity',
-  sortable: true,
-  visible: false,
-  title: '24小时售出数',
-}, {
-  field: 'num',
-  sortable: true,
-  title: '24小时交易次数',
-}, {
-  field: 'numIndexCurrent',
-  sortable: true,
-  title: '次数排序'
-}, {
-  field: 'numIndexChange',
-  sortable: true,
-  title: '排序较上次',
-  formatter: function changeFormatter(value, row) {
-    if (!$.isNumeric(row.quantityIndexChange)) return "无此物品"
-    else if (value === 0) return "持平"
-    else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
-    else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-    else return "无此物品"
-  },
-}, {
-  field: 'quantityIndexCurrent',
-  sortable: true,
-  visible: false,
-  title: '售出数排序'
-}, {
-  field: 'quantityIndexChange',
-  sortable: true,
-  visible: false,
-  title: '排序较上次',
-  formatter: function changeFormatter(value) {
-    if (value === 0) return "持平"
-    else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
-    else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-    else return "无此物品"
-  },
-}, {
-  field: 'pricePerUnit',
-  sortable: true,
-  title: '均价'
-}, {
-  field: 'itemTypeName',
-  sortable: true,
-  filterControl: 'input',
-  visible: false,
-  title: '分类'
-}, {
-  field: 'itemLevel',
-  sortable: true,
-  visible: false,
-  filterControl: 'input',
-  title: '品级'
-}, {
-  field: 'equipLevel',
-  sortable: true,
-  visible: false,
-  filterControl: 'input',
-  title: '等级'
-}];
+let columns = [
+  {
+    field: '',
+    title: '序号',
+    sortable: true,
+    align: "center",
+    formatter: function (value, row, index) {
+      return index + 1;
+    }
+  }, {
+    field: 'itemId',
+    sortable: true,
+    visible: false,
+    title: '物品ID',
+    filterControl: 'input'
+  }, {
+    field: 'name',
+    sortable: true,
+    formatter: function iconFormatter(value, row) {
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
+      return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+    },
+    title: '物品名称'
+  }, {
+    field: 'quantity',
+    sortable: true,
+    visible: false,
+    title: '24小时售出数',
+  }, {
+    field: 'num',
+    sortable: true,
+    title: '24小时交易次数',
+  }, {
+    field: 'numIndexCurrent',
+    sortable: true,
+    title: '次数排序'
+  }, {
+    field: 'numIndexChange',
+    sortable: true,
+    title: '排序较上次',
+    formatter: function changeFormatter(value, row) {
+      if (!$.isNumeric(row.quantityIndexChange)) return "无此物品"
+      else if (value === 0) return "持平"
+      else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
+      else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
+      else return "无此物品"
+    },
+  }, {
+    field: 'quantityIndexCurrent',
+    sortable: true,
+    visible: false,
+    title: '售出数排序'
+  }, {
+    field: 'quantityIndexChange',
+    sortable: true,
+    visible: false,
+    title: '排序较上次',
+    formatter: function changeFormatter(value) {
+      if (value === 0) return "持平"
+      else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
+      else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
+      else return "无此物品"
+    },
+  }, {
+    field: 'pricePerUnit',
+    sortable: true,
+    title: '均价'
+  }, {
+    field: 'itemTypeName',
+    sortable: true,
+    filterControl: 'input',
+    visible: false,
+    title: '分类'
+  }, {
+    field: 'itemLevel',
+    sortable: true,
+    visible: false,
+    filterControl: 'input',
+    title: '品级'
+  }, {
+    field: 'equipLevel',
+    sortable: true,
+    visible: false,
+    filterControl: 'input',
+    title: '等级'
+  }];
 let tableOptions = {
   url: '/ffbusiness/saleHistory/marketableData',
   search: true,
