@@ -321,11 +321,11 @@ export default {
       $marketableTable.bootstrapTable('destroy');
       const timeScale = $timeScale.val();
       if (timeScale > 24) {
-        columns[2].title = timeScale / 24 + '天售出数';
-        columns[3].title = timeScale / 24 + '天交易次数';
+        columns[3].title = timeScale / 24 + '天售出数';//TODO 魔法值columns[]
+        columns[4].title = timeScale / 24 + '天交易次数';
       } else {
-        columns[2].title = timeScale + '小时售出数';
-        columns[3].title = timeScale + '小时交易次数';
+        columns[3].title = timeScale + '小时售出数';
+        columns[4].title = timeScale + '小时交易次数';
       }
       tableOptions.columns = columns;
       $marketableTable.bootstrapTable(tableOptions);
