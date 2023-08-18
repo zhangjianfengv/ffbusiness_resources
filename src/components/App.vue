@@ -27,15 +27,19 @@
               2023年8月16日
             </h6>
               <span style="font-size: smaller">
-              性能优化：优化了销售履历物品名模糊查询的速度。具体为当模糊查询的结果过多时会缓存总数的值，下次同样的关键词查询时不再计算总数，缓存值几天更新一次。
+                 销售履历<br>
+              性能优化：优化了物品名模糊查询的速度。具体为当模糊查询的结果过多时会缓存总数的值，下次同样的关键词查询时不再计算总数，缓存值几天更新一次。
             </span></div>
-            <div><h6>
+            <br>
+            <div>
+              <h6>
               2023年8月18日
             </h6>
               <span style="font-size: smaller">
-              销售履历HQ筛选及日期服务器HQ查询条件变化时直接发起查询
+                销售履历<br>
+                1.HQ筛选<br>
+                2.部分查询条件变化时直接发起查询
             </span></div>
-
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
