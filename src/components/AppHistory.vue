@@ -7,8 +7,8 @@
                       value=""></b-form-input>
         <b-form-input v-model="buyerName" placeholder="完整购买者角色名" type="text"
                       value=""></b-form-input>
-        <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
-        <b-form-select v-model="worldName" id="worldName">
+        <b-form-input id="date" v-model="date" placeholder="日期" type="text" @change="searchItem()"></b-form-input>
+        <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
           <option value="幻影群岛">幻影群岛</option>
@@ -43,6 +43,9 @@
           <option value="水晶塔">水晶塔</option>
           <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
         </b-form-select>
+        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
+          仅HQ
+        </b-form-checkbox>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
         <b-button variant="info" type="reset">重置</b-button>
       </b-row>
@@ -114,7 +117,8 @@ import tableMixin from '../mixins/table'
 import $ from "jquery";
 
 let query = {
-  worldName: '中国'
+  worldName: '中国',
+  onlyHq: 0
 };
 let columns = [
   {
@@ -211,6 +215,7 @@ export default {
       itemName: null,
       buyerName: null,
       date: null,
+      onlyHq: 0,
       worldName: '中国',
       columns: columns,
       options: options
@@ -225,7 +230,8 @@ export default {
         itemName: this.itemName,
         worldName: this.worldName,
         buyerName: this.buyerName,
-        timestamp: this.date
+        timestamp: this.date,
+        onlyHq: this.onlyHq
       };
       columns.pop();
       columns.push({
@@ -243,9 +249,9 @@ export default {
       });
       options.columns = columns;
       $table.bootstrapTable(options)
-      $table.bootstrapTable('refresh', {
-        query: query
-      });
+      // $table.bootstrapTable('refresh', {
+      //   query: query
+      // });
     },
     onReset(event) {
       event.preventDefault()
@@ -259,7 +265,8 @@ export default {
       this.itemName = null;
       this.buyerName = null;
       this.date = null;
-      this.worldName = '中国';
+      this.worldName = null;
+      this.onlyHq = null;
       let $worldName = $('#worldName');
       $worldName.selectpicker('val', '中国');
       $worldName.selectpicker('refresh');

@@ -10,7 +10,7 @@
             <b-nav-item to="/marketable">畅销排行</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
             <b-button variant="info" type="button"
-                      @click="note()"><i class="bi bi-journal-text"></i></b-button>
+                      @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -23,12 +23,19 @@
             <h4 class="modal-title" id="myModalLabel">更新笔记</h4>
           </div>
           <div class="modal-body">
-            <h5>
+            <div><h6>
               2023年8月16日
-            </h5>
-            <h6>
-              性能优化：优化了销售履历物品名模糊查询的速度。具体为当模糊查询的结果过多时会缓存总数的值，下次同样的关键词查询时不再计算总数，缓存值几天更新一次。
             </h6>
+              <span style="font-size: smaller">
+              性能优化：优化了销售履历物品名模糊查询的速度。具体为当模糊查询的结果过多时会缓存总数的值，下次同样的关键词查询时不再计算总数，缓存值几天更新一次。
+            </span></div>
+            <div><h6>
+              2023年8月18日
+            </h6>
+              <span style="font-size: smaller">
+              销售履历HQ筛选及日期服务器HQ查询条件变化时直接发起查询
+            </span></div>
+
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
