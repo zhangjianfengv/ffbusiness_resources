@@ -265,8 +265,8 @@ export default {
       this.itemName = null;
       this.buyerName = null;
       this.date = null;
-      this.worldName = null;
-      this.onlyHq = null;
+      this.worldName = "中国";
+      this.onlyHq = 0;
       let $worldName = $('#worldName');
       $worldName.selectpicker('val', '中国');
       $worldName.selectpicker('refresh');
