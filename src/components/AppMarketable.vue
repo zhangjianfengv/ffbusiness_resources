@@ -344,11 +344,14 @@ export default {
           field: 'between',
           title: '当前统计范围',
           formatter: function (value, row) {
-            return "开始:" + row.begin + '<br/>结束:' + row.end;
+            return "开始:" + row.begin.substring(0, 19) + '<br/>结束:' + row.end.substring(0, 19);
           }
         }, {
           field: 'next',
-          title: '下次更新'
+          title: '下次更新',
+          formatter: function (value) {
+            return value.substring(0, 19);
+          }
         }], method: 'post',
         contentType: "application/json"
       });
