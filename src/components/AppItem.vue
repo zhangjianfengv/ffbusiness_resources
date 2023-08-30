@@ -62,7 +62,7 @@ let columns = [{
   title: 'id'
 }, {
   formatter: (value, row) => {
-    let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png';
+    let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
     return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
   },
   title: '图标'
@@ -132,8 +132,8 @@ let options = {
     return query
   },
   showJumpto: true,
-  pageNumber: 1,//初始化加载第一页，默认第一页
-  pageSize: 100,
+  pageNumber: 1,
+  pageSize: 20,
   toolbar: '#itemForm',
   stickyHeader: true,
   stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),

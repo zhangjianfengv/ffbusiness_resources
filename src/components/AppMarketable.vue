@@ -146,7 +146,7 @@ let columns = [
     field: 'name',
     sortable: true,
     formatter: function iconFormatter(value, row) {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
       return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
     },
     title: '物品名称'
