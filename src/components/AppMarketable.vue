@@ -226,12 +226,14 @@ let tableOptions = {
   sortOrder: 'asc',
   filterControl: true,
   method: 'post',
+  paginationUseIntermediate: true,
+  paginationSuccessivelySize: 1,
+  paginationPagesBySide: 1,
   queryParams: function () {
     return queryMarketable;
   },
   pageList: [20, 100, 200, 500, 1000],
   pagination: "true",
-  showJumpto: true,
   showColumns: true,
   showColumnsToggleAll: true,
   showExport: true,

@@ -6,7 +6,7 @@
         <b-form-input v-model="itemName" placeholder="物品名" type="text"
                       value=""></b-form-input>
         <b-form-input v-model="buyerName" placeholder="完整购买者角色名" type="text"
-                      value=""></b-form-input>
+                      value="" :state="buyerNameState"></b-form-input>
         <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
         <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
@@ -46,10 +46,12 @@
         <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
           仅HQ
         </b-form-checkbox>
-        <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
+        <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索
+        </b-button>
         <b-button variant="info" type="reset">重置</b-button>
       </b-row>
     </b-form>
+    <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -82,7 +84,6 @@
       <a href="https://beian.miit.gov.cn/" style="color: #bbb;font-size: 12px;text-decoration: none;" target="_blank">闽ICP备2023003454号-1</a>
     </div>
   </div>
-
 </template>
 <style>
 .bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
@@ -133,14 +134,19 @@ let options = {
     query.pageNumber = params.pageNumber;
     return query
   },
-  showJumpto: true,
+  // showJumpTo: true,
   pageNumber: 1,//初始化加载第一页，默认第一页
   pageSize: 10,
   toolbar: '#queryForm',
-  stickyHeader: true,
-  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-  theadClasses: 'thead-light',
+  // stickyHeader: true,
+  // stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  // stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  // theadClasses: 'thead-light',
+  paginationUseIntermediate: true,
+  paginationSuccessivelySize: 1,
+  paginationPagesBySide: 1,
+  mobileResponsive: true,
+  checkOnInit: true,
   pageList: [20, 100, 200, 500, 1000]
 };
 export default {
@@ -149,6 +155,13 @@ export default {
     idState() {
       if (!this.itemId) return null;
       return $.isNumeric(this.itemId)
+    }, buyerNameInvalidState() {
+      if (!this.buyerName) return null;
+      return !(this.itemId || this.itemName)
+    }, buyerNameState() {
+      if (!this.isStr(this.buyerName)) return null;
+      else if ($.isNumeric(this.itemId)) return true;
+      else return this.isStr(this.itemName)
     }
   },
   data() {
@@ -222,6 +235,10 @@ export default {
   },
   methods: {
     searchItem() {
+      if (this.buyerNameInvalidState) {
+        this.$bvModal.show('modal-sm')
+        return;
+      }
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       query = {
@@ -305,8 +322,12 @@ export default {
         contentType: "application/json",
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 10,
+        mobileResponsive: true,
+        checkOnInit: true,
         pageList: [20, 50]
       });
+    }, isStr(val) {
+      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
     closeCurrentTable() {
       $('#myModal').modal('toggle');

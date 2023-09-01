@@ -131,15 +131,20 @@ let options = {
     query.pageNumber = params.pageNumber;
     return query
   },
-  showJumpto: true,
+  // showJumpTo: true,
   pageNumber: 1,
   pageSize: 20,
   toolbar: '#itemForm',
-  stickyHeader: true,
-  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-  theadClasses: 'thead-light',
+  // stickyHeader: true,
+  // stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  // stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  // theadClasses: 'thead-light',
   itemTypes: [],
+  mobileResponsive: true,
+  paginationUseIntermediate: true,
+  paginationSuccessivelySize: 1,
+  paginationPagesBySide: 1,
+  checkOnInit: true,
   itemTypeOptions: [],
   pageList: [20, 100, 200, 500, 1000]
 };
