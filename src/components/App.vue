@@ -22,31 +22,34 @@
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel">更新笔记</h4>
           </div>
-          <div class="modal-body">
-            <div><h6>
-              2023年8月16日
-            </h6>
-              <span style="font-size: smaller">
-                 销售履历<br>
-              性能优化：优化了物品名模糊查询的速度。具体为当模糊查询的结果过多时会缓存总数的值，下次同样的关键词查询时不再计算总数，缓存值几天更新一次。
-            </span></div>
-            <br>
-            <div>
-              <h6>
+          <div>
+            <h6>
               2023年8月18日
             </h6>
-              <span style="font-size: smaller">
+            <span style="font-size: smaller">
                 销售履历<br>
                 1.HQ筛选<br>
                 2.部分查询条件变化时直接发起查询
             </span></div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
-          </div>
         </div>
+        <br>
+        <div>
+          <h6>
+            2023年9月1日
+          </h6>
+          <span style="font-size: smaller">
+                UI调整<br>
+                1.整体页面显示效果优化<br>
+                2.出于隐私保护考虑，购买者角色名查询只能与物品id或者名称一起查询<br>
+                3.已知问题修复
+            </span></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
       </div>
     </div>
+  </div>
+  </div>
   </div>
 </template>
 

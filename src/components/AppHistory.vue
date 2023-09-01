@@ -5,7 +5,7 @@
         <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>
         <b-form-input v-model="itemName" placeholder="物品名" type="text"
                       value=""></b-form-input>
-        <b-form-input v-model="buyerName" placeholder="完整购买者角色名" type="text"
+        <b-form-input v-model="buyerName" placeholder="角色名" type="text"
                       value="" :state="buyerNameState"></b-form-input>
         <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
         <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
@@ -196,7 +196,7 @@ export default {
         title: '总计'
       }, {
         field: 'buyerName',
-        title: '购买者'
+        title: '角色名'
       }, {
         field: 'worldName',
         title: '服务器'
