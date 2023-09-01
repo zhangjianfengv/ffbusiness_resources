@@ -324,7 +324,10 @@ export default {
         pageSize: 10,
         mobileResponsive: true,
         checkOnInit: true,
-        pageList: [20, 50]
+        paginationUseIntermediate: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        pageList: [20, 50, 150]
       });
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
