@@ -7,7 +7,7 @@
                       value=""></b-form-input>
         <b-form-input v-model="buyerName" placeholder="完整购买者角色名" type="text"
                       value=""></b-form-input>
-        <b-form-input id="date" v-model="date" placeholder="日期" type="text" @change="searchItem()"></b-form-input>
+        <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
         <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
@@ -120,50 +120,7 @@ let query = {
   worldName: '中国',
   onlyHq: 0
 };
-let columns = [
-  {
-    field: 'itemId',
-    title: '物品ID'
-  }, {
-    field: 'itemName',
-    formatter: (value, row) => {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
-      if (row.hq)
-        return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
-            ' decoding="async" width="16" height="16" alt="hq">';
-      else
-        return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
-    },
-    title: '物品名称'
-  }, {
-    field: 'pricePerUnit',
-    visible: false,
-    title: '单价'
-  }, {
-    field: 'quantity',
-    visible: false,
-    title: '数量'
-  }, {
-    field: 'sum',
-    formatter: (value, row) => {
-      return row.pricePerUnit + 'X' + row.quantity + '=' + value
-    },
-    title: '总计'
-  }, {
-    field: 'buyerName',
-    title: '购买者'
-  }, {
-    field: 'worldName',
-    title: '服务器'
-  }, {
-    field: 'hq',
-    visible: false,
-    title: '高品质'
-  }, {
-    field: 'timestamp',
-    title: '购买时间'
-  }, {}
-];
+
 let options = {
   url: '/ffbusiness/saleHistory/realData',
   pagination: "true",
@@ -195,20 +152,62 @@ export default {
     }
   },
   data() {
-    columns.pop();
-    columns.push({
-      title: '操作',
-      width: 100,
-      formatter: (value, row) => {
-        return this.vueFormatter({
-          template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
-          data: {row},
-          methods: {
-            clickRow: this.clickRow
-          }
-        })
+    let columns = [
+      {
+        field: 'itemId',
+        title: '物品ID'
+      }, {
+        field: 'itemName',
+        formatter: (value, row) => {
+          let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
+          if (row.hq)
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
+                ' decoding="async" width="16" height="16" alt="hq">';
+          else
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+        },
+        title: '物品名称'
+      }, {
+        field: 'pricePerUnit',
+        visible: false,
+        title: '单价'
+      }, {
+        field: 'quantity',
+        visible: false,
+        title: '数量'
+      }, {
+        field: 'sum',
+        formatter: (value, row) => {
+          return row.pricePerUnit + 'X' + row.quantity + '=' + value
+        },
+        title: '总计'
+      }, {
+        field: 'buyerName',
+        title: '购买者'
+      }, {
+        field: 'worldName',
+        title: '服务器'
+      }, {
+        field: 'hq',
+        visible: false,
+        title: '高品质'
+      }, {
+        field: 'timestamp',
+        title: '购买时间'
+      }, {
+        title: '操作',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
+            data: {row},
+            methods: {
+              clickRow: this.clickRow
+            }
+          })
+        }
       }
-    });
+    ];
     return {
       itemId: null,
       state: null,
@@ -233,25 +232,8 @@ export default {
         timestamp: this.date,
         onlyHq: this.onlyHq
       };
-      columns.pop();
-      columns.push({
-        title: '操作',
-        width: 100,
-        formatter: (value, row) => {
-          return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
-            data: {row},
-            methods: {
-              clickRow: this.clickRow
-            }
-          })
-        }
-      });
-      options.columns = columns;
+      options.columns = this.columns;
       $table.bootstrapTable(options)
-      // $table.bootstrapTable('refresh', {
-      //   query: query
-      // });
     },
     onReset(event) {
       event.preventDefault()
@@ -270,21 +252,7 @@ export default {
       let $worldName = $('#worldName');
       $worldName.selectpicker('val', '中国');
       $worldName.selectpicker('refresh');
-      columns.pop();
-      columns.push({
-        title: '操作',
-        width: 100,
-        formatter: (value, row) => {
-          return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
-            data: {row},
-            methods: {
-              clickRow: this.clickRow
-            }
-          })
-        }
-      });
-      options.columns = columns;
+      options.columns = this.columns;
       $table.bootstrapTable(options)
     },
     clickRow(row) {

@@ -131,7 +131,6 @@ let columns = [
   {
     field: '',
     title: '序号',
-    sortable: true,
     align: "center",
     formatter: function (value, row, index) {
       return index + 1;
@@ -154,11 +153,11 @@ let columns = [
     field: 'quantity',
     sortable: true,
     visible: false,
-    title: '24小时售出数',
+    title: '售出数',
   }, {
     field: 'num',
     sortable: true,
-    title: '24小时交易次数',
+    title: '交易次数',
   }, {
     field: 'numIndexCurrent',
     sortable: true,
@@ -281,13 +280,6 @@ export default {
       this.sortType = "1";
       $sortType.selectpicker('val', '1');
       $sortType.selectpicker('refresh');
-      if (timeScale > 24) {
-        columns[3].title = timeScale / 24 + '天售出数';//TODO 魔法值columns[]
-        columns[4].title = timeScale / 24 + '天交易次数';
-      } else {
-        columns[3].title = timeScale + '小时售出数';
-        columns[4].title = timeScale + '小时交易次数';
-      }
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
@@ -319,14 +311,6 @@ export default {
       $itemType.selectpicker('refresh');
       let $marketableTable = $('#marketableTable');
       $marketableTable.bootstrapTable('destroy');
-      const timeScale = $timeScale.val();
-      if (timeScale > 24) {
-        columns[3].title = timeScale / 24 + '天售出数';//TODO 魔法值columns[]
-        columns[4].title = timeScale / 24 + '天交易次数';
-      } else {
-        columns[3].title = timeScale + '小时售出数';
-        columns[4].title = timeScale + '小时交易次数';
-      }
       tableOptions.columns = columns;
       $marketableTable.bootstrapTable(tableOptions);
     },
