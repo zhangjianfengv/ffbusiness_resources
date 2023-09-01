@@ -32,17 +32,17 @@
                 1.HQ筛选<br>
                 2.部分查询条件变化时直接发起查询
             </span></div>
+            <br>
             <div>
               <h6>
                 2023年9月1日
               </h6>
               <span style="font-size: smaller">
                 UI调整<br>
-                1.整体页面显示效果优化<br>
+                1.手机端显示效果优化（包含销售履历页面及物品列表页面）<br>
                 2.出于隐私保护考虑，购买者角色名查询只能与物品id或者名称一起查询<br>
                 3.已知问题修复
             </span></div>
-            <br>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
