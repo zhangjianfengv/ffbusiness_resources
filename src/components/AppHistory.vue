@@ -3,8 +3,8 @@
     <b-form inline id="queryForm" @reset="onReset">
       <b-row>
         <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>
-        <b-form-input v-model="itemName" placeholder="物品名" type="text"
-                      value=""></b-form-input>
+        <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+        <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
         <b-form-input v-model="buyerName" placeholder="角色名" type="text"
                       value="" :state="buyerNameState"></b-form-input>
         <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
@@ -164,6 +164,23 @@ export default {
       else return this.isStr(this.itemName)
     }
   },
+  watch: {
+    itemName: function (newValue) {
+      if (this.isStr(newValue)) {
+        const vm = this;
+        $.ajax({
+          url: "/ffbusiness/itemNew/suggestName",
+          async: true,
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({name: this.itemName}),
+          success: function (data) {
+            vm.nameOptions = data;
+          }
+        });
+      }
+    },
+  },
   data() {
     let columns = [
       {
@@ -227,6 +244,7 @@ export default {
       itemName: null,
       buyerName: null,
       date: null,
+      nameOptions: [],
       onlyHq: 0,
       worldName: '中国',
       columns: columns,
@@ -305,12 +323,17 @@ export default {
           title: '高品质'
         }, {
           field: 'pricePerUnit',
+          visible: false,
           title: '单价'
         }, {
           field: 'quantity',
+          visible: false,
           title: '数量'
         }, {
           field: 'total',
+          formatter: (value, row) => {
+            return row.pricePerUnit + 'X' + row.quantity + '=' + value
+          },
           title: '总计'
         }], method: 'post',
         queryParams: function () {
