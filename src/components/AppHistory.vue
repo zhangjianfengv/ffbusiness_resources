@@ -3,12 +3,12 @@
     <b-form inline id="queryForm" @reset="onReset">
       <b-row>
         <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>
-        <b-form-input v-model="itemName" placeholder="物品名" type="text"
-                      value=""></b-form-input>
-        <b-form-input v-model="buyerName" placeholder="完整购买者角色名" type="text"
-                      value=""></b-form-input>
+        <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+        <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
+        <b-form-input v-model="buyerName" placeholder="角色名" type="text"
+                      value="" :state="buyerNameState"></b-form-input>
         <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
-        <b-form-select v-model="worldName" id="worldName">
+        <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
           <option value="幻影群岛">幻影群岛</option>
@@ -43,10 +43,15 @@
           <option value="水晶塔">水晶塔</option>
           <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
         </b-form-select>
-        <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索</b-button>
+        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
+          仅HQ
+        </b-form-checkbox>
+        <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索
+        </b-button>
         <b-button variant="info" type="reset">重置</b-button>
       </b-row>
     </b-form>
+    <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -79,7 +84,6 @@
       <a href="https://beian.miit.gov.cn/" style="color: #bbb;font-size: 12px;text-decoration: none;" target="_blank">闽ICP备2023003454号-1</a>
     </div>
   </div>
-
 </template>
 <style>
 .bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
@@ -114,52 +118,10 @@ import tableMixin from '../mixins/table'
 import $ from "jquery";
 
 let query = {
-  worldName: '中国'
+  worldName: '中国',
+  onlyHq: 0
 };
-let columns = [
-  {
-    field: 'itemId',
-    title: '物品ID'
-  }, {
-    field: 'itemName',
-    formatter: (value, row) => {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
-      if (row.hq)
-        return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
-            ' decoding="async" width="16" height="16" alt="hq">';
-      else
-        return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
-    },
-    title: '物品名称'
-  }, {
-    field: 'pricePerUnit',
-    visible: false,
-    title: '单价'
-  }, {
-    field: 'quantity',
-    visible: false,
-    title: '数量'
-  }, {
-    field: 'sum',
-    formatter: (value, row) => {
-      return row.pricePerUnit + 'X' + row.quantity + '=' + value
-    },
-    title: '总计'
-  }, {
-    field: 'buyerName',
-    title: '购买者'
-  }, {
-    field: 'worldName',
-    title: '服务器'
-  }, {
-    field: 'hq',
-    visible: false,
-    title: '高品质'
-  }, {
-    field: 'timestamp',
-    title: '购买时间'
-  }, {}
-];
+
 let options = {
   url: '/ffbusiness/saleHistory/realData',
   pagination: "true",
@@ -172,14 +134,19 @@ let options = {
     query.pageNumber = params.pageNumber;
     return query
   },
-  showJumpto: true,
+  // showJumpTo: true,
   pageNumber: 1,//初始化加载第一页，默认第一页
   pageSize: 10,
   toolbar: '#queryForm',
-  stickyHeader: true,
-  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-  theadClasses: 'thead-light',
+  // stickyHeader: true,
+  // stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  // stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  // theadClasses: 'thead-light',
+  paginationUseIntermediate: true,
+  paginationSuccessivelySize: 1,
+  paginationPagesBySide: 1,
+  mobileResponsive: true,
+  checkOnInit: true,
   pageList: [20, 100, 200, 500, 1000]
 };
 export default {
@@ -188,47 +155,76 @@ export default {
     idState() {
       if (!this.itemId) return null;
       return $.isNumeric(this.itemId)
+    }, buyerNameInvalidState() {
+      if (!this.buyerName) return null;
+      return !(this.itemId || this.itemName)
+    }, buyerNameState() {
+      if (!this.isStr(this.buyerName)) return null;
+      else if ($.isNumeric(this.itemId)) return true;
+      else return this.isStr(this.itemName)
     }
+  },
+  watch: {
+    itemName: function (newValue) {
+      if (this.isStr(newValue)) {
+        const vm = this;
+        $.ajax({
+          url: "/ffbusiness/itemNew/suggestName",
+          async: true,
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({name: this.itemName}),
+          success: function (data) {
+            vm.nameOptions = data;
+          }
+        });
+      }
+    },
   },
   data() {
-    columns.pop();
-    columns.push({
-      title: '操作',
-      width: 100,
-      formatter: (value, row) => {
-        return this.vueFormatter({
-          template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
-          data: {row},
-          methods: {
-            clickRow: this.clickRow
-          }
-        })
-      }
-    });
-    return {
-      itemId: null,
-      state: null,
-      itemName: null,
-      buyerName: null,
-      date: null,
-      worldName: '中国',
-      columns: columns,
-      options: options
-    }
-  },
-  methods: {
-    searchItem() {
-      let $table = $('#table');
-      $table.bootstrapTable('destroy');
-      query = {
-        itemId: this.itemId,
-        itemName: this.itemName,
-        worldName: this.worldName,
-        buyerName: this.buyerName,
-        timestamp: this.date
-      };
-      columns.pop();
-      columns.push({
+    let columns = [
+      {
+        field: 'itemId',
+        title: '物品ID'
+      }, {
+        field: 'itemName',
+        formatter: (value, row) => {
+          let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
+          if (row.hq)
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
+                ' decoding="async" width="16" height="16" alt="hq">';
+          else
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+        },
+        title: '物品名称'
+      }, {
+        field: 'pricePerUnit',
+        visible: false,
+        title: '单价'
+      }, {
+        field: 'quantity',
+        visible: false,
+        title: '数量'
+      }, {
+        field: 'sum',
+        formatter: (value, row) => {
+          return row.pricePerUnit + 'X' + row.quantity + '=' + value
+        },
+        title: '总计'
+      }, {
+        field: 'buyerName',
+        title: '角色名'
+      }, {
+        field: 'worldName',
+        title: '服务器'
+      }, {
+        field: 'hq',
+        visible: false,
+        title: '高品质'
+      }, {
+        field: 'timestamp',
+        title: '购买时间'
+      }, {
         title: '操作',
         width: 100,
         formatter: (value, row) => {
@@ -240,12 +236,39 @@ export default {
             }
           })
         }
-      });
-      options.columns = columns;
+      }
+    ];
+    return {
+      itemId: null,
+      state: null,
+      itemName: null,
+      buyerName: null,
+      date: null,
+      nameOptions: [],
+      onlyHq: 0,
+      worldName: '中国',
+      columns: columns,
+      options: options
+    }
+  },
+  methods: {
+    searchItem() {
+      if (this.buyerNameInvalidState) {
+        this.$bvModal.show('modal-sm')
+        return;
+      }
+      let $table = $('#table');
+      $table.bootstrapTable('destroy');
+      query = {
+        itemId: this.itemId,
+        itemName: this.itemName,
+        worldName: this.worldName,
+        buyerName: this.buyerName,
+        timestamp: this.date,
+        onlyHq: this.onlyHq
+      };
+      options.columns = this.columns;
       $table.bootstrapTable(options)
-      $table.bootstrapTable('refresh', {
-        query: query
-      });
     },
     onReset(event) {
       event.preventDefault()
@@ -259,25 +282,12 @@ export default {
       this.itemName = null;
       this.buyerName = null;
       this.date = null;
-      this.worldName = '中国';
+      this.worldName = "中国";
+      this.onlyHq = 0;
       let $worldName = $('#worldName');
       $worldName.selectpicker('val', '中国');
       $worldName.selectpicker('refresh');
-      columns.pop();
-      columns.push({
-        title: '操作',
-        width: 100,
-        formatter: (value, row) => {
-          return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
-            data: {row},
-            methods: {
-              clickRow: this.clickRow
-            }
-          })
-        }
-      });
-      options.columns = columns;
+      options.columns = this.columns;
       $table.bootstrapTable(options)
     },
     clickRow(row) {
@@ -313,12 +323,17 @@ export default {
           title: '高品质'
         }, {
           field: 'pricePerUnit',
+          visible: false,
           title: '单价'
         }, {
           field: 'quantity',
+          visible: false,
           title: '数量'
         }, {
           field: 'total',
+          formatter: (value, row) => {
+            return row.pricePerUnit + 'X' + row.quantity + '=' + value
+          },
           title: '总计'
         }], method: 'post',
         queryParams: function () {
@@ -330,8 +345,15 @@ export default {
         contentType: "application/json",
         pageNumber: 1,//初始化加载第一页，默认第一页
         pageSize: 10,
-        pageList: [20, 50]
+        mobileResponsive: true,
+        checkOnInit: true,
+        paginationUseIntermediate: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        pageList: [20, 50, 150]
       });
+    }, isStr(val) {
+      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
     closeCurrentTable() {
       $('#myModal').modal('toggle');

@@ -62,7 +62,7 @@ let columns = [{
   title: 'id'
 }, {
   formatter: (value, row) => {
-    let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png';
+    let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
     return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
   },
   title: '图标'
@@ -131,15 +131,20 @@ let options = {
     query.pageNumber = params.pageNumber;
     return query
   },
-  showJumpto: true,
-  pageNumber: 1,//初始化加载第一页，默认第一页
-  pageSize: 100,
+  // showJumpTo: true,
+  pageNumber: 1,
+  pageSize: 20,
   toolbar: '#itemForm',
-  stickyHeader: true,
-  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-  theadClasses: 'thead-light',
+  // stickyHeader: true,
+  // stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+  // stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+  // theadClasses: 'thead-light',
   itemTypes: [],
+  mobileResponsive: true,
+  paginationUseIntermediate: true,
+  paginationSuccessivelySize: 1,
+  paginationPagesBySide: 1,
+  checkOnInit: true,
   itemTypeOptions: [],
   pageList: [20, 100, 200, 500, 1000]
 };

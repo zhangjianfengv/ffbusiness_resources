@@ -131,7 +131,6 @@ let columns = [
   {
     field: '',
     title: '序号',
-    sortable: true,
     align: "center",
     formatter: function (value, row, index) {
       return index + 1;
@@ -146,7 +145,7 @@ let columns = [
     field: 'name',
     sortable: true,
     formatter: function iconFormatter(value, row) {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png';
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
       return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
     },
     title: '物品名称'
@@ -154,11 +153,11 @@ let columns = [
     field: 'quantity',
     sortable: true,
     visible: false,
-    title: '24小时售出数',
+    title: '售出数',
   }, {
     field: 'num',
     sortable: true,
-    title: '24小时交易次数',
+    title: '交易次数',
   }, {
     field: 'numIndexCurrent',
     sortable: true,
@@ -227,12 +226,14 @@ let tableOptions = {
   sortOrder: 'asc',
   filterControl: true,
   method: 'post',
+  paginationUseIntermediate: true,
+  paginationSuccessivelySize: 1,
+  paginationPagesBySide: 1,
   queryParams: function () {
     return queryMarketable;
   },
   pageList: [20, 100, 200, 500, 1000],
   pagination: "true",
-  showJumpto: true,
   showColumns: true,
   showColumnsToggleAll: true,
   showExport: true,
@@ -281,13 +282,6 @@ export default {
       this.sortType = "1";
       $sortType.selectpicker('val', '1');
       $sortType.selectpicker('refresh');
-      if (timeScale > 24) {
-        columns[3].title = timeScale / 24 + '天售出数';//TODO 魔法值columns[]
-        columns[4].title = timeScale / 24 + '天交易次数';
-      } else {
-        columns[3].title = timeScale + '小时售出数';
-        columns[4].title = timeScale + '小时交易次数';
-      }
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
@@ -319,14 +313,6 @@ export default {
       $itemType.selectpicker('refresh');
       let $marketableTable = $('#marketableTable');
       $marketableTable.bootstrapTable('destroy');
-      const timeScale = $timeScale.val();
-      if (timeScale > 24) {
-        columns[2].title = timeScale / 24 + '天售出数';
-        columns[3].title = timeScale / 24 + '天交易次数';
-      } else {
-        columns[2].title = timeScale + '小时售出数';
-        columns[3].title = timeScale + '小时交易次数';
-      }
       tableOptions.columns = columns;
       $marketableTable.bootstrapTable(tableOptions);
     },
@@ -344,11 +330,14 @@ export default {
           field: 'between',
           title: '当前统计范围',
           formatter: function (value, row) {
-            return "开始:" + row.begin + '<br/>结束:' + row.end;
+            return "开始:" + row.begin.substring(0, 19) + '<br/>结束:' + row.end.substring(0, 19);
           }
         }, {
           field: 'next',
-          title: '下次更新'
+          title: '下次更新',
+          formatter: function (value) {
+            return value.substring(0, 19);
+          }
         }], method: 'post',
         contentType: "application/json"
       });
