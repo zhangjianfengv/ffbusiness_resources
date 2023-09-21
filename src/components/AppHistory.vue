@@ -48,9 +48,9 @@
         </b-form-checkbox>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索
         </b-button>
-        <b-button variant="info" class="mx-1" @click="queryCurrentForm()" type="button">现价
+        <b-button variant="info" @click="queryCurrentForm()" type="button">现价
         </b-button>
-        <b-button variant="info" type="reset">重置</b-button>
+        <b-button variant="info" class="mx-1" type="reset">重置</b-button>
       </b-row>
     </b-form>
     <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
@@ -379,6 +379,7 @@ export default {
           tempWorldName = this.worldName;
       }
 
+      const vm = this;
       if ($.isNumeric(this.itemId)) {
         $.ajax({
           url: "/ffbusiness/itemNew/getOne",
@@ -391,7 +392,8 @@ export default {
               this.$bvModal.show('modal-item')
             } else {
               tempItemId = data.rows[0].id;
-              tempItemId = data.rows[0].name;
+              tempItemName = data.rows[0].name;
+              vm.queryCurrent(tempWorldName, tempItemName, tempItemId);
             }
           }
         });
@@ -418,7 +420,8 @@ export default {
                     $bvModal.show('modal-item')
                   } else {
                     tempItemId = data.rows[0].id;
-                    tempItemId = data.rows[0].name;
+                    tempItemName = data.rows[0].name;
+                    vm.queryCurrent(tempWorldName, tempItemName, tempItemId);
                   }
                 }
               });
@@ -426,7 +429,6 @@ export default {
           }
         });
       } else this.$bvModal.show('modal-item');
-      this.queryCurrent(tempWorldName, tempItemName, tempItemId);
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
