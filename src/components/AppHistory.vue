@@ -388,7 +388,7 @@ export default {
           data: JSON.stringify({id: this.itemId}),
           success: function (data) {
             if (data.rows.length === 0) {
-              this.$bvModal.show('modal-item')
+              vm.$bvModal.show('modal-item')
             } else {
               tempItemId = data.rows[0].id;
               tempItemName = data.rows[0].name;
@@ -405,7 +405,7 @@ export default {
           data: JSON.stringify({name: this.itemName}),
           success: function (data) {
             if (data.length !== 1) {
-              vm.show('modal-item');
+              vm.$bvModal.show('modal-item');
             } else {
               $.ajax({
                 url: "/ffbusiness/itemNew/getOne",
@@ -415,7 +415,7 @@ export default {
                 data: JSON.stringify({name: data[0]}),
                 success: function (data1) {
                   if (data1.rows.length === 0) {
-                    vm.show('modal-item')
+                    vm.$bvModal.show('modal-item')
                   } else {
                     tempItemId = data1.rows[0].id;
                     tempItemName = data1.rows[0].name;
@@ -426,7 +426,7 @@ export default {
             }
           }
         });
-      } else this.$bvModal.show('modal-item');
+      } else vm.$bvModal.show('modal-item');
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
