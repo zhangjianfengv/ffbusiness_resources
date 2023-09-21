@@ -378,7 +378,6 @@ export default {
         default:
           tempWorldName = this.worldName;
       }
-
       const vm = this;
       if ($.isNumeric(this.itemId)) {
         $.ajax({
@@ -405,22 +404,21 @@ export default {
           contentType: "application/json",
           data: JSON.stringify({name: this.itemName}),
           success: function (data) {
-            let $bvModal = this.$bvModal;
             if (data.length !== 1) {
-              $bvModal.show('modal-item');
+              vm.show('modal-item');
             } else {
               $.ajax({
                 url: "/ffbusiness/itemNew/getOne",
                 async: true,
                 method: "post",
                 contentType: "application/json",
-                data: JSON.stringify({name: this.itemName}),
-                success: function (data) {
-                  if (data.rows.length === 0) {
-                    $bvModal.show('modal-item')
+                data: JSON.stringify({name: data[0]}),
+                success: function (data1) {
+                  if (data1.rows.length === 0) {
+                    vm.show('modal-item')
                   } else {
-                    tempItemId = data.rows[0].id;
-                    tempItemName = data.rows[0].name;
+                    tempItemId = data1.rows[0].id;
+                    tempItemName = data1.rows[0].name;
                     vm.queryCurrent(tempWorldName, tempItemName, tempItemId);
                   }
                 }
