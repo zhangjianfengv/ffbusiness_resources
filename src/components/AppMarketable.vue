@@ -346,6 +346,8 @@ export default {
     closeUpdateTimeTable() {
       $('#myModal').modal('toggle');
     }
+  }, isStr(val) {
+    return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
   },
   mounted() {
     $('select').selectpicker();
