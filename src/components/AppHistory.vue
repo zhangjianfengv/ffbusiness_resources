@@ -440,10 +440,10 @@ export default {
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
       let worldName = Base64.decode(worldCookie);
-      this.worldName = worldName;
       let $worldName = $('#worldName');
       $worldName.selectpicker('val', worldName);
       $worldName.selectpicker('refresh');
+      this.worldName = worldName;
     }
     $('#date').datepicker({language: 'zh-CN'});
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
