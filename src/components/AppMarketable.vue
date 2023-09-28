@@ -122,6 +122,7 @@
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
+import Base64 from '../plugins/base64'
 
 let queryMarketable = {
   worldName: '中国',
@@ -348,6 +349,14 @@ export default {
   },
   mounted() {
     $('select').selectpicker();
+    const worldCookie = this.$cookies.get('world');
+    if (this.isStr(worldCookie)) {
+      let worldName = Base64.decode(worldCookie);
+      this.worldName = worldName;
+      let $worldName = $('#worldName');
+      $worldName.selectpicker('val', worldName);
+      $worldName.selectpicker('refresh');
+    }
     let $sortType = $('#sortType');
     $sortType.change(function () {
       let $sortType1 = $('#sortType');

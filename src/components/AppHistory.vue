@@ -120,6 +120,7 @@ input.form-control {
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
+import Base64 from '../plugins/base64'
 
 let query = {
   worldName: '中国',
@@ -436,8 +437,17 @@ export default {
   },
   mounted() {
     $('select').selectpicker();
+    const worldCookie = this.$cookies.get('world');
+    if (this.isStr(worldCookie)) {
+      let worldName = Base64.decode(worldCookie);
+      this.worldName = worldName;
+      let $worldName = $('#worldName');
+      $worldName.selectpicker('val', worldName);
+      $worldName.selectpicker('refresh');
+    }
     $('#date').datepicker({language: 'zh-CN'});
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
+
   }
 }
 
