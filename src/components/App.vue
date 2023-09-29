@@ -25,20 +25,18 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年9月21日
-              </h6>
-              <span style="font-size: smaller">
-                1.销售履历页面现在可以直接根据查询参数查询单个物品的大区内现价<br>
-                2.物品名称建议调整为新版本物品显示在前<br>
-                3.手机端推荐使用Edge浏览器，各个页面操作尤其是物品名称建议下拉框接近电脑端效果，新版手机端Chrome的下拉框体验略超前，手机端Edge可在各大手机品牌应用商店找到。
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年9月28日
               </h6>
               <span style="font-size: smaller">
                 1.记住上次所选的大区或服务器
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年9月29日
+              </h6>
+              <span style="font-size: smaller">
+                1. 销售履历页面，表格上方的查询现价按钮，当查询条件匹配到了多个物品时，调整为不再弹框提示，而是按照全字匹配->名称最短->id最大的物品的规则查询第一个物品的价格
             </span></div>
           </div>
           <div class="modal-footer">

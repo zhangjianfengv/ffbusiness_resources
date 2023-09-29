@@ -55,7 +55,7 @@
     </b-form>
     <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
     <b-modal id="modal-world-name" size="sm" ok-only ok-variant="info" title="提示">请选择大区或服务器</b-modal>
-    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">所选条件查找不到单个物品</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -355,7 +355,8 @@ export default {
       let id = row.itemId;
       let itemName = row.itemName;
       this.queryCurrent(name, itemName, id);
-    }, queryCurrentForm() {
+    },
+    queryCurrentForm() {
       if (this.worldName === '中国') {
         this.$bvModal.show('modal-world-name')
         return;
@@ -380,13 +381,13 @@ export default {
           tempWorldName = this.worldName;
       }
       const vm = this;
-      if ($.isNumeric(this.itemId)) {
+      if ($.isNumeric(this.itemId) || this.isStr(this.itemName)) {
         $.ajax({
           url: "/ffbusiness/itemNew/getOne",
           async: true,
           method: "post",
           contentType: "application/json",
-          data: JSON.stringify({id: this.itemId}),
+          data: JSON.stringify({id: this.itemId, name: data[0]}),
           success: function (data) {
             if (data.rows.length === 0) {
               vm.$bvModal.show('modal-item')
@@ -394,36 +395,6 @@ export default {
               tempItemId = data.rows[0].id;
               tempItemName = data.rows[0].name;
               vm.queryCurrent(tempWorldName, tempItemName, tempItemId);
-            }
-          }
-        });
-      } else if (this.isStr(this.itemName)) {
-        $.ajax({
-          url: "/ffbusiness/itemNew/suggestName",
-          async: true,
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({name: this.itemName}),
-          success: function (data) {
-            if (data.length !== 1) {
-              vm.$bvModal.show('modal-item');
-            } else {
-              $.ajax({
-                url: "/ffbusiness/itemNew/getOne",
-                async: true,
-                method: "post",
-                contentType: "application/json",
-                data: JSON.stringify({name: data[0]}),
-                success: function (data1) {
-                  if (data1.rows.length === 0) {
-                    vm.$bvModal.show('modal-item')
-                  } else {
-                    tempItemId = data1.rows[0].id;
-                    tempItemName = data1.rows[0].name;
-                    vm.queryCurrent(tempWorldName, tempItemName, tempItemId);
-                  }
-                }
-              });
             }
           }
         });
