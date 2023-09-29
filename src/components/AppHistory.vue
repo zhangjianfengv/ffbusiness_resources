@@ -387,7 +387,7 @@ export default {
           async: true,
           method: "post",
           contentType: "application/json",
-          data: JSON.stringify({id: this.itemId, name: data[0]}),
+          data: JSON.stringify({id: this.itemId, name: this.itemName}),
           success: function (data) {
             if (data.rows.length === 0) {
               vm.$bvModal.show('modal-item')
