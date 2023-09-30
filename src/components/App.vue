@@ -38,6 +38,14 @@
               <span style="font-size: smaller">
                 1. 销售履历页面，表格上方的查询现价按钮，当查询条件匹配到了多个物品时，调整为不再弹框提示，而是按照全字匹配->名称最短->id最大的物品的规则查询第一个物品的价格
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年9月30日
+              </h6>
+              <span style="font-size: smaller">
+                1.销售履历页面，表格上方的查询现价按钮支持直接查询国服的物价情况，无需选择区服
+            </span></div>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
