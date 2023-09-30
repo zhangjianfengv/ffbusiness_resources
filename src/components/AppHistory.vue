@@ -347,7 +347,7 @@ export default {
       let id = row.itemId;
       let itemName = row.itemName;
       this.handleModalTable(itemName);
-      this.queryCurrent(this.worldName, id);
+      this.queryCurrent(row.worldName, id);
     },
     queryCurrentForm() {
       let tempItemId;
