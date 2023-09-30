@@ -290,14 +290,7 @@ export default {
       options.columns = this.columns;
       $table.bootstrapTable(options)
     },
-    queryCurrent: function (name, itemName, id) {
-      $.ajax({
-        url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
-        data: JSON.stringify({worldName: name}),
-        contentType: "application/json", success: function (data) {
-          $('#myModalLabel').html(data.worldName + itemName + '低价')
-        }
-      });
+    queryCurrent: function (name, id) {
       $('#myModal').modal('show');
       let $currentTable = $('#currentTable');
       $currentTable.bootstrapTable('destroy');
@@ -351,35 +344,15 @@ export default {
       });
     },
     queryCurrentTable(row) {
-      let name = row.worldName;
       let id = row.itemId;
       let itemName = row.itemName;
-      this.queryCurrent(name, itemName, id);
+      this.handleModalTable(itemName);
+      this.queryCurrent(itemName, id);
     },
     queryCurrentForm() {
-      if (this.worldName === '中国') {
-        this.$bvModal.show('modal-world-name')
-        return;
-      }
       let tempWorldName;
       let tempItemId;
       let tempItemName;
-      switch (this.worldName) {
-        case "陆行鸟":
-          tempWorldName = '红玉海'
-          break;
-        case "莫古力":
-          tempWorldName = '白银乡'
-          break;
-        case "猫小胖":
-          tempWorldName = '延夏'
-          break;
-        case "豆豆柴":
-          tempWorldName = '红茶川'
-          break;
-        default:
-          tempWorldName = this.worldName;
-      }
       const vm = this;
       if ($.isNumeric(this.itemId) || this.isStr(this.itemName)) {
         $.ajax({
@@ -394,7 +367,8 @@ export default {
             } else {
               tempItemId = data.rows[0].id;
               tempItemName = data.rows[0].name;
-              vm.queryCurrent(tempWorldName, tempItemName, tempItemId);
+              vm.handleModalTable(tempItemName);
+              vm.queryCurrent(tempWorldName, tempItemId);
             }
           }
         });
@@ -404,6 +378,26 @@ export default {
     },
     closeCurrentTable() {
       $('#myModal').modal('toggle');
+    },
+    handleModalTable(tempItemName) {
+      switch (this.worldName) {
+        case "陆行鸟":
+        case "莫古力":
+        case "猫小胖":
+        case "豆豆柴":
+        case "中国":
+          $('#myModalLabel').html(this.worldName + tempItemName + '低价')
+          break;
+        default: {
+          $.ajax({
+            url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+            data: JSON.stringify({worldName: this.worldName}),
+            contentType: "application/json", success: function (data) {
+              $('#myModalLabel').html(data.worldName + tempItemName + '低价')
+            }
+          });
+        }
+      }
     }
   },
   mounted() {
