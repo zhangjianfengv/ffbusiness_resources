@@ -290,7 +290,7 @@ export default {
       options.columns = this.columns;
       $table.bootstrapTable(options)
     },
-    queryCurrent: function (name, id) {
+    queryCurrent: function (worldName, itemId) {
       $('#myModal').modal('show');
       let $currentTable = $('#currentTable');
       $currentTable.bootstrapTable('destroy');
@@ -328,8 +328,8 @@ export default {
         }], method: 'post',
         queryParams: function () {
           let paramCurrent = {};
-          paramCurrent.worldName = name;
-          paramCurrent.itemId = id;
+          paramCurrent.worldName = worldName;
+          paramCurrent.itemId = itemId;
           return paramCurrent;
         },
         contentType: "application/json",
@@ -347,10 +347,9 @@ export default {
       let id = row.itemId;
       let itemName = row.itemName;
       this.handleModalTable(itemName);
-      this.queryCurrent(itemName, id);
+      this.queryCurrent(this.worldName, id);
     },
     queryCurrentForm() {
-      let tempWorldName;
       let tempItemId;
       let tempItemName;
       const vm = this;
@@ -368,7 +367,7 @@ export default {
               tempItemId = data.rows[0].id;
               tempItemName = data.rows[0].name;
               vm.handleModalTable(tempItemName);
-              vm.queryCurrent(tempWorldName, tempItemId);
+              vm.queryCurrent(vm.worldName, tempItemId);
             }
           }
         });
