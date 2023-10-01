@@ -386,14 +386,14 @@ export default {
         case "猫小胖":
         case "豆豆柴":
         case "中国":
-          $('#myModalLabel').html(this.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + tempItemName + '低价')
+          $('#myModalLabel').html(this.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价')
           break;
         default: {
           $.ajax({
             url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
             data: JSON.stringify({worldName: this.worldName}),
             contentType: "application/json", success: function (data) {
-              let value = data.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + tempItemName + '低价';
+              let value = data.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价';
               $('#myModalLabel').html(value)
             }
           });
@@ -406,7 +406,7 @@ export default {
         url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
         data: JSON.stringify({worldName: tempWorldName}),
         contentType: "application/json", success: function (data) {
-          let value = data.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + tempItemName + '低价';
+          let value = data.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价';
           $('#myModalLabel').html(value)
         }
       });
