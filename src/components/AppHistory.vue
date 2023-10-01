@@ -346,7 +346,7 @@ export default {
     queryCurrentTable(row) {
       let id = row.itemId;
       let itemName = row.itemName;
-      this.handleModalTable(itemName);
+      this.handleModalLabelTable(itemName, row.worldName, id);
       this.queryCurrent(row.worldName, id);
     },
     queryCurrentForm() {
@@ -366,7 +366,7 @@ export default {
             } else {
               tempItemId = data.rows[0].id;
               tempItemName = data.rows[0].name;
-              vm.handleModalTable(tempItemName);
+              vm.handleModalLabelForm(tempItemName, tempItemId);
               vm.queryCurrent(vm.worldName, tempItemId);
             }
           }
@@ -378,25 +378,38 @@ export default {
     closeCurrentTable() {
       $('#myModal').modal('toggle');
     },
-    handleModalTable(tempItemName) {
+    handleModalLabelForm(tempItemName, id) {
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + id + '.png?eo-img.resize=w/32/h/32';
       switch (this.worldName) {
         case "陆行鸟":
         case "莫古力":
         case "猫小胖":
         case "豆豆柴":
         case "中国":
-          $('#myModalLabel').html(this.worldName + tempItemName + '低价')
+          $('#myModalLabel').html(this.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + tempItemName + '低价')
           break;
         default: {
           $.ajax({
             url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
             data: JSON.stringify({worldName: this.worldName}),
             contentType: "application/json", success: function (data) {
-              $('#myModalLabel').html(data.worldName + tempItemName + '低价')
+              let value = data.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + tempItemName + '低价';
+              $('#myModalLabel').html(value)
             }
           });
         }
       }
+    },
+    handleModalLabelTable(tempItemName, tempWorldName, id) {
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + id + '.png?eo-img.resize=w/32/h/32';
+      $.ajax({
+        url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+        data: JSON.stringify({worldName: tempWorldName}),
+        contentType: "application/json", success: function (data) {
+          let value = data.worldName + '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + tempItemName + '低价';
+          $('#myModalLabel').html(value)
+        }
+      });
     }
   },
   mounted() {
