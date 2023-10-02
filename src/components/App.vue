@@ -25,14 +25,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年9月28日
-              </h6>
-              <span style="font-size: smaller">
-                1.记住上次所选的大区或服务器
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年9月29日
               </h6>
               <span style="font-size: smaller">
@@ -45,6 +37,14 @@
               </h6>
               <span style="font-size: smaller">
                 1.销售履历页面，表格上方的查询现价按钮支持直接查询国服的物价情况，无需选择区服
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年10月1日
+              </h6>
+              <span style="font-size: smaller">
+                1.查询现价加入失败重试机制，最多重试两次（由服务器完成，无需操作）
             </span></div>
           </div>
           <div class="modal-footer">
