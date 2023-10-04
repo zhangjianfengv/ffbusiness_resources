@@ -44,7 +44,7 @@
                 2023年10月4日
               </h6>
               <span style="font-size: smaller">
-                1.今天universalis的销售履历接口挂掉约9个小时，在我切换到另一个接口前已经被下班回家的大佬修复🙂
+                1.今天universalis的销售履历接口挂掉约9个小时，在我切换到另一个接口前已经被下班回家的大佬修复🙂。目前正在修复数据所以履历查询可能比较慢
             </span></div>
           </div>
           <div class="modal-footer">
