@@ -41,10 +41,10 @@
             <br>
             <div>
               <h6>
-                2023年10月1日
+                2023年10月4日
               </h6>
               <span style="font-size: smaller">
-                1.查询现价加入失败重试机制，最多重试两次（由服务器完成，无需操作）
+                1.今天universalis的销售履历接口挂掉约9个小时，在我切换到另一个接口前已经被下班回家的大佬修复🙂
             </span></div>
           </div>
           <div class="modal-footer">
