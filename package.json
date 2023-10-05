@@ -14,22 +14,24 @@
     "bootstrap-select": "^1.13.18",
     "bootstrap-table": "^1.21.4",
     "bootstrap-vue": "^2.15.0",
+    "chart.js": "^3.8.0",
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
+    "moment": "^2.29.4",
     "popper.js": "^1.16.1",
     "tableexport.jquery.plugin": "^1.27.0",
-    "vue": "^2.6.11",
+    "vue": "^2.7.0",
+    "vue-chartjs": "^4.0.0",
+    "vue-cookies": "^1.8.3",
     "vue-router": "^3.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.3.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-cookies": "^1.8.3",
-    "vue-template-compiler": "^2.6.11"
+    "eslint": "^8.50.0",
+    "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-html": "^7.1.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-vue": "^9.17.0"
   },
   "eslintConfig": {
     "root": true,
@@ -50,6 +52,7 @@
       "autoprefixer": {}
     }
   },
+  "type": "module",
   "browserslist": [
     "> 1%",
     "last 2 versions"

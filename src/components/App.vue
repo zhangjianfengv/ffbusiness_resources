@@ -7,7 +7,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/history">销售履历</b-nav-item>
-            <b-nav-item to="/marketable">畅销排行</b-nav-item>
+            <b-nav-item to="/marketable">市场统计</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
@@ -41,10 +41,10 @@
             <br>
             <div>
               <h6>
-                2023年10月4日
+                2023年10月5日
               </h6>
               <span style="font-size: smaller">
-                1.今天universalis的销售履历接口挂掉约9个小时，在我切换到另一个接口前已经被下班回家的大佬修复🙂。目前正在修复数据所以履历查询可能比较慢
+                1.物价及销量走势可在市场统计页面点击趋势按钮查看(时间范围及区服直接受上方查询条件影响，切换条件后无需点击查询)
             </span></div>
           </div>
           <div class="modal-footer">

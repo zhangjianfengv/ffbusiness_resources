@@ -16,7 +16,6 @@ Vue.use(BootstrapVue)
 Vue.use(VueRouter)
 Vue.use(VueCookies)
 window.jQuery = $
-window.$ = $
 Vue.config.errorHandler = function (err, vm, info) {
     console.log(err);
     console.log(info);
