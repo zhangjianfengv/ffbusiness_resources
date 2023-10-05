@@ -387,7 +387,7 @@ export default {
       const vm = this;
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name)
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name+'&nbsp;趋势')
       $('#summaryModal').modal('show');
       let format = "yyyyMMDD";
       $.ajax({
@@ -402,7 +402,7 @@ export default {
           let labels = data.dates;
           let realLabels = [];
           for (let l of labels) {
-            realLabels.push(moment(l).add(1, "days").format(format));//因为后端日期总是加一天
+            realLabels.push(moment(l).subtract(1, "days").format(format));//因为后端日期总是加一天
           }
           vm.chartData = {
             labels: realLabels,
