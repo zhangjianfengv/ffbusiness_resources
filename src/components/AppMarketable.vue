@@ -389,17 +389,23 @@ export default {
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name)
       $('#summaryModal').modal('show');
+      let format = "yyyyMMDD";
       $.ajax({
         url: "/ffbusiness/summary/query", method: "post",
         data: JSON.stringify({
           itemId: row.itemId,
-          startDate: moment().subtract(this.scale, 'hours').format("yyyyMMDD"),
-          endDate: moment().format("yyyyMMDD"),
+          startDate: moment().subtract(this.scale, 'hours').format(format),
+          endDate: moment().format(format),
           worldName: vm.worldName
         }),
         contentType: "application/json", success: function (data) {
+          let labels = data.dates;
+          let realLabels = [];
+          for (let l of labels) {
+            realLabels.push(moment(l).add(1, "days").format(format));//因为后端日期总是加一天
+          }
           vm.chartData = {
-            labels: data.dates,
+            labels: realLabels,
             datasets: [
               {
                 label: '均价',
@@ -410,7 +416,7 @@ export default {
           };
           vm.loaded = true;
           vm.chartData1 = {
-            labels: data.dates,
+            labels: realLabels,
             datasets: [
               {
                 label: '售出数',
