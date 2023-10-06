@@ -70,6 +70,22 @@
                       @on-post-body="vueFormatterPostBody"
       />
     </div>
+    <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="summaryModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="SummaryLabel"></h4>
+          </div>
+          <div class="modal-body">
+            <LineChart v-if="loaded" :chart-data="chartData"/>
+            <BarChart v-if="loaded" :chart-data="chartData1"/>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSummaryTable()" type="button">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -111,7 +127,6 @@
 .dropdown, .dropdown-menu {
   max-width: 200px;
 }
-
 </style>
 
 <style scoped>
@@ -122,136 +137,20 @@
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
+import Base64 from '../plugins/base64'
+import LineChart from "@/components/LineChart.vue";
+import BarChart from "@/components/BarChart.vue";
+import moment from "moment";
 
 let queryMarketable = {
   worldName: '中国',
   timeScale: 24
 };
-let columns = [
-  {
-    field: '',
-    title: '序号',
-    align: "center",
-    formatter: function (value, row, index) {
-      return index + 1;
-    }
-  }, {
-    field: 'itemId',
-    sortable: true,
-    visible: false,
-    title: '物品ID',
-    filterControl: 'input'
-  }, {
-    field: 'name',
-    sortable: true,
-    formatter: function iconFormatter(value, row) {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
-      return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
-    },
-    title: '物品名称'
-  }, {
-    field: 'quantity',
-    sortable: true,
-    visible: false,
-    title: '售出数',
-  }, {
-    field: 'num',
-    sortable: true,
-    title: '交易次数',
-  }, {
-    field: 'numIndexCurrent',
-    sortable: true,
-    title: '次数排序'
-  }, {
-    field: 'numIndexChange',
-    sortable: true,
-    title: '排序较上次',
-    formatter: function changeFormatter(value, row) {
-      if (!$.isNumeric(row.quantityIndexChange)) return "无此物品"
-      else if (value === 0) return "持平"
-      else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
-      else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-      else return "无此物品"
-    },
-  }, {
-    field: 'quantityIndexCurrent',
-    sortable: true,
-    visible: false,
-    title: '售出数排序'
-  }, {
-    field: 'quantityIndexChange',
-    sortable: true,
-    visible: false,
-    title: '排序较上次',
-    formatter: function changeFormatter(value) {
-      if (value === 0) return "持平"
-      else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
-      else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-      else return "无此物品"
-    },
-  }, {
-    field: 'pricePerUnit',
-    sortable: true,
-    title: '均价'
-  }, {
-    field: 'itemTypeName',
-    sortable: true,
-    filterControl: 'input',
-    visible: false,
-    title: '分类'
-  }, {
-    field: 'itemLevel',
-    sortable: true,
-    visible: false,
-    filterControl: 'input',
-    title: '品级'
-  }, {
-    field: 'equipLevel',
-    sortable: true,
-    visible: false,
-    filterControl: 'input',
-    title: '等级'
-  }];
-let tableOptions = {
-  url: '/ffbusiness/saleHistory/marketableData',
-  search: true,
-  searchAlign: 'left',
-  searchSelector: '#search',
-  toolbar: '#marketableForm',
-  stickyHeader: true,
-  stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-  stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-  theadClasses: 'thead-light',
-  sortName: "numIndexCurrent",
-  sortOrder: 'asc',
-  filterControl: true,
-  method: 'post',
-  paginationUseIntermediate: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  queryParams: function () {
-    return queryMarketable;
-  },
-  pageList: [20, 100, 200, 500, 1000],
-  pagination: "true",
-  showColumns: true,
-  showColumnsToggleAll: true,
-  showExport: true,
-  icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
-  contentType: "application/json",
-  onAll: function () {
-    let $columns = $('.columns');
-    $columns.css('margin', '0')
-    $columns.removeClass('float-right')
-    let form = $('#marketableForm>fieldset.form-group>div');
-    form.append($columns);
-    $('.fixed-table-toolbar>div:not(:first)').remove();
-    if (form.children().length > 12) form.children().last().remove();//TODO 魔法值
-  }
-};
-
 export default {
   mixins: [tableMixin],
+  components: {
+    LineChart, BarChart
+  },
   data() {
     return {
       scale: 24,
@@ -259,11 +158,153 @@ export default {
       min: null,
       max: null,
       sortType: "1",
-      columns: columns,
+      chartData: {},
+      chartData1: {},
+      columns: [
+        {
+          field: '',
+          title: '序号',
+          align: "center",
+          formatter: function (value, row, index) {
+            return index + 1;
+          }
+        }, {
+          field: 'itemId',
+          sortable: true,
+          visible: false,
+          title: '物品ID',
+          filterControl: 'input'
+        }, {
+          field: 'name',
+          sortable: true,
+          formatter: function iconFormatter(value, row) {
+            let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+          },
+          title: '物品名称'
+        }, {
+          field: 'quantity',
+          sortable: true,
+          visible: false,
+          title: '售出数',
+        }, {
+          field: 'num',
+          sortable: true,
+          title: '交易次数',
+        }, {
+          field: 'numIndexCurrent',
+          sortable: true,
+          title: '次数排序'
+        }, {
+          field: 'numIndexChange',
+          sortable: true,
+          title: '排序较上次',
+          formatter: function changeFormatter(value, row) {
+            if (!$.isNumeric(row.quantityIndexChange)) return "无此物品"
+            else if (value === 0) return "持平"
+            else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
+            else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
+            else return "无此物品"
+          },
+        }, {
+          field: 'quantityIndexCurrent',
+          sortable: true,
+          visible: false,
+          title: '售出数排序'
+        }, {
+          field: 'quantityIndexChange',
+          sortable: true,
+          visible: false,
+          title: '排序较上次',
+          formatter: function changeFormatter(value) {
+            if (value === 0) return "持平"
+            else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
+            else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
+            else return "无此物品"
+          },
+        }, {
+          field: 'pricePerUnit',
+          sortable: true,
+          title: '均价'
+        }, {
+          field: 'itemTypeName',
+          sortable: true,
+          filterControl: 'input',
+          visible: false,
+          title: '分类'
+        }, {
+          field: 'itemLevel',
+          sortable: true,
+          visible: false,
+          filterControl: 'input',
+          title: '品级'
+        }, {
+          field: 'equipLevel',
+          sortable: true,
+          visible: false,
+          filterControl: 'input',
+          title: '等级'
+        }, {
+          field: 'equipLevel',
+          sortable: true,
+          visible: false,
+          filterControl: 'input',
+          title: '等级'
+        }, {
+          title: '操作',
+          width: 100,
+          formatter: (value, row) => {
+            return this.vueFormatter({
+              template: '<b-button variant="info" @click="clickRow(row)">趋势</b-button>',
+              data: {row},
+              methods: {
+                clickRow: this.openSummary
+              }
+            })
+          }
+        }],
       itemTypes: [],
+      loaded: false,
       itemTypeOptions: [],
       minQuantity: null,
-      tableOptions: tableOptions,
+      tableOptions: {
+        url: '/ffbusiness/saleHistory/marketableData',
+        search: true,
+        searchAlign: 'left',
+        searchSelector: '#search',
+        toolbar: '#marketableForm',
+        stickyHeader: true,
+        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+        theadClasses: 'thead-light',
+        sortName: "numIndexCurrent",
+        sortOrder: 'asc',
+        filterControl: true,
+        method: 'post',
+        paginationUseIntermediate: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        queryParams: function () {
+          return queryMarketable;
+        },
+        columns: this.columns,
+        pageList: [20, 100, 200, 500, 1000],
+        pagination: "true",
+        showColumns: true,
+        showColumnsToggleAll: true,
+        showExport: true,
+        icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
+        contentType: "application/json",
+        onAll: function () {
+          let $columns = $('.columns');
+          $columns.css('margin', '0')
+          $columns.removeClass('float-right')
+          let form = $('#marketableForm>fieldset.form-group>div');
+          form.append($columns);
+          $('.fixed-table-toolbar>div:not(:first)').remove();
+          if (form.children().length > 12) form.children().last().remove();//TODO 魔法值
+        }
+      },
     }
   },
   methods: {
@@ -312,9 +353,9 @@ export default {
       $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
       let $marketableTable = $('#marketableTable');
-      $marketableTable.bootstrapTable('destroy');
-      tableOptions.columns = columns;
-      $marketableTable.bootstrapTable(tableOptions);
+      $marketableTable.bootstrapTable('refresh', {
+        query: queryMarketable
+      });
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
@@ -342,12 +383,70 @@ export default {
         contentType: "application/json"
       });
     },
+    openSummary(row) {
+      const vm = this;
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
+      $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name+'&nbsp;趋势')
+      $('#summaryModal').modal('show');
+      let format = "yyyyMMDD";
+      $.ajax({
+        url: "/ffbusiness/summary/query", method: "post",
+        data: JSON.stringify({
+          itemId: row.itemId,
+          startDate: moment().subtract(this.scale, 'hours').format(format),
+          endDate: moment().format(format),
+          worldName: vm.worldName
+        }),
+        contentType: "application/json", success: function (data) {
+          let labels = data.dates;
+          let realLabels = [];
+          for (let l of labels) {
+            realLabels.push(moment(l).subtract(1, "days").format(format));//因为后端日期总是加一天
+          }
+          vm.chartData = {
+            labels: realLabels,
+            datasets: [
+              {
+                label: '均价',
+                backgroundColor: '#df9ba1',
+                data: data.values[0].value
+              }
+            ]
+          };
+          vm.loaded = true;
+          vm.chartData1 = {
+            labels: realLabels,
+            datasets: [
+              {
+                label: '售出数',
+                backgroundColor: '#5ba585',
+                data: data.values[1].value
+              }
+            ]
+          };
+          vm.loaded = true;
+        }
+      });
+    },
     closeUpdateTimeTable() {
       $('#myModal').modal('toggle');
+    }, closeSummaryTable() {
+      $('#summaryModal').modal('toggle');
+    }, isStr(val) {
+      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     }
   },
   mounted() {
     $('select').selectpicker();
+    const worldCookie = this.$cookies.get('world');
+    if (this.isStr(worldCookie)) {
+      let worldName = Base64.decode(worldCookie);
+      let $worldName = $('#worldName');
+      $worldName.selectpicker('val', worldName);
+      $worldName.selectpicker('refresh');
+      this.worldName = worldName;
+    }
     let $sortType = $('#sortType');
     $sortType.change(function () {
       let $sortType1 = $('#sortType');
@@ -356,7 +455,7 @@ export default {
       table.bootstrapTable('refreshOptions', {
         sortOrder: 'asc',
         sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
-        columns: columns
+        columns: this.columns
       })
       if (val === '2') {
         table.bootstrapTable('showColumn', 'quantityIndexCurrent');

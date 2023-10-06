@@ -48,10 +48,14 @@
         </b-form-checkbox>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索
         </b-button>
-        <b-button variant="info" type="reset">重置</b-button>
+        <b-button variant="info" @click="queryCurrentForm()" type="button">现价
+        </b-button>
+        <b-button variant="info" class="mx-1" type="reset">重置</b-button>
       </b-row>
     </b-form>
     <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
+    <b-modal id="modal-world-name" size="sm" ok-only ok-variant="info" title="提示">请选择大区或服务器</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -116,6 +120,7 @@ input.form-control {
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
+import Base64 from '../plugins/base64'
 
 let query = {
   worldName: '中国',
@@ -134,14 +139,9 @@ let options = {
     query.pageNumber = params.pageNumber;
     return query
   },
-  // showJumpTo: true,
-  pageNumber: 1,//初始化加载第一页，默认第一页
+  pageNumber: 1,
   pageSize: 10,
   toolbar: '#queryForm',
-  // stickyHeader: true,
-  // stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-  // stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-  // theadClasses: 'thead-light',
   paginationUseIntermediate: true,
   paginationSuccessivelySize: 1,
   paginationPagesBySide: 1,
@@ -232,7 +232,7 @@ export default {
             template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
             data: {row},
             methods: {
-              clickRow: this.clickRow
+              clickRow: this.queryCurrentTable
             }
           })
         }
@@ -290,17 +290,7 @@ export default {
       options.columns = this.columns;
       $table.bootstrapTable(options)
     },
-    clickRow(row) {
-      let name = row.worldName;
-      let id = row.itemId;
-      let itemName = row.itemName;
-      $.ajax({
-        url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
-        data: JSON.stringify({worldName: name}),
-        contentType: "application/json", success: function (data) {
-          $('#myModalLabel').html(data.worldName + itemName + '低价')
-        }
-      });
+    queryCurrent: function (worldName, itemId) {
       $('#myModal').modal('show');
       let $currentTable = $('#currentTable');
       $currentTable.bootstrapTable('destroy');
@@ -338,12 +328,12 @@ export default {
         }], method: 'post',
         queryParams: function () {
           let paramCurrent = {};
-          paramCurrent.worldName = name;
-          paramCurrent.itemId = id;
+          paramCurrent.worldName = worldName;
+          paramCurrent.itemId = itemId;
           return paramCurrent;
         },
         contentType: "application/json",
-        pageNumber: 1,//初始化加载第一页，默认第一页
+        pageNumber: 1,
         pageSize: 10,
         mobileResponsive: true,
         checkOnInit: true,
@@ -352,17 +342,89 @@ export default {
         paginationPagesBySide: 1,
         pageList: [20, 50, 150]
       });
+    },
+    queryCurrentTable(row) {
+      let id = row.itemId;
+      let itemName = row.itemName;
+      this.handleModalLabelTable(itemName, row.worldName, id);
+      this.queryCurrent(row.worldName, id);
+    },
+    queryCurrentForm() {
+      let tempItemId;
+      let tempItemName;
+      const vm = this;
+      if ($.isNumeric(this.itemId) || this.isStr(this.itemName)) {
+        $.ajax({
+          url: "/ffbusiness/itemNew/getOne",
+          async: true,
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({id: this.itemId, name: this.itemName}),
+          success: function (data) {
+            if (data.rows.length === 0) {
+              vm.$bvModal.show('modal-item')
+            } else {
+              tempItemId = data.rows[0].id;
+              tempItemName = data.rows[0].name;
+              vm.handleModalLabelForm(tempItemName, tempItemId);
+              vm.queryCurrent(vm.worldName, tempItemId);
+            }
+          }
+        });
+      } else vm.$bvModal.show('modal-item');
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
     closeCurrentTable() {
       $('#myModal').modal('toggle');
+    },
+    handleModalLabelForm(tempItemName, id) {
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + id + '.png?eo-img.resize=w/32/h/32';
+      switch (this.worldName) {
+        case "陆行鸟":
+        case "莫古力":
+        case "猫小胖":
+        case "豆豆柴":
+        case "中国":
+          $('#myModalLabel').html(this.worldName + '&nbsp;<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价')
+          break;
+        default: {
+          $.ajax({
+            url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+            data: JSON.stringify({worldName: this.worldName}),
+            contentType: "application/json", success: function (data) {
+              let value = data.worldName + '&nbsp;<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价';
+              $('#myModalLabel').html(value)
+            }
+          });
+        }
+      }
+    },
+    handleModalLabelTable(tempItemName, tempWorldName, id) {
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + id + '.png?eo-img.resize=w/32/h/32';
+      $.ajax({
+        url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+        data: JSON.stringify({worldName: tempWorldName}),
+        contentType: "application/json", success: function (data) {
+          let value = data.worldName + '&nbsp;<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价';
+          $('#myModalLabel').html(value)
+        }
+      });
     }
   },
   mounted() {
     $('select').selectpicker();
+    const worldCookie = this.$cookies.get('world');
+    if (this.isStr(worldCookie)) {
+      let worldName = Base64.decode(worldCookie);
+      let $worldName = $('#worldName');
+      $worldName.selectpicker('val', worldName);
+      $worldName.selectpicker('refresh');
+      this.worldName = worldName;
+    }
     $('#date').datepicker({language: 'zh-CN'});
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
+
   }
 }
 

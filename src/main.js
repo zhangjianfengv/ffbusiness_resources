@@ -10,12 +10,12 @@ import AppHistory from "@/components/AppHistory.vue";
 import AppMarketable from "@/components/AppMarketable.vue";
 import App from "@/components/App.vue";
 import AppItem from "@/components/AppItem.vue";
+import VueCookies from 'vue-cookies'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
-
+Vue.use(VueCookies)
 window.jQuery = $
-window.$ = $
 Vue.config.errorHandler = function (err, vm, info) {
     console.log(err);
     console.log(info);

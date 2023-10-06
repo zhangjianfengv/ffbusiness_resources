@@ -7,7 +7,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/history">销售履历</b-nav-item>
-            <b-nav-item to="/marketable">畅销排行</b-nav-item>
+            <b-nav-item to="/marketable">市场统计</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
@@ -25,24 +25,26 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年9月1日
+                2023年9月29日
               </h6>
               <span style="font-size: smaller">
-                UI调整<br>
-                1.手机端显示效果优化（包含销售履历页面及物品列表页面）<br>
-                2.出于隐私保护考虑，购买者角色名查询只能与物品id或者名称一起查询<br>
-                3.已知问题修复
+                1. 销售履历页面，表格上方的查询现价按钮，当查询条件匹配到了多个物品时，调整为不再弹框提示，而是按照全字匹配->名称最短->id最大的物品的规则查询第一个物品的价格
             </span></div>
             <br>
             <div>
               <h6>
-                2023年9月5日
+                2023年9月30日
               </h6>
               <span style="font-size: smaller">
-                1.物品名查询增加物品建议<br>
-                2.现价查询UI调整<br>
-                3.物品查询的id和品级查询改为精确匹配<br>
-                4.和🐧稍微扯皮了下，现在网站可以在手机QQ内置浏览器正常访问了
+                1.销售履历页面，表格上方的查询现价按钮支持直接查询国服的物价情况，无需选择区服
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年10月5日
+              </h6>
+              <span style="font-size: smaller">
+                1.物价及销量走势可在市场统计页面点击趋势按钮查看(时间范围及区服直接受上方查询条件影响，切换条件后无需点击查询)
             </span></div>
           </div>
           <div class="modal-footer">
