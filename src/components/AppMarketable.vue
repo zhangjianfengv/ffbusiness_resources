@@ -186,7 +186,7 @@ export default {
           },
           title: '物品名称'
         }, {
-          field: '<i class="bi bi-graph-down-arrow"></i>',
+          field: 'quantity',
           sortable: true,
           visible: false,
           title: '售出数',
