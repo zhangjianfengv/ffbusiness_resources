@@ -46,11 +46,11 @@
         <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
           仅HQ
         </b-form-checkbox>
-        <b-button variant="info" class="mx-1" @click="searchItem()" type="button">搜索
+        <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
         </b-button>
-        <b-button variant="info" @click="queryCurrentForm()" type="button">现价
+        <b-button variant="info" @click="queryCurrentForm()" type="button"><i class="bi bi-cart4"></i>
         </b-button>
-        <b-button variant="info" class="mx-1" type="reset">重置</b-button>
+        <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
       </b-row>
     </b-form>
     <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
@@ -74,7 +74,7 @@
             <table id="currentTable"></table>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button">关闭</button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button"><i class="bi bi-power"></i></button>
           </div>
         </div>
       </div>
@@ -229,7 +229,7 @@ export default {
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)">现价</b-button>',
+            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable

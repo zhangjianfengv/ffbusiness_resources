@@ -57,9 +57,10 @@
           <option selected value="1">按交易次数排序</option>
           <option value="2">按售出总数排序</option>
         </b-form-select>
-        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button">查询</b-button>
-        <b-button variant="info" @click="resetMarketable()" type="button">重置</b-button>
-        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
+        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
+        <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
+        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i class="bi bi-calendar-month"></i>
+        </b-button>
       </b-form-group>
     </b-form>
     <div>
@@ -81,7 +82,8 @@
             <BarChart v-if="loaded" :chart-data="chartData1"/>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSummaryTable()" type="button">关闭</button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSummaryTable()" type="button"><i
+                class="bi bi-power"></i></button>
           </div>
         </div>
       </div>
@@ -96,7 +98,8 @@
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <b-button variant="info" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">关闭</b-button>
+            <b-button variant="info" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button"><i
+                class="bi bi-power"></i></b-button>
           </div>
         </div>
       </div>
@@ -183,7 +186,7 @@ export default {
           },
           title: '物品名称'
         }, {
-          field: 'quantity',
+          field: '<i class="bi bi-graph-down-arrow"></i>',
           sortable: true,
           visible: false,
           title: '售出数',
@@ -245,22 +248,21 @@ export default {
           filterControl: 'input',
           title: '等级'
         }, {
-          field: 'equipLevel',
-          sortable: true,
-          visible: false,
-          filterControl: 'input',
-          title: '等级'
-        }, {
           title: '操作',
           width: 100,
           formatter: (value, row) => {
+            let template;
+            if (row.quantityIndexChange < 0)
+              template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
+            else template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
             return this.vueFormatter({
-              template: '<b-button variant="info" @click="clickRow(row)">趋势</b-button>',
+              template: template,
               data: {row},
               methods: {
                 clickRow: this.openSummary
               }
             })
+
           }
         }],
       itemTypes: [],
@@ -387,7 +389,7 @@ export default {
       const vm = this;
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name+'&nbsp;趋势')
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
       $('#summaryModal').modal('show');
       let format = "yyyyMMDD";
       $.ajax({

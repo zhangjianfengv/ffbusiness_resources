@@ -9,8 +9,9 @@
           <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
           <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
           </bt-select>
-          <b-button variant="info" @click="searchItem()" type="button">搜索</b-button>
-          <b-button variant="info" class="mx-1" @click="resetQueryParams()" type="button">重置</b-button>
+          <b-button variant="info" @click="searchItem()" type="button"><i class="bi bi-search"></i></b-button>
+          <b-button variant="info" class="mx-1" @click="resetQueryParams()"
+                    type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
         </b-row>
       </b-col>
     </b-form>

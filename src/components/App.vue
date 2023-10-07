@@ -48,7 +48,7 @@
             </span></div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i></button>
           </div>
         </div>
       </div>
