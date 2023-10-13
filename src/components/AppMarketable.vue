@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-form inline id="marketableForm">
+    <b-form inline id="marketableForm" ref="marketableForm">
       <b-form-group>
         <b-form-select v-model="worldName" id="worldName">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</option>
@@ -52,7 +52,7 @@
         <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
                       v-model="min"></b-form-input>
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-        <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" value=""></b-form-input>
+        <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
         <b-form-select id="sortType" v-model="sortType">
           <option selected value="1">按交易次数排序</option>
           <option value="2">按售出总数排序</option>
@@ -162,6 +162,7 @@ export default {
       max: null,
       sortType: "1",
       chartData: {},
+      searchText: null,
       chartData1: {},
       columns: [
         {
@@ -330,8 +331,12 @@ export default {
       });
     },
     resetMarketable() {
-      $('#marketableForm')[0].reset();
       let $itemType = $('#itemType');
+      let $worldName = $('#worldName');
+      let $timeScale = $('#timeScale');
+      let $sortType = $('#sortType');
+      let $marketableTable = $('#marketableTable');
+      $('#marketableForm')[0].reset();
       this.scale = 24;
       this.worldName = '中国';
       this.min = null;
@@ -340,22 +345,19 @@ export default {
       this.itemTypes = [];
       this.minQuantity = null;
       $itemType.selectpicker('val', []);
-      queryMarketable = {
-        worldName: '中国',
-        timeScale: 24
-      };
-      let $worldName = $('#worldName');
       $worldName.selectpicker('val', '中国');
-      let $timeScale = $('#timeScale');
       $timeScale.selectpicker('val', 24);
-      let $sortType = $('#sortType');
       $sortType.selectpicker('val', '1');
       $sortType.selectpicker('refresh');
       $timeScale.selectpicker('refresh');
       $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
-      let $marketableTable = $('#marketableTable');
-      $marketableTable.bootstrapTable('refreshOptions', this.tableOptions)
+      this.searchText = null;
+      queryMarketable = {
+        worldName: '中国',
+        timeScale: 24
+      };
+      $marketableTable.bootstrapTable('refreshOptions', this.tableOptions);
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');

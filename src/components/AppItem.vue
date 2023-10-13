@@ -133,7 +133,7 @@ let options = {
     return query
   },
   pageNumber: 1,
-  pageSize: 20,
+  pageSize: 15,
   toolbar: '#itemForm',
   itemTypes: [],
   mobileResponsive: true,
@@ -142,7 +142,7 @@ let options = {
   paginationPagesBySide: 1,
   checkOnInit: true,
   itemTypeOptions: [],
-  pageList: [20, 100, 200, 500, 1000]
+  pageList: [50, 100, 200, 500, 1000]
 };
 export default {
   mixins: [tableMixin],

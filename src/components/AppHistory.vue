@@ -292,6 +292,7 @@ export default {
       $table.bootstrapTable(options)
     },
     queryCurrent: function (worldName, itemId) {
+      $('div.float-right:nth-child(1) > button:nth-child(1)')
       $('#myModal').modal('show');
       let $currentTable = $('#currentTable');
       $currentTable.bootstrapTable('destroy');
@@ -339,10 +340,12 @@ export default {
         pageSize: 10,
         filterControl: true,
         paginationUseIntermediate: true,
+        showSearchClearButton: true,
         paginationSuccessivelySize: 1,
         paginationPagesBySide: 1,
-        pageList: [20, 50, 150]
+        pageList: [20, 50, 150, 450]
       });
+      $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
     },
     queryCurrentTable(row) {
       let id = row.itemId;

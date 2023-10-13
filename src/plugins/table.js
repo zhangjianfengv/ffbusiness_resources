@@ -5,7 +5,6 @@ import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'bootstrap-table/dist/extensions/sticky-header/bootstrap-table-sticky-header.min.css'
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css'
 import 'bootstrap-select/dist/css/bootstrap-select.min.css'
-import 'bootstrap-table/dist/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css'
 import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.min.css'
 
 //import 'bootstrap-table/dist/themes/materialize/bootstrap-table-materialize.min.css'

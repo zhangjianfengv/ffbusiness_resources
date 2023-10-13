@@ -44,12 +44,13 @@
                 2023年10月13日
               </h6>
               <span style="font-size: smaller">
-                1.查询现价模态框可筛选高品质、服务器及雇员名<br>
+                1.查询现价条数调整到450条，可筛选高品质、服务器及雇员名<br>
                 2.市场统计页面原先的品级等级及分类筛选(表格内)也改为了选项
             </span></div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i></button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
+            </button>
           </div>
         </div>
       </div>
