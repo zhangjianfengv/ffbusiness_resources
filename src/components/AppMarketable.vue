@@ -232,20 +232,20 @@ export default {
         }, {
           field: 'itemTypeName',
           sortable: true,
-          filterControl: 'input',
+          filterControl: 'select',
           visible: false,
           title: '分类'
         }, {
           field: 'itemLevel',
           sortable: true,
           visible: false,
-          filterControl: 'input',
+          filterControl: 'select',
           title: '品级'
         }, {
           field: 'equipLevel',
           sortable: true,
           visible: false,
-          filterControl: 'input',
+          filterControl: 'select',
           title: '等级'
         }, {
           title: '操作',
@@ -358,6 +358,7 @@ export default {
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
+      // this.$refs.table.clearFilterControl();
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');

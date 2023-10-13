@@ -74,7 +74,8 @@
             <table id="currentTable"></table>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button"><i class="bi bi-power"></i></button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button"><i
+                class="bi bi-power"></i></button>
           </div>
         </div>
       </div>
@@ -299,18 +300,19 @@ export default {
         pagination: "true",
         columns: [{
           field: 'worldName',
-          title: '服务器'
+          title: '服务器',
+          filterControl: 'select'
         }, {
           field: 'retainerName',
-          title: '雇员名'
+          title: '雇员名',
+          filterControl: 'select'
         }, {
           field: 'hq',
-          formatter: function addButton(value) {
-            if (value === 'true') return '<img src="/hq.png"' +
-                ' decoding="async" width="16" height="16" alt="hq">';
-            else return '';
+          formatter: (value) => {
+            return value === 'true' ? '✔' : '✗'
           },
-          title: '高品质'
+          title: '高品质',
+          filterControl: 'select'
         }, {
           field: 'pricePerUnit',
           visible: false,
@@ -335,6 +337,7 @@ export default {
         contentType: "application/json",
         pageNumber: 1,
         pageSize: 10,
+        filterControl: true,
         mobileResponsive: true,
         checkOnInit: true,
         paginationUseIntermediate: true,
