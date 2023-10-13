@@ -355,10 +355,7 @@ export default {
       $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
       let $marketableTable = $('#marketableTable');
-      $marketableTable.bootstrapTable('refresh', {
-        query: queryMarketable
-      });
-      // this.$refs.table.clearFilterControl();
+      $marketableTable.bootstrapTable('refreshOptions', this.tableOptions)
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
