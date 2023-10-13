@@ -338,8 +338,6 @@ export default {
         pageNumber: 1,
         pageSize: 10,
         filterControl: true,
-        mobileResponsive: true,
-        checkOnInit: true,
         paginationUseIntermediate: true,
         paginationSuccessivelySize: 1,
         paginationPagesBySide: 1,
