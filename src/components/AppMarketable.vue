@@ -232,6 +232,7 @@ export default {
           title: '均价'
         }, {
           field: 'craft',
+          visible: false,
           filterControl: 'select',
           formatter: (value) => {
             return value === true ? '✔' : '✗'
