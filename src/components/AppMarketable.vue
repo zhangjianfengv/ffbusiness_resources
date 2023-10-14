@@ -231,6 +231,12 @@ export default {
           sortable: true,
           title: '均价'
         }, {
+          field: 'craft',
+          formatter: (value) => {
+            return value === true ? '✔' : '✗'
+          },
+          title: '可制作'
+        }, {
           field: 'itemTypeName',
           sortable: true,
           filterControl: 'select',
