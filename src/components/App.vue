@@ -25,14 +25,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年9月30日
-              </h6>
-              <span style="font-size: smaller">
-                1.销售履历页面，表格上方的查询现价按钮支持直接查询国服的物价情况，无需选择区服
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年10月5日
               </h6>
               <span style="font-size: smaller">
@@ -47,6 +39,14 @@
                 1.查询现价条数调整到450条，可筛选高品质、服务器及雇员名<br>
                 2.市场统计页面原先的品级等级及分类筛选(表格内)也改为了选项<br>
                 3.现价显示的价格不含税
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年10月14日
+              </h6>
+              <span style="font-size: smaller">
+                1.市场统计页面展示物品是否可由生产职业制作
             </span></div>
           </div>
           <div class="modal-footer">
