@@ -209,7 +209,7 @@ export default {
       }, {
         field: 'sum',
         formatter: (value, row) => {
-          return row.pricePerUnit + 'X' + row.quantity + '=' + value
+          return this.formatNumber(row.pricePerUnit) + 'X' + this.formatNumber(row.quantity) + '=' + this.formatNumber(value)
         },
         title: '总计'
       }, {
@@ -325,7 +325,7 @@ export default {
         }, {
           field: 'total',
           formatter: (value, row) => {
-            return row.pricePerUnit + 'X' + row.quantity + '=' + value
+            return this.formatNumber(row.pricePerUnit) + 'X' + this.formatNumber(row.quantity) + '=' + this.formatNumber(value)
           },
           title: '总计'
         }], method: 'post',
@@ -339,6 +339,10 @@ export default {
         pageNumber: 1,
         pageSize: 10,
         filterControl: true,
+        stickyHeader: true,
+        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
+        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
+        theadClasses: 'thead-light',
         paginationUseIntermediate: true,
         showSearchClearButton: true,
         paginationSuccessivelySize: 1,
@@ -415,6 +419,9 @@ export default {
         }
       });
     }
+  },
+  formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   },
   mounted() {
     $('select').selectpicker();

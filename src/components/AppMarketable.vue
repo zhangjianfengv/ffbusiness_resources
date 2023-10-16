@@ -189,11 +189,17 @@ export default {
         }, {
           field: 'quantity',
           sortable: true,
+          formatter: (value) => {
+            return this.formatNumber(value);
+          },
           visible: false,
           title: '售出数',
         }, {
           field: 'num',
           sortable: true,
+          formatter: (value) => {
+            return this.formatNumber(value);
+          },
           title: '交易次数',
         }, {
           field: 'numIndexCurrent',
@@ -229,6 +235,9 @@ export default {
         }, {
           field: 'pricePerUnit',
           sortable: true,
+          formatter: (value) => {
+            return this.formatNumber(value);
+          },
           title: '均价'
         }, {
           field: 'craft',
@@ -438,6 +447,9 @@ export default {
           vm.loaded = true;
         }
       });
+    },
+    formatNumber(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     closeUpdateTimeTable() {
       $('#myModal').modal('toggle');
