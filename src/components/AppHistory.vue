@@ -339,10 +339,6 @@ export default {
         pageNumber: 1,
         pageSize: 10,
         filterControl: true,
-        stickyHeader: true,
-        stickyHeaderOffsetLeft: parseInt($('body').css('padding-left'), 10),
-        stickyHeaderOffsetRight: parseInt($('body').css('padding-right'), 10),
-        theadClasses: 'thead-light',
         paginationUseIntermediate: true,
         showSearchClearButton: true,
         paginationSuccessivelySize: 1,
@@ -418,10 +414,10 @@ export default {
           $('#myModalLabel').html(value)
         }
       });
-    }
-  },
-  formatNumber(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    formatNumber(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
   },
   mounted() {
     $('select').selectpicker();
