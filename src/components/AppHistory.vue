@@ -68,10 +68,15 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel"></h4>
+            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto"></h4>
           </div>
           <div class="modal-body">
             <b-alert show>价格</b-alert>
+            <div id="currentToolBar">
+              <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"
+                               @change="loadMore(clickWorldName,clickItemId)" switch>加载更多
+              </b-form-checkbox>
+            </div>
             <table id="currentTable"></table>
             <b-alert show>售出记录</b-alert>
             <table id="historyTable"></table>
@@ -126,6 +131,15 @@ input.form-control {
   max-width: 200px;
 }
 </style>
+<style scoped>
+div.alert {
+  text-align: center;
+}
+
+#currentToolBar {
+  border-color: #17a2b8
+}
+</style>
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
@@ -158,6 +172,42 @@ let options = {
   mobileResponsive: true,
   checkOnInit: true,
   pageList: [20, 100, 200, 500, 1000]
+};
+let optionCurrent = {
+  dataField: 'currents',
+  pagination: "true",
+  columns: [{
+    field: 'worldName',
+    title: '服务器',
+    filterControl: 'select'
+  }, {
+    field: 'retainerName',
+    title: '雇员名',
+    filterControl: 'select'
+  }, {
+    field: 'hq',
+    formatter: (value) => {
+      return value === 'true' ? '✔' : '✗'
+    },
+    title: '高品质',
+    filterControl: 'select'
+  }, {
+    field: 'total',
+    formatter: (value, row) => {
+      let exp = /\B(?=(\d{3})+(?!\d))/g;
+      return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
+    },
+    title: '总计'
+  }], method: 'post',
+  pageNumber: 1,
+  pageSize: 5,
+  toolbar: '#currentToolBar',
+  filterControl: true,
+  paginationUseIntermediate: true,
+  showSearchClearButton: true,
+  paginationSuccessivelySize: 1,
+  paginationPagesBySide: 1,
+  pageList: [10, 20, 50, 150, 450],
 };
 export default {
   mixins: [tableMixin],
@@ -239,6 +289,7 @@ export default {
     return {
       itemId: null,
       state: null,
+      maximum: 0,
       itemName: null,
       buyerName: null,
       date: null,
@@ -246,7 +297,9 @@ export default {
       onlyHq: 0,
       worldName: '中国',
       columns: columns,
-      options: options
+      options: options,
+      clickWorldName: null,
+      clickItemId: null
     }
   },
   methods: {
@@ -289,6 +342,9 @@ export default {
       $table.bootstrapTable(options)
     },
     queryCurrent: function (worldName, itemId) {
+      this.maximum = '0';
+      this.clickWorldName = worldName;
+      this.clickItemId = itemId;
       $('#loading-indicator').show();
       $('#myModal').modal('show');
       const vm = this;
@@ -303,48 +359,8 @@ export default {
         data: JSON.stringify({worldName: worldName, itemId: itemId}),
         success: function (data) {
           $('#loading-indicator').hide();
-          $currentTable.bootstrapTable({
-            data: data,
-            dataField: 'currents',
-            pagination: "true",
-            columns: [{
-              field: 'worldName',
-              title: '服务器',
-              filterControl: 'select'
-            }, {
-              field: 'retainerName',
-              title: '雇员名',
-              filterControl: 'select'
-            }, {
-              field: 'hq',
-              formatter: (value) => {
-                return value === 'true' ? '✔' : '✗'
-              },
-              title: '高品质',
-              filterControl: 'select'
-            }, {
-              field: 'total',
-              formatter: (value, row) => {
-                return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
-              },
-              title: '总计'
-            }], method: 'post',
-            queryParams: function () {
-              let paramCurrent = {};
-              paramCurrent.worldName = worldName;
-              paramCurrent.itemId = itemId;
-              return paramCurrent;
-            },
-            contentType: "application/json",
-            pageNumber: 1,
-            pageSize: 10,
-            filterControl: true,
-            paginationUseIntermediate: true,
-            showSearchClearButton: true,
-            paginationSuccessivelySize: 1,
-            paginationPagesBySide: 1,
-            pageList: [20, 50, 150, 450],
-          });
+          optionCurrent.data = data;
+          $currentTable.bootstrapTable(optionCurrent);
           $historyTable.bootstrapTable({
             data: data,
             dataField: 'realHistoryDtos',
@@ -390,7 +406,6 @@ export default {
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }
       });
-
     },
     queryCurrentTable(row) {
       let id = row.itemId;
@@ -426,6 +441,21 @@ export default {
     },
     closeCurrentTable() {
       $('#myModal').modal('toggle');
+    },
+    loadMore(worldName, itemId) {
+      let maximum = this.maximum;
+      $.ajax({
+        url: "/ffbusiness/currentData/queryCurrent",
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({worldName: worldName, itemId: itemId, maximum: maximum === '1'}),
+        success: function (data) {
+          let $currentTable = $('#currentTable');
+          optionCurrent.data = data;
+          $currentTable.bootstrapTable('destroy').bootstrapTable(optionCurrent);
+          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+        }
+      })
     },
     handleModalLabelForm(tempItemName, id) {
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + id + '.png?eo-img.resize=w/32/h/32';
