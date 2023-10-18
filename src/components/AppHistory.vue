@@ -208,14 +208,6 @@ export default {
         },
         title: '物品名称'
       }, {
-        field: 'pricePerUnit',
-        visible: false,
-        title: '单价'
-      }, {
-        field: 'quantity',
-        visible: false,
-        title: '数量'
-      }, {
         field: 'sum',
         formatter: (value, row) => {
           return this.formatNumber(row.pricePerUnit) + 'X' + this.formatNumber(row.quantity) + '=' + this.formatNumber(value)
@@ -227,10 +219,6 @@ export default {
       }, {
         field: 'worldName',
         title: '服务器'
-      }, {
-        field: 'hq',
-        visible: false,
-        title: '高品质'
       }, {
         field: 'timestamp',
         title: '购买时间'
@@ -335,14 +323,6 @@ export default {
               title: '高品质',
               filterControl: 'select'
             }, {
-              field: 'pricePerUnit',
-              visible: false,
-              title: '单价'
-            }, {
-              field: 'quantity',
-              visible: false,
-              title: '数量'
-            }, {
               field: 'total',
               formatter: (value, row) => {
                 return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
@@ -383,14 +363,6 @@ export default {
               },
               title: '高品质',
               filterControl: 'select'
-            }, {
-              field: 'pricePerUnit',
-              visible: false,
-              title: '单价'
-            }, {
-              field: 'quantity',
-              visible: false,
-              title: '数量'
             }, {
               field: 'total',
               formatter: (value, row) => {
