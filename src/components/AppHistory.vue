@@ -71,7 +71,15 @@
             <h4 class="modal-title" id="myModalLabel"></h4>
           </div>
           <div class="modal-body">
+            <b-alert show>价格</b-alert>
             <table id="currentTable"></table>
+            <b-alert show>售出记录</b-alert>
+            <table id="historyTable"></table>
+            <div id="loading-indicator" class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button"><i
@@ -122,6 +130,7 @@ input.form-control {
 import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Base64 from '../plugins/base64'
+import moment from "moment";
 
 let query = {
   worldName: '中国',
@@ -292,60 +301,124 @@ export default {
       $table.bootstrapTable(options)
     },
     queryCurrent: function (worldName, itemId) {
-      $('div.float-right:nth-child(1) > button:nth-child(1)')
+      $('#loading-indicator').show();
       $('#myModal').modal('show');
+      const vm = this;
       let $currentTable = $('#currentTable');
       $currentTable.bootstrapTable('destroy');
-      $currentTable.bootstrapTable({
-        url: '/ffbusiness/currentData/queryCurrent',
-        pagination: "true",
-        columns: [{
-          field: 'worldName',
-          title: '服务器',
-          filterControl: 'select'
-        }, {
-          field: 'retainerName',
-          title: '雇员名',
-          filterControl: 'select'
-        }, {
-          field: 'hq',
-          formatter: (value) => {
-            return value === 'true' ? '✔' : '✗'
-          },
-          title: '高品质',
-          filterControl: 'select'
-        }, {
-          field: 'pricePerUnit',
-          visible: false,
-          title: '单价'
-        }, {
-          field: 'quantity',
-          visible: false,
-          title: '数量'
-        }, {
-          field: 'total',
-          formatter: (value, row) => {
-            return this.formatNumber(row.pricePerUnit) + 'X' + this.formatNumber(row.quantity) + '=' + this.formatNumber(value)
-          },
-          title: '总计'
-        }], method: 'post',
-        queryParams: function () {
-          let paramCurrent = {};
-          paramCurrent.worldName = worldName;
-          paramCurrent.itemId = itemId;
-          return paramCurrent;
-        },
+      let $historyTable = $('#historyTable');
+      $historyTable.bootstrapTable('destroy');
+      $.ajax({
+        url: "/ffbusiness/currentData/queryCurrent",
+        method: "post",
         contentType: "application/json",
-        pageNumber: 1,
-        pageSize: 10,
-        filterControl: true,
-        paginationUseIntermediate: true,
-        showSearchClearButton: true,
-        paginationSuccessivelySize: 1,
-        paginationPagesBySide: 1,
-        pageList: [20, 50, 150, 450]
+        data: JSON.stringify({worldName: worldName, itemId: itemId}),
+        success: function (data) {
+          $('#loading-indicator').hide();
+          $currentTable.bootstrapTable({
+            data: data,
+            dataField: 'currents',
+            pagination: "true",
+            columns: [{
+              field: 'worldName',
+              title: '服务器',
+              filterControl: 'select'
+            }, {
+              field: 'retainerName',
+              title: '雇员名',
+              filterControl: 'select'
+            }, {
+              field: 'hq',
+              formatter: (value) => {
+                return value === 'true' ? '✔' : '✗'
+              },
+              title: '高品质',
+              filterControl: 'select'
+            }, {
+              field: 'pricePerUnit',
+              visible: false,
+              title: '单价'
+            }, {
+              field: 'quantity',
+              visible: false,
+              title: '数量'
+            }, {
+              field: 'total',
+              formatter: (value, row) => {
+                return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
+              },
+              title: '总计'
+            }], method: 'post',
+            queryParams: function () {
+              let paramCurrent = {};
+              paramCurrent.worldName = worldName;
+              paramCurrent.itemId = itemId;
+              return paramCurrent;
+            },
+            contentType: "application/json",
+            pageNumber: 1,
+            pageSize: 10,
+            filterControl: true,
+            paginationUseIntermediate: true,
+            showSearchClearButton: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            pageList: [20, 50, 150, 450],
+          });
+          $historyTable.bootstrapTable({
+            data: data,
+            dataField: 'realHistoryDtos',
+            columns: [{
+              field: 'worldName',
+              filterControl: 'select',
+              title: '服务器'
+            }, {
+              field: 'buyerName',
+              filterControl: 'select',
+              title: '角色名'
+            }, {
+              field: 'hq',
+              formatter: (value) => {
+                return value === 'true' ? '✔' : '✗'
+              },
+              title: '高品质',
+              filterControl: 'select'
+            }, {
+              field: 'pricePerUnit',
+              visible: false,
+              title: '单价'
+            }, {
+              field: 'quantity',
+              visible: false,
+              title: '数量'
+            }, {
+              field: 'total',
+              formatter: (value, row) => {
+                return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
+              },
+              title: '总计'
+            }, {
+              field: 'timestamp',
+              formatter: (value) => {
+                return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
+              },
+              title: '购买时间'
+            }],
+            contentType: "application/json",
+            pageNumber: 1,
+            pagination: "true",
+            pageSize: 5,
+            filterControl: true,
+            paginationUseIntermediate: true,
+            showSearchClearButton: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            pageList: [20, 40]
+          });
+          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+        }
       });
-      $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+
     },
     queryCurrentTable(row) {
       let id = row.itemId;
@@ -390,7 +463,8 @@ export default {
         case "猫小胖":
         case "豆豆柴":
         case "中国":
-          $('#myModalLabel').html(this.worldName + '&nbsp;<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价')
+          $('#myModalLabel').html('<img src="' + url +
+              '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;实时数据')
           break;
         default: {
           $.ajax({
@@ -409,8 +483,9 @@ export default {
       $.ajax({
         url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
         data: JSON.stringify({worldName: tempWorldName}),
-        contentType: "application/json", success: function (data) {
-          let value = data.worldName + '&nbsp;<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价';
+        contentType: "application/json", success: function () {
+          let value = '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' +
+              tempItemName + '&nbsp;实时数据';
           $('#myModalLabel').html(value)
         }
       });

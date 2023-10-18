@@ -25,14 +25,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年10月5日
-              </h6>
-              <span style="font-size: smaller">
-                1.市场统计页面新增物价及销量走势图(时间范围及区服直接受上方查询条件影响，切换条件后无需点击查询)
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年10月13日
               </h6>
               <span style="font-size: smaller">
@@ -48,6 +40,15 @@
               <span style="font-size: smaller">
                 1.市场统计页面展示物品是否可由生产职业制作
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年10月18日
+              </h6>
+              <span style="font-size: smaller">
+                1.查询现价额外返回40条销售履历(实时)
+            </span></div>
+
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
