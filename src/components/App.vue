@@ -25,30 +25,35 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年9月29日
+                2023年10月13日
               </h6>
               <span style="font-size: smaller">
-                1. 销售履历页面，表格上方的查询现价按钮，当查询条件匹配到了多个物品时，调整为不再弹框提示，而是按照全字匹配->名称最短->id最大的物品的规则查询第一个物品的价格
+                1.查询现价条数上限调整到450条，可筛选高品质、服务器及雇员名<br>
+                2.市场统计页面原先的品级等级及分类筛选(表格内)也改为了选项<br>
+                3.现价显示的价格不含税
             </span></div>
             <br>
             <div>
               <h6>
-                2023年9月30日
+                2023年10月14日
               </h6>
               <span style="font-size: smaller">
-                1.销售履历页面，表格上方的查询现价按钮支持直接查询国服的物价情况，无需选择区服
+                1.市场统计页面展示物品是否可由生产职业制作
             </span></div>
             <br>
             <div>
               <h6>
-                2023年10月5日
+                2023年10月18日
               </h6>
               <span style="font-size: smaller">
-                1.物价及销量走势可在市场统计页面点击趋势按钮查看(时间范围及区服直接受上方查询条件影响，切换条件后无需点击查询)
+                1.查询现价额外返回40条销售履历(实时)<br>
+                2.为了加快响应速度，查询现价默认最大条数为50条，打开"加载更多"开关会重新查询更多数据
             </span></div>
+
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button">关闭</button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
+            </button>
           </div>
         </div>
       </div>

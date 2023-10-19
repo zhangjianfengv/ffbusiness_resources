@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-form inline id="marketableForm">
+    <b-form inline id="marketableForm" ref="marketableForm">
       <b-form-group>
         <b-form-select v-model="worldName" id="worldName">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</option>
@@ -52,14 +52,15 @@
         <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
                       v-model="min"></b-form-input>
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-        <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" value=""></b-form-input>
+        <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
         <b-form-select id="sortType" v-model="sortType">
           <option selected value="1">按交易次数排序</option>
           <option value="2">按售出总数排序</option>
         </b-form-select>
-        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button">查询</b-button>
-        <b-button variant="info" @click="resetMarketable()" type="button">重置</b-button>
-        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button">统计更新情况</b-button>
+        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
+        <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
+        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i class="bi bi-calendar-month"></i>
+        </b-button>
       </b-form-group>
     </b-form>
     <div>
@@ -70,18 +71,24 @@
                       @on-post-body="vueFormatterPostBody"
       />
     </div>
+    <div style="margin:0 auto;width: 12px;height: 12px">
+      <a target="_blank" href="https://github.com/zhangjianfengv/ffbusiness_resources">
+        <span><i class="bi bi-github"></i></span>
+      </a>
+    </div>
     <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="summaryModal" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="SummaryLabel"></h4>
+            <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel"></h4>
           </div>
           <div class="modal-body">
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSummaryTable()" type="button">关闭</button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSummaryTable()" type="button"><i
+                class="bi bi-power"></i></button>
           </div>
         </div>
       </div>
@@ -90,13 +97,14 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">更新时间一览</h4>
+            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新时间一览</h4>
           </div>
           <div class="modal-body">
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <b-button variant="info" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">关闭</b-button>
+            <b-button variant="info" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button"><i
+                class="bi bi-power"></i></b-button>
           </div>
         </div>
       </div>
@@ -133,6 +141,11 @@
 .form-control {
   max-width: 108px !important;
 }
+
+a, a:hover {
+  color: #343a40;
+}
+
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -159,6 +172,7 @@ export default {
       max: null,
       sortType: "1",
       chartData: {},
+      searchText: null,
       chartData1: {},
       columns: [
         {
@@ -185,11 +199,17 @@ export default {
         }, {
           field: 'quantity',
           sortable: true,
+          formatter: (value) => {
+            return this.formatNumber(value);
+          },
           visible: false,
           title: '售出数',
         }, {
           field: 'num',
           sortable: true,
+          formatter: (value) => {
+            return this.formatNumber(value);
+          },
           title: '交易次数',
         }, {
           field: 'numIndexCurrent',
@@ -225,42 +245,52 @@ export default {
         }, {
           field: 'pricePerUnit',
           sortable: true,
+          formatter: (value) => {
+            return this.formatNumber(value);
+          },
           title: '均价'
+        }, {
+          field: 'craft',
+          visible: false,
+          filterControl: 'select',
+          formatter: (value) => {
+            return value === true ? '✔' : '✗'
+          },
+          title: '可制作'
         }, {
           field: 'itemTypeName',
           sortable: true,
-          filterControl: 'input',
+          filterControl: 'select',
           visible: false,
           title: '分类'
         }, {
           field: 'itemLevel',
           sortable: true,
           visible: false,
-          filterControl: 'input',
+          filterControl: 'select',
           title: '品级'
         }, {
           field: 'equipLevel',
           sortable: true,
           visible: false,
-          filterControl: 'input',
-          title: '等级'
-        }, {
-          field: 'equipLevel',
-          sortable: true,
-          visible: false,
-          filterControl: 'input',
+          filterControl: 'select',
           title: '等级'
         }, {
           title: '操作',
           width: 100,
           formatter: (value, row) => {
+            let template;
+            if (row.quantityIndexChange < 0)
+              template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
+            else template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
             return this.vueFormatter({
-              template: '<b-button variant="info" @click="clickRow(row)">趋势</b-button>',
+              template: template,
               data: {row},
               methods: {
                 clickRow: this.openSummary
               }
             })
+
           }
         }],
       itemTypes: [],
@@ -328,8 +358,12 @@ export default {
       });
     },
     resetMarketable() {
-      $('#marketableForm')[0].reset();
       let $itemType = $('#itemType');
+      let $worldName = $('#worldName');
+      let $timeScale = $('#timeScale');
+      let $sortType = $('#sortType');
+      let $marketableTable = $('#marketableTable');
+      $('#marketableForm')[0].reset();
       this.scale = 24;
       this.worldName = '中国';
       this.min = null;
@@ -338,24 +372,19 @@ export default {
       this.itemTypes = [];
       this.minQuantity = null;
       $itemType.selectpicker('val', []);
-      queryMarketable = {
-        worldName: '中国',
-        timeScale: 24
-      };
-      let $worldName = $('#worldName');
       $worldName.selectpicker('val', '中国');
-      let $timeScale = $('#timeScale');
       $timeScale.selectpicker('val', 24);
-      let $sortType = $('#sortType');
       $sortType.selectpicker('val', '1');
       $sortType.selectpicker('refresh');
       $timeScale.selectpicker('refresh');
       $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
-      let $marketableTable = $('#marketableTable');
-      $marketableTable.bootstrapTable('refresh', {
-        query: queryMarketable
-      });
+      this.searchText = null;
+      queryMarketable = {
+        worldName: '中国',
+        timeScale: 24
+      };
+      $marketableTable.bootstrapTable('refreshOptions', this.tableOptions);
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
@@ -387,7 +416,7 @@ export default {
       const vm = this;
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name+'&nbsp;趋势')
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
       $('#summaryModal').modal('show');
       let format = "yyyyMMDD";
       $.ajax({
@@ -428,6 +457,9 @@ export default {
           vm.loaded = true;
         }
       });
+    },
+    formatNumber(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     closeUpdateTimeTable() {
       $('#myModal').modal('toggle');
