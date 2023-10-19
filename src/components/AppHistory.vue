@@ -375,7 +375,7 @@ export default {
             }, {
               field: 'hq',
               formatter: (value) => {
-                return value === 'true' ? '✔' : '✗'
+                return value ? '✔' : '✗'
               },
               title: '高品质',
               filterControl: 'select'

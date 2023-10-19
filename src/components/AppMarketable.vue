@@ -71,11 +71,16 @@
                       @on-post-body="vueFormatterPostBody"
       />
     </div>
+    <div style="margin:0 auto;width: 12px;height: 12px">
+      <a target="_blank" href="https://github.com/zhangjianfengv/ffbusiness_resources">
+        <span><i class="bi bi-github"></i></span>
+      </a>
+    </div>
     <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="summaryModal" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="SummaryLabel"></h4>
+            <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel"></h4>
           </div>
           <div class="modal-body">
             <LineChart v-if="loaded" :chart-data="chartData"/>
@@ -92,7 +97,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">更新时间一览</h4>
+            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新时间一览</h4>
           </div>
           <div class="modal-body">
             <table id="updateTimeTable"></table>
@@ -136,6 +141,11 @@
 .form-control {
   max-width: 108px !important;
 }
+
+a, a:hover {
+  color: #343a40;
+}
+
 </style>
 <script>
 import tableMixin from '../mixins/table'
