@@ -18,8 +18,9 @@
         </b-button>
         <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
         <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
-                         @change="loadMore(clickWorldName,clickItemId)" switch>加载更多
+                         @change="loadMore()" switch>加载更多
         </b-form-checkbox>
+        <b-img :src="imageUrl" fluid alt="icon"></b-img>
       </b-row>
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
@@ -121,16 +122,21 @@ export default {
       }
     },
   },
+  computed: {
+    imageUrl() {
+      const currentDomain = window.location.origin; // 获取当前域名
+      return currentDomain + '/icon/' + this.itemId + '.png';
+    },
+  },
   data() {
     return {
       maximum: 0,
       itemName: null,
       date: null,
+      itemId: '0',
       nameOptions: [],
       onlyHq: 0,
       worldName: '中国',
-      clickWorldName: null,
-      clickItemId: null
     }
   },
   methods: {
@@ -153,8 +159,7 @@ export default {
     },
     queryCurrent: function (worldName, itemId) {
       this.maximum = '0';
-      this.clickWorldName = worldName;
-      this.clickItemId = itemId;
+      this.itemId = itemId;
       $('#loading-indicator').show();
       const vm = this;
       let $currentTable = $('#currentTable');
@@ -242,13 +247,13 @@ export default {
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
-    loadMore(worldName, itemId) {
+    loadMore() {
       let maximum = this.maximum;
       $.ajax({
         url: "/ffbusiness/currentData/queryCurrent",
         method: "post",
         contentType: "application/json",
-        data: JSON.stringify({worldName: worldName, itemId: itemId, maximum: maximum === '1'}),
+        data: JSON.stringify({worldName: this.worldName, itemId: this.itemId, maximum: maximum === '1'}),
         success: function (data) {
           let $currentTable = $('#currentTable');
           optionCurrent.data = data;
@@ -264,36 +269,40 @@ export default {
   mounted() {
     $('#loading-indicator').hide();
     $('select').selectpicker();
+    let $worldName = $('#worldName');
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
       let worldName = Base64.decode(worldCookie);
-      let $worldName = $('#worldName');
+      this.worldName = worldName;
       $worldName.selectpicker('val', worldName);
       $worldName.selectpicker('refresh');
-      this.worldName = worldName;
     }
     const worldName = this.$route.params.worldName;
-    const vm = this;
-    switch (worldName) {
-      case "陆行鸟":
-      case "莫古力":
-      case "猫小胖":
-      case "豆豆柴":
-      case "中国":
-        this.worldName = worldName;
-        break;
-      default: {
-        $.ajax({
-          url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
-          data: JSON.stringify({worldName: worldName}),
-          contentType: "application/json", success: function (data) {
-            vm.worldName = data.worldName
-          }
-        });
-      }
-    }
     const itemId = this.$route.params.itemId;
     if (itemId && worldName) {
+      const vm = this;
+      switch (worldName) {
+        case "陆行鸟":
+        case "莫古力":
+        case "猫小胖":
+        case "豆豆柴":
+        case "中国":
+          this.worldName = worldName;
+          $worldName.selectpicker('val', worldName);
+          $worldName.selectpicker('refresh');
+          break;
+        default: {
+          $.ajax({
+            url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+            data: JSON.stringify({worldName: worldName}),
+            contentType: "application/json", success: function (data) {
+              vm.worldName = data.worldName
+              $worldName.selectpicker('val', data.worldName);
+              $worldName.selectpicker('refresh');
+            }
+          });
+        }
+      }
       this.queryCurrent(worldName, itemId);
       this.itemName = this.$route.params.itemName;
     }
