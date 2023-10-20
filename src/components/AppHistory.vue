@@ -54,7 +54,6 @@
       </b-row>
     </b-form>
     <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
-    <b-modal id="modal-world-name" size="sm" ok-only ok-variant="info" title="提示">请选择大区或服务器</b-modal>
     <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
     <div>
       <BootstrapTable id="table"
@@ -63,35 +62,6 @@
                       :options="options"
                       @on-post-body="vueFormatterPostBody"
       />
-    </div>
-    <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="myModal" role="dialog" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto"></h4>
-          </div>
-          <div class="modal-body">
-            <b-alert show>价格</b-alert>
-            <div id="currentToolBar">
-              <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"
-                               @change="loadMore(clickWorldName,clickItemId)" switch>加载更多
-              </b-form-checkbox>
-            </div>
-            <table id="currentTable"></table>
-            <b-alert show>售出记录</b-alert>
-            <table id="historyTable"></table>
-            <div id="loading-indicator" class="text-center">
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeCurrentTable()" type="button"><i
-                class="bi bi-power"></i></button>
-          </div>
-        </div>
-      </div>
     </div>
     <div style="text-align:center;">
       <a href="http://www.beian.gov.cn/portal/registerSystemInfo"
@@ -131,20 +101,10 @@ input.form-control {
   max-width: 200px;
 }
 </style>
-<style scoped>
-div.alert {
-  text-align: center;
-}
-
-#currentToolBar {
-  border-color: #17a2b8
-}
-</style>
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Base64 from '../plugins/base64'
-import moment from "moment";
 
 let query = {
   worldName: '中国',
@@ -172,42 +132,6 @@ let options = {
   mobileResponsive: true,
   checkOnInit: true,
   pageList: [20, 100, 200, 500, 1000]
-};
-let optionCurrent = {
-  dataField: 'currents',
-  pagination: "true",
-  columns: [{
-    field: 'worldName',
-    title: '服务器',
-    filterControl: 'select'
-  }, {
-    field: 'retainerName',
-    title: '雇员名',
-    filterControl: 'select'
-  }, {
-    field: 'hq',
-    formatter: (value) => {
-      return value === 'true' ? '✔' : '✗'
-    },
-    title: '高品质',
-    filterControl: 'select'
-  }, {
-    field: 'total',
-    formatter: (value, row) => {
-      let exp = /\B(?=(\d{3})+(?!\d))/g;
-      return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
-    },
-    title: '总计'
-  }], method: 'post',
-  pageNumber: 1,
-  pageSize: 5,
-  toolbar: '#currentToolBar',
-  filterControl: true,
-  paginationUseIntermediate: true,
-  showSearchClearButton: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  pageList: [10, 20, 50, 150, 450],
 };
 export default {
   mixins: [tableMixin],
@@ -341,77 +265,9 @@ export default {
       options.columns = this.columns;
       $table.bootstrapTable(options)
     },
-    queryCurrent: function (worldName, itemId) {
-      this.maximum = '0';
-      this.clickWorldName = worldName;
-      this.clickItemId = itemId;
-      $('#loading-indicator').show();
-      $('#myModal').modal('show');
-      const vm = this;
-      let $currentTable = $('#currentTable');
-      $currentTable.bootstrapTable('destroy');
-      let $historyTable = $('#historyTable');
-      $historyTable.bootstrapTable('destroy');
-      $.ajax({
-        url: "/ffbusiness/currentData/queryCurrent",
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify({worldName: worldName, itemId: itemId}),
-        success: function (data) {
-          $('#loading-indicator').hide();
-          optionCurrent.data = data;
-          $currentTable.bootstrapTable(optionCurrent);
-          $historyTable.bootstrapTable({
-            data: data,
-            dataField: 'realHistoryDtos',
-            columns: [{
-              field: 'worldName',
-              filterControl: 'select',
-              title: '服务器'
-            }, {
-              field: 'buyerName',
-              filterControl: 'select',
-              title: '角色名'
-            }, {
-              field: 'hq',
-              formatter: (value) => {
-                return value ? '✔' : '✗'
-              },
-              title: '高品质',
-              filterControl: 'select'
-            }, {
-              field: 'total',
-              formatter: (value, row) => {
-                return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
-              },
-              title: '总计'
-            }, {
-              field: 'timestamp',
-              formatter: (value) => {
-                return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
-              },
-              title: '购买时间'
-            }],
-            contentType: "application/json",
-            pageNumber: 1,
-            pagination: "true",
-            pageSize: 5,
-            filterControl: true,
-            paginationUseIntermediate: true,
-            showSearchClearButton: true,
-            paginationSuccessivelySize: 1,
-            paginationPagesBySide: 1,
-            pageList: [20, 40]
-          });
-          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
-        }
-      });
-    },
     queryCurrentTable(row) {
       let id = row.itemId;
-      let itemName = row.itemName;
-      this.handleModalLabelTable(itemName, row.worldName, id);
-      this.queryCurrent(row.worldName, id);
+      this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
     queryCurrentForm() {
       let tempItemId;
@@ -430,17 +286,16 @@ export default {
             } else {
               tempItemId = data.rows[0].id;
               tempItemName = data.rows[0].name;
-              vm.handleModalLabelForm(tempItemName, tempItemId);
-              vm.queryCurrent(vm.worldName, tempItemId);
+              vm.$router.push({
+                name: 'AppCurrent',
+                params: {itemId: tempItemId, worldName: vm.worldName, itemName: tempItemName}
+              });
             }
           }
         });
       } else vm.$bvModal.show('modal-item');
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
-    },
-    closeCurrentTable() {
-      $('#myModal').modal('toggle');
     },
     loadMore(worldName, itemId) {
       let maximum = this.maximum;
@@ -456,41 +311,6 @@ export default {
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }
       })
-    },
-    handleModalLabelForm(tempItemName, id) {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + id + '.png?eo-img.resize=w/32/h/32';
-      switch (this.worldName) {
-        case "陆行鸟":
-        case "莫古力":
-        case "猫小胖":
-        case "豆豆柴":
-        case "中国":
-          $('#myModalLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;实时数据')
-          break;
-        default: {
-          $.ajax({
-            url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
-            data: JSON.stringify({worldName: this.worldName}),
-            contentType: "application/json", success: function (data) {
-              let value = data.worldName + '&nbsp;<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' + tempItemName + '&nbsp;低价';
-              $('#myModalLabel').html(value)
-            }
-          });
-        }
-      }
-    },
-    handleModalLabelTable(tempItemName, tempWorldName, id) {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + id + '.png?eo-img.resize=w/32/h/32';
-      $.ajax({
-        url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
-        data: JSON.stringify({worldName: tempWorldName}),
-        contentType: "application/json", success: function () {
-          let value = '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">' +
-              tempItemName + '&nbsp;实时数据';
-          $('#myModalLabel').html(value)
-        }
-      });
     },
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

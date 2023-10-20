@@ -11,6 +11,7 @@ import AppMarketable from "@/components/AppMarketable.vue";
 import App from "@/components/App.vue";
 import AppItem from "@/components/AppItem.vue";
 import VueCookies from 'vue-cookies'
+import AppCurrent from "@/components/AppCurrent.vue";
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -23,10 +24,10 @@ Vue.config.errorHandler = function (err, vm, info) {
 
 Vue.config.productionTip = false
 const routes = [
-    // {path: '/', redirect: AppHistory},
     {path: '/', component: AppHistory},
     {path: '/history/', component: AppHistory},
     {path: '/marketable/', component: AppMarketable},
+    {path: '/current/', name: 'AppCurrent', component: AppCurrent},
     {path: '/item/', component: AppItem}
 ]
 

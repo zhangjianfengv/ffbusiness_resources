@@ -7,6 +7,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/history">销售履历</b-nav-item>
+            <b-nav-item to="/current">实时物价</b-nav-item>
             <b-nav-item to="/marketable">市场统计</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
             <b-button variant="info" type="button"
@@ -25,16 +26,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年10月13日
-              </h6>
-              <span style="font-size: smaller">
-                1.查询现价条数上限调整到450条，可筛选高品质、服务器及雇员名<br>
-                2.市场统计页面原先的品级等级及分类筛选(表格内)也改为了选项<br>
-                3.现价显示的价格不含税
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年10月14日
               </h6>
               <span style="font-size: smaller">
@@ -49,7 +40,14 @@
                 1.查询现价额外返回40条销售履历(实时)<br>
                 2.为了加快响应速度，查询现价默认最大条数为50条，打开"加载更多"开关会重新查询更多数据
             </span></div>
-
+            <br>
+            <div>
+              <h6>
+                2023年10月20日
+              </h6>
+              <span style="font-size: smaller">
+                1.实时物价成为单独页面，并做了适配优化<br>
+            </span></div>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
