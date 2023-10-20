@@ -7,9 +7,9 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/history">销售履历</b-nav-item>
-            <b-nav-item to="/current">实时物价</b-nav-item>
             <b-nav-item to="/marketable">市场统计</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
+            <b-nav-item to="/current">实时物价</b-nav-item>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
           </b-navbar-nav>

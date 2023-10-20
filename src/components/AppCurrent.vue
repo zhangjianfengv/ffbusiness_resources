@@ -5,11 +5,11 @@
         <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
         <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
         <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
-          <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
-          <option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</option>
-          <option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</option>
-          <option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</option>
-          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
+          <option value="陆行鸟">陆行鸟</option>
+          <option value="猫小胖">猫小胖</option>
+          <option value="莫古力">莫古力</option>
+          <option value="豆豆柴">豆豆柴</option>
+          <option selected value="中国">中国</option>
         </b-form-select>
         <!--        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">-->
         <!--          仅HQ-->
@@ -272,8 +272,27 @@ export default {
       $worldName.selectpicker('refresh');
       this.worldName = worldName;
     }
-    const itemId = this.$route.params.itemId;
     const worldName = this.$route.params.worldName;
+    const vm = this;
+    switch (worldName) {
+      case "陆行鸟":
+      case "莫古力":
+      case "猫小胖":
+      case "豆豆柴":
+      case "中国":
+        this.worldName = worldName;
+        break;
+      default: {
+        $.ajax({
+          url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
+          data: JSON.stringify({worldName: worldName}),
+          contentType: "application/json", success: function (data) {
+            vm.worldName = data.worldName
+          }
+        });
+      }
+    }
+    const itemId = this.$route.params.itemId;
     if (itemId && worldName) {
       this.queryCurrent(worldName, itemId);
       this.itemName = this.$route.params.itemName;
