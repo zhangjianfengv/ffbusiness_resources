@@ -11,12 +11,13 @@
           <option value="豆豆柴">豆豆柴</option>
           <option selected value="中国">中国</option>
         </b-form-select>
-        <!--        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">-->
-        <!--          仅HQ-->
-        <!--        </b-form-checkbox>-->
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
         </b-button>
         <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
+        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="filterData()"
+                         switch>
+          只看HQ
+        </b-form-checkbox>
         <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
                          @change="loadMore()" switch>加载更多
         </b-form-checkbox>
@@ -25,7 +26,16 @@
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
     <table id="currentTable"></table>
-    <table id="historyTable"></table>
+    <b-card no-body class="mb-1">
+      <b-card-header header-tag="header" class="p-1" role="tab">
+        <b-button block v-b-toggle.accordion-1 variant="info">展开最近销售履历</b-button>
+      </b-card-header>
+      <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
+        <b-card-body>
+          <table id="historyTable"></table>
+        </b-card-body>
+      </b-collapse>
+    </b-card>
     <div id="loading-indicator" class="text-center">
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
@@ -137,6 +147,7 @@ export default {
       nameOptions: [],
       onlyHq: 0,
       worldName: '中国',
+      unFilteredData: []
     }
   },
   methods: {
@@ -174,6 +185,7 @@ export default {
         success: function (data) {
           $('#loading-indicator').hide();
           optionCurrent.data = data;
+          vm.unFilteredData = data;
           $currentTable.bootstrapTable(optionCurrent);
           $historyTable.bootstrapTable({
             data: data,
@@ -181,11 +193,12 @@ export default {
             columns: [{
               field: 'worldName',
               filterControl: 'select',
+              filterDefault: worldName,
               title: '服务器'
             }, {
               field: 'buyerName',
               filterControl: 'select',
-              title: '角色名'
+              title: '购买者'
             }, {
               field: 'hq',
               formatter: (value) => {
@@ -231,15 +244,16 @@ export default {
           async: true,
           method: "post",
           contentType: "application/json",
-          data: JSON.stringify({id: this.itemId, name: this.itemName}),
+          data: JSON.stringify({name: this.itemName}),
           success: function (data) {
             if (data.rows.length === 0) {
               vm.$bvModal.show('modal-item')
             } else {
               tempItemId = data.rows[0].id;
               tempItemName = data.rows[0].name;
-              vm.queryCurrent(vm.worldName, tempItemId);
               vm.itemName = tempItemName;
+              vm.itemId = tempItemId;
+              vm.queryCurrent(vm.worldName, tempItemId);
             }
           }
         });
@@ -247,7 +261,21 @@ export default {
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
+    filterData() {
+      let $currentTable = $('#currentTable');
+      let $historyTable = $('#historyTable');
+      if (this.onlyHq === '1') {
+        let data0 = $currentTable.bootstrapTable('getData');
+        let data1 = $historyTable.bootstrapTable('getData');
+        $currentTable.bootstrapTable('load', data0.filter(item => item.hq === 'true'))
+        $historyTable.bootstrapTable('load', data1.filter(item => item.hq === true))
+      } else {
+        $currentTable.bootstrapTable('load', this.unFilteredData)
+        $historyTable.bootstrapTable('load', this.unFilteredData)
+      }
+    },
     loadMore() {
+      const vm = this;
       let maximum = this.maximum;
       $.ajax({
         url: "/ffbusiness/currentData/queryCurrent",
@@ -257,7 +285,9 @@ export default {
         success: function (data) {
           let $currentTable = $('#currentTable');
           optionCurrent.data = data;
+          vm.unFilteredData = data;
           $currentTable.bootstrapTable('destroy').bootstrapTable(optionCurrent);
+          vm.filterData();
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }
       })

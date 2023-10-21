@@ -26,14 +26,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年10月14日
-              </h6>
-              <span style="font-size: smaller">
-                1.市场统计页面展示物品是否可由生产职业制作
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年10月18日
               </h6>
               <span style="font-size: smaller">
@@ -47,6 +39,15 @@
               </h6>
               <span style="font-size: smaller">
                 1.实时物价成为单独页面，并做了适配优化<br>
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年10月21日
+              </h6>
+              <span style="font-size: smaller">
+                1.实时物价增加只看hq开关<br>
+                2.修复了实时物价物品名称输入框不起作用的问题
             </span></div>
           </div>
           <div class="modal-footer">
