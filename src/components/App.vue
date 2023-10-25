@@ -40,15 +40,15 @@
                 1.实时物价增加只看hq开关<br>
                 2.修复了实时物价物品名称输入框不起作用的问题
             </span></div>
-          </div>
-          <br>
-          <div>
-            <h6>
-              2023年10月25日
-            </h6>
-            <span style="font-size: smaller">
+            <br>
+            <div>
+              <h6>
+                2023年10月25日
+              </h6>
+              <span style="font-size: smaller">
                 1.实时物价页面记住上次在销售履历页面所选大区（仅当直接进入此页面时起作用，若从履历跳转则会被覆盖）
             </span></div>
+          </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
             </button>
