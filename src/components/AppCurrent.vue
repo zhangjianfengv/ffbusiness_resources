@@ -301,16 +301,15 @@ export default {
     $('select').selectpicker();
     let $worldName = $('#worldName');
     const worldCookie = this.$cookies.get('world');
+    let worldName;
     if (this.isStr(worldCookie)) {
-      let worldName = Base64.decode(worldCookie);
-      this.worldName = worldName;
-      $worldName.selectpicker('val', worldName);
-      $worldName.selectpicker('refresh');
+      worldName = Base64.decode(worldCookie);
     }
-    const worldName = this.$route.params.worldName;
+    const param = this.$route.params.worldName;
+    if (param) worldName = param;
     const itemId = this.$route.params.itemId;
-    if (itemId && worldName) {
-      const vm = this;
+    const vm = this;
+    if (worldName) {
       switch (worldName) {
         case "陆行鸟":
         case "莫古力":
@@ -333,6 +332,8 @@ export default {
           });
         }
       }
+    }
+    if (itemId && worldName) {
       this.queryCurrent(worldName, itemId);
       this.itemName = this.$route.params.itemName;
     }

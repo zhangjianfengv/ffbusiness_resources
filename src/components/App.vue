@@ -26,15 +26,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年10月18日
-              </h6>
-              <span style="font-size: smaller">
-                1.查询现价额外返回40条销售履历(实时)<br>
-                2.为了加快响应速度，查询现价默认最大条数为50条，打开"加载更多"开关会重新查询更多数据
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年10月20日
               </h6>
               <span style="font-size: smaller">
@@ -50,6 +41,14 @@
                 2.修复了实时物价物品名称输入框不起作用的问题
             </span></div>
           </div>
+          <br>
+          <div>
+            <h6>
+              2023年10月25日
+            </h6>
+            <span style="font-size: smaller">
+                1.实时物价页面记住大区名
+            </span></div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
             </button>
