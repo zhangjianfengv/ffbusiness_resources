@@ -21,7 +21,7 @@
         <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
                          @change="loadMore()" switch>加载更多
         </b-form-checkbox>
-        <b-img :src="imageUrl" fluid alt="icon"></b-img>
+        <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
       </b-row>
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
