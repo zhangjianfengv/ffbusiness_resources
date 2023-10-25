@@ -47,7 +47,7 @@
               2023年10月25日
             </h6>
             <span style="font-size: smaller">
-                1.实时物价页面记住大区名
+                1.实时物价页面记住上次在销售履历页面所选大区（仅当直接进入此页面时起作用，若从履历跳转则会被覆盖）
             </span></div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
