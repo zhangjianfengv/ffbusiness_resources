@@ -29,7 +29,14 @@
             <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel"></h4>
           </div>
           <div class="modal-body">
-            <tree-view :tree-data="treeData"></tree-view>
+            <ul id="demo">
+              <ul id="demo">
+                <Tree
+                    class="item"
+                    :item="treeData"
+                ></Tree>
+              </ul>
+            </ul>
           </div>
           <div id="loading-indicator" class="text-center">
             <div class="spinner-border" role="status">
@@ -73,11 +80,13 @@ input.form-control {
   max-width: 100px;
   display: inline !important;
 }
+
+
 </style>
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
-import TreeView from './Tree.vue';
+import Tree from "@/components/Tree.vue";
 
 let query = {};
 
@@ -106,10 +115,8 @@ let options = {
   pageList: [50, 100, 200, 500, 1000]
 };
 export default {
+  components: {Tree},
   mixins: [tableMixin],
-  components: {
-    'tree-view': TreeView // 注册树状图组件
-  },
   data() {
     let columns = [{
       field: 'id',
