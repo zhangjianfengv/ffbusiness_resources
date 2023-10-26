@@ -26,14 +26,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年10月20日
-              </h6>
-              <span style="font-size: smaller">
-                1.实时物价成为单独页面，并做了适配优化<br>
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年10月21日
               </h6>
               <span style="font-size: smaller">
@@ -47,6 +39,14 @@
               </h6>
               <span style="font-size: smaller">
                 1.实时物价页面记住上次在销售履历页面所选大区（仅当直接进入此页面时起作用，若从履历跳转则会被覆盖）
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年10月26日
+              </h6>
+              <span style="font-size: smaller">
+                1.市场统计页面，价格销量走势图，当该日售出数为0时，价格不会在走势图上显示为0而是改为不显示<br>
             </span></div>
           </div>
           <div class="modal-footer">
