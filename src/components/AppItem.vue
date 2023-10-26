@@ -22,6 +22,27 @@
                       :options="options"
                       @on-post-body="vueFormatterPostBody"/>
     </div>
+    <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="recipeModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel"></h4>
+          </div>
+          <div class="modal-body">
+            <tree-view :tree-data="treeData"></tree-view>
+          </div>
+          <div id="loading-indicator" class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeRecipe()" type="button"><i
+                class="bi bi-power"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style>
@@ -56,70 +77,10 @@ input.form-control {
 <script>
 import tableMixin from '../mixins/table'
 import $ from "jquery";
+import TreeView from './Tree.vue';
 
 let query = {};
-let columns = [{
-  field: 'id',
-  title: 'id'
-}, {
-  formatter: (value, row) => {
-    let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
-    return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
-  },
-  title: '图标'
-}, {
-  field: 'name',
-  title: '名称'
-}, {
-  field: 'description',
-  title: '描述'
-}, {
-  field: 'levelEquip',
-  title: '等级'
-}, {
-  field: 'levelItem',
-  title: '品级'
-}, {
-  field: 'stackSize',
-  title: '堆叠'
-}, {
-  field: 'canBeHq',
-  title: '高品质',
-  formatter: (value) => {
-    return value === false ? '' : '✔'
-  }
-}, {
-  field: 'isUnique',
-  title: '独占',
-  formatter: (value) => {
-    return value === true ? '✔' : ''
-  }
-}, {
-  field: 'isCrestWorthy',
-  title: '珍稀',
-  formatter: (value) => {
-    return value === true ? '✔' : ''
-  }
-}, {
-  field: 'isUntradable',
-  title: '可出售',
-  formatter: (value) => {
-    return value === false ? '✔' : ''
-  }
 
-}, {
-  field: 'isDyeable',
-  title: '可分解',
-  formatter: (value) => {
-    return value === true ? '✔' : ''
-  }
-}, {
-  field: 'isIndisposable',
-  title: '可丢弃',
-  formatter: (value) => {
-    return value === false ? '✔' : ''
-  }
-}];
 let options = {
   url: '/ffbusiness/itemNew/realData',
   pagination: "true",
@@ -146,7 +107,85 @@ let options = {
 };
 export default {
   mixins: [tableMixin],
+  components: {
+    'tree-view': TreeView // 注册树状图组件
+  },
   data() {
+    let columns = [{
+      field: 'id',
+      title: 'id'
+    }, {
+      formatter: (value, row) => {
+        let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
+        return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
+      },
+      title: '图标'
+    }, {
+      field: 'name',
+      title: '名称'
+    }, {
+      field: 'description',
+      title: '描述'
+    }, {
+      field: 'levelEquip',
+      title: '等级'
+    }, {
+      field: 'levelItem',
+      title: '品级'
+    }, {
+      field: 'stackSize',
+      title: '堆叠'
+    }, {
+      field: 'canBeHq',
+      title: '高品质',
+      formatter: (value) => {
+        return value === false ? '' : '✔'
+      }
+    }, {
+      field: 'isUnique',
+      title: '独占',
+      formatter: (value) => {
+        return value === true ? '✔' : ''
+      }
+    }, {
+      field: 'isCrestWorthy',
+      title: '珍稀',
+      formatter: (value) => {
+        return value === true ? '✔' : ''
+      }
+    }, {
+      field: 'isUntradable',
+      title: '可出售',
+      formatter: (value) => {
+        return value === false ? '✔' : ''
+      }
+
+    }, {
+      field: 'isDyeable',
+      title: '可分解',
+      formatter: (value) => {
+        return value === true ? '✔' : ''
+      }
+    }, {
+      field: 'isIndisposable',
+      title: '可丢弃',
+      formatter: (value) => {
+        return value === false ? '✔' : ''
+      },
+    }, {
+      title: '查看配方',
+      formatter: (value, row) => {
+        let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-receipt-cutoff"></i></b-button>';
+        return this.vueFormatter({
+          template: template,
+          data: {row},
+          methods: {
+            clickRow: this.openRecipe
+          }
+        })
+
+      }
+    }];
     return {
       scale: 24,
       worldName: '中国',
@@ -155,7 +194,8 @@ export default {
       sortType: "1",
       columns: columns,
       options: options,
-      itemTypes: []
+      itemTypes: [],
+      treeData: {}
     }
   },
   methods: {
@@ -170,7 +210,7 @@ export default {
         levelItem: $('#levelItem').val(),
         itemTypes: this.itemTypes
       };
-      options.columns = columns;
+      options.columns = this.columns;
       $table.bootstrapTable(options)
       $table.bootstrapTable('refresh', {
         query: query
@@ -184,14 +224,30 @@ export default {
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
-      options.columns = columns;
+      options.columns = this.columns;
       $table.bootstrapTable(options)
     },
+    openRecipe(row) {
+      const vm = this;
+      $('#loading-indicator').show();
+      $('#recipeModal').modal('show');
+      $.ajax({
+        url: "/ffbusiness/recipe/getOne", method: "post", contentType: "application/json",
+        data: JSON.stringify({itemId: row.id}),
+        success: function (data) {
+          $('#loading-indicator').hide();
+          vm.treeData = data;
+        }
+      });
+    },
+    closeRecipe() {
+      $('#recipeModal').modal('toggle');
+    }
   },
   mounted() {
     $('select').selectpicker();
     $.ajax({
-      url: "/ffbusiness/itemType/all", async: true, method: "post", contentType: "application/json", success: function (data) {
+      url: "/ffbusiness/itemType/all", method: "post", contentType: "application/json", success: function (data) {
         this.options = data;
       }
     });

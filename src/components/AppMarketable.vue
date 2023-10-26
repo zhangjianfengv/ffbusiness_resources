@@ -397,10 +397,9 @@ export default {
             return $('#timeScale option[value=' + value + ']').html().slice(2);
           }
         }, {
-          field: 'between',
-          title: '当前统计范围',
+          title: '更新于',
           formatter: function (value, row) {
-            return "开始:" + row.begin.substring(0, 19) + '<br/>结束:' + row.end.substring(0, 19);
+            return row.end.substring(0, 19);
           }
         }, {
           field: 'next',
