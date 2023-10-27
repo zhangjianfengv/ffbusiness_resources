@@ -163,7 +163,12 @@ export default {
       title: '堆叠'
     }, {
       field: 'job',
-      title: '职业'
+      title: '职业',
+      formatter: (value) => {
+        if (value === '冒险者') {
+          return ''
+        } else return value;
+      }
     }, {
       field: 'canBeHq',
       title: '高品质',
