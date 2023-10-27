@@ -4,7 +4,8 @@
       <b-col id="queryParam">
         <b-row>
           <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>
-          <b-form-input class="form-control  mx-1" id="name" placeholder="名称" type="text" value=""></b-form-input>
+          <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+          <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
           <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
           <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
           <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
@@ -118,6 +119,23 @@ let options = {
 export default {
   components: {Tree},
   mixins: [tableMixin],
+  watch: {
+    itemName: function (newValue) {
+      if (this.isStr(newValue)) {
+        const vm = this;
+        $.ajax({
+          url: "/ffbusiness/itemNew/suggestName",
+          async: true,
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({name: this.itemName}),
+          success: function (data) {
+            vm.nameOptions = data;
+          }
+        });
+      }
+    },
+  },
   data() {
     let columns = [{
       field: 'id',
@@ -198,6 +216,8 @@ export default {
     return {
       columns: columns,
       options: options,
+      nameOptions: [],
+      itemName: '',
       materials: '',
       itemTypes: [],
       treeData: {}
@@ -209,7 +229,7 @@ export default {
       $table.bootstrapTable('destroy');
       query = {
         id: $('#id').val(),
-        name: $('#name').val(),
+        name: this.itemName,
         description: $('#description').val(),
         itemUICategory: $('#itemUICategory').val(),
         levelItem: $('#levelItem').val(),
