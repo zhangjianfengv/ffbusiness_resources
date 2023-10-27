@@ -276,7 +276,7 @@ export default {
           filterControl: 'select',
           title: '等级'
         }, {
-          title: '操作',
+          title: '趋势图',
           width: 100,
           formatter: (value, row) => {
             let template;

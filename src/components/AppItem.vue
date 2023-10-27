@@ -22,11 +22,11 @@
                       :options="options"
                       @on-post-body="vueFormatterPostBody"/>
     </div>
-    <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="recipeModal" role="dialog" tabindex="-1">
+    <div aria-hidden="true" class="modal fade" id="recipeModal" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel"></h4>
+            <h4 class="modal-title" style="margin: 0 auto" id="recipeLabel"></h4>
           </div>
           <div class="modal-body">
             <ul id="demo">
@@ -37,6 +37,7 @@
                 ></Tree>
               </ul>
             </ul>
+            <!--            <div> {{ materials }}</div>-->
           </div>
           <div id="loading-indicator" class="text-center">
             <div class="spinner-border" role="status">
@@ -182,25 +183,22 @@ export default {
     }, {
       title: '查看配方',
       formatter: (value, row) => {
-        let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-receipt-cutoff"></i></b-button>';
-        return this.vueFormatter({
-          template: template,
-          data: {row},
-          methods: {
-            clickRow: this.openRecipe
-          }
-        })
-
+        if (row.craft) {
+          let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-receipt-cutoff"></i></b-button>';
+          return this.vueFormatter({
+            template: template,
+            data: {row},
+            methods: {
+              clickRow: this.openRecipe
+            }
+          })
+        } else return '';
       }
     }];
     return {
-      scale: 24,
-      worldName: '中国',
-      min: null,
-      max: null,
-      sortType: "1",
       columns: columns,
       options: options,
+      materials: '',
       itemTypes: [],
       treeData: {}
     }
@@ -237,6 +235,9 @@ export default {
     openRecipe(row) {
       const vm = this;
       $('#loading-indicator').show();
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
+      $('#recipeLabel').html('<img src="' + url +
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
       $('#recipeModal').modal('show');
       $.ajax({
         url: "/ffbusiness/recipe/getOne", method: "post", contentType: "application/json",
@@ -244,8 +245,43 @@ export default {
         success: function (data) {
           $('#loading-indicator').hide();
           vm.treeData = data;
+          // vm.print(vm.countItemAmount(data));
         }
       });
+    },
+    countItemAmount(obj) {
+      const result = {};
+      // 遍历对象的属性
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const value = obj[key];
+          if (key === 'itemName' && typeof value === 'string') {
+            // 找到 itemName 属性，统计 amount
+            if (obj.hasOwnProperty('amount') && typeof obj.amount === 'number') {
+              result[value] = (result[value] || 0) + obj.amount;
+            }
+          }
+          if (key !== 'detail' && typeof value === 'object' && value !== null) {
+            // 递归处理嵌套对象，但忽略包含 detail 属性的子对象
+            const nestedResult = this.countItemAmount(value);
+            for (const itemName in nestedResult) {
+              if (nestedResult.hasOwnProperty(itemName)) {
+                result[itemName] = (result[itemName] || 0) + nestedResult[itemName];
+              }
+            }
+          }
+        }
+      }
+      return result;
+    },
+    print(obj) {
+      let str = '总计：';
+      const keys = Object.keys(obj);
+      for (const key of keys) {
+        const value = obj[key];
+        str = str + key + ":" + value + '&nbsp;'
+      }
+      this.materials = str;
     },
     closeRecipe() {
       $('#recipeModal').modal('toggle');

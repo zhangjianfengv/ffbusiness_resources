@@ -1,10 +1,14 @@
 <template>
   <li>
     <div
-        :class="{bold: isFolder}"
         @click="toggle"
         @dblclick="makeFolder">
-      {{ item.itemName }}
+      <!--      <img-->
+      <!--          src="{{  window.location.protocol + '//' + window.location.host + '/icon/' + item.itemId + '.png?eo-img.resize=w/32/h/32'}}"-->
+      <!--          width="32" height="32" alt="icon">&nbsp;-->
+      {{
+        item.amount ? (item.itemName + 'X' + item.amount) : item.itemName
+      }}&nbsp;{{ item.craftJobName ? item.craftJobName : '' }}
       <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
     </div>
     <ul v-show="isOpen" v-if="isFolder">
@@ -16,7 +20,6 @@
           @make-folder="$emit('make-folder', $event)"
           @add-item="$emit('add-item', $event)"
       ></Tree>
-      <li class="add" @click="$emit('add-item', item)">+</li>
     </ul>
   </li>
 </template>
@@ -28,7 +31,7 @@ export default {
   },
   data: function () {
     return {
-      isOpen: false
+      isOpen: true
     };
   },
   computed: {
@@ -47,7 +50,7 @@ export default {
         this.$emit("make-folder", this.item);
         this.isOpen = true;
       }
-    }
+    },
   }
 }
 </script>
@@ -60,10 +63,6 @@ body {
 
 .item {
   cursor: pointer;
-}
-
-.bold {
-  font-weight: bold;
 }
 
 ul {

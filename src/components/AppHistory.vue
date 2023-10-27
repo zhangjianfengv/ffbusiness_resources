@@ -197,7 +197,7 @@ export default {
         field: 'timestamp',
         title: '购买时间'
       }, {
-        title: '操作',
+        title: '实时数据',
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
