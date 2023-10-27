@@ -249,6 +249,7 @@ export default {
       $('#itemForm')[0].reset();
       $table.bootstrapTable('destroy');
       query = {};
+      this.itemName = null;
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
