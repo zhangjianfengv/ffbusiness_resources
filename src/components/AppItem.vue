@@ -303,6 +303,9 @@ export default {
       }
       this.materials = str;
     },
+    isStr(val) {
+      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    },
     closeRecipe() {
       $('#recipeModal').modal('toggle');
     }
