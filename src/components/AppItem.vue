@@ -128,7 +128,7 @@ export default {
           async: true,
           method: "post",
           contentType: "application/json",
-          data: JSON.stringify({name: this.itemName}),
+          data: JSON.stringify({name: this.itemName, all: true}),
           success: function (data) {
             vm.nameOptions = data;
           }
@@ -161,6 +161,9 @@ export default {
     }, {
       field: 'stackSize',
       title: '堆叠'
+    }, {
+      field: 'job',
+      title: '职业'
     }, {
       field: 'canBeHq',
       title: '高品质',
