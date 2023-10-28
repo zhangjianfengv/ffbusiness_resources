@@ -39,9 +39,9 @@
               </ul>
             </ul>
             <div id="recipeList">
-              <b-form-spinbutton id="sb-inline" v-model="craftCount" inline></b-form-spinbutton>
+              <b-form-input id="sb-inline" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
-                <li v-for="(value, key) in materials">{{ key }}X{{ value * craftCount }}</li>
+                <li style="text-decoration: none" v-for="(value, key) in materials">{{ key }}X{{ value * craftCount }}</li>
               </ul>
             </div>
           </div>
@@ -302,6 +302,7 @@ export default {
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeTree').hide();
+      this.craftCount = 1;
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
