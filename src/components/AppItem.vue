@@ -226,7 +226,7 @@ export default {
         } else return '';
       }
     }, {
-      title: '材料计算',
+      title: '材料清单计算',
       formatter: (value, row) => {
         if (row.craft) {
           let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
