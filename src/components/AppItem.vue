@@ -30,7 +30,7 @@
             <h4 class="modal-title" style="margin: 0 auto" id="recipeLabel"></h4>
           </div>
           <div class="modal-body">
-            <ul id="demo">
+            <ul id="recipeTree">
               <ul id="demo">
                 <Tree
                     class="item"
@@ -38,7 +38,12 @@
                 ></Tree>
               </ul>
             </ul>
-            <!--            <div> {{ materials }}</div>-->
+            <div id="recipeList">
+              <b-form-spinbutton id="sb-inline" v-model="craftCount" inline></b-form-spinbutton>
+              <ul>
+                <li v-for="(value, key) in materials">{{ key }}X{{ value * craftCount }}</li>
+              </ul>
+            </div>
           </div>
           <div id="loading-indicator" class="text-center">
             <div class="spinner-border" role="status">
@@ -220,13 +225,28 @@ export default {
           })
         } else return '';
       }
+    }, {
+      title: '材料计算',
+      formatter: (value, row) => {
+        if (row.craft) {
+          let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
+          return this.vueFormatter({
+            template: template,
+            data: {row},
+            methods: {
+              clickRow: this.openList
+            }
+          })
+        } else return '';
+      }
     }];
     return {
       columns: columns,
       options: options,
       nameOptions: [],
       itemName: '',
-      materials: '',
+      materials: [],
+      craftCount: 1,
       itemTypes: [],
       treeData: {}
     }
@@ -264,6 +284,7 @@ export default {
     openRecipe(row) {
       const vm = this;
       $('#loading-indicator').show();
+      $('#recipeList').hide();
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
@@ -273,44 +294,27 @@ export default {
         data: JSON.stringify({itemId: row.id}),
         success: function (data) {
           $('#loading-indicator').hide();
-          vm.treeData = data;
-          // vm.print(vm.countItemAmount(data));
+          $('#recipeTree').show();
+          vm.treeData = data.tree;
         }
       });
-    },
-    countItemAmount(obj) {
-      const result = {};
-      // 遍历对象的属性
-      for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          const value = obj[key];
-          if (key === 'itemName' && typeof value === 'string') {
-            // 找到 itemName 属性，统计 amount
-            if (obj.hasOwnProperty('amount') && typeof obj.amount === 'number') {
-              result[value] = (result[value] || 0) + obj.amount;
-            }
-          }
-          if (key !== 'detail' && typeof value === 'object' && value !== null) {
-            // 递归处理嵌套对象，但忽略包含 detail 属性的子对象
-            const nestedResult = this.countItemAmount(value);
-            for (const itemName in nestedResult) {
-              if (nestedResult.hasOwnProperty(itemName)) {
-                result[itemName] = (result[itemName] || 0) + nestedResult[itemName];
-              }
-            }
-          }
+    }, openList(row) {
+      const vm = this;
+      $('#loading-indicator').show();
+      $('#recipeTree').hide();
+      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
+      $('#recipeLabel').html('<img src="' + url +
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
+      $('#recipeModal').modal('show');
+      $.ajax({
+        url: "/ffbusiness/recipe/getOne", method: "post", contentType: "application/json",
+        data: JSON.stringify({itemId: row.id}),
+        success: function (data) {
+          $('#loading-indicator').hide();
+          $('#recipeList').show();
+          vm.materials = data.list;
         }
-      }
-      return result;
-    },
-    print(obj) {
-      let str = '总计：';
-      const keys = Object.keys(obj);
-      for (const key of keys) {
-        const value = obj[key];
-        str = str + key + ":" + value + '&nbsp;'
-      }
-      this.materials = str;
+      });
     },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;

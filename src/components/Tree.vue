@@ -3,10 +3,6 @@
     <div
         @click="toggle"
         @dblclick="makeFolder">
-      <!--      <img-->
-      <!--          src="{{  window.location.protocol + '//' + window.location.host + '/icon/' + item.itemId + '.png?eo-img.resize=w/32/h/32'}}"-->
-      <!--          width="32" height="32" alt="icon">&nbsp;-->
-
       <span style="font-size: large">  {{
           item.amount ? (item.itemName + 'X' + item.amount) : item.itemName
         }}</span>
