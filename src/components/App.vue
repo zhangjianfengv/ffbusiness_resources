@@ -26,15 +26,6 @@
           <div class="modal-body">
             <div>
               <h6>
-                2023年10月21日
-              </h6>
-              <span style="font-size: smaller">
-                1.实时物价增加只看hq开关<br>
-                2.修复了实时物价物品名称输入框不起作用的问题
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年10月25日
               </h6>
               <span style="font-size: smaller">
@@ -49,6 +40,14 @@
                 1.物品查询页面，可制作的物品可查看配方<br>
                 2.物品查询页面，物品名称输入时显示物品建议,增加显示使用职业<br>
                 3.市场统计页面，价格销量走势图，当该日售出数为0时，价格不会在走势图上显示为0而是改为不显示
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年10月28日
+              </h6>
+              <span style="font-size: smaller">
+                1.市场统计页面，价格销量走势图支持选择时间范围，可选择查询所有数据
             </span></div>
           </div>
           <div class="modal-footer">
