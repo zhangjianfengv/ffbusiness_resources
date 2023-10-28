@@ -78,14 +78,6 @@
   background-color: #fff !important;
 }
 
-.modal-body {
-  padding-left: 60px;
-}
-
-ul {
-  padding: 0;
-}
-
 .dropdown, .dropdown-menu {
   max-width: 200px;
 }
@@ -94,6 +86,14 @@ ul {
 input.form-control {
   max-width: 100px;
   display: inline !important;
+}
+
+.modal-body {
+  padding-left: 60px;
+}
+
+ul {
+  padding: 0;
 }
 
 
