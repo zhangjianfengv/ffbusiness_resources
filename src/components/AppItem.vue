@@ -39,9 +39,9 @@
               </ul>
             </ul>
             <div id="recipeList">
-              <b-form-input id="sb-inline" v-model="craftCount" type="number" inline></b-form-input>
+              <b-form-input id="sb-inline" class="mb-3" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
-                <li style="text-decoration: none" v-for="(value, key) in materials">{{ key }}X{{ value * craftCount }}</li>
+                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}X{{ value * craftCount }}</li>
               </ul>
             </div>
           </div>
@@ -76,6 +76,14 @@
   color: #17a2b8 !important;
   text-decoration: none;
   background-color: #fff !important;
+}
+
+.modal-body {
+  padding-left: 60px;
+}
+
+ul {
+  padding: 0;
 }
 
 .dropdown, .dropdown-menu {
@@ -305,7 +313,7 @@ export default {
       this.craftCount = 1;
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料清单');
       $('#recipeModal').modal('show');
       $.ajax({
         url: "/ffbusiness/recipe/getOne", method: "post", contentType: "application/json",
