@@ -21,7 +21,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">更新笔记</h4>
+            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新笔记</h4>
           </div>
           <div class="modal-body">
             <div>
