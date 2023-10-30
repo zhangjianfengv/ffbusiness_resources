@@ -228,7 +228,7 @@ export default {
             showSearchClearButton: true,
             paginationSuccessivelySize: 1,
             paginationPagesBySide: 1,
-            pageList: [20, 40]
+            pageList: [10, 20, 40]
           });
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }
