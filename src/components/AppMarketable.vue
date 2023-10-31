@@ -139,6 +139,10 @@
 .dropdown, .dropdown-menu {
   max-width: 200px;
 }
+
+.color-today {
+  color: #17a2b8;
+}
 </style>
 
 <style scoped>
@@ -402,6 +406,7 @@ export default {
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
+      let format = "yyyy-MM-DD";
       $('#updateTimeTable').bootstrapTable({
         url: '/ffbusiness/saleHistory/marketableUpdateTime',
         columns: [{
@@ -413,7 +418,10 @@ export default {
         }, {
           title: '更新于',
           formatter: function (value, row) {
-            return row.end.substring(0, 19);
+            let s = row.end.substring(0, 19);
+            if (row.scale / 24 > 1 && (moment().format(format) === row.end.substring(0, 10)))
+              return '<span class="color-today">' + s + '</span>';
+            return s;
           }
         }, {
           field: 'next',
