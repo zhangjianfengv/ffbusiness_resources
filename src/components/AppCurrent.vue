@@ -115,6 +115,7 @@ let optionCurrent = {
 };
 export default {
   mixins: [tableMixin],
+  name: 'current',
   watch: {
     itemName: function (newValue) {
       if (this.isStr(newValue)) {
