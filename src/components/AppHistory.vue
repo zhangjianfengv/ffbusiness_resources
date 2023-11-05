@@ -2,12 +2,8 @@
   <div id="app">
     <b-form inline id="queryForm" @reset="onReset">
       <b-row>
-        <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>
         <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
         <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
-        <b-form-input v-model="buyerName" placeholder="购买者" type="text"
-                      value="" :state="buyerNameState"></b-form-input>
-        <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
         <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
           <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
           <option value="拉诺西亚">拉诺西亚</option>
@@ -46,6 +42,26 @@
         <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
           仅HQ
         </b-form-checkbox>
+
+
+        <b-card no-body class="mb-1">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block v-b-toggle.accordion-3 variant="info">
+              <i class="bi bi-arrows-angle-expand"></i>
+            </b-button>
+          </b-card-header>
+          <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-form-input v-model="buyerName" placeholder="购买者" type="text"
+                            value="" :state="buyerNameState"></b-form-input>
+              <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
+              <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>
+              <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+              </bt-select>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
+
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
         </b-button>
         <b-button variant="info" @click="queryCurrentForm()" type="button"><i class="bi bi-cart4"></i>
@@ -222,6 +238,8 @@ export default {
       worldName: '中国',
       columns: columns,
       options: options,
+      itemTypes: [],
+      itemTypeOptions: [],
       clickWorldName: null,
       clickItemId: null
     }
@@ -240,7 +258,8 @@ export default {
         worldName: this.worldName,
         buyerName: this.buyerName,
         timestamp: this.date,
-        onlyHq: this.onlyHq
+        onlyHq: this.onlyHq,
+        itemTypes: this.itemTypes
       };
       options.columns = this.columns;
       $table.bootstrapTable(options)
@@ -259,6 +278,10 @@ export default {
       this.date = null;
       this.worldName = "中国";
       this.onlyHq = 0;
+      this.itemTypes = [];
+      let $itemType = $('#itemType');
+      $itemType.selectpicker('val', []);
+      $itemType.selectpicker('refresh');
       let $worldName = $('#worldName');
       $worldName.selectpicker('val', '中国');
       $worldName.selectpicker('refresh');
