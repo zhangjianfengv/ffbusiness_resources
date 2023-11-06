@@ -3,7 +3,7 @@
     <b-form inline id="queryForm" @reset="onReset">
       <b-row>
         <!--        <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>-->
-        <b-form-input list="input-list" v-model="itemName" placeholder="物品名或id" value=""></b-form-input>
+        <b-form-input list="input-list" v-model="itemName" placeholder="关键词或物品ID" value=""></b-form-input>
         <b-form-input v-model="buyerName" placeholder="购买者" type="text"
                       value="" :state="buyerNameState"></b-form-input>
         <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
@@ -138,10 +138,7 @@ let options = {
 export default {
   mixins: [tableMixin],
   computed: {
-    idState() {
-      if (!this.itemId) return null;
-      return $.isNumeric(this.itemId)
-    }, buyerNameInvalidState() {
+    buyerNameInvalidState() {
       if (!this.buyerName) return null;
       return !(this.itemId || this.itemName)
     }, buyerNameState() {
