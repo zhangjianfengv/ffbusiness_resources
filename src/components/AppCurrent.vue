@@ -136,7 +136,10 @@ export default {
   computed: {
     imageUrl() {
       const currentDomain = window.location.origin; // 获取当前域名
-      return currentDomain + '/icon/' + this.itemId + '.png';
+      let itemId = this.itemId;
+      if (itemId === '0')
+        return currentDomain + '/icon/placeholder.png';
+      return currentDomain + '/icon/' + itemId + '.png';
     },
   },
   data() {
