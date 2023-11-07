@@ -141,10 +141,9 @@ export default {
   computed: {
     buyerNameInvalidState() {
       if (!this.buyerName) return null;
-      return !(this.itemId || this.itemName)
+      return !this.itemName
     }, buyerNameState() {
       if (!this.isStr(this.buyerName)) return null;
-      else if ($.isNumeric(this.itemId)) return true;
       else return this.isStr(this.itemName)
     }
   },
@@ -211,7 +210,6 @@ export default {
       }
     ];
     return {
-      itemId: null,
       state: null,
       maximum: 0,
       itemName: null,
@@ -236,10 +234,9 @@ export default {
       }
       let $table = $('#table');
       $table.bootstrapTable('destroy');
-      if ($.isNumeric(this.itemName)) this.itemId = this.itemName;
       query = {
         itemId: $.isNumeric(this.itemName) ? this.itemName : null,
-        itemName: this.itemName,
+        itemName: $.isNumeric(this.itemName) ? null : this.itemName,
         worldName: this.worldName,
         buyerName: this.buyerName,
         timestamp: this.date,
@@ -256,7 +253,6 @@ export default {
       query = {
         worldName: '中国'
       };
-      this.itemId = null;
       this.state = null;
       this.itemName = null;
       this.buyerName = null;

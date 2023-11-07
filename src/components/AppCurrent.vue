@@ -137,7 +137,7 @@ export default {
     imageUrl() {
       const currentDomain = window.location.origin; // 获取当前域名
       let itemId = this.itemId;
-      if (itemId === '0')
+      if (itemId === '0' || itemId === 0 || !itemId)
         return currentDomain + '/icon/placeholder.png';
       return currentDomain + '/icon/' + itemId + '.png';
     },
