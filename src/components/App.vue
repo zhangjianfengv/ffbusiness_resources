@@ -53,7 +53,7 @@
               </h6>
               <span style="font-size: smaller">
                 1.销售履历页面支持分类检索<br>
-                2.销售履历页面查询条件物品ID查询和关键词查询已经合并，若输入纯数字则按物品ID处理
+                2.销售履历页面物品ID和物品名已经合并为一个查询条件，若输入纯数字则按物品ID处理
             </span></div>
           </div>
           <div class="modal-footer">
