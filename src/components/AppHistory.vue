@@ -281,13 +281,16 @@ export default {
       let tempItemId;
       let tempItemName;
       const vm = this;
-      if ($.isNumeric(this.itemId) || this.isStr(this.itemName)) {
+      let stringify;
+      if (vm.isStr(this.itemName)) {
+        stringify = JSON.stringify({name: this.itemName});
+        if ($.isNumeric(this.itemName)) stringify = JSON.stringify({id: this.itemName});
         $.ajax({
           url: "/ffbusiness/itemNew/getOne",
           async: true,
           method: "post",
           contentType: "application/json",
-          data: JSON.stringify({id: this.itemId, name: this.itemName}),
+          data: stringify,
           success: function (data) {
             if (data.rows.length === 0) {
               vm.$bvModal.show('modal-item')
