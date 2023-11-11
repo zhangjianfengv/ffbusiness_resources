@@ -20,10 +20,9 @@
       <router-view>
       </router-view>
     </keep-alive>
-
     <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="note" role="dialog" tabindex="-1">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 360px">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新笔记</h4>
           </div>
@@ -76,5 +75,8 @@ export default {
 </script>
 
 <style scoped>
-
+body {
+  padding: 0;
+  margin: 0;
+}
 </style>
