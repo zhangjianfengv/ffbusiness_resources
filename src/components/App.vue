@@ -28,16 +28,6 @@
             <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新笔记</h4>
           </div>
           <div class="modal-body">
-
-            <div>
-              <h6>
-                2023年10月28日
-              </h6>
-              <span style="font-size: smaller">
-                1.市场统计页面，价格销量走势图支持选择时间范围，可选择查询所有数据<br>
-                2.物品查询页面可计算配方所需初级材料清单
-            </span></div>
-            <br>
             <div>
               <h6>
                 2023年11月3日
@@ -55,6 +45,16 @@
                 1.销售履历页面支持分类检索<br>
                 2.销售履历页面物品ID和物品名已经合并为一个查询条件，若输入纯数字则按物品ID处理
             </span></div>
+            <div>
+              <h6>
+                2023年11月11日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品查询页面可筛选可出售或者有高品质的物品<br>
+                2.修复了物品查询页面材料清单只到第三级素材的问题<br>
+                3.优化了实时物价的查询方式以提高稳定性
+            </span></div>
+            <br>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>

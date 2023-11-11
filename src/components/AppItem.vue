@@ -10,6 +10,12 @@
           <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
           <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
           </bt-select>
+          <b-form-checkbox v-model="canBeHq" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
+            高品质
+          </b-form-checkbox>
+          <b-form-checkbox v-model="trade" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
+            可出售
+          </b-form-checkbox>
           <b-button variant="info" @click="searchItem()" type="button"><i class="bi bi-search"></i></b-button>
           <b-button variant="info" class="mx-1" @click="resetQueryParams()"
                     type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
@@ -253,6 +259,8 @@ export default {
       options: options,
       nameOptions: [],
       itemName: '',
+      trade: null,
+      canBeHq: null,
       materials: [],
       craftCount: 1,
       itemTypes: [],
@@ -269,7 +277,9 @@ export default {
         description: $('#description').val(),
         itemUICategory: $('#itemUICategory').val(),
         levelItem: $('#levelItem').val(),
-        itemTypes: this.itemTypes
+        itemTypes: this.itemTypes,
+        isUntradable: this.trade !== 'true',
+        canBeHq: this.canBeHq
       };
       options.columns = this.columns;
       $table.bootstrapTable(options)
@@ -283,6 +293,8 @@ export default {
       $table.bootstrapTable('destroy');
       query = {};
       this.itemName = null;
+      this.trade = 0;
+      this.canBeHq = 0;
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
