@@ -28,15 +28,7 @@
             <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新笔记</h4>
           </div>
           <div class="modal-body">
-            <div>
-              <h6>
-                2023年11月3日
-              </h6>
-              <span style="font-size: smaller">
-                1.除了实时物价页面以外各个页面在加载过一次后会进行缓存，切换页面再切换回来不会立即刷新，保留查询参数<br>
-                2.优化了物品名称建议的顺序，优先前缀匹配，例如关键字为“复”时复兴刺剑会显示在恢复药的前面
-            </span></div>
-            <br>
+            <!--            body begin-->
             <div>
               <h6>
                 2023年11月6日
@@ -45,6 +37,7 @@
                 1.销售履历页面支持分类检索<br>
                 2.销售履历页面物品ID和物品名已经合并为一个查询条件，若输入纯数字则按物品ID处理
             </span></div>
+            <br>
             <div>
               <h6>
                 2023年11月11日
@@ -52,9 +45,9 @@
               <span style="font-size: smaller">
                 1.物品查询页面可筛选可出售或者有高品质的物品<br>
                 2.修复了物品查询页面材料清单只到第三级素材的问题<br>
-                3.优化了实时物价的查询方式以提高稳定性
+                3.优化了实时物价的查询方式以提高响应速度和稳定性
             </span></div>
-            <br>
+            <!--            body end-->
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
