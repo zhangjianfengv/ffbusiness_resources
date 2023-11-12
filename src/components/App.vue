@@ -22,7 +22,7 @@
     </keep-alive>
     <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="note" role="dialog" tabindex="-1">
       <div class="modal-dialog">
-        <div class="modal-content" style="max-width: 360px">
+        <div class="modal-content" style="max-width: 380px">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新笔记</h4>
           </div>
@@ -43,8 +43,15 @@
               </h6>
               <span style="font-size: smaller">
                 1.物品查询页面可筛选可出售或者有高品质的物品<br>
-                2.修复了物品查询页面材料清单只到第三级素材的问题<br>
-                3.优化了实时物价的查询方式以提高响应速度和稳定性
+                2.修复了物品查询页面材料清单只到第三级素材的问题
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年11月12日
+              </h6>
+              <span style="font-size: smaller">
+                1.实时物价查询时会同时查询本站与universalis的接口，只要有一个查询成功就立即展示结果<br>
             </span></div>
             <!--            body end-->
           </div>

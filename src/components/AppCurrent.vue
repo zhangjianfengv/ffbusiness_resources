@@ -151,6 +151,7 @@ export default {
       nameOptions: [],
       onlyHq: 0,
       worldName: '中国',
+      childWorld: null,
       unFilteredData: []
     }
   },
@@ -181,61 +182,102 @@ export default {
       $currentTable.bootstrapTable('destroy');
       let $historyTable = $('#historyTable');
       $historyTable.bootstrapTable('destroy');
-      $.ajax({
-        url: "/ffbusiness/currentData/queryCurrent",
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify({worldName: worldName, itemId: itemId}),
-        success: function (data) {
-          $('#loading-indicator').hide();
-          optionCurrent.data = data;
-          vm.unFilteredData = data;
-          $currentTable.bootstrapTable(optionCurrent);
-          $historyTable.bootstrapTable({
-            data: data,
-            dataField: 'realHistoryDtos',
-            columns: [{
-              field: 'worldName',
-              filterControl: 'select',
-              filterDefault: worldName,
-              title: '服务器'
-            }, {
-              field: 'buyerName',
-              filterControl: 'select',
-              title: '购买者'
-            }, {
-              field: 'hq',
-              formatter: (value) => {
-                return value ? '✔' : '✗'
-              },
-              title: '高品质',
-              filterControl: 'select'
-            }, {
-              field: 'total',
-              formatter: (value, row) => {
-                return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
-              },
-              title: '总计'
-            }, {
-              field: 'timestamp',
-              formatter: (value) => {
-                return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
-              },
-              title: '购买时间'
-            }],
-            contentType: "application/json",
-            pageNumber: 1,
-            pagination: "true",
-            pageSize: 5,
-            filterControl: true,
-            paginationUseIntermediate: true,
-            showSearchClearButton: true,
-            paginationSuccessivelySize: 1,
-            paginationPagesBySide: 1,
-            pageList: [10, 20, 40]
+      const request1 = this.performPostRequest("Operation 1", window.location.origin + "/ffbusiness/currentData/queryCurrent", {
+        worldName: worldName,
+        itemId: itemId
+      });
+      const request2 = this.performGetRequest("Operation 2",
+          "https://universalis.app/api/v2/" + worldName + '/' + itemId + "?listings=50&hq=false&noGst=true");
+      // 使用Promise.race等待任意一个操作完成
+      Promise.race([request1, request2])
+          .then(result => {
+            $('#loading-indicator').hide();
+            optionCurrent.data = result;
+            vm.unFilteredData = result;
+            $currentTable.bootstrapTable(optionCurrent);
+            $historyTable.bootstrapTable({
+              data: result,
+              dataField: 'realHistoryDtos',
+              columns: [{
+                field: 'worldName',
+                filterControl: 'select',
+                filterDefault: vm.childWorld,
+                title: '服务器'
+              }, {
+                field: 'buyerName',
+                filterControl: 'select',
+                title: '购买者'
+              }, {
+                field: 'hq',
+                formatter: (value) => {
+                  return value ? '✔' : '✗'
+                },
+                title: '高品质',
+                filterControl: 'select'
+              }, {
+                field: 'total',
+                formatter: (value, row) => {
+                  return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
+                },
+                title: '总计'
+              }, {
+                field: 'timestamp',
+                formatter: (value) => {
+                  return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
+                },
+                title: '购买时间'
+              }],
+              contentType: "application/json",
+              pageNumber: 1,
+              pagination: "true",
+              pageSize: 5,
+              filterControl: true,
+              paginationUseIntermediate: true,
+              showSearchClearButton: true,
+              paginationSuccessivelySize: 1,
+              paginationPagesBySide: 1,
+              pageList: [10, 20, 40]
+            });
+            $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+          })
+          .catch(error => {
+            // 如果任何一个操作出现异常，这里的代码将被执行
+            console.error("At least one operation encountered an exception:", error.message);
+            // 这里可以根据需要处理异常，比如记录日志或返回错误信息给客户端
           });
-          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+
+    },
+    performPostRequest(operationName, url, data) {
+      return fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        return response.json();
+      }).then(result => {
+        return result;
+      }).catch(error => {
+        throw error;
+      });
+    },
+    performGetRequest(operationName, url) {
+      return fetch(url, {
+        method: 'GET',
+        mode: 'cors'
+      }).then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      }).then(result => {
+        return {realHistoryDtos: result.recentHistory, currents: result.listings};
+      }).catch(error => {
+        throw error;
       });
     },
     queryCurrentForm() {
@@ -320,15 +362,24 @@ export default {
         case "猫小胖":
         case "豆豆柴":
         case "中国":
+          if (itemId && worldName) {
+            vm.queryCurrent(worldName, itemId);
+            this.itemName = this.$route.params.itemName;
+          }
           this.worldName = worldName;
           $worldName.selectpicker('val', worldName);
           $worldName.selectpicker('refresh');
           break;
         default: {
+          vm.childWorld = worldName;
           $.ajax({
             url: "/ffbusiness/currentData/queryParentWorld", async: true, method: "post",
             data: JSON.stringify({worldName: worldName}),
             contentType: "application/json", success: function (data) {
+              if (itemId && worldName) {
+                vm.queryCurrent(data.worldName, itemId);
+                vm.itemName = vm.$route.params.itemName;
+              }
               vm.worldName = data.worldName
               $worldName.selectpicker('val', data.worldName);
               $worldName.selectpicker('refresh');
@@ -336,10 +387,6 @@ export default {
           });
         }
       }
-    }
-    if (itemId && worldName) {
-      this.queryCurrent(worldName, itemId);
-      this.itemName = this.$route.params.itemName;
     }
   }
 }
