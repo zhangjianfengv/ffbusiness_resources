@@ -91,7 +91,7 @@ let optionCurrent = {
   }, {
     field: 'hq',
     formatter: (value) => {
-      return value === 'true' ? '✔' : '✗'
+      return (value === true || value === 'true') ? '✔' : '✗'
     },
     title: '高品质',
     filterControl: 'select'
@@ -210,7 +210,7 @@ export default {
               }, {
                 field: 'hq',
                 formatter: (value) => {
-                  return value ? '✔' : '✗'
+                  return (value === true || value === 'true') ? '✔' : '✗'
                 },
                 title: '高品质',
                 filterControl: 'select'
