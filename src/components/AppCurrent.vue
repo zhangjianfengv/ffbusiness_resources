@@ -187,7 +187,7 @@ export default {
         itemId: itemId
       });
       const request2 = this.performGetRequest("Operation 2",
-          "https://universalis.app/api/v2/" + worldName + '/' + itemId + "?listings=50&hq=false&noGst=true");
+          "https://universalis.app/api/v2/" + worldName + '/' + itemId + "?listings=50&noGst=1");
       // 使用Promise.race等待任意一个操作完成
       Promise.race([request1, request2])
           .then(result => {
