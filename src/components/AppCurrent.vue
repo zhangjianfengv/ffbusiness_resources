@@ -313,8 +313,8 @@ export default {
       if (this.onlyHq === '1') {
         let data0 = $currentTable.bootstrapTable('getData');
         let data1 = $historyTable.bootstrapTable('getData');
-        $currentTable.bootstrapTable('load', data0.filter(item => item.hq === 'true'))
-        $historyTable.bootstrapTable('load', data1.filter(item => item.hq === true))
+        $currentTable.bootstrapTable('load', data0.filter(item => (item.hq === 'true' || item.hq === true)))
+        $historyTable.bootstrapTable('load', data1.filter(item => (item.hq === 'true' || item.hq === true)))
       } else {
         $currentTable.bootstrapTable('load', this.unFilteredData)
         $historyTable.bootstrapTable('load', this.unFilteredData)
