@@ -149,19 +149,22 @@ export default {
   },
   watch: {
     itemName: function (newValue) {
-      if (this.isStr(newValue)) {
-        const vm = this;
-        $.ajax({
-          url: "/ffbusiness/itemNew/suggestName",
-          async: true,
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({name: this.itemName}),
-          success: function (data) {
-            vm.nameOptions = data;
-          }
-        });
-      }
+      const vm = this;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        if (this.isStr(newValue)) {
+          $.ajax({
+            url: "/ffbusiness/itemNew/suggestName",
+            async: true,
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify({name: this.itemName}),
+            success: function (data) {
+              vm.nameOptions = data;
+            }
+          });
+        }
+      }, 500);
     },
   },
   data() {
@@ -214,6 +217,7 @@ export default {
       maximum: 0,
       itemName: null,
       buyerName: null,
+      timer: null,
       date: null,
       nameOptions: [],
       onlyHq: 0,

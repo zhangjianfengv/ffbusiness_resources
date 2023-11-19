@@ -118,19 +118,22 @@ export default {
   name: 'current',
   watch: {
     itemName: function (newValue) {
-      if (this.isStr(newValue)) {
-        const vm = this;
-        $.ajax({
-          url: "/ffbusiness/itemNew/suggestName",
-          async: true,
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({name: this.itemName}),
-          success: function (data) {
-            vm.nameOptions = data;
-          }
-        });
-      }
+      const vm = this;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        if (this.isStr(newValue)) {
+          $.ajax({
+            url: "/ffbusiness/itemNew/suggestName",
+            async: true,
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify({name: this.itemName}),
+            success: function (data) {
+              vm.nameOptions = data;
+            }
+          });
+        }
+      }, 500);
     },
   },
   computed: {
@@ -149,6 +152,7 @@ export default {
       date: null,
       itemId: '0',
       nameOptions: [],
+      timer: null,
       onlyHq: 0,
       worldName: '中国',
       childWorld: null,

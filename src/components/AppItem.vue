@@ -138,22 +138,23 @@ let options = {
 export default {
   components: {Tree},
   mixins: [tableMixin],
-  watch: {
-    itemName: function (newValue) {
+  itemName: function (newValue) {
+    const vm = this;
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
       if (this.isStr(newValue)) {
-        const vm = this;
         $.ajax({
           url: "/ffbusiness/itemNew/suggestName",
           async: true,
           method: "post",
           contentType: "application/json",
-          data: JSON.stringify({name: this.itemName, all: true}),
+          data: JSON.stringify({name: this.itemName}),
           success: function (data) {
             vm.nameOptions = data;
           }
         });
       }
-    },
+    }, 500);
   },
   data() {
     let columns = [{
@@ -260,6 +261,7 @@ export default {
       nameOptions: [],
       itemName: '',
       trade: null,
+      timer: null,
       canBeHq: null,
       materials: [],
       craftCount: 1,
