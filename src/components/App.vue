@@ -12,6 +12,9 @@
             <b-nav-item to="/current">实时物价</b-nav-item>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
+            <b-button variant="info" type="button"
+                      href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
+              <i class="bi bi-envelope-at-fill"></i></b-button>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
