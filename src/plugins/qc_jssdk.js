@@ -1,4 +1,4 @@
-var QC = function () {
+window.QC = function () {
     function o() {
     }
 
