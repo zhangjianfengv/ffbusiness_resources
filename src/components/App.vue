@@ -9,47 +9,53 @@
             <b-nav-item to="/history">销售履历</b-nav-item>
             <b-nav-item to="/marketable">市场统计</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
+            <b-nav-item to="/current">实时物价</b-nav-item>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
+            <b-button variant="info" type="button"
+                      href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
+              <i class="bi bi-envelope-at-fill"></i></b-button>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </div>
-    <router-view></router-view>
+    <keep-alive exclude="current">
+      <router-view>
+      </router-view>
+    </keep-alive>
     <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="note" role="dialog" tabindex="-1">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 380px">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel">更新笔记</h4>
+            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">更新笔记</h4>
           </div>
           <div class="modal-body">
+            <!--            body begin-->
             <div>
               <h6>
-                2023年10月13日
+                2023年11月11日
               </h6>
               <span style="font-size: smaller">
-                1.查询现价条数上限调整到450条，可筛选高品质、服务器及雇员名<br>
-                2.市场统计页面原先的品级等级及分类筛选(表格内)也改为了选项<br>
-                3.现价显示的价格不含税
+                1.物品查询页面可筛选可出售或者有高品质的物品<br>
+                2.修复了物品查询页面材料清单只到第三级素材的问题
             </span></div>
             <br>
             <div>
               <h6>
-                2023年10月14日
+                2023年11月12日
               </h6>
               <span style="font-size: smaller">
-                1.市场统计页面展示物品是否可由生产职业制作
+                1.实时物价查询时会同时查询本站与universalis的接口，只要有一个查询成功就立即展示结果<br>
             </span></div>
             <br>
             <div>
               <h6>
-                2023年10月18日
+                2023年11月17日
               </h6>
               <span style="font-size: smaller">
-                1.查询现价额外返回40条销售履历(实时)<br>
-                2.为了加快响应速度，查询现价默认最大条数为50条，打开"加载更多"开关会重新查询更多数据
+                1. 修复了实时物价查询页面只看HQ开关的有时不起作用的问题
             </span></div>
-
+            <!--            body end-->
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
@@ -78,5 +84,8 @@ export default {
 </script>
 
 <style scoped>
-
+body {
+  padding: 0;
+  margin: 0;
+}
 </style>

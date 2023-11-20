@@ -83,6 +83,10 @@
             <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel"></h4>
           </div>
           <div class="modal-body">
+            <div>
+              <b-form-select v-model="summaryScale" :options="summaryOptions"
+                             @change="changeSummaryScale(summaryScale)"></b-form-select>
+            </div>
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
           </div>
@@ -135,6 +139,10 @@
 .dropdown, .dropdown-menu {
   max-width: 200px;
 }
+
+.color-today {
+  color: #17a2b8;
+}
 </style>
 
 <style scoped>
@@ -174,6 +182,16 @@ export default {
       chartData: {},
       searchText: null,
       chartData1: {},
+      summaryScale: '7',
+      summaryItemId: null,
+      summaryOptions: [
+        {value: '3', text: '3天'},
+        {value: '7', text: '7天'},
+        {value: '15', text: '15天'},
+        {value: '30', text: '30天'},
+        {value: '90', text: '90天'},
+        {value: 'all', text: '所有时间'}
+      ],
       columns: [
         {
           field: '',
@@ -276,7 +294,7 @@ export default {
           filterControl: 'select',
           title: '等级'
         }, {
-          title: '操作',
+          title: '趋势图',
           width: 100,
           formatter: (value, row) => {
             let template;
@@ -388,6 +406,7 @@ export default {
     },
     openUpdateTimeTable() {
       $('#myModal').modal('show');
+      let format = "yyyy-MM-DD";
       $('#updateTimeTable').bootstrapTable({
         url: '/ffbusiness/saleHistory/marketableUpdateTime',
         columns: [{
@@ -397,10 +416,12 @@ export default {
             return $('#timeScale option[value=' + value + ']').html().slice(2);
           }
         }, {
-          field: 'between',
-          title: '当前统计范围',
+          title: '更新于',
           formatter: function (value, row) {
-            return "开始:" + row.begin.substring(0, 19) + '<br/>结束:' + row.end.substring(0, 19);
+            let s = row.end.substring(0, 19);
+            if (row.scale / 24 > 1 && (moment().format(format) === row.end.substring(0, 10)))
+              return '<span class="color-today">' + s + '</span>';
+            return s;
           }
         }, {
           field: 'next',
@@ -413,17 +434,21 @@ export default {
       });
     },
     openSummary(row) {
-      const vm = this;
       let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
       $('#summaryModal').modal('show');
+      this.summaryItemId = row.itemId;
+      this.changeSummaryScale(this.summaryScale);
+    },
+    changeSummaryScale(scale) {
+      const vm = this;
       let format = "yyyyMMDD";
       $.ajax({
         url: "/ffbusiness/summary/query", method: "post",
         data: JSON.stringify({
-          itemId: row.itemId,
-          startDate: moment().subtract(this.scale, 'hours').format(format),
+          itemId: vm.summaryItemId,
+          startDate: scale === "all" ? '20230209' : moment().subtract(parseInt(scale), 'days').format(format),
           endDate: moment().format(format),
           worldName: vm.worldName
         }),

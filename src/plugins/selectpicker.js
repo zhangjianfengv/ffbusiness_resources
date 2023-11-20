@@ -7,7 +7,7 @@ Vue.component('bt-select', {
     },
     props: ['options', 'value'],
     template: "<select class='selectpicker' multiple data-live-search='true'" +
-        " data-live-search-placeholder='搜索' data-none-selected-text='请选择分类'><option" +
+        " data-live-search-placeholder='搜索' data-none-selected-text='请选择或搜索分类'><option" +
         " :value='option.typeId' v-for='option in options'>{{option.typeName}}</option></select>",
     mounted: function () {
         const vm = this;
