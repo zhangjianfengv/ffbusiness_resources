@@ -73,6 +73,7 @@
 <script>
 import $ from "jquery";
 import '../plugins/qc_jssdk'
+import Base64 from '../plugins/base64'
 
 export default {
   name: "App",
@@ -82,16 +83,13 @@ export default {
     },
     toLogin() {
       QC.Login.showPopup({
-        appId: "102075021",
-        redirectURI: "https%3A%2F%2Fwww.ff14pvp.top%2Fapi%2Foauth%2FQQ%2Fcallback"
+        appId: Base64.decode("MTAyMDc1MDIx"),
+        redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRlFRJTJGY2FsbGJhY2s=")
       });
     },
     closeNote() {
       $('#note').modal('toggle');
     }
-  },
-  mounted() {
-
   }
 }
 </script>
