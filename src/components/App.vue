@@ -82,8 +82,8 @@ export default {
     },
     toLogin() {
       QC.Login.showPopup({
-        appId: "222222",
-        redirectURI: "http://yousite.com/qc_back.html"
+        appId: "102075021",
+        redirectURI: "https%3A%2F%2Fwww.ff14pvp.top%2Fapi%2Foauth%2FQQ%2Fcallback"
       });
     },
     closeNote() {
