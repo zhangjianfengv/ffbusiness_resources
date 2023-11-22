@@ -175,7 +175,7 @@ export default {
       }, {
         field: 'itemName',
         formatter: (value, row) => {
-          let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
           if (row.hq)
             return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
                 ' decoding="async" width="16" height="16" alt="hq">';

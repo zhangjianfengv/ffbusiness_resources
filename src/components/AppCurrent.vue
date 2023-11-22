@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     imageUrl() {
-      const currentDomain = window.location.origin; // 获取当前域名
+      const currentDomain = "https://static.ff14pvp.top/icon/"; // 获取当前域名
       let itemId = this.itemId;
       if (itemId === '0' || itemId === 0 || !itemId)
         return currentDomain + '/icon/placeholder.png';

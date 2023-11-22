@@ -162,7 +162,7 @@ export default {
       title: 'id'
     }, {
       formatter: (value, row) => {
-        let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
+        let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
         return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
       },
       title: '图标'
@@ -307,7 +307,7 @@ export default {
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeList').hide();
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
       $('#recipeModal').modal('show');
@@ -325,7 +325,7 @@ export default {
       $('#loading-indicator').show();
       $('#recipeTree').hide();
       this.craftCount = 1;
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.id + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料清单');
       $('#recipeModal').modal('show');
