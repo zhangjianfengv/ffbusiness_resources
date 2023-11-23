@@ -434,7 +434,7 @@ export default {
       });
     },
     openSummary(row) {
-      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
       $('#summaryModal').modal('show');
