@@ -82,7 +82,7 @@ export default {
     toLogin() {
       QC.Login.showPopup({
         appId: Base64.decode("MTAyMDc1MDIx"),
-        redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRlFRJTJGY2FsbGJhY2s=")
+        redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
       });
     },
     closeNote() {
