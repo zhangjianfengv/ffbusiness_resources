@@ -9,7 +9,21 @@
           <option value="猫小胖">猫小胖</option>
           <option value="莫古力">莫古力</option>
           <option value="豆豆柴">豆豆柴</option>
-          <option selected value="中国">中国</option>
+          <option value="Elemental">Elemental</option>
+          <option value="Gaia">Gaia</option>
+          <option value="Mana">Mana</option>
+          <option value="Primal">Primal</option>
+          <option value="Chaos">Chaos</option>
+          <option value="Light">Light</option>
+          <option value="Materia">Materia</option>
+          <option value="Meteor">Meteor</option>
+          <option value="Dynamis">Dynamis</option>
+          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
+          <option value="Japan" style="font-weight: bold;font-style: italic;">Japan</option>
+          <option value="North-America" style="font-weight: bold;font-style: italic;">North-America</option>
+          <option value="Europe" style="font-weight: bold;font-style: italic;">Europe</option>
+          <option value=Oceania" style="font-weight: bold;font-style: italic;">Oceania</option>
+          <option value="한국" style="font-weight: bold;font-style: italic;">한국</option>
         </b-form-select>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
         </b-button>
@@ -191,7 +205,7 @@ export default {
         itemId: itemId
       });
       const request2 = this.performGetRequest("Operation 2",
-          "https://universalis.app/api/v2/" + worldName + '/' + itemId + "?listings=50&noGst=1");
+          "https://universalis.app/api/v2/" + worldName + '/' + itemId + "?listings=50&entries=20&noGst=1");
       // 使用Promise.race等待任意一个操作完成
       Promise.race([request1, request2])
           .then(result => {
