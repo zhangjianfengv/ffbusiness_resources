@@ -1,11 +1,11 @@
 <template>
   <b-card-group deck>
     <b-card>
-      <b-card-text>{{ item.itemName }}</b-card-text>
+      <b-card-text>{{ item.itemName }}售价</b-card-text>
       <BootstrapTable :id="'citem-' + index" :columns="columns1" :options="tableOptions1"></BootstrapTable>
     </b-card>
     <b-card>
-      <b-card-text>{{ item.itemName }}</b-card-text>
+      <b-card-text>{{ item.itemName }}履历</b-card-text>
       <BootstrapTable :id="'hitem-' + index" :columns="columns2" :options="tableOptions2"></BootstrapTable>
     </b-card>
   </b-card-group>
