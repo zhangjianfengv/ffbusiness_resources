@@ -216,10 +216,11 @@ export default {
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: row.isCollect ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>',
+            template: row.collect ? '<i class="bi bi-star-fill" @click="operate(row)"></i>' :
+                '<i class="bi bi-star" @click="operate(row)"></i>',
             data: {row},
             methods: {
-              clickRow: this.operateCollect
+              operate: this.operateCollect
             }
           })
         }
@@ -291,17 +292,20 @@ export default {
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
     operateCollect(row) {
+      let $table = $('#table');
       const userCookie = this.$cookies.get('user');
       if (!userCookie) {
         this.$router.push({name: 'AppMy'});
+        return;
       }
-      if (row.isCollect) {
+      if (!row.collect) {
         $.ajax({
           url: "/ffbusiness/listItem/add",
           method: "post",
           contentType: "application/json",
           data: JSON.stringify({itemId: row.itemId}),
           success: function (data) {
+            $table.bootstrapTable('refresh', {silent: true})
           }
         });
       } else {
@@ -311,6 +315,7 @@ export default {
           contentType: "application/json",
           data: JSON.stringify({itemId: row.itemId}),
           success: function (data) {
+            $table.bootstrapTable('refresh', {silent: true})
           }
         });
       }

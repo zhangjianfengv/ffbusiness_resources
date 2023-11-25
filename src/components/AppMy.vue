@@ -2,13 +2,34 @@
   <div id="app">
 
 
-    <div class="login" v-if="login">
+    <div class="login" v-if="!login">
       <h1>Hi!，请先登录</h1>
       <p>--------社交账号登录--------</p>
       <b-button type="button" style=" display: inline-block; padding: 0;border: none;  background: none;"
                 @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>
     </div>
-    <div v-if="!login">
+    <div v-if="login">
+
+
+      <div>
+
+
+        <b-card title="Title" header-tag="header" footer-tag="footer" v-for="(child, index) in item.detail"
+                :key="index"
+                :item="child">
+          <template #header>
+            <h6 class="mb-0">Header Slot</h6>
+          </template>
+          <b-card-text>Header and footers using slots.</b-card-text>
+          <b-button href="#" variant="primary">Go somewhere</b-button>
+          <template #footer>
+            <em>Footer Slot</em>
+          </template>
+        </b-card>
+
+
+      </div>
+
 
     </div>
 
@@ -45,6 +66,8 @@ button {
 </style>
 <script>
 
+import Base64 from "@/plugins/base64.js";
+
 export default {
   name: "AppMy",
   data() {
@@ -53,8 +76,14 @@ export default {
     }
   },
   methods: {
-    searchItem() {
-      this.queryCurrentForm();
+    isStr(val) {
+      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    },
+    toLogin() {
+      QC.Login.showPopup({
+        appId: Base64.decode("MTAyMDc1MDIx"),
+        redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
+      });
     },
   },
   mounted() {
