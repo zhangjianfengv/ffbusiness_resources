@@ -9,6 +9,8 @@
           <option value="猫小胖">猫小胖</option>
           <option value="莫古力">莫古力</option>
           <option value="豆豆柴">豆豆柴</option>
+          <option value="Aether">Aether</option>
+          <option value="Crystal">Crystal</option>
           <option value="Elemental">Elemental</option>
           <option value="Gaia">Gaia</option>
           <option value="Mana">Mana</option>
