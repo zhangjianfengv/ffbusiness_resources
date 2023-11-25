@@ -9,6 +9,7 @@
             <b-nav-item to="/history">销售履历</b-nav-item>
             <b-nav-item to="/marketable">市场统计</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
+            <b-nav-item to="/my">我的收藏</b-nav-item>
             <b-nav-item to="/current">实时物价</b-nav-item>
             <b-button type="button" style=" display: inline-block; padding: 0;border: none;  background: none;"
                       @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>

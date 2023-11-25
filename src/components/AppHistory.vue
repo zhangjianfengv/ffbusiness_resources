@@ -211,6 +211,19 @@ export default {
           })
         }
       }
+      , {
+        title: '收藏',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: row.isCollect ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>',
+            data: {row},
+            methods: {
+              clickRow: this.operateCollect
+            }
+          })
+        }
+      }
     ];
     return {
       state: null,
@@ -276,6 +289,31 @@ export default {
     queryCurrentTable(row) {
       let id = row.itemId;
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
+    },
+    operateCollect(row) {
+      const userCookie = this.$cookies.get('user');
+      if (!userCookie) {
+        this.$router.push({name: 'AppMy'});
+      }
+      if (row.isCollect) {
+        $.ajax({
+          url: "/ffbusiness/listItem/add",
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({itemId: row.itemId}),
+          success: function (data) {
+          }
+        });
+      } else {
+        $.ajax({
+          url: "/ffbusiness/listItem/del",
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({itemId: row.itemId}),
+          success: function (data) {
+          }
+        });
+      }
     },
     queryCurrentForm() {
       let tempItemId;
