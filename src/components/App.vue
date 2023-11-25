@@ -9,15 +9,15 @@
             <b-nav-item to="/history">销售履历</b-nav-item>
             <b-nav-item to="/marketable">市场统计</b-nav-item>
             <b-nav-item to="/item">物品查询</b-nav-item>
-            <b-nav-item to="/my">我的收藏</b-nav-item>
+            <b-nav-item to="/my">我的关注</b-nav-item>
             <b-nav-item to="/current">实时物价</b-nav-item>
-            <b-button type="button" style=" display: inline-block; padding: 0;border: none;  background: none;"
-                      @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>
+            <b-button variant="info" type="button"
+                      @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
             <b-button variant="info" type="button"
                       href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
               <i class="bi bi-envelope-at-fill"></i></b-button>
-            <b-button variant="info" type="button"
-                      @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
+            <b-button type="button" style=" display: inline-block; padding: 0;border: none;  background: none;"
+                      @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -48,6 +48,14 @@
               </h6>
               <span style="font-size: smaller">
                 1.实时物价页面支持查询国际服物价信息
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年11月26日
+              </h6>
+              <span style="font-size: smaller">
+                1.新增我的关注页面，登陆后可收藏物品并在该页面批量查询物价
             </span></div>
             <!--            body end-->
           </div>
