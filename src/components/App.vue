@@ -104,14 +104,7 @@ export default {
       });
     },
     logOut() {
-      $.ajax({
-        url: "/ffbusiness/user/logOut",
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify({}),
-        success: function (data) {
-        }
-      });
+      window.location.href = window.location.origin + '/ffbusiness/user/logOut';
     },
     closeNote() {
       $('#note').modal('toggle');
