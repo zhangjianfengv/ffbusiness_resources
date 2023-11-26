@@ -4,7 +4,9 @@
       <h1>Hi!，请先登录</h1>
       <p>--------社交账号登录--------</p>
       <b-button type="button" style=" display: inline-block; padding: 0;border: none;  background: none;"
-                @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>
+                @click="toLogin"   v-b-tooltip.hover title="交流反馈QQ群：688539775"><img style="display: block;"
+                                                                                      src="/bt_white_76X24.png"
+                                                                     alt="QQ登录"/></b-button>
     </div>
     <div id="content" v-if="login">
       <div>

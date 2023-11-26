@@ -19,6 +19,18 @@
             <!--            <b-button type="button" style=" display: inline-block; padding: 0;border: none;  background: none;"-->
             <!--                      @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>-->
           </b-navbar-nav>
+
+          <b-navbar-nav class="ml-auto">
+
+            <b-nav-item-dropdown right>
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>{{ user.nickname }}</em>
+              </template>
+              <!--              <b-dropdown-item href="#">Profile</b-dropdown-item>-->
+              <b-dropdown-item @click="logOut">注销</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </div>
@@ -76,6 +88,11 @@ import Base64 from '../plugins/base64'
 
 export default {
   name: "App",
+  data() {
+    return {
+      user: {nickname: '用户'}
+    }
+  },
   methods: {
     note() {
       $('#note').modal('show');
@@ -86,9 +103,30 @@ export default {
         redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
       });
     },
+    logOut() {
+      $.ajax({
+        url: "/ffbusiness/user/logOut",
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({}),
+        success: function (data) {
+        }
+      });
+    },
     closeNote() {
       $('#note').modal('toggle');
     }
+  }, mounted() {
+    const vm = this;
+    $.ajax({
+      url: "/ffbusiness/user/current",
+      method: "post",
+      contentType: "application/json",
+      data: JSON.stringify({}),
+      success: function (data) {
+        vm.user = data;
+      }
+    });
   }
 }
 </script>
