@@ -16,19 +16,14 @@
               <i class="bi bi-envelope-at-fill"></i></b-button>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
-            <!--            <b-button type="button" style=" display: inline-block; padding: 0;border: none;  background: none;"-->
-            <!--                      @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>-->
           </b-navbar-nav>
-
           <b-navbar-nav class="ml-auto">
-
             <b-nav-item-dropdown right>
-              <!-- Using 'button-content' slot -->
               <template #button-content>
+                <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
                 <em>{{ user.nickname }}</em>
               </template>
-              <!--              <b-dropdown-item href="#">Profile</b-dropdown-item>-->
-              <b-dropdown-item @click="logOut">注销</b-dropdown-item>
+              <b-dropdown-item @click="logOut">退出登录</b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
@@ -67,7 +62,7 @@
                 2023年11月26日
               </h6>
               <span style="font-size: smaller">
-                1.新增我的关注页面，登陆后可收藏物品并在该页面批量查询物价
+                1.新增我的关注页面，登录后可收藏物品并在该页面批量查询物价
             </span></div>
             <!--            body end-->
           </div>
@@ -92,6 +87,11 @@ export default {
     return {
       user: {nickname: '用户'}
     }
+  },
+  computed: {
+    imageUrl() {
+      return this.user.figureQQ + '';
+    },
   },
   methods: {
     note() {

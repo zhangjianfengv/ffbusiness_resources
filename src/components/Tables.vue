@@ -1,17 +1,41 @@
 <template>
-  <b-card-group deck>
-    <b-card>
-      <b-card-text>{{ item.itemName }}售价</b-card-text>
-      <BootstrapTable :id="'citem-' + index" :columns="columns1" :options="tableOptions1"></BootstrapTable>
+  <b-card-group deck v-if="show">
+    <b-card header-tag="header" footer-tag="footer">
+      <template #header>
+        <h6 class="mb-0">{{ item.itemName }}</h6>
+      </template>
+      <b-card-body>
+        <b-card-title>当前价格</b-card-title>
+        <b-card-sub-title class="mb-2">
+          <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
+        </b-card-sub-title>
+        <BootstrapTable :id="'citem-' + index" :columns="columns1" :options="tableOptions1"></BootstrapTable>
+      </b-card-body>
+      <template #footer>
+        <b-button href="#" @click="cancelCollect" variant="info" type="button">取消收藏</b-button>
+      </template>
     </b-card>
-    <b-card>
-      <b-card-text>{{ item.itemName }}履历</b-card-text>
-      <BootstrapTable :id="'hitem-' + index" :columns="columns2" :options="tableOptions2"></BootstrapTable>
+
+    <b-card header-tag="header" footer-tag="footer">
+      <template #header>
+        <h6 class="mb-0">{{ item.itemName }}</h6>
+      </template>
+      <b-card-body>
+        <b-card-title>销售历史</b-card-title>
+        <b-card-sub-title class="mb-2">
+          <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
+        </b-card-sub-title>
+        <BootstrapTable :id="'hitem-' + index" :columns="columns2" :options="tableOptions2"></BootstrapTable>
+      </b-card-body>
+      <template #footer>
+        <b-button @click="cancelCollect" href="#" variant="info" type="button">取消收藏</b-button>
+      </template>
     </b-card>
   </b-card-group>
 </template>
 <script>
 import moment from "moment";
+import $ from "jquery";
 
 export default {
   name: 'Tables',
@@ -24,6 +48,15 @@ export default {
       default: 0
     }
   },
+  computed: {
+    imageUrl() {
+      const currentDomain = "https://static.ff14pvp.top/icon/"; // 获取当前域名
+      let itemId = this.item.itemId;
+      if (itemId === '0' || itemId === 0 || !itemId)
+        return currentDomain + '/icon/placeholder.png';
+      return currentDomain + '/icon/' + itemId + '.png';
+    },
+  },
   watch: {
     item(newVal) {
       this.item = newVal;
@@ -32,6 +65,17 @@ export default {
   methods: {
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+    cancelCollect() {
+      this.show = false;
+      $.ajax({
+        url: "/ffbusiness/listItem/del",
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({itemId: this.item.itemId}),
+        success: function (data) {
+        }
+      });
     },
   },
   data() {
@@ -110,7 +154,8 @@ export default {
       columns2: columns2,
       tableOptions1: optionCurrent,
       tableOptions2: hiOpt,
-      item: this.item
+      item: this.item,
+      show: true
     }
   }
   , mounted() {
