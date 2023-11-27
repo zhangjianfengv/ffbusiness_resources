@@ -90,7 +90,8 @@ export default {
   },
   computed: {
     imageUrl() {
-      return this.user.figureQQ + '';
+      let s = this.user.figureQQ + '';
+      return s.replace(/http:\/\//g, "https://");
     },
   },
   methods: {
