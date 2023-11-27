@@ -198,18 +198,6 @@ export default {
       }, {
         field: 'timestamp',
         title: '购买时间'
-      }, {
-        title: '实时数据',
-        width: 100,
-        formatter: (value, row) => {
-          return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
-            data: {row},
-            methods: {
-              clickRow: this.queryCurrentTable
-            }
-          })
-        }
       }
       , {
         title: '收藏',
@@ -221,6 +209,18 @@ export default {
             data: {row},
             methods: {
               operate: this.operateCollect
+            }
+          })
+        }
+      }, {
+        title: '实时数据',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
+            data: {row},
+            methods: {
+              clickRow: this.queryCurrentTable
             }
           })
         }
