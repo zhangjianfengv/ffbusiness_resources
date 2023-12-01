@@ -4,29 +4,7 @@
       <b-row>
         <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
         <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
-        <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
-          <option value="陆行鸟">陆行鸟</option>
-          <option value="猫小胖">猫小胖</option>
-          <option value="莫古力">莫古力</option>
-          <option value="豆豆柴">豆豆柴</option>
-          <option value="Aether">Aether</option>
-          <option value="Crystal">Crystal</option>
-          <option value="Elemental">Elemental</option>
-          <option value="Gaia">Gaia</option>
-          <option value="Mana">Mana</option>
-          <option value="Primal">Primal</option>
-          <option value="Chaos">Chaos</option>
-          <option value="Light">Light</option>
-          <option value="Materia">Materia</option>
-          <option value="Meteor">Meteor</option>
-          <option value="Dynamis">Dynamis</option>
-          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
-          <option value="Japan" style="font-weight: bold;font-style: italic;">Japan</option>
-          <option value="North-America" style="font-weight: bold;font-style: italic;">North-America</option>
-          <option value="Europe" style="font-weight: bold;font-style: italic;">Europe</option>
-          <option value=Oceania" style="font-weight: bold;font-style: italic;">Oceania</option>
-          <option value="한국" style="font-weight: bold;font-style: italic;">한국</option>
-        </b-form-select>
+        <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
         <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
         </b-button>
         <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
@@ -172,7 +150,35 @@ export default {
       onlyHq: 0,
       worldName: '中国',
       childWorld: null,
-      unFilteredData: []
+      unFilteredData: [],
+      worldNames: [
+        {"value": "陆行鸟", "text": "陆行鸟"},
+        {"value": "猫小胖", "text": "猫小胖"},
+        {"value": "莫古力", "text": "莫古力"},
+        {"value": "豆豆柴", "text": "豆豆柴"},
+        {"value": "中国", "text": "中国"},
+        {
+          label: '国际服',
+          options: [
+            {"value": "Aether", "text": "Aether"},
+            {"value": "Crystal", "text": "Crystal"},
+            {"value": "Elemental", "text": "Elemental"},
+            {"value": "Gaia", "text": "Gaia"},
+            {"value": "Mana", "text": "Mana"},
+            {"value": "Primal", "text": "Primal"},
+            {"value": "Chaos", "text": "Chaos"},
+            {"value": "Light", "text": "Light"},
+            {"value": "Materia", "text": "Materia"},
+            {"value": "Meteor", "text": "Meteor"},
+            {"value": "Dynamis", "text": "Dynamis"},
+            {"value": "Japan", "text": "Japan"},
+            {"value": "North-America", "text": "North-America"},
+            {"value": "Europe", "text": "Europe"},
+            {"value": "Oceania", "text": "Oceania"},
+            {"value": "한국", "text": "한국"}
+          ]
+        }
+      ]
     }
   },
   methods: {
