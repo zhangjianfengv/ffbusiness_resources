@@ -56,14 +56,15 @@
               <span style="font-size: smaller">
                 1.新增我的关注页面，登录后可收藏物品并在该页面批量查询物价
             </span></div>
+            <br>
             <div>
               <h6>
                 2023年12月1日
               </h6>
               <span style="font-size: smaller">
                 1.市场统计页面物品价格及销量走势图除了每日新增以外，会随着一天以上的市场统计运行后同步增补数据
+                1.同时适配universalis返回数据的两种压缩方式以提高稳定性
             </span></div>
-            <br>
             <!--            body end-->
           </div>
           <div class="modal-footer">
