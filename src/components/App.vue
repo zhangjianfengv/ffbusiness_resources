@@ -43,14 +43,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年11月23日
-              </h6>
-              <span style="font-size: smaller">
-                1.QQ登录按钮目前已经可以使用，目前完成登录流程的效果是在本站生成一条注册记录，包含用户id(不能关联具体qq号，可以理解成qq用户在本站的标识)、昵称头像（可以临时另外生成），无其他隐私信息。目前已有的功能都不需要登录后使用。接入QQ登录的原因是简化注册步骤和防止脚本恶意注册，以及后续开发的个人收藏夹及相关功能需要注册使用。
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年11月25日
               </h6>
               <span style="font-size: smaller">
@@ -64,6 +56,14 @@
               <span style="font-size: smaller">
                 1.新增我的关注页面，登录后可收藏物品并在该页面批量查询物价
             </span></div>
+            <div>
+              <h6>
+                2023年12月1日
+              </h6>
+              <span style="font-size: smaller">
+                1.市场统计页面物品价格及销量走势图除了每日新增以外，会随着一天以上的市场统计运行后同步增补数据
+            </span></div>
+            <br>
             <!--            body end-->
           </div>
           <div class="modal-footer">
