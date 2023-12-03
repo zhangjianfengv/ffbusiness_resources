@@ -1,26 +1,22 @@
 <template>
   <div id="app">
     <b-form inline id="itemForm">
-      <b-col id="queryParam">
-        <b-row>
-          <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>
-          <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
-          <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
-          <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
-          <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
-          <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
-          </bt-select>
-          <b-form-checkbox v-model="canBeHq" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
-            高品质
-          </b-form-checkbox>
-          <b-form-checkbox v-model="trade" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
-            可出售
-          </b-form-checkbox>
-          <b-button variant="info" @click="searchItem()" type="button"><i class="bi bi-search"></i></b-button>
-          <b-button variant="info" class="mx-1" @click="resetQueryParams()"
-                    type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
-        </b-row>
-      </b-col>
+      <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>
+      <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
+      <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
+      <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
+      <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+      </bt-select>
+      <b-form-checkbox v-model="canBeHq" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
+        高品质
+      </b-form-checkbox>
+      <b-form-checkbox v-model="trade" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
+        可出售
+      </b-form-checkbox>
+      <b-button variant="info" @click="searchItem()" type="button"><i class="bi bi-search"></i></b-button>
+      <b-button variant="info" class="mx-1" @click="resetQueryParams()"
+                type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
     </b-form>
     <div>
       <BootstrapTable id="table"
@@ -66,34 +62,8 @@
   </div>
 </template>
 <style>
-.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
-  position: relative;
-  max-width: 94%;
-  margin: 10px 5px;
-}
-
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
-  color: #fff;
-  text-decoration: none;
-  background-color: #17a2b8 !important;
-}
-
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
-  text-decoration: none;
-  background-color: #fff !important;
-}
-
-.dropdown, .dropdown-menu {
-  max-width: 200px;
-}
 </style>
 <style scoped>
-input.form-control {
-  max-width: 100px;
-  display: inline !important;
-}
-
 .modal-body {
   padding-left: 60px;
 }
@@ -101,8 +71,6 @@ input.form-control {
 ul {
   padding: 0;
 }
-
-
 </style>
 <script>
 import tableMixin from '../mixins/table'

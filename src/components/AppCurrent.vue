@@ -1,22 +1,20 @@
 <template>
   <div id="app">
     <b-form inline id="queryCurrent" @reset="onReset">
-      <b-row>
-        <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
-        <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
-        <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
-        <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
-        </b-button>
-        <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
-        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="filterData()"
-                         switch>
-          只看HQ
-        </b-form-checkbox>
-        <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
-                         @change="loadMore()" switch>加载更多
-        </b-form-checkbox>
-        <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
-      </b-row>
+      <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
+      <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
+      <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
+      </b-button>
+      <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
+      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="filterData()"
+                       switch>
+        只看HQ
+      </b-form-checkbox>
+      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
+                       @change="loadMore()" switch>加载更多
+      </b-form-checkbox>
+      <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
     <table id="currentTable"></table>
@@ -38,28 +36,6 @@
   </div>
 </template>
 <style scoped>
-.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
-  position: relative;
-  max-width: 94%;
-  margin: 10px 5px;
-}
-
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
-  color: #fff;
-  text-decoration: none;
-  background-color: #17a2b8 !important;
-}
-
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
-  text-decoration: none;
-  background-color: #fff !important;
-}
-
-input.form-control {
-  max-width: 180px;
-  display: inline !important;
-}
 </style>
 <script>
 import tableMixin from '../mixins/table'
