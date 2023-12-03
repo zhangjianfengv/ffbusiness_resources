@@ -394,7 +394,7 @@ export default {
               if (today)
                 return '<span class="color-today">' + s + '</span>';
               return s;
-            } else return value;
+            } else return s;
           }
         }, {
           field: 'next',
