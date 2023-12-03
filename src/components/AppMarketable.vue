@@ -394,13 +394,16 @@ export default {
               if (today)
                 return '<span class="color-today">' + s + '</span>';
               return s;
-            }
+            } else return value;
           }
         }, {
           field: 'next',
           title: '下次更新',
           formatter: function (value) {
-            return value.substring(0, 19);
+            if (row.scale / 24 > 1) {
+              value = value.substring(0, 10)
+            }
+            return value;
           }
         }], method: 'post',
         contentType: "application/json"
