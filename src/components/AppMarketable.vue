@@ -399,7 +399,7 @@ export default {
         }, {
           field: 'next',
           title: '下次更新',
-          formatter: function (value) {
+          formatter: function (value, row) {
             if (row.scale / 24 > 1) {
               value = value.substring(0, 10)
             }
