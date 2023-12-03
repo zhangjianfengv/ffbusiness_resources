@@ -11,39 +11,39 @@
         <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
         </bt-select>
         <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
-          <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
-          <option value="拉诺西亚">拉诺西亚</option>
-          <option value="幻影群岛">幻影群岛</option>
-          <option value="神意之地">神意之地</option>
-          <option value="萌芽池">萌芽池</option>
-          <option value="红玉海">红玉海</option>
-          <option value="宇宙和音">宇宙和音</option>
-          <option value="沃仙曦染">沃仙曦染</option>
-          <option value="晨曦王座">晨曦王座</option>
-          <option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</option>
-          <option value="紫水栈桥">紫水栈桥</option>
-          <option value="摩杜纳">摩杜纳</option>
-          <option value="海猫茶屋">海猫茶屋</option>
-          <option value="琥珀原">琥珀原</option>
-          <option value="静语庄园">静语庄园</option>
-          <option value="延夏">延夏</option>
-          <option value="柔风海湾">柔风海湾</option>
-          <option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</option>
-          <option value="梦羽宝境">梦羽宝境</option>
-          <option value="旅人栈桥">旅人栈桥</option>
-          <option value="白银乡">白银乡</option>
-          <option value="白金幻象">白金幻象</option>
-          <option value="拂晓之间">拂晓之间</option>
-          <option value="神拳痕">神拳痕</option>
-          <option value="龙巢神殿">龙巢神殿</option>
-          <option value="潮风亭">潮风亭</option>
-          <option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</option>
-          <option value="银泪湖">银泪湖</option>
-          <option value="伊修加德">伊修加德</option>
-          <option value="红茶川">红茶川</option>
-          <option value="太阳海岸">太阳海岸</option>
-          <option value="水晶塔">水晶塔</option>
-          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
+          <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</b-form-select-option>
+          <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
+          <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
+          <b-form-select-option value="神意之地">神意之地</b-form-select-option>
+          <b-form-select-option value="萌芽池">萌芽池</b-form-select-option>
+          <b-form-select-option value="红玉海">红玉海</b-form-select-option>
+          <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
+          <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
+          <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
+          <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</b-form-select-option>
+          <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
+          <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
+          <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
+          <b-form-select-option value="琥珀原">琥珀原</b-form-select-option>
+          <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
+          <b-form-select-option value="延夏">延夏</b-form-select-option>
+          <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
+          <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</b-form-select-option>
+          <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
+          <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
+          <b-form-select-option value="白银乡">白银乡</b-form-select-option>
+          <b-form-select-option value="白金幻象">白金幻象</b-form-select-option>
+          <b-form-select-option value="拂晓之间">拂晓之间</b-form-select-option>
+          <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
+          <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
+          <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
+          <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</b-form-select-option>
+          <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
+          <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
+          <b-form-select-option value="红茶川">红茶川</b-form-select-option>
+          <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
+          <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
+          <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
         </b-form-select>
         <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
           仅HQ
@@ -101,7 +101,7 @@ input.form-control {
 </style>
 <style scoped>
 #itemType {
-  width: 180px !important;
+  max-width: 180px !important;
 }
 </style>
 <script>
@@ -281,9 +281,6 @@ export default {
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
-      let $worldName = $('#worldName');
-      $worldName.selectpicker('val', '中国');
-      $worldName.selectpicker('refresh');
       options.columns = this.columns;
       $table.bootstrapTable(options)
     },
@@ -371,18 +368,13 @@ export default {
     },
   },
   mounted() {
-    $('select').selectpicker();
+    $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
-      let worldName = Base64.decode(worldCookie);
-      let $worldName = $('#worldName');
-      $worldName.selectpicker('val', worldName);
-      $worldName.selectpicker('refresh');
-      this.worldName = worldName;
-    }
+      this.worldName = Base64.decode(worldCookie);
+    } else this.worldName = "中国";
     $('#date').datepicker({language: 'zh-CN'});
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
-
   }
 }
 

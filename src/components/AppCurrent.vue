@@ -60,10 +60,6 @@ input.form-control {
   max-width: 180px;
   display: inline !important;
 }
-
-.dropdown, .dropdown-menu {
-  max-width: 200px;
-}
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -370,8 +366,6 @@ export default {
   },
   mounted() {
     $('#loading-indicator').hide();
-    $('select').selectpicker();
-    let $worldName = $('#worldName');
     const worldCookie = this.$cookies.get('world');
     let worldName;
     if (this.isStr(worldCookie)) {
@@ -393,8 +387,6 @@ export default {
             this.itemName = this.$route.params.itemName;
           }
           this.worldName = worldName;
-          $worldName.selectpicker('val', worldName);
-          $worldName.selectpicker('refresh');
           break;
         default: {
           vm.childWorld = worldName;
@@ -407,8 +399,6 @@ export default {
                 vm.itemName = vm.$route.params.itemName;
               }
               vm.worldName = data.worldName
-              $worldName.selectpicker('val', data.worldName);
-              $worldName.selectpicker('refresh');
             }
           });
         }

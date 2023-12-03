@@ -347,7 +347,7 @@ export default {
     }
   },
   mounted() {
-    $('select').selectpicker();
+    $('#itemType').selectpicker();
     $.ajax({
       url: "/ffbusiness/itemType/all", method: "post", contentType: "application/json", success: function (data) {
         this.options = data;

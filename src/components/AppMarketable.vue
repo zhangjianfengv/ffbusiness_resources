@@ -3,47 +3,47 @@
     <b-form inline id="marketableForm" ref="marketableForm">
       <b-form-group>
         <b-form-select v-model="worldName" id="worldName">
-          <option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</option>
-          <option value="拉诺西亚">拉诺西亚</option>
-          <option value="幻影群岛">幻影群岛</option>
-          <option value="神意之地">神意之地</option>
-          <option value="萌芽池">萌芽池</option>
-          <option value="红玉海">红玉海</option>
-          <option value="宇宙和音">宇宙和音</option>
-          <option value="沃仙曦染">沃仙曦染</option>
-          <option value="晨曦王座">晨曦王座</option>
-          <option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</option>
-          <option value="紫水栈桥">紫水栈桥</option>
-          <option value="摩杜纳">摩杜纳</option>
-          <option value="海猫茶屋">海猫茶屋</option>
-          <option value="琥珀原">琥珀原</option>
-          <option value="静语庄园">静语庄园</option>
-          <option value="延夏">延夏</option>
-          <option value="柔风海湾">柔风海湾</option>
-          <option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</option>
-          <option value="梦羽宝境">梦羽宝境</option>
-          <option value="旅人栈桥">旅人栈桥</option>
-          <option value="白银乡">白银乡</option>
-          <option value="白金幻象">白金幻象</option>
-          <option value="拂晓之间">拂晓之间</option>
-          <option value="神拳痕">神拳痕</option>
-          <option value="龙巢神殿">龙巢神殿</option>
-          <option value="潮风亭">潮风亭</option>
-          <option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</option>
-          <option value="银泪湖">银泪湖</option>
-          <option value="伊修加德">伊修加德</option>
-          <option value="红茶川">红茶川</option>
-          <option value="太阳海岸">太阳海岸</option>
-          <option value="水晶塔">水晶塔</option>
-          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
+          <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</b-form-select-option>
+          <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
+          <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
+          <b-form-select-option value="神意之地">神意之地</b-form-select-option>
+          <b-form-select-option value="萌芽池">萌芽池</b-form-select-option>
+          <b-form-select-option value="红玉海">红玉海</b-form-select-option>
+          <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
+          <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
+          <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
+          <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</b-form-select-option>
+          <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
+          <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
+          <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
+          <b-form-select-option value="琥珀原">琥珀原</b-form-select-option>
+          <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
+          <b-form-select-option value="延夏">延夏</b-form-select-option>
+          <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
+          <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</b-form-select-option>
+          <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
+          <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
+          <b-form-select-option value="白银乡">白银乡</b-form-select-option>
+          <b-form-select-option value="白金幻象">白金幻象</b-form-select-option>
+          <b-form-select-option value="拂晓之间">拂晓之间</b-form-select-option>
+          <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
+          <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
+          <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
+          <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</b-form-select-option>
+          <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
+          <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
+          <b-form-select-option value="红茶川">红茶川</b-form-select-option>
+          <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
+          <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
+          <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
         </b-form-select>
         <b-form-select id="timeScale" v-model="scale">
-          <option value="8">统计8小时</option>
-          <option selected value="24">统计24小时</option>
-          <option value="72">统计3天</option>
-          <option value="168">统计7天</option>
-          <option value="360">统计15天</option>
-          <option value="720">统计30天</option>
+          <b-form-select-option value="8">统计8小时</b-form-select-option>
+          <b-form-select-option selected value="24">统计24小时</b-form-select-option>
+          <b-form-select-option value="72">统计3天</b-form-select-option>
+          <b-form-select-option value="168">统计7天</b-form-select-option>
+          <b-form-select-option value="360">统计15天</b-form-select-option>
+          <b-form-select-option value="720">统计30天</b-form-select-option>
         </b-form-select>
         <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
         </bt-select>
@@ -54,8 +54,8 @@
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
         <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
         <b-form-select id="sortType" v-model="sortType">
-          <option selected value="1">按交易次数排序</option>
-          <option value="2">按售出总数排序</option>
+          <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
+          <b-form-select-option value="2">按售出总数排序</b-form-select-option>
         </b-form-select>
         <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
         <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
@@ -116,10 +116,6 @@
   </div>
 </template>
 <style>
-.custom-select {
-  padding: 0 !important;
-}
-
 .dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
@@ -367,19 +363,13 @@ export default {
         minQuantity: this.minQuantity,
         itemTypes: this.itemTypes
       };
-      let $sortType = $('#sortType');
       this.sortType = "1";
-      $sortType.selectpicker('val', '1');
-      $sortType.selectpicker('refresh');
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
     },
     resetMarketable() {
       let $itemType = $('#itemType');
-      let $worldName = $('#worldName');
-      let $timeScale = $('#timeScale');
-      let $sortType = $('#sortType');
       let $marketableTable = $('#marketableTable');
       $('#marketableForm')[0].reset();
       this.scale = 24;
@@ -390,12 +380,6 @@ export default {
       this.itemTypes = [];
       this.minQuantity = null;
       $itemType.selectpicker('val', []);
-      $worldName.selectpicker('val', '中国');
-      $timeScale.selectpicker('val', 24);
-      $sortType.selectpicker('val', '1');
-      $sortType.selectpicker('refresh');
-      $timeScale.selectpicker('refresh');
-      $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
       this.searchText = null;
       queryMarketable = {
@@ -495,14 +479,10 @@ export default {
     }
   },
   mounted() {
-    $('select').selectpicker();
+    $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
-      let worldName = Base64.decode(worldCookie);
-      let $worldName = $('#worldName');
-      $worldName.selectpicker('val', worldName);
-      $worldName.selectpicker('refresh');
-      this.worldName = worldName;
+      this.worldName = Base64.decode(worldCookie);
     }
     let $sortType = $('#sortType');
     $sortType.change(function () {
