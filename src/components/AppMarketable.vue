@@ -324,7 +324,6 @@ export default {
         contentType: "application/json",
         onAll: function () {
           let $columns = $('.columns');
-          //$columns.css('margin', '0')
           $columns.removeClass('float-right')
           $columns.removeClass('columns')
           let form = $('#marketableForm>fieldset.form-group>div');
