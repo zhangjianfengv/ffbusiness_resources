@@ -1,65 +1,67 @@
 <template>
   <div id="app">
     <b-form inline id="marketableForm" ref="marketableForm">
-      <b-form-select v-model="worldName" id="worldName">
-        <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</b-form-select-option>
-        <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
-        <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
-        <b-form-select-option value="神意之地">神意之地</b-form-select-option>
-        <b-form-select-option value="萌芽池">萌芽池</b-form-select-option>
-        <b-form-select-option value="红玉海">红玉海</b-form-select-option>
-        <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
-        <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
-        <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
-        <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</b-form-select-option>
-        <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
-        <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
-        <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
-        <b-form-select-option value="琥珀原">琥珀原</b-form-select-option>
-        <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
-        <b-form-select-option value="延夏">延夏</b-form-select-option>
-        <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
-        <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</b-form-select-option>
-        <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
-        <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
-        <b-form-select-option value="白银乡">白银乡</b-form-select-option>
-        <b-form-select-option value="白金幻象">白金幻象</b-form-select-option>
-        <b-form-select-option value="拂晓之间">拂晓之间</b-form-select-option>
-        <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
-        <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
-        <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
-        <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</b-form-select-option>
-        <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
-        <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
-        <b-form-select-option value="红茶川">红茶川</b-form-select-option>
-        <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
-        <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
-        <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
-      </b-form-select>
-      <b-form-select id="timeScale" v-model="scale">
-        <b-form-select-option value="8">统计8小时</b-form-select-option>
-        <b-form-select-option selected value="24">统计24小时</b-form-select-option>
-        <b-form-select-option value="72">统计3天</b-form-select-option>
-        <b-form-select-option value="168">统计7天</b-form-select-option>
-        <b-form-select-option value="360">统计15天</b-form-select-option>
-        <b-form-select-option value="720">统计30天</b-form-select-option>
-      </b-form-select>
-      <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
-      </bt-select>
-      <b-form-input min="0" placeholder="至少售出" type="number" value=""
-                    v-model="minQuantity"></b-form-input>
-      <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
-                    v-model="min"></b-form-input>
-      <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
-      <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
-      <b-form-select id="sortType" v-model="sortType">
-        <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
-        <b-form-select-option value="2">按售出总数排序</b-form-select-option>
-      </b-form-select>
-      <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
-      <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
-      <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i class="bi bi-calendar-month"></i>
-      </b-button>
+      <b-form-group>
+        <b-form-select v-model="worldName" id="worldName">
+          <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</b-form-select-option>
+          <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
+          <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
+          <b-form-select-option value="神意之地">神意之地</b-form-select-option>
+          <b-form-select-option value="萌芽池">萌芽池</b-form-select-option>
+          <b-form-select-option value="红玉海">红玉海</b-form-select-option>
+          <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
+          <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
+          <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
+          <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</b-form-select-option>
+          <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
+          <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
+          <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
+          <b-form-select-option value="琥珀原">琥珀原</b-form-select-option>
+          <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
+          <b-form-select-option value="延夏">延夏</b-form-select-option>
+          <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
+          <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</b-form-select-option>
+          <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
+          <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
+          <b-form-select-option value="白银乡">白银乡</b-form-select-option>
+          <b-form-select-option value="白金幻象">白金幻象</b-form-select-option>
+          <b-form-select-option value="拂晓之间">拂晓之间</b-form-select-option>
+          <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
+          <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
+          <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
+          <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</b-form-select-option>
+          <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
+          <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
+          <b-form-select-option value="红茶川">红茶川</b-form-select-option>
+          <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
+          <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
+          <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
+        </b-form-select>
+        <b-form-select id="timeScale" v-model="scale">
+          <b-form-select-option value="8">统计8小时</b-form-select-option>
+          <b-form-select-option selected value="24">统计24小时</b-form-select-option>
+          <b-form-select-option value="72">统计3天</b-form-select-option>
+          <b-form-select-option value="168">统计7天</b-form-select-option>
+          <b-form-select-option value="360">统计15天</b-form-select-option>
+          <b-form-select-option value="720">统计30天</b-form-select-option>
+        </b-form-select>
+        <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+        </bt-select>
+        <b-form-input min="0" placeholder="至少售出" type="number" value=""
+                      v-model="minQuantity"></b-form-input>
+        <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
+                      v-model="min"></b-form-input>
+        <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
+        <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
+        <b-form-select id="sortType" v-model="sortType">
+          <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
+          <b-form-select-option value="2">按售出总数排序</b-form-select-option>
+        </b-form-select>
+        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
+        <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
+        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i class="bi bi-calendar-month"></i>
+        </b-button>
+      </b-form-group>
     </b-form>
     <div>
       <BootstrapTable id="marketableTable"
@@ -118,10 +120,6 @@
 <style scoped>
 a, a:hover {
   color: #343a40;
-}
-
-.color-today {
-  color: #17a2b8;
 }
 
 .modal-select {
@@ -326,8 +324,9 @@ export default {
         contentType: "application/json",
         onAll: function () {
           let $columns = $('.columns');
-          $columns.css('margin', '0')
+          //$columns.css('margin', '0')
           $columns.removeClass('float-right')
+          $columns.removeClass('columns')
           let form = $('#marketableForm>fieldset.form-group>div');
           form.append($columns);
           $('.fixed-table-toolbar>div:not(:first)').remove();
@@ -392,7 +391,7 @@ export default {
             if (row.scale / 24 > 1) {
               s = s.substring(0, 10)
               if (today)
-                return '<span class="color-today">' + s + '</span>';
+                return '<span style="color: #17a2b8;">' + s + '</span>';
               return s;
             } else return s;
           }
