@@ -46,14 +46,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年11月26日
-              </h6>
-              <span style="font-size: smaller">
-                1.新增我的关注页面，登录后可收藏物品并在该页面批量查询物价
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年12月1日
               </h6>
               <span style="font-size: smaller">
@@ -68,6 +60,14 @@
               <span style="font-size: smaller">
                 1.页面样式优化，主要包括选择下拉框及手机端页面效果调整<br>
                 2.增加交流反馈QQ群加群按钮
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年12月10日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品查询页面可查询物品的NPC商店购买/兑换方式
             </span></div>
             <!--            body end-->
           </div>

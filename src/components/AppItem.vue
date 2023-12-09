@@ -53,8 +53,26 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeRecipe()" type="button"><i
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSource" type="button"><i
                 class="bi bi-power"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div aria-hidden="true" class="modal fade" id="sourceModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="sourceLabel"></h4>
+          </div>
+          <div class="modal-body">
+            <BootstrapTable id="sourceTable"
+                            ref="sourceTable"
+                            @on-post-body="vueFormatterPostBody"/>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal" @click="closeRecipe()" type="button"><i
+                  class="bi bi-power"></i></button>
+            </div>
           </div>
         </div>
       </div>
@@ -195,6 +213,21 @@ export default {
         return value === false ? '✔' : ''
       },
     }, {
+      title: 'NPC购买兑换',
+      align: 'center',
+      formatter: (value, row) => {
+        if (row.npcTrade) {
+          let template = '<b-button variant="info" @click="seeSource(row)"><i class="bi bi-shop"></i></b-button>';
+          return this.vueFormatter({
+            template: template,
+            data: {row},
+            methods: {
+              seeSource: this.seeSource
+            }
+          })
+        } else return '';
+      }
+    }, {
       title: '查看配方',
       formatter: (value, row) => {
         if (row.craft) {
@@ -306,12 +339,56 @@ export default {
           vm.materials = data.list;
         }
       });
+    }, seeSource(row) {
+      $.ajax({
+        url: "/ffbusiness/npcSell/list",
+        async: true,
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({itemId: row.id}),
+        success: function (data) {
+          let $sourceTable = $('#sourceTable');
+          $sourceTable.bootstrapTable('destroy')
+          $('#sourceModal').modal('show');
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+          $('#sourceLabel').html('<img src="' + url +
+              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;购买兑换');
+          $sourceTable.bootstrapTable({
+            data: data,
+            columns: [{
+              formatter: (value, row) => {
+                return row.npcName + (row.shopName == null ? '-' + row.shopName : '') + (row.shopSubName == null ? '-' +
+                    row.shopSubName : '');
+              },
+              title: '商人'
+            }, {
+              formatter: (value, row) => {
+                return row.locationName + '<br/>X: ' + row.locationX + ',Y: ' + row.locationY
+              },
+              title: '位置'
+            }, {
+              formatter: (value, row) => {
+                let url = "https://static.ff14pvp.top/icon/icon/" + row.currencyId + '.png?eo-img.resize=w/32/h/32';
+                let s = '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">';
+                return s + 'X' + row.price;
+              },
+              title: '消耗',
+            }],
+            mobileResponsive: true,
+            checkOnInit: true
+          });
+        }
+      });
+
     },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
     closeRecipe() {
       $('#recipeModal').modal('toggle');
+    },
+    closeSource() {
+      $('#sourceModal').modal('toggle');
     }
   },
   mounted() {
