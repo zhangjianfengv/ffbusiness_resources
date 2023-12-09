@@ -31,7 +31,7 @@
           <div class="modal-header">
             <h4 class="modal-title" style="margin: 0 auto" id="recipeLabel"></h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body recipe">
             <ul id="recipeTree">
               <ul id="demo">
                 <Tree
@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSource" type="button"><i
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeRecipe" type="button"><i
                 class="bi bi-power"></i></button>
           </div>
         </div>
@@ -70,7 +70,7 @@
                             ref="sourceTable"
                             @on-post-body="vueFormatterPostBody"/>
             <div class="modal-footer">
-              <button class="btn btn-secondary" data-dismiss="modal" @click="closeRecipe()" type="button"><i
+              <button class="btn btn-secondary" data-dismiss="modal" @click="closeSource" type="button"><i
                   class="bi bi-power"></i></button>
             </div>
           </div>
@@ -82,7 +82,7 @@
 <style>
 </style>
 <style scoped>
-.modal-body {
+.recipe {
   padding-left: 60px;
 }
 
@@ -357,8 +357,7 @@ export default {
             data: data,
             columns: [{
               formatter: (value, row) => {
-                return row.npcName + (row.shopName == null ? '-' + row.shopName : '') + (row.shopSubName == null ? '-' +
-                    row.shopSubName : '');
+                return row.npcName + (row.shopName == null ? '' : '-' + row.shopName) + (row.shopSubName == null ? '' : '-' + row.shopSubName);
               },
               title: '商人'
             }, {
