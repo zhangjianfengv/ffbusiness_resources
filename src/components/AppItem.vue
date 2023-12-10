@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-form inline id="itemForm">
-      <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>
+      <!--      <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>-->
       <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
