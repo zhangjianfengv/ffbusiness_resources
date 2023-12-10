@@ -115,8 +115,6 @@
     </div>
   </div>
 </template>
-<style>
-</style>
 <style scoped>
 a, a:hover {
   color: #343a40;
