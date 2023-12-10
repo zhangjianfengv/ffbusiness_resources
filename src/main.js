@@ -13,6 +13,7 @@ import AppItem from "@/components/AppItem.vue";
 import VueCookies from 'vue-cookies'
 import AppCurrent from "@/components/AppCurrent.vue";
 import AppMy from "@/components/AppMy.vue";
+import './scss/variables.scss'
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -24,6 +25,7 @@ Vue.config.errorHandler = function (err, vm, info) {
 }
 
 Vue.config.productionTip = false
+
 const routes = [
     {path: '/', component: AppHistory},
     {path: '/history/', component: AppHistory},

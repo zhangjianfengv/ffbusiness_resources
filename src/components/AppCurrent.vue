@@ -4,9 +4,9 @@
       <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
-      <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
+      <b-button :class="{ 'dark-theme': isDark }" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
       </b-button>
-      <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
+      <b-button :class="{ 'dark-theme': isDark }" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
       <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="filterData()"
                        switch>
         只看HQ
@@ -16,11 +16,11 @@
       </b-form-checkbox>
       <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
     </b-form>
-    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-:class="{ 'dark-theme': isDark }" title="提示">查询条件无匹配物品</b-modal>
     <table id="currentTable"></table>
     <b-card no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block v-b-toggle.accordion-3 variant="info">切换最近销售履历</b-button>
+        <b-button block v-b-toggle.accordion-3 :class="{ 'dark-theme': isDark }">切换最近销售履历</b-button>
       </b-card-header>
       <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel">
         <b-card-body>
@@ -81,6 +81,7 @@ let optionCurrent = {
 };
 export default {
   mixins: [tableMixin],
+  props: ['isDark'],
   name: 'current',
   watch: {
     itemName: function (newValue) {

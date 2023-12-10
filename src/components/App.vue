@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="sm" type="dark" variant="info">
+      <b-navbar toggleable="sm" type="dark" :class="{ 'dark-theme': isDark,'bg-info':!isDark }">
         <b-navbar-brand href="/">最终幻想14微观经济学</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -11,29 +11,35 @@
             <b-nav-item to="/item">物品查询</b-nav-item>
             <b-nav-item to="/my">我的关注</b-nav-item>
             <b-nav-item to="/current">实时物价</b-nav-item>
-            <b-button variant="info" type="button"
+            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark}" type="button"
                       href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
               <i class="bi bi-envelope-at-fill"></i></b-button>
-            <b-button variant="info"
+            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark}"
                       href="https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Am8SZj4VzSRfY5SKTfv6gAov0MnM_SPS&authKey=VT1%2FcriD%2FryxXz%2B%2BSewvL9YbN5pFwvympg%2Bt0XU70OPrvsJ8NBkBIIknzk6wiMVD&noverify=0&group_code=688539775">
               <i class="bi bi-tencent-qq"></i></b-button>
-            <b-button variant="info" type="button"
+            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark}" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
-              <template #button-content>
-                <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
-                <em>{{ user.nickname }}</em>
-              </template>
-              <b-dropdown-item @click="logOut">退出登录</b-dropdown-item>
-            </b-nav-item-dropdown>
+            <b-nav-form>
+              <b-form-checkbox @change="changeTheme" switch>切换主题
+              </b-form-checkbox>
+            </b-nav-form>
+            <b-navbar-nav class="ml-auto">
+              <b-nav-item-dropdown right>
+                <template #button-content>
+                  <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
+                  <em>{{ user.nickname }}</em>
+                </template>
+                <b-dropdown-item @click="logOut">退出登录</b-dropdown-item>
+              </b-nav-item-dropdown>
+            </b-navbar-nav>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </div>
     <keep-alive exclude="current">
-      <router-view>
+      <router-view :isDark="isDark">
       </router-view>
     </keep-alive>
     <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="note" role="dialog" tabindex="-1">
@@ -72,15 +78,19 @@
             <!--            body end-->
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
-            </button>
+            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" data-dismiss="modal" @click="closeNote()"
+                      type="button">
+              <i class="bi bi-power"></i>
+            </b-button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style>
+<style lang="scss">
+@import "@/scss/variables.scss";
+
 select.form-control, .form-control.dropdown, .dropdown-menu {
   width: 100% !important;
 }
@@ -97,17 +107,26 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   width: 100%;
 }
 
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
+.dark-theme {
   color: #fff;
   text-decoration: none;
-  background-color: #17a2b8 !important;
+  border-color: black;
+  background-color: black !important;
 }
 
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
-  text-decoration: none;
-  background-color: #fff !important;
-}
+
+//
+//.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
+//  color: #fff;
+//  text-decoration: none;
+//  background-color: $info !important;
+//}
+//
+//.page-item.active, .page-link {
+//  color: $info !important;
+//  text-decoration: none;
+//  background-color: #fff !important;
+//}
 </style>
 <script>
 import $ from "jquery";
@@ -118,7 +137,8 @@ export default {
   name: "App",
   data() {
     return {
-      user: {nickname: '用户'}
+      user: {nickname: '用户'},
+      isDark: false
     }
   },
   computed: {
@@ -142,6 +162,20 @@ export default {
     },
     closeNote() {
       $('#note').modal('toggle');
+    },
+    changeTheme() {
+      this.isDark = !this.isDark;
+      if (this.isDark) {
+        $('body').css({
+          'background-color': 'black',
+          'color': 'white'
+        });
+      } else {
+        $('body').css({
+          'background-color': 'white',
+          'color': 'black'
+        });
+      }
     }
   }, mounted() {
     const vm = this;
