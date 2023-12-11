@@ -46,14 +46,14 @@
       <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
         仅HQ
       </b-form-checkbox>
-      <b-button :class="{ 'dark-theme': isDark }" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
       </b-button>
-      <b-button :class="{ 'dark-theme': isDark }" @click="queryCurrentForm()" type="button"><i class="bi bi-cart4"></i>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="queryCurrentForm()" type="button"><i class="bi bi-cart4"></i>
       </b-button>
-      <b-button :class="{ 'dark-theme': isDark }" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
     </b-form>
-    <b-modal id="modal-sm" size="sm" ok-only ok-:class="{ 'dark-theme': isDark }" title="提示">角色名查询须指定物品</b-modal>
-    <b-modal id="modal-item" size="sm" ok-only ok-:class="{ 'dark-theme': isDark }" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-sm" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">角色名查询须指定物品</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">查询条件无匹配物品</b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"

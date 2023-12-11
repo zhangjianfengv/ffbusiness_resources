@@ -57,11 +57,11 @@
           <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
           <b-form-select-option value="2">按售出总数排序</b-form-select-option>
         </b-form-select>
-        <b-button :class="{ 'dark-theme': isDark }" class="mx-1" @click="filterMarketable()" type="button"><i
+        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="filterMarketable()" type="button"><i
             class="bi bi-search"></i></b-button>
-        <b-button :class="{ 'dark-theme': isDark }" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i>
+        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i>
         </b-button>
-        <b-button :class="{ 'dark-theme': isDark }" class="mx-1" @click="openUpdateTimeTable()" type="button"><i
+        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="openUpdateTimeTable()" type="button"><i
             class="bi bi-calendar-month"></i>
         </b-button>
       </b-form-group>
@@ -110,7 +110,7 @@
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <b-button :class="{ 'dark-theme': isDark }" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button"><i
+            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button"><i
                 class="bi bi-power"></i></b-button>
           </div>
         </div>
@@ -326,13 +326,6 @@ export default {
         icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
         contentType: "application/json",
         onAll: function () {
-          let className = this.isDark ? 'dark-theme' : 'btn-info'
-          let $export = $('.export > button:nth-child(1)');
-          let $keep = $('.keep-open > button:nth-child(1)');
-          $export.addClass(className)
-          $keep.addClass(className)
-          $export.removeClass('btn-secondary')
-          $keep.removeClass('btn-secondary')
           let $columns = $('.columns');
           $columns.removeClass('float-right')
           $columns.removeClass('columns')

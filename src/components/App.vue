@@ -165,6 +165,12 @@ export default {
     },
     changeTheme() {
       this.isDark = !this.isDark;
+      let className = this.isDark ? 'dark-theme' : 'btn-info'
+      let $btn = $('button');
+      $btn.removeClass('btn-secondary')
+      $btn.removeClass('btn-info')
+      $btn.removeClass('dark-theme')
+      $btn.addClass(className)
       if (this.isDark) {
         $('body').css({
           'background-color': 'black',
