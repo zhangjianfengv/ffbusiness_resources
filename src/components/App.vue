@@ -94,7 +94,7 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
 .bs-bars form, .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table
 .fixed-table-toolbar .search {
   position: relative;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
