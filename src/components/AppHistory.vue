@@ -191,7 +191,7 @@ export default {
         formatter: (value, row) => {
           return this.vueFormatter({
             template:
-                '<b-button class="btn " @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
+                '<b-button class="btn btn-info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable

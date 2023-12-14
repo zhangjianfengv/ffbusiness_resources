@@ -172,12 +172,12 @@ export default {
       $btn.removeClass('dark-theme')
       $btn.addClass(className)
       if (this.isDark) {
-        $('body').css({
+        $('body,table,input,select,.custom-select').css({
           'background-color': 'black',
           'color': 'white'
         });
       } else {
-        $('body').css({
+        $('body,table,input,select,.custom-select').css({
           'background-color': 'white',
           'color': 'black'
         });

@@ -281,9 +281,9 @@ export default {
             let template;
             if (row.quantityIndexChange < 0)
               template =
-                  '<b-button class="btn" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
+                  '<b-button class="btn btn-info" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
             else template =
-                '<b-button class="btn" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
+                '<b-button class="btn btn-info" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
             return this.vueFormatter({
               template: template,
               data: {row},
