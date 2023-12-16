@@ -43,12 +43,12 @@
             <div id="recipeList">
               <b-form-input id="sb-inline" class="mb-3" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
-                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}X{{ value.num }}个X{{
+                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{ value.num }}个*{{
                     value.price
                   }}={{ value.num * value.price * craftCount }}
                 </li>
               </ul>
-              <span>成本总计{{ this.singeCost * craftCount}}</span>
+              <span>成本总计{{ this.singeCost * craftCount}}({{ this.worldName}})</span>
             </div>
           </div>
           <div id="loading-indicator" class="text-center">

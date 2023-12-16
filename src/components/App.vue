@@ -46,15 +46,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年12月1日
-              </h6>
-              <span style="font-size: smaller">
-                1.市场统计页面物品价格及销量走势图除了每日新增以外，会随着一天以上的市场统计运行后同步增补数据<br>
-                2.同时适配universalis返回数据的两种压缩方式以提高稳定性
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年12月3日
               </h6>
               <span style="font-size: smaller">
@@ -68,6 +59,14 @@
               </h6>
               <span style="font-size: smaller">
                 1.物品查询页面可查询物品的NPC商店购买/兑换方式
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年12月16日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品查询页面可计算物品配方的初级材料成本，区服使用销售履历页面的值，后续改为用户设置项
             </span></div>
             <!--            body end-->
           </div>
