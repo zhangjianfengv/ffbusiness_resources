@@ -148,11 +148,21 @@ export default {
         field: 'itemName',
         formatter: (value, row) => {
           let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
+          let s =
+              '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+          let full = '';
           if (row.hq)
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
+            full = s + '<img src="/hq.png"' +
                 ' decoding="async" width="16" height="16" alt="hq">';
           else
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+            full = s;
+          return this.vueFormatter({
+            template: full + '<i class="bi bi-copy" @click="copyText(value)"></i>',
+            data: {row},
+            methods: {
+              copyText: this.copyText
+            }
+          })
         },
         title: '物品名称'
       }, {
@@ -337,6 +347,12 @@ export default {
     },
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }, copyText(number) {
+      try {
+        navigator.clipboard.writeText(number);
+      } catch (err) {
+        console.error('Failed to copy: ', err);
+      }
     },
   },
   mounted() {

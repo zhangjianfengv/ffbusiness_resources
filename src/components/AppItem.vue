@@ -43,8 +43,12 @@
             <div id="recipeList">
               <b-form-input id="sb-inline" class="mb-3" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
-                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}X{{ value * craftCount }}</li>
+                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}X{{ value.num }}个X{{
+                    value.price
+                  }}={{ value.num * value.price * craftCount }}
+                </li>
               </ul>
+              <span>成本总计{{ this.singeCost * craftCount}}</span>
             </div>
           </div>
           <div id="loading-indicator" class="text-center">
@@ -94,6 +98,7 @@ ul {
 import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Tree from "@/components/Tree.vue";
+import Base64 from "@/plugins/base64.js";
 
 let query = {};
 
@@ -242,7 +247,7 @@ export default {
         } else return '';
       }
     }, {
-      title: '材料清单计算',
+      title: '材料成本计算',
       formatter: (value, row) => {
         if (row.craft) {
           let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
@@ -257,9 +262,11 @@ export default {
       }
     }];
     return {
+      worldName: '中国',
       columns: columns,
       options: options,
       nameOptions: [],
+      singeCost: 0,
       itemName: '',
       trade: null,
       timer: null,
@@ -325,18 +332,24 @@ export default {
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeTree').hide();
+      $('#recipeList').hide();
       this.craftCount = 1;
       let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料清单');
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
       $('#recipeModal').modal('show');
       $.ajax({
-        url: "/ffbusiness/recipe/getOne", method: "post", contentType: "application/json",
-        data: JSON.stringify({itemId: row.id}),
+        url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
+        data: JSON.stringify({itemId: row.id, worldName: this.worldName}),
         success: function (data) {
           $('#loading-indicator').hide();
           $('#recipeList').show();
           vm.materials = data.list;
+          let total = 0;
+          for (let item in data.list) {
+            total += data.list[item].price * data.list[item].num;
+          }
+          vm.singeCost = total;
         }
       });
     }, seeSource(row) {
@@ -397,6 +410,11 @@ export default {
         this.options = data;
       }
     });
+    const worldCookie = this.$cookies.get('world');
+    if (this.isStr(worldCookie)) {
+      this.worldName = Base64.decode(worldCookie);
+    } else this.worldName = "中国";
   }
+
 }
 </script>
