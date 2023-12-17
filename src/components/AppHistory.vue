@@ -75,8 +75,8 @@
 <style>
 </style>
 <style scoped>
-a {
-  color: #212529;
+a.link-style {
+  color: #212529 !important;
   text-decoration: underline;
 }
 </style>
@@ -149,7 +149,7 @@ export default {
         field: 'itemId',
         title: '物品ID',
         formatter: (value) => {
-          return '<a href="/#/item?id=' + value + '">' + value + '</a>'
+          return '<a class="link-style" href="/#/item?id=' + value + '">' + value + '</a>'
         }
       }, {
         field: 'itemName',

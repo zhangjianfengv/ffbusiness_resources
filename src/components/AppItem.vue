@@ -237,6 +237,7 @@ export default {
         } else return '';
       }
     }];
+    const vm = this;
     let options = {
       url: '/ffbusiness/itemNew/realData',
       pagination: "true",
@@ -247,6 +248,7 @@ export default {
       queryParams: function (params) {
         query.pageSize = params.pageSize;
         query.pageNumber = params.pageNumber;
+        query.id = vm.$route.query.id ? null : this.itemId;
         return query
       },
       pageNumber: 1,
@@ -268,7 +270,7 @@ export default {
       nameOptions: [],
       singeCost: 0,
       itemName: '',
-      itemId: 0,
+      itemId: this.$route.query.id,
       trade: null,
       timer: null,
       canBeHq: null,
@@ -411,7 +413,7 @@ export default {
   },
   mounted() {
     let id = this.$route.query.id
-    if (id) query.itemId = id;
+    if (id) this.itemId = id;
     $('#itemType').selectpicker();
     $.ajax({
       url: "/ffbusiness/itemType/all", method: "post", contentType: "application/json", success: function (data) {
