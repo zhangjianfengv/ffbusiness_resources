@@ -75,6 +75,10 @@
 <style>
 </style>
 <style scoped>
+a {
+  color: #212529;
+  text-decoration: underline;
+}
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -143,7 +147,10 @@ export default {
     let columns = [
       {
         field: 'itemId',
-        title: '物品ID'
+        title: '物品ID',
+        formatter: (value) => {
+          return '<a href="/#/item?id=' + value + '">' + value + '</a>'
+        }
       }, {
         field: 'itemName',
         formatter: (value, row) => {

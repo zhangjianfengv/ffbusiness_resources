@@ -46,15 +46,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年12月3日
-              </h6>
-              <span style="font-size: smaller">
-                1.页面样式优化，主要包括选择下拉框及手机端页面效果调整<br>
-                2.增加交流反馈QQ群加群按钮
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年12月10日
               </h6>
               <span style="font-size: smaller">
@@ -68,6 +59,15 @@
               <span style="font-size: smaller">
                 1.物品查询页面可计算物品配方的初级材料成本，区服使用销售履历页面的值，后续改为用户设置项
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年12月17日
+              </h6>
+              <span style="font-size: smaller">
+                1.销售履历页面点击物品id可跳转至物品查询页面发起查询
+            </span></div>
+
             <!--            body end-->
           </div>
           <div class="modal-footer">

@@ -43,12 +43,12 @@
             <div id="recipeList">
               <b-form-input id="sb-inline" class="mb-3" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
-                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{ value.num }}个*{{
+                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{ value.num * craftCount }}个*{{
                     value.price
                   }}={{ value.num * value.price * craftCount }}
                 </li>
               </ul>
-              <span>成本总计{{ this.singeCost * craftCount}}({{ this.worldName}})</span>
+              <span>成本总计{{ this.singeCost * craftCount }}({{ this.worldName }})</span>
             </div>
           </div>
           <div id="loading-indicator" class="text-center">
@@ -102,30 +102,6 @@ import Base64 from "@/plugins/base64.js";
 
 let query = {};
 
-let options = {
-  url: '/ffbusiness/itemNew/realData',
-  pagination: "true",
-  sidePagination: "server",
-  method: 'post',
-  contentType: "application/json",
-  queryParamsType: '',
-  queryParams: function (params) {
-    query.pageSize = params.pageSize;
-    query.pageNumber = params.pageNumber;
-    return query
-  },
-  pageNumber: 1,
-  pageSize: 15,
-  toolbar: '#itemForm',
-  itemTypes: [],
-  mobileResponsive: true,
-  paginationUseIntermediate: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  checkOnInit: true,
-  itemTypeOptions: [],
-  pageList: [50, 100, 200, 500, 1000]
-};
 export default {
   components: {Tree},
   mixins: [tableMixin],
@@ -261,6 +237,30 @@ export default {
         } else return '';
       }
     }];
+    let options = {
+      url: '/ffbusiness/itemNew/realData',
+      pagination: "true",
+      sidePagination: "server",
+      method: 'post',
+      contentType: "application/json",
+      queryParamsType: '',
+      queryParams: function (params) {
+        query.pageSize = params.pageSize;
+        query.pageNumber = params.pageNumber;
+        return query
+      },
+      pageNumber: 1,
+      pageSize: 15,
+      toolbar: '#itemForm',
+      itemTypes: [],
+      mobileResponsive: true,
+      paginationUseIntermediate: true,
+      paginationSuccessivelySize: 1,
+      paginationPagesBySide: 1,
+      checkOnInit: true,
+      itemTypeOptions: [],
+      pageList: [50, 100, 200, 500, 1000]
+    };
     return {
       worldName: '中国',
       columns: columns,
@@ -268,6 +268,7 @@ export default {
       nameOptions: [],
       singeCost: 0,
       itemName: '',
+      itemId: 0,
       trade: null,
       timer: null,
       canBeHq: null,
@@ -277,12 +278,17 @@ export default {
       treeData: {}
     }
   },
+  activated() {
+    let id = this.$route.query.id
+    if (id) this.itemId = id;
+    this.searchItem();
+  },
   methods: {
     searchItem() {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       query = {
-        id: $('#id').val(),
+        id: this.itemId,
         name: this.itemName,
         description: $('#description').val(),
         itemUICategory: $('#itemUICategory').val(),
@@ -291,8 +297,8 @@ export default {
         isUntradable: this.trade !== 'true',
         canBeHq: this.canBeHq
       };
-      options.columns = this.columns;
-      $table.bootstrapTable(options)
+      this.options.columns = this.columns;
+      $table.bootstrapTable(this.options)
       $table.bootstrapTable('refresh', {
         query: query
       });
@@ -308,8 +314,8 @@ export default {
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
-      options.columns = this.columns;
-      $table.bootstrapTable(options)
+      this.options.columns = this.columns;
+      $table.bootstrapTable(this.options)
     },
     openRecipe(row) {
       const vm = this;
@@ -404,6 +410,8 @@ export default {
     }
   },
   mounted() {
+    let id = this.$route.query.id
+    if (id) query.itemId = id;
     $('#itemType').selectpicker();
     $.ajax({
       url: "/ffbusiness/itemType/all", method: "post", contentType: "application/json", success: function (data) {
