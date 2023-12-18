@@ -41,9 +41,11 @@
         <b-form-select-option value="红茶川">红茶川</b-form-select-option>
         <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
         <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
-        <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
+        <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
+        </b-form-select-option>
       </b-form-select>
-      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
+      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="searchItem()">
         仅HQ
       </b-form-checkbox>
       <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
@@ -75,10 +77,6 @@
 <style>
 </style>
 <style scoped>
-a.link-style {
-  color: #212529 !important;
-  text-decoration: underline;
-}
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -149,7 +147,7 @@ export default {
         field: 'itemId',
         title: '物品ID',
         formatter: (value) => {
-          return '<a class="link-style" href="/#/item?id=' + value + '">' + value + '</a>'
+          return '<a class="black-link-style" href="/#/item?id=' + value + '">' + value + '</a>'
         }
       }, {
         field: 'itemName',

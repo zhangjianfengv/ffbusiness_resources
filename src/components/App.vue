@@ -71,7 +71,8 @@
             <!--            body end-->
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i
+                class="bi bi-power"></i>
             </button>
           </div>
         </div>
@@ -106,6 +107,11 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   color: #17a2b8 !important;
   text-decoration: none;
   background-color: #fff !important;
+}
+
+.black-link-style {
+  color: #212529 !important;
+  text-decoration: underline;
 }
 </style>
 <script>
