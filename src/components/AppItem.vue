@@ -200,6 +200,9 @@ export default {
     }, {
       field: 'gather',
       title: '采集地点',
+      formatter: (value, row) => {
+        return row.craft ? '' : value
+      }
     },
       {
         title: 'NPC购买兑换',
