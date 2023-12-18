@@ -8,10 +8,12 @@
       <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
       <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
       </bt-select>
-      <b-form-checkbox v-model="canBeHq" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
+      <b-form-checkbox v-model="canBeHq" style="margin: 5px 9px" value="true" unchecked-value="false"
+                       @change="searchItem()">
         高品质
       </b-form-checkbox>
-      <b-form-checkbox v-model="trade" style="margin: 5px 9px" value="true" unchecked-value="false" @change="searchItem()">
+      <b-form-checkbox v-model="trade" style="margin: 5px 9px" value="true" unchecked-value="false"
+                       @change="searchItem()">
         可出售
       </b-form-checkbox>
       <b-button variant="info" @click="searchItem()" type="button"><i class="bi bi-search"></i></b-button>
@@ -43,7 +45,9 @@
             <div id="recipeList">
               <b-form-input id="sb-inline" class="mb-3" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
-                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{ value.num * craftCount }}个*{{
+                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{
+                    value.num * craftCount
+                  }}个*{{
                     value.price
                   }}={{ value.num * value.price * craftCount }}
                 </li>
@@ -248,7 +252,7 @@ export default {
       queryParams: function (params) {
         query.pageSize = params.pageSize;
         query.pageNumber = params.pageNumber;
-        query.id = vm.$route.query.id ? null : this.itemId;
+        query.id = vm.$route.query.id ? vm.$route.query.id : null;
         return query
       },
       pageNumber: 1,
@@ -282,8 +286,13 @@ export default {
   },
   activated() {
     let id = this.$route.query.id
-    if (id) this.itemId = id;
-    this.searchItem();
+    if (id && id !== this.itemId) {
+      this.itemId = id;
+      this.searchItem();
+    }
+    if (!id) {
+      this.itemId = null;
+    }
   },
   methods: {
     searchItem() {
@@ -306,10 +315,12 @@ export default {
       });
     },
     resetQueryParams() {
+      window.location.href = '/#/item';
       let $table = $('#table');
       $('#itemForm')[0].reset();
       $table.bootstrapTable('destroy');
       query = {};
+      this.itemId = null;
       this.itemName = null;
       this.trade = 0;
       this.canBeHq = 0;
@@ -412,8 +423,6 @@ export default {
     }
   },
   mounted() {
-    let id = this.$route.query.id
-    if (id) this.itemId = id;
     $('#itemType').selectpicker();
     $.ajax({
       url: "/ffbusiness/itemType/all", method: "post", contentType: "application/json", success: function (data) {
