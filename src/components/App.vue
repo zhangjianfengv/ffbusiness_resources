@@ -65,9 +65,9 @@
                 2023年12月18日
               </h6>
               <span style="font-size: smaller">
-                1.销售履历页面点击物品id可跳转至物品查询页面发起查询
+                1.销售履历页面点击物品id可跳转至物品查询页面发起查询<br>
+                2.物品查询页面新增采集笔记内容
             </span></div>
-
             <!--            body end-->
           </div>
           <div class="modal-footer">

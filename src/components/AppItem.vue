@@ -198,49 +198,53 @@ export default {
         return value === false ? '✔' : ''
       },
     }, {
-      title: 'NPC购买兑换',
-      align: 'center',
-      formatter: (value, row) => {
-        if (row.npcTrade) {
-          let template = '<b-button variant="info" @click="seeSource(row)"><i class="bi bi-shop"></i></b-button>';
-          return this.vueFormatter({
-            template: template,
-            data: {row},
-            methods: {
-              seeSource: this.seeSource
-            }
-          })
-        } else return '';
-      }
-    }, {
-      title: '查看配方',
-      formatter: (value, row) => {
-        if (row.craft) {
-          let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-receipt-cutoff"></i></b-button>';
-          return this.vueFormatter({
-            template: template,
-            data: {row},
-            methods: {
-              clickRow: this.openRecipe
-            }
-          })
-        } else return '';
-      }
-    }, {
-      title: '材料成本计算',
-      formatter: (value, row) => {
-        if (row.craft) {
-          let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
-          return this.vueFormatter({
-            template: template,
-            data: {row},
-            methods: {
-              clickRow: this.openList
-            }
-          })
-        } else return '';
-      }
-    }];
+      field: 'gather',
+      title: '采集地点',
+    },
+      {
+        title: 'NPC购买兑换',
+        align: 'center',
+        formatter: (value, row) => {
+          if (row.npcTrade) {
+            let template = '<b-button variant="info" @click="seeSource(row)"><i class="bi bi-shop"></i></b-button>';
+            return this.vueFormatter({
+              template: template,
+              data: {row},
+              methods: {
+                seeSource: this.seeSource
+              }
+            })
+          } else return '';
+        }
+      }, {
+        title: '查看配方',
+        formatter: (value, row) => {
+          if (row.craft) {
+            let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-receipt-cutoff"></i></b-button>';
+            return this.vueFormatter({
+              template: template,
+              data: {row},
+              methods: {
+                clickRow: this.openRecipe
+              }
+            })
+          } else return '';
+        }
+      }, {
+        title: '材料成本计算',
+        formatter: (value, row) => {
+          if (row.craft) {
+            let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
+            return this.vueFormatter({
+              template: template,
+              data: {row},
+              methods: {
+                clickRow: this.openList
+              }
+            })
+          } else return '';
+        }
+      }];
     const vm = this;
     let options = {
       url: '/ffbusiness/itemNew/realData',
