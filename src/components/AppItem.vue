@@ -86,12 +86,11 @@
       </div>
     </div>
     <div style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;">
-      本站基础物品数据来源于
-      <a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
-         href="https://github.com/thewakingsands/" target="_blank">CafeMaker</a>
-      和<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
-           href="https://garlandtools.cn/db/" target="_blank">GarlandTools Database</a>
-      © 2023 SQUARE ENIX CO., LTD. All Rights Reserved.
+      本站基础物品数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
+                                     href="https://github.com/thewakingsands/" target="_blank">CafeMaker</a>&nbsp;和&nbsp;<a
+        style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
+        href="https://garlandtools.cn/db/" target="_blank">GarlandTools Database</a>&nbsp;© 2023 SQUARE ENIX CO., LTD.
+      All Rights Reserved.
     </div>
   </div>
 </template>
