@@ -4,10 +4,23 @@
       <!--      <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>-->
       <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
+      <b-form-input class="form-control" v-model="levelEquip" placeholder="等级" type="text" value=""></b-form-input>
+      <b-form-input class="form-control" v-model="levelItem" placeholder="品级" type="text" value=""></b-form-input>
       <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
-      <b-form-input class="form-control" id="levelItem" placeholder="品级" type="text" value=""></b-form-input>
       <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
       </bt-select>
+      <b-form-checkbox v-model="canMake" style="margin: 5px 9px" value="true" unchecked-value="false"
+                       @change="searchItem()">
+        可制作
+      </b-form-checkbox>
+      <b-form-checkbox v-model="gil" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="searchItem()">
+        金币购买
+      </b-form-checkbox>
+      <b-form-checkbox v-model="canGather" style="margin: 5px 9px" value="true" unchecked-value="false"
+                       @change="searchItem()">
+        可采集
+      </b-form-checkbox>
       <b-form-checkbox v-model="canBeHq" style="margin: 5px 9px" value="true" unchecked-value="false"
                        @change="searchItem()">
         高品质
@@ -116,23 +129,25 @@ let query = {};
 export default {
   components: {Tree},
   mixins: [tableMixin],
-  itemName: function (newValue) {
-    const vm = this;
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      if (this.isStr(newValue)) {
-        $.ajax({
-          url: "/ffbusiness/itemNew/suggestName",
-          async: true,
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({name: this.itemName}),
-          success: function (data) {
-            vm.nameOptions = data;
-          }
-        });
-      }
-    }, 500);
+  watch: {
+    itemName: function (newValue) {
+      const vm = this;
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        if (this.isStr(newValue)) {
+          $.ajax({
+            url: "/ffbusiness/itemNew/suggestName",
+            async: true,
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify({name: this.itemName}),
+            success: function (data) {
+              vm.nameOptions = data;
+            }
+          });
+        }
+      }, 500);
+    },
   },
   data() {
     let columns = [{
@@ -292,6 +307,11 @@ export default {
       trade: null,
       timer: null,
       canBeHq: null,
+      canMake: null,
+      levelItem: null,
+      levelEquip: null,
+      gil: null,
+      canGather: null,
       materials: [],
       craftCount: 1,
       itemTypes: [],
@@ -302,6 +322,16 @@ export default {
     let id = this.$route.query.id
     if (id && id !== this.itemId) {
       this.itemId = id;
+      $.ajax({
+        url: "/ffbusiness/itemNew/suggestName",
+        async: true,
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({id: id}),
+        success: function (data) {
+          vm.nameOptions = data;
+        }
+      });
       this.searchItem();
     }
     if (!id) {
@@ -317,10 +347,14 @@ export default {
         name: this.itemName,
         description: $('#description').val(),
         itemUICategory: $('#itemUICategory').val(),
-        levelItem: $('#levelItem').val(),
+        levelItem: this.levelItem,
+        levelEquip: this.levelEquip,
         itemTypes: this.itemTypes,
         isUntradable: this.trade !== 'true',
-        canBeHq: this.canBeHq
+        gil: this.gil === '1' ? this.gil : null,
+        canBeHq: this.canBeHq,
+        canGather: this.canGather,
+        canMake: this.canMake,
       };
       this.options.columns = this.columns;
       $table.bootstrapTable(this.options)
@@ -338,6 +372,11 @@ export default {
       this.itemName = null;
       this.trade = 0;
       this.canBeHq = 0;
+      this.gil = '0';
+      this.canGather = 0;
+      this.canMake = 0;
+      this.levelEquip = null;
+      this.levelItem = null;
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
