@@ -231,24 +231,20 @@ export default {
       formatter: (value) => {
         return value === true ? '✔' : ''
       }
-    }, {
-      field: 'isIndisposable',
-      title: '可丢弃',
-      formatter: (value) => {
-        return value === false ? '✔' : ''
-      },
-    }, {
-      field: 'gather',
-      title: '采集地点',
-      formatter: (value, row) => {
-        return row.craft ? '' : value
-      }
     },
+      //   {
+      //   field: 'isIndisposable',
+      //   title: '可丢弃',
+      //   formatter: (value) => {
+      //     return value === false ? '✔' : ''
+      //   },
+      // },
       {
+        field: 'gather',
         title: '采集',
         align: 'center',
         formatter: (value, row) => {
-          if (row.gatherCount > 0) {
+          if (row.gatherCount > 0 && !row.recipeCount) {
             let template = '<b-button variant="info" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
             return this.vueFormatter({
               template: template,
@@ -529,7 +525,13 @@ export default {
               title: '类型',
             }, {
               formatter: (value, row) => {
-                return row.et1 + ',' + row.et2;
+                if (row.type && row.et1) {
+                  let s;
+                  s = row.et1;
+                  if (row.et2)
+                    s = s + ',' + row.et2;
+                  return s;
+                } else return '';
               },
               title: 'ET'
             }],

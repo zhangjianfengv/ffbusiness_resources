@@ -46,14 +46,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年12月10日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品查询页面可查询物品的NPC商店购买/兑换方式
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年12月16日
               </h6>
               <span style="font-size: smaller">
@@ -65,8 +57,18 @@
                 2023年12月18日
               </h6>
               <span style="font-size: smaller">
-                1.销售履历页面点击物品id可跳转至物品查询页面发起查询<br>
+                1.销售履历页面点击物品id可跳转至物品查询页面发起查询<br/>
                 2.物品查询页面新增采集笔记内容
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年12月31日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品查询页面新增等级、可制作、金币购买、可采集查询条件，补全了诗学可兑换物品（在分类选择可选诗学兑换物）<br/>
+                2.物品查询页面可查询单个物品的多个采集地点和采集时间<br/>
+                3.物品查询页面增加物品名称建议
             </span></div>
             <!--            body end-->
           </div>
