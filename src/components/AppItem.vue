@@ -98,6 +98,24 @@
         </div>
       </div>
     </div>
+    <div aria-hidden="true" class="modal fade" id="gatherModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="gatherLabel"></h4>
+          </div>
+          <div class="modal-body">
+            <BootstrapTable id="gatherTable"
+                            ref="gatherTable"
+                            @on-post-body="vueFormatterPostBody"/>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal" @click="closeGather" type="button"><i
+                  class="bi bi-power"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;">
       本站基础物品数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
                                      href="https://github.com/thewakingsands/" target="_blank">CafeMaker</a>&nbsp;和&nbsp;<a
@@ -227,6 +245,22 @@ export default {
       }
     },
       {
+        title: '采集',
+        align: 'center',
+        formatter: (value, row) => {
+          if (row.gatherCount > 0) {
+            let template = '<b-button variant="info" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
+            return this.vueFormatter({
+              template: template,
+              data: {row},
+              methods: {
+                seeGather: this.seeGather
+              }
+            })
+          } else return '';
+        }
+      },
+      {
         title: 'NPC购买兑换',
         align: 'center',
         formatter: (value, row) => {
@@ -351,7 +385,7 @@ export default {
         levelEquip: this.levelEquip,
         itemTypes: this.itemTypes,
         isUntradable: this.trade !== 'true',
-        gil: this.gil === '1' ? this.gil : null,
+        currencyId: this.gil === '1' ? this.gil : null,
         canBeHq: this.canBeHq,
         canGather: this.canGather,
         canMake: this.canMake,
@@ -463,6 +497,47 @@ export default {
           });
         }
       });
+    }, seeGather(row) {
+      $.ajax({
+        url: "/ffbusiness/itemGather/list",
+        async: true,
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({itemId: row.id}),
+        success: function (data) {
+          let $sourceTable = $('#gatherTable');
+          $sourceTable.bootstrapTable('destroy')
+          $('#gatherModal').modal('show');
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+          $('#gatherLabel').html('<img src="' + url +
+              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
+          $sourceTable.bootstrapTable({
+            data: data,
+            columns: [{
+              field: 'locationName',
+              title: '地图'
+            }, {
+              formatter: (value, row) => {
+                return 'X: ' + row.locationX + ',Y: ' + row.locationY
+              },
+              title: '位置'
+            }, {
+              field: 'type',
+              formatter: (value) => {
+                return !value ? '常驻' : value;
+              },
+              title: '类型',
+            }, {
+              formatter: (value, row) => {
+                return row.et1 + ',' + row.et2;
+              },
+              title: 'ET'
+            }],
+            mobileResponsive: true,
+            checkOnInit: true
+          });
+        }
+      });
 
     },
     isStr(val) {
@@ -473,6 +548,9 @@ export default {
     },
     closeSource() {
       $('#sourceModal').modal('toggle');
+    },
+    closeGather() {
+      $('#gatherModal').modal('toggle');
     }
   },
   mounted() {
