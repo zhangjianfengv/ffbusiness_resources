@@ -97,7 +97,7 @@ export default {
         let exp = /\B(?=(\d{3})+(?!\d))/g;
         return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
       },
-      title: '总计'
+      title: '转移消耗'
     }];
     let optionCurrent = {
       data: this.item.realData.currents,
@@ -128,7 +128,7 @@ export default {
       formatter: (value, row) => {
         return this.formatNumber(row.pricePerUnit) + 'X' + this.formatNumber(row.quantity) + '=' + this.formatNumber(value)
       },
-      title: '总计'
+      title: '转移消耗'
     }, {
       field: 'timestamp',
       formatter: (value) => {

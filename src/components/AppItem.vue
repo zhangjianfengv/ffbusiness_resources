@@ -65,7 +65,7 @@
                   }}={{ value.num * value.price * craftCount }}
                 </li>
               </ul>
-              <span>成本总计{{ this.singeCost * craftCount }}({{ this.worldName }})</span>
+              <span>转移消耗{{ this.singeCost * craftCount }}({{ this.worldName }})</span>
             </div>
           </div>
           <div id="loading-indicator" class="text-center">
@@ -286,7 +286,7 @@ export default {
           } else return '';
         }
       }, {
-        title: '材料成本计算',
+        title: '材料转移计算',
         formatter: (value, row) => {
           if (row.craft) {
             let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
@@ -438,7 +438,7 @@ export default {
       this.craftCount = 1;
       let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料转移计算');
       $('#recipeModal').modal('show');
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",

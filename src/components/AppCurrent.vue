@@ -67,7 +67,7 @@ let optionCurrent = {
       let exp = /\B(?=(\d{3})+(?!\d))/g;
       return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
     },
-    title: '总计'
+    title: '转移消耗'
   }], method: 'post',
   pageNumber: 1,
   pageSize: 5,
@@ -217,7 +217,7 @@ export default {
                 formatter: (value, row) => {
                   return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
                 },
-                title: '总计'
+                title: '转移消耗'
               }, {
                 field: 'timestamp',
                 formatter: (value) => {

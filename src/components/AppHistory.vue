@@ -165,7 +165,7 @@ export default {
         formatter: (value, row) => {
           return this.formatNumber(row.pricePerUnit) + 'X' + this.formatNumber(row.quantity) + '=' + this.formatNumber(value)
         },
-        title: '总计'
+        title: '转移消耗'
       }, {
         field: 'buyerName',
         title: '水晶转移目标'
