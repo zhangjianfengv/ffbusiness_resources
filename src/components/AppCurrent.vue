@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-form inline id="queryCurrent" @reset="onReset">
-      <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+      <b-form-input list="input-list" v-model="itemName" placeholder="水晶名" value=""></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
       <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
@@ -16,11 +16,11 @@
       </b-form-checkbox>
       <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
     </b-form>
-    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配水晶</b-modal>
     <table id="currentTable"></table>
     <b-card no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block v-b-toggle.accordion-3 variant="info">切换最近销售履历</b-button>
+        <b-button block v-b-toggle.accordion-3 variant="info">切换最近水晶转移履历</b-button>
       </b-card-header>
       <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel">
         <b-card-body>
@@ -204,7 +204,7 @@ export default {
               }, {
                 field: 'buyerName',
                 filterControl: 'select',
-                title: '购买者'
+                title: '水晶转移目标'
               }, {
                 field: 'hq',
                 formatter: (value) => {
@@ -223,7 +223,7 @@ export default {
                 formatter: (value) => {
                   return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
                 },
-                title: '购买时间'
+                title: '水晶转移时间'
               }],
               contentType: "application/json",
               pageNumber: 1,

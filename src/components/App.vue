@@ -2,15 +2,15 @@
   <div id="app">
     <div>
       <b-navbar toggleable="sm" type="dark" variant="info">
-        <b-navbar-brand href="/">最终幻想14微观经济学</b-navbar-brand>
+        <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/history">销售履历</b-nav-item>
-            <b-nav-item to="/marketable">市场统计</b-nav-item>
-            <b-nav-item to="/item">物品查询</b-nav-item>
+            <b-nav-item to="/history">水晶转移记录</b-nav-item>
+            <b-nav-item to="/marketable">晶簇记录</b-nav-item>
+            <b-nav-item to="/item">水晶查询</b-nav-item>
             <b-nav-item to="/my">我的关注</b-nav-item>
-            <b-nav-item to="/current">实时物价</b-nav-item>
+            <b-nav-item to="/current">正在转移</b-nav-item>
             <b-button variant="info" type="button"
                       href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
               <i class="bi bi-envelope-at-fill"></i></b-button>
@@ -49,7 +49,7 @@
                 2023年12月16日
               </h6>
               <span style="font-size: smaller">
-                1.物品查询页面可计算物品配方的初级材料成本，区服使用销售履历页面的值，后续改为用户设置项
+                1.水晶查询页面可计算水晶配方的初级材料消耗，区服使用水晶转移履历页面的值，后续改为用户设置项
             </span></div>
             <br>
             <div>
@@ -57,8 +57,8 @@
                 2023年12月18日
               </h6>
               <span style="font-size: smaller">
-                1.销售履历页面点击物品id可跳转至物品查询页面发起查询<br/>
-                2.物品查询页面新增采集笔记内容
+                1.水晶转移履历页面点击水晶id可跳转至水晶查询页面发起查询<br/>
+                2.水晶查询页面新增采集笔记内容
             </span></div>
             <br>
             <div>
@@ -66,9 +66,9 @@
                 2023年12月31日
               </h6>
               <span style="font-size: smaller">
-                1.物品查询页面新增等级、可制作、金币购买、可采集查询条件，补全了诗学可兑换物品（在分类选择可选诗学兑换物）<br/>
-                2.物品查询页面可查询单个物品的多个采集地点和采集时间<br/>
-                3.物品查询页面增加物品名称建议
+                1.水晶查询页面新增等级、可制作、Gil转移、可采集查询条件，补全了诗学可兑换水晶（在分类选择可选诗学兑换物）<br/>
+                2.水晶查询页面可查询单个水晶的多个采集地点和采集时间<br/>
+                3.水晶查询页面增加水晶名称建议
             </span></div>
             <!--            body end-->
           </div>

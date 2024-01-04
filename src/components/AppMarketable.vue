@@ -38,24 +38,24 @@
           <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
         </b-form-select>
         <b-form-select id="timeScale" v-model="scale">
-          <b-form-select-option value="8">统计8小时</b-form-select-option>
-          <b-form-select-option selected value="24">统计24小时</b-form-select-option>
-          <b-form-select-option value="72">统计3天</b-form-select-option>
-          <b-form-select-option value="168">统计7天</b-form-select-option>
-          <b-form-select-option value="360">统计15天</b-form-select-option>
-          <b-form-select-option value="720">统计30天</b-form-select-option>
+          <b-form-select-option value="8">结晶8小时</b-form-select-option>
+          <b-form-select-option selected value="24">结晶24小时</b-form-select-option>
+          <b-form-select-option value="72">结晶3天</b-form-select-option>
+          <b-form-select-option value="168">结晶7天</b-form-select-option>
+          <b-form-select-option value="360">结晶15天</b-form-select-option>
+          <b-form-select-option value="720">结晶30天</b-form-select-option>
         </b-form-select>
         <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
         </bt-select>
-        <b-form-input min="0" placeholder="至少售出" type="number" value=""
+        <b-form-input min="0" placeholder="至少转移数量" type="number" value=""
                       v-model="minQuantity"></b-form-input>
-        <b-form-input id="min" min="0" placeholder="低价" type="number" value=""
+        <b-form-input id="min" min="0" placeholder="lowGil" type="number" value=""
                       v-model="min"></b-form-input>
-        <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
+        <b-form-input id="max" placeholder="highGil" type="number" value="" v-model="max"></b-form-input>
         <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
         <b-form-select id="sortType" v-model="sortType">
-          <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
-          <b-form-select-option value="2">按售出总数排序</b-form-select-option>
+          <b-form-select-option selected value="1">按转移次数排序</b-form-select-option>
+          <b-form-select-option value="2">按转移数量排序</b-form-select-option>
         </b-form-select>
         <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
         <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
@@ -181,7 +181,7 @@ export default {
           field: 'itemId',
           sortable: true,
           visible: false,
-          title: '物品ID',
+          title: '水晶ID',
           filterControl: 'input'
         }, {
           field: 'name',
@@ -190,7 +190,7 @@ export default {
             let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
             return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
           },
-          title: '物品名称'
+          title: '水晶名称'
         }, {
           field: 'quantity',
           sortable: true,
@@ -198,14 +198,14 @@ export default {
             return this.formatNumber(value);
           },
           visible: false,
-          title: '售出数',
+          title: '转移数量',
         }, {
           field: 'num',
           sortable: true,
           formatter: (value) => {
             return this.formatNumber(value);
           },
-          title: '交易次数',
+          title: '转移次数',
         }, {
           field: 'numIndexCurrent',
           sortable: true,
@@ -215,11 +215,11 @@ export default {
           sortable: true,
           title: '排序较上次',
           formatter: function changeFormatter(value, row) {
-            if (!$.isNumeric(row.quantityIndexChange)) return "无此物品"
+            if (!$.isNumeric(row.quantityIndexChange)) return "无此水晶"
             else if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return "无此水晶"
           },
         }, {
           field: 'quantityIndexCurrent',
@@ -235,7 +235,7 @@ export default {
             if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return "无此水晶"
           },
         }, {
           field: 'pricePerUnit',
@@ -376,7 +376,7 @@ export default {
         url: '/ffbusiness/saleHistory/marketableUpdateTime',
         columns: [{
           field: 'scale',
-          title: '统计周期',
+          title: '结晶周期',
           formatter: function (value) {
             return $('#timeScale option[value=' + value + ']').html().slice(2);
           }

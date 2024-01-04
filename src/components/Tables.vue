@@ -21,7 +21,7 @@
         <h6 class="mb-0">{{ item.itemName }}</h6>
       </template>
       <b-card-body>
-        <b-card-title>销售历史</b-card-title>
+        <b-card-title>水晶转移历史</b-card-title>
         <b-card-sub-title class="mb-2">
           <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
         </b-card-sub-title>
@@ -116,7 +116,7 @@ export default {
       title: '服务器'
     }, {
       field: 'buyerName',
-      title: '购买者'
+      title: '水晶转移目标'
     }, {
       field: 'hq',
       formatter: (value) => {
@@ -134,7 +134,7 @@ export default {
       formatter: (value) => {
         return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
       },
-      title: '购买时间'
+      title: '水晶转移时间'
     }];
     let hiOpt = {
       data: this.item.realData.realHistoryDtos,

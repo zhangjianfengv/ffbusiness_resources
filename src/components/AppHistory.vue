@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <b-form inline id="queryForm" @reset="onReset">
-      <b-form-input list="input-list" v-model="itemName" placeholder="关键词或物品ID" value=""></b-form-input>
-      <b-form-input v-model="buyerName" placeholder="购买者" type="text"
+      <b-form-input list="input-list" v-model="itemName" placeholder="关键词或水晶ID" value=""></b-form-input>
+      <b-form-input v-model="buyerName" placeholder="水晶转移目标" type="text"
                     value="" :state="buyerNameState"></b-form-input>
       <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
@@ -54,8 +54,8 @@
       </b-button>
       <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
     </b-form>
-    <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
-    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定水晶</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配水晶</b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -145,7 +145,7 @@ export default {
     let columns = [
       {
         field: 'itemId',
-        title: '物品ID',
+        title: '水晶ID',
         formatter: (value) => {
           return '<a class="black-link-style" href="/#/item?id=' + value + '">' + value + '</a>'
         }
@@ -159,7 +159,7 @@ export default {
           else
             return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
         },
-        title: '物品名称'
+        title: '水晶名称'
       }, {
         field: 'sum',
         formatter: (value, row) => {
@@ -168,13 +168,13 @@ export default {
         title: '总计'
       }, {
         field: 'buyerName',
-        title: '购买者'
+        title: '水晶转移目标'
       }, {
         field: 'worldName',
         title: '服务器'
       }, {
         field: 'timestamp',
-        title: '购买时间'
+        title: '水晶转移时间'
       }
       , {
         title: '收藏',

@@ -2,7 +2,7 @@
   <div id="app">
     <b-form inline id="itemForm">
       <!--      <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>-->
-      <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+      <b-form-input list="input-list" v-model="itemName" placeholder="水晶名" value=""></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-input class="form-control" v-model="levelEquip" placeholder="等级" type="text" value=""></b-form-input>
       <b-form-input class="form-control" v-model="levelItem" placeholder="品级" type="text" value=""></b-form-input>
@@ -15,7 +15,7 @@
       </b-form-checkbox>
       <b-form-checkbox v-model="gil" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="searchItem()">
-        金币购买
+        Gil转移
       </b-form-checkbox>
       <b-form-checkbox v-model="canGather" style="margin: 5px 9px" value="true" unchecked-value="false"
                        @change="searchItem()">
@@ -27,7 +27,7 @@
       </b-form-checkbox>
       <b-form-checkbox v-model="trade" style="margin: 5px 9px" value="true" unchecked-value="false"
                        @change="searchItem()">
-        可出售
+        可转移
       </b-form-checkbox>
       <b-button variant="info" @click="searchItem()" type="button"><i class="bi bi-search"></i></b-button>
       <b-button variant="info" class="mx-1" @click="resetQueryParams()"
@@ -117,7 +117,7 @@
       </div>
     </div>
     <div style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;">
-      本站基础物品数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
+      本站基础水晶数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
                                      href="https://github.com/thewakingsands/" target="_blank">CafeMaker</a>&nbsp;和&nbsp;<a
         style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
         href="https://garlandtools.cn/db/" target="_blank">GarlandTools Database</a>&nbsp;© 2023 SQUARE ENIX CO., LTD.
@@ -220,7 +220,7 @@ export default {
       }
     }, {
       field: 'isUntradable',
-      title: '可出售',
+      title: '可转移',
       formatter: (value) => {
         return value === false ? '✔' : ''
       }
@@ -257,7 +257,7 @@ export default {
         }
       },
       {
-        title: 'NPC购买兑换',
+        title: 'NPC转移方法',
         align: 'center',
         formatter: (value, row) => {
           if (row.npcTrade) {
@@ -467,7 +467,7 @@ export default {
           $('#sourceModal').modal('show');
           let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
           $('#sourceLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;购买兑换');
+              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;转移方法');
           $sourceTable.bootstrapTable({
             data: data,
             columns: [{
