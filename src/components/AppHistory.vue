@@ -190,11 +190,11 @@ export default {
           })
         }
       }, {
-        title: '实时数据',
+        title: '正在转移',
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
+            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-send"></i></b-button>',
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable
