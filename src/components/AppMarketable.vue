@@ -225,7 +225,7 @@ export default {
           field: 'quantityIndexCurrent',
           sortable: true,
           visible: false,
-          title: '售出数排序'
+          title: '转移数量排序'
         }, {
           field: 'quantityIndexChange',
           sortable: true,
@@ -243,7 +243,7 @@ export default {
           formatter: (value) => {
             return this.formatNumber(value);
           },
-          title: '均价'
+          title: '平均转移消耗'
         }, {
           field: 'craft',
           visible: false,
@@ -434,7 +434,7 @@ export default {
             labels: realLabels,
             datasets: [
               {
-                label: '均价',
+                label: '平均转移消耗',
                 backgroundColor: '#df9ba1',
                 data: data.values[0].value
               }
@@ -445,7 +445,7 @@ export default {
             labels: realLabels,
             datasets: [
               {
-                label: '售出数',
+                label: '转移数量',
                 backgroundColor: '#5ba585',
                 data: data.values[1].value
               }
