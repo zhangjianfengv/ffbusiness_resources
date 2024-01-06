@@ -200,7 +200,7 @@ export default {
             contentType: "application/json",
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
-              vm.itemName = data;
+              vm.nameOptions = data;
             }
           });
         }
