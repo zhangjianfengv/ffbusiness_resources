@@ -390,19 +390,22 @@ export default {
     }
   },
   activated() {
+    const vm = this;
     let id = this.$route.query.id
-    if (id && id !== this.itemId) {
-      this.itemId = id;
+    if (id) {
       $.ajax({
-        url: "/ffbusiness/itemNew/suggestName",
+        url: "/ffbusiness/itemNew/getOne",
         async: true,
         method: "post",
         contentType: "application/json",
-        data: JSON.stringify({id: id}),
+        data: JSON.stringify({id: parseInt(id.toString())}),
         success: function (data) {
           vm.worldName = data;
         }
       });
+    }
+    if (id && id !== this.itemId) {
+      this.itemId = id;
       this.searchItem();
     }
     if (!id) {
