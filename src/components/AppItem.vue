@@ -400,7 +400,7 @@ export default {
         contentType: "application/json",
         data: JSON.stringify({id: parseInt(id.toString())}),
         success: function (data) {
-          vm.worldName = data;
+          vm.itemName = data.rows[0].name;
         }
       });
     }
