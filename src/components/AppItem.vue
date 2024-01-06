@@ -417,9 +417,10 @@ export default {
     searchItem() {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
+
       query = {
         id: this.itemId,
-        name: this.itemName,
+        name: this.itemId ? null : this.itemName,
         description: $('#description').val(),
         itemUICategory: $('#itemUICategory').val(),
         levelItem: this.levelItem,
