@@ -56,6 +56,46 @@
               </ul>
             </ul>
             <div id="recipeList">
+              <b-form-select v-model="worldName" id="worldName" @change="changeWorld(treeDat)">
+                <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟
+                </b-form-select-option>
+                <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
+                <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
+                <b-form-select-option value="神意之地">神意之地</b-form-select-option>
+                <b-form-select-option value="萌芽池">萌芽池</b-form-select-option>
+                <b-form-select-option value="红玉海">红玉海</b-form-select-option>
+                <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
+                <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
+                <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
+                <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖
+                </b-form-select-option>
+                <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
+                <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
+                <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
+                <b-form-select-option value="琥珀原">琥珀原</b-form-select-option>
+                <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
+                <b-form-select-option value="延夏">延夏</b-form-select-option>
+                <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
+                <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力
+                </b-form-select-option>
+                <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
+                <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
+                <b-form-select-option value="白银乡">白银乡</b-form-select-option>
+                <b-form-select-option value="白金幻象">白金幻象</b-form-select-option>
+                <b-form-select-option value="拂晓之间">拂晓之间</b-form-select-option>
+                <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
+                <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
+                <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
+                <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴
+                </b-form-select-option>
+                <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
+                <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
+                <b-form-select-option value="红茶川">红茶川</b-form-select-option>
+                <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
+                <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
+                <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
+                </b-form-select-option>
+              </b-form-select>
               <b-form-input id="sb-inline" class="mb-3" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
                 <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{
@@ -160,7 +200,7 @@ export default {
             contentType: "application/json",
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
-              vm.nameOptions = data;
+              vm.itemName = data;
             }
           });
         }
@@ -345,7 +385,8 @@ export default {
       materials: [],
       craftCount: 1,
       itemTypes: [],
-      treeData: {}
+      treeData: {},
+      tempItemId: 0
     }
   },
   activated() {
@@ -436,6 +477,7 @@ export default {
       $('#recipeTree').hide();
       $('#recipeList').hide();
       this.craftCount = 1;
+      this.tempItemId = row.id;
       let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
       $('#recipeLabel').html('<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
@@ -443,6 +485,23 @@ export default {
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
         data: JSON.stringify({itemId: row.id, worldName: this.worldName}),
+        success: function (data) {
+          $('#loading-indicator').hide();
+          $('#recipeList').show();
+          vm.materials = data.list;
+          let total = 0;
+          for (let item in data.list) {
+            total += data.list[item].price * data.list[item].num;
+          }
+          vm.singeCost = total;
+        }
+      });
+    }, changeWorld() {
+      const vm = this;
+      this.craftCount = 1;
+      $.ajax({
+        url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
+        data: JSON.stringify({itemId: this.tempItemId, worldName: this.worldName}),
         success: function (data) {
           $('#loading-indicator').hide();
           $('#recipeList').show();
