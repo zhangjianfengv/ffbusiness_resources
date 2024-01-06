@@ -96,7 +96,7 @@
                 <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
                 </b-form-select-option>
               </b-form-select>
-              <b-form-input id="sb-inline" class="mt-3" v-model="craftCount" type="number" inline></b-form-input>
+              <b-form-input id="sb-inline" class="mt-1" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
                 <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{
                     value.num * craftCount
