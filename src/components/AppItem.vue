@@ -56,7 +56,7 @@
               </ul>
             </ul>
             <div id="recipeList">
-              <b-form-select v-model="worldName" id="worldName" @change="changeWorld(treeDat)">
+              <b-form-select v-model="worldName" id="worldName" @change="changeWorld">
                 <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟
                 </b-form-select-option>
                 <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
@@ -96,7 +96,7 @@
                 <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
                 </b-form-select-option>
               </b-form-select>
-              <b-form-input id="sb-inline" class="mb-3" v-model="craftCount" type="number" inline></b-form-input>
+              <b-form-input id="sb-inline" class="mt-3" v-model="craftCount" type="number" inline></b-form-input>
               <ul>
                 <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{
                     value.num * craftCount
@@ -400,7 +400,7 @@ export default {
         contentType: "application/json",
         data: JSON.stringify({id: id}),
         success: function (data) {
-          vm.nameOptions = data;
+          vm.worldName = data;
         }
       });
       this.searchItem();

@@ -2,7 +2,7 @@
   <div id="app">
     <div>
       <b-navbar toggleable="sm" type="dark" variant="info">
-        <b-navbar-brand href="/">最终幻想14微观经济学</b-navbar-brand>
+        <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
@@ -68,7 +68,8 @@
                 2024年1月6日
               </h6>
               <span style="font-size: smaller">
-                1. 物品查询页面，材料成本计算时可进行切换区服的操作
+                1.物品查询页面，材料成本计算时可进行切换区服的操作<br/>
+                2.跳转至物品查询页面时输入框显示物品名
             </span></div>
             <!--            body end-->
           </div>
