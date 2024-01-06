@@ -401,6 +401,7 @@ export default {
         data: JSON.stringify({id: parseInt(id.toString())}),
         success: function (data) {
           vm.itemName = data.rows[0].name;
+          vm.itemId = vm.itemName;
         }
       });
     }
