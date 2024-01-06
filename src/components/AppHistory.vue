@@ -50,7 +50,7 @@
       </b-form-checkbox>
       <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
       </b-button>
-      <b-button variant="info" @click="queryCurrentForm()" type="button"><i class="bi bi-cart4"></i>
+      <b-button variant="info" @click="queryCurrentForm()" type="button"><i class="bi bi-send"></i>
       </b-button>
       <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
     </b-form>
@@ -194,7 +194,7 @@ export default {
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
+            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-send"></i></b-button>',
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable
