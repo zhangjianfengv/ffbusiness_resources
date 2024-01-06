@@ -401,23 +401,17 @@ export default {
         data: JSON.stringify({id: parseInt(id.toString())}),
         success: function (data) {
           vm.itemName = data.rows[0].name;
-          vm.itemId = vm.itemName;
+          vm.itemId = id;
         }
       });
     }
-    if (id && id !== this.itemId) {
-      this.itemId = id;
-      this.searchItem();
-    }
-    if (!id) {
-      this.itemId = null;
-    }
+    this.searchItem();
+    this.itemId = null;
   },
   methods: {
     searchItem() {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
-
       query = {
         id: this.itemId,
         name: this.itemId ? null : this.itemName,
@@ -437,6 +431,7 @@ export default {
       $table.bootstrapTable('refresh', {
         query: query
       });
+      this.itemId = null;
     },
     resetQueryParams() {
       window.location.href = '/#/item';
