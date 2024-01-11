@@ -102,10 +102,11 @@
                     value.num * craftCount
                   }}个*{{
                     value.price
-                  }}={{ value.num * value.price * craftCount }}
+                  }}={{ value.num * value.price * craftCount }} <span @click="deleteItem(key)"><i
+                      class="bi bi-x-square"></i></span>
                 </li>
               </ul>
-              <span>成本总计{{ this.singeCost * craftCount }}({{ this.worldName }})</span>
+              <span>成本总计{{ this.singeCost * craftCount }}</span>
             </div>
           </div>
           <div id="loading-indicator" class="text-center">
@@ -498,7 +499,6 @@ export default {
       });
     }, changeWorld() {
       const vm = this;
-      this.craftCount = 1;
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
         data: JSON.stringify({itemId: this.tempItemId, worldName: this.worldName}),
@@ -599,10 +599,17 @@ export default {
           });
         }
       });
-
     },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    },
+    deleteItem(key) {
+      this.$delete(this.materials, key);
+      let total = 0;
+      for (let item in this.materials) {
+        total += this.materials[item].price * this.materials[item].num;
+      }
+      this.singeCost = total;
     },
     closeRecipe() {
       $('#recipeModal').modal('toggle');

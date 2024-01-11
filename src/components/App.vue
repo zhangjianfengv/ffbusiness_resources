@@ -46,15 +46,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年12月18日
-              </h6>
-              <span style="font-size: smaller">
-                1.销售履历页面点击物品id可跳转至物品查询页面发起查询<br/>
-                2.物品查询页面新增采集笔记内容
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年12月31日
               </h6>
               <span style="font-size: smaller">
@@ -70,6 +61,15 @@
               <span style="font-size: smaller">
                 1.物品查询页面，材料成本计算时可进行切换区服的操作<br/>
                 2.跳转至物品查询页面时输入框显示物品名
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2024年1月12日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品查询页面材料成本计算时可点击某个材料右侧的按钮删除此材料不计入总价，适用于已经有部分材料的情况<br/>
+                2.材料成本计算时切换区服不会重置数量
             </span></div>
             <!--            body end-->
           </div>
