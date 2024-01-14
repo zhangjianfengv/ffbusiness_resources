@@ -44,16 +44,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6>
-                2023年12月31日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品查询页面新增等级、可制作、金币购买、可采集查询条件，补全了诗学可兑换物品（在分类选择可选诗学兑换物）<br/>
-                2.物品查询页面可查询单个物品的多个采集地点和采集时间<br/>
-                3.物品查询页面增加物品名称建议
-            </span></div>
-            <br>
+
             <div>
               <h6>
                 2024年1月6日
@@ -73,6 +64,14 @@
             </span></div>
             <!--            body end-->
           </div>
+          <br>
+          <div>
+            <h6>
+              2023年1月14日
+            </h6>
+            <span style="font-size: smaller">
+                1.大部分页面新增了CafeMaker物品详情悬浮窗，鼠标移动到物品名称会展示，可进行复制道具名和跳转维基等操作
+            </span></div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i
                 class="bi bi-power"></i>

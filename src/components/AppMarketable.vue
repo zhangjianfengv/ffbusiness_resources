@@ -3,7 +3,8 @@
     <b-form inline id="marketableForm" ref="marketableForm">
       <b-form-group>
         <b-form-select v-model="worldName" id="worldName">
-          <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</b-form-select-option>
+          <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟
+          </b-form-select-option>
           <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
           <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
           <b-form-select-option value="神意之地">神意之地</b-form-select-option>
@@ -12,7 +13,8 @@
           <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
           <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
           <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
-          <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</b-form-select-option>
+          <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖
+          </b-form-select-option>
           <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
           <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
           <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
@@ -20,7 +22,8 @@
           <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
           <b-form-select-option value="延夏">延夏</b-form-select-option>
           <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
-          <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</b-form-select-option>
+          <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力
+          </b-form-select-option>
           <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
           <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
           <b-form-select-option value="白银乡">白银乡</b-form-select-option>
@@ -29,13 +32,15 @@
           <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
           <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
           <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
-          <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</b-form-select-option>
+          <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴
+          </b-form-select-option>
           <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
           <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
           <b-form-select-option value="红茶川">红茶川</b-form-select-option>
           <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
           <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
-          <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
+          <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
+          </b-form-select-option>
         </b-form-select>
         <b-form-select id="timeScale" v-model="scale">
           <b-form-select-option value="8">统计8小时</b-form-select-option>
@@ -57,9 +62,12 @@
           <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
           <b-form-select-option value="2">按售出总数排序</b-form-select-option>
         </b-form-select>
-        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
-        <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
-        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i class="bi bi-calendar-month"></i>
+        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i>
+        </b-button>
+        <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i>
+        </b-button>
+        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i
+            class="bi bi-calendar-month"></i>
         </b-button>
       </b-form-group>
     </b-form>
@@ -76,7 +84,8 @@
         <span><i class="bi bi-github"></i></span>
       </a>
     </div>
-    <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="summaryModal" role="dialog" tabindex="-1">
+    <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="summaryModal" role="dialog"
+         tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -139,6 +148,7 @@ import Base64 from '../plugins/base64'
 import LineChart from "@/components/LineChart.vue";
 import BarChart from "@/components/BarChart.vue";
 import moment from "moment";
+import {initTooltip} from "@thewakingsands/kit-tooltip";
 
 let queryMarketable = {
   worldName: '中国',
@@ -188,7 +198,7 @@ export default {
           sortable: true,
           formatter: function iconFormatter(value, row) {
             let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<span data-ck-item-id="' + row.itemId + '">' + value + '</span>';
           },
           title: '物品名称'
         }, {
@@ -467,6 +477,22 @@ export default {
     }
   },
   mounted() {
+    initTooltip({
+      context: {
+        apiBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/item',  // xivapi 或 cafemaker 的 url；最后不要有斜线
+        iconBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/i', // 图标 cdn 的 url；最后不要有斜线
+        defaultHq: true,  // 是否默认显示 HQ 数据
+        hideSeCopyright: false, // 是否隐藏 SE 版权信息
+      },
+      links: {
+        detectWikiLinks: true,  // 是否自动识别 wiki 物品链接
+        itemNameAttribute: 'data-ck-item-name', // 自定义悬浮窗时，声明物品名字的属性
+        itemIdAttribute: 'data-ck-item-id', // 自定义悬浮窗时，声明物品 ID 的属性
+        actionNameAttribute: 'data-ck-action-name', // 自定义悬浮窗时，声明技能名字的属性
+        actionIdAttribute: 'data-ck-action-id', // 自定义悬浮窗时，声明技能 ID 的属性
+        rootContainer: document.body, // 监控的根元素
+      },
+    })
     $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
