@@ -2,16 +2,16 @@
   <div id="app">
     <div>
       <b-navbar toggleable="sm" type="dark" :class="{ 'dark-theme': isDark,'bg-info':!isDark }">
-        <b-navbar-brand href="/">最终幻想14微观经济学</b-navbar-brand>
+        <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/history">销售履历</b-nav-item>
-            <b-nav-item to="/marketable">市场统计</b-nav-item>
-            <b-nav-item to="/item">物品查询</b-nav-item>
-            <b-nav-item to="/my">我的关注</b-nav-item>
-            <b-nav-item to="/current">实时物价</b-nav-item>
-            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark}" type="button"
+            <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
+            <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
+            <b-nav-item to="/item" exact-path exact-active-class="active">物品查询</b-nav-item>
+            <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
+            <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
+            <b-button variant="info" type="button"
                       href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
               <i class="bi bi-envelope-at-fill"></i></b-button>
             <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark}"
@@ -52,29 +52,30 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年12月1日
+                2024年1月6日
               </h6>
               <span style="font-size: smaller">
-                1.市场统计页面物品价格及销量走势图除了每日新增以外，会随着一天以上的市场统计运行后同步增补数据<br>
-                2.同时适配universalis返回数据的两种压缩方式以提高稳定性
+                1.物品查询页面，材料成本计算时可进行切换区服的操作<br/>
+                2.跳转至物品查询页面时输入框显示物品名
             </span></div>
             <br>
             <div>
               <h6>
-                2023年12月3日
+                2024年1月12日
               </h6>
               <span style="font-size: smaller">
-                1.页面样式优化，主要包括选择下拉框及手机端页面效果调整<br>
-                2.增加交流反馈QQ群加群按钮
+                1.物品查询页面材料成本计算时可点击某个材料右侧的按钮删除此材料不计入总价，适用于已经有部分材料的情况<br/>
+                2.材料成本计算时切换区服不会重置数量
             </span></div>
             <br>
             <div>
               <h6>
-                2023年12月10日
+                2023年1月14日
               </h6>
               <span style="font-size: smaller">
-                1.物品查询页面可查询物品的NPC商店购买/兑换方式
-            </span></div>
+                1.大部分页面新增了CafeMaker物品详情悬浮窗，鼠标移动到物品名称会展示，可进行复制道具名和跳转维基等操作
+            </span>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
@@ -104,7 +105,7 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
 .bs-bars form, .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table
 .fixed-table-toolbar .search {
   position: relative;
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .dark-theme {
@@ -114,19 +115,16 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   background-color: black !important;
 }
 
+.page-item.active, .page-link {
+  color: #17a2b8 !important;
+  text-decoration: none;
+  background-color: #fff !important;
+}
 
-//
-//.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
-//  color: #fff;
-//  text-decoration: none;
-//  background-color: $info !important;
-//}
-//
-//.page-item.active, .page-link {
-//  color: $info !important;
-//  text-decoration: none;
-//  background-color: #fff !important;
-//}
+.black-link-style {
+  color: #212529 !important;
+  text-decoration: underline;
+}
 </style>
 <script>
 import $ from "jquery";

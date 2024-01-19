@@ -41,14 +41,16 @@
         <b-form-select-option value="红茶川">红茶川</b-form-select-option>
         <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
         <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
-        <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国</b-form-select-option>
+        <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
+        </b-form-select-option>
       </b-form-select>
-      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
+      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="searchItem()">
         仅HQ
       </b-form-checkbox>
       <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
       </b-button>
-      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="queryCurrentForm()" type="button"><i class="bi bi-cart4"></i>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="queryCurrentForm()" type="button"><i class="bi bi-send"></i>
       </b-button>
       <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
     </b-form>
@@ -144,7 +146,10 @@ export default {
     let columns = [
       {
         field: 'itemId',
-        title: '物品ID'
+        title: '物品ID',
+        formatter: (value) => {
+          return '<a class="black-link-style" href="/#/item?id=' + value + '">' + value + '</a>'
+        }
       }, {
         field: 'itemName',
         formatter: (value, row) => {
@@ -190,8 +195,8 @@ export default {
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template:
-                '<b-button class="btn btn-info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
+            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-send"></i></b-button>',
+
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable
