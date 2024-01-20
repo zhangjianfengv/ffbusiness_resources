@@ -48,14 +48,21 @@
                        @change="searchItem()">
         仅HQ
       </b-form-checkbox>
-      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="searchItem()" type="button"><i
+          class="bi bi-search"></i>
       </b-button>
-      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="queryCurrentForm()" type="button"><i class="bi bi-send"></i>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="queryCurrentForm()" type="button"><i
+          class="bi bi-send"></i>
       </b-button>
-      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" type="reset"><i
+          class="bi bi-arrow-clockwise"></i></b-button>
     </b-form>
-    <b-modal id="modal-sm" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">角色名查询须指定物品</b-modal>
-    <b-modal id="modal-item" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-sm" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">
+      角色名查询须指定物品
+    </b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">
+      查询条件无匹配物品
+    </b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -120,6 +127,25 @@ export default {
     }, buyerNameState() {
       if (!this.isStr(this.buyerName)) return null;
       else return this.isStr(this.itemName)
+    }
+  },
+  activated() {
+    let className = this.isDark ? 'dark-theme' : 'btn-info'
+    let $btn = $('button');
+    $btn.removeClass('btn-secondary')
+    $btn.removeClass('btn-info')
+    $btn.removeClass('dark-theme')
+    $btn.addClass(className)
+    if (this.isDark) {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'black',
+        'color': '#ced0d6'
+      });
+    } else {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'white',
+        'color': 'black'
+      });
     }
   },
   watch: {
@@ -196,7 +222,6 @@ export default {
         formatter: (value, row) => {
           return this.vueFormatter({
             template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-send"></i></b-button>',
-
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable

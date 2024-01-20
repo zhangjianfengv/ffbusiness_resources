@@ -55,9 +55,11 @@ import $ from "jquery";
 
 export default {
   name: "AppMy",
+  props: ['isDark'],
   components: {Tables},
   data() {
     return {
+      isDark: this.isDark,
       login: false,
       realData: null
     }
@@ -72,6 +74,25 @@ export default {
         redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
       });
     },
+  },
+  activated() {
+    let className = this.isDark ? 'dark-theme' : 'btn-info'
+    let $btn = $('button');
+    $btn.removeClass('btn-secondary')
+    $btn.removeClass('btn-info')
+    $btn.removeClass('dark-theme')
+    $btn.addClass(className)
+    if (this.isDark) {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'black',
+        'color': '#ced0d6'
+      });
+    } else {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'white',
+        'color': 'black'
+      });
+    }
   },
   mounted() {
     const vm = this;

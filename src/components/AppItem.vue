@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-form inline id="itemForm">
-<!--      <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>-->
+      <!--      <b-form-input class="form-control" id="id" placeholder="id" type="text" value=""></b-form-input>-->
       <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-input class="form-control" v-model="levelEquip" placeholder="等级" type="text" value=""></b-form-input>
@@ -189,6 +189,7 @@ let query = {};
 export default {
   components: {Tree},
   mixins: [tableMixin],
+  props: ['isDark'],
   watch: {
     itemName: function (newValue) {
       const vm = this;
@@ -290,7 +291,7 @@ export default {
         align: 'center',
         formatter: (value, row) => {
           if (row.gatherCount > 0 && !row.recipeCount) {
-            let template = '<b-button variant="info" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
+            let template = '<b-button class="btn-info" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
             return this.vueFormatter({
               template: template,
               data: {row},
@@ -306,7 +307,7 @@ export default {
         align: 'center',
         formatter: (value, row) => {
           if (row.npcTrade) {
-            let template = '<b-button variant="info" @click="seeSource(row)"><i class="bi bi-shop"></i></b-button>';
+            let template = '<b-button class="btn-info" @click="seeSource(row)"><i class="bi bi-shop"></i></b-button>';
             return this.vueFormatter({
               template: template,
               data: {row},
@@ -346,6 +347,7 @@ export default {
         }
       }];
     const vm = this;
+    const dark = this.isDark;
     let options = {
       url: '/ffbusiness/itemNew/realData',
       pagination: "true",
@@ -369,6 +371,25 @@ export default {
       paginationPagesBySide: 1,
       checkOnInit: true,
       itemTypeOptions: [],
+      onAll: function () {
+        let className = dark ? 'dark-theme' : 'btn-info'
+        let $btn = $('button');
+        $btn.removeClass('btn-secondary')
+        $btn.removeClass('btn-info')
+        $btn.removeClass('dark-theme')
+        $btn.addClass(className)
+        if (dark) {
+          $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+            'background-color': 'black',
+            'color': '#ced0d6'
+          });
+        } else {
+          $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+            'background-color': 'white',
+            'color': 'black'
+          });
+        }
+      },
       pageList: [50, 100, 200, 500, 1000]
     };
     return {
@@ -412,6 +433,23 @@ export default {
     }
     this.searchItem();
     this.itemId = null;
+    let className = this.isDark ? 'dark-theme' : 'btn-info'
+    let $btn = $('button');
+    $btn.removeClass('btn-secondary')
+    $btn.removeClass('btn-info')
+    $btn.removeClass('dark-theme')
+    $btn.addClass(className)
+    if (this.isDark) {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'black',
+        'color': '#ced0d6'
+      });
+    } else {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'white',
+        'color': 'black'
+      });
+    }
   },
   methods: {
     searchItem() {

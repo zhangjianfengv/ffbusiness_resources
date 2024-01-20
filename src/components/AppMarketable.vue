@@ -62,11 +62,14 @@
           <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
           <b-form-select-option value="2">按售出总数排序</b-form-select-option>
         </b-form-select>
-        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="filterMarketable()" type="button"><i
+        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="filterMarketable()"
+                  type="button"><i
             class="bi bi-search"></i></b-button>
-        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i>
+        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" @click="resetMarketable()" type="button"><i
+            class="bi bi-arrow-clockwise"></i>
         </b-button>
-        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="openUpdateTimeTable()" type="button"><i
+        <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="openUpdateTimeTable()"
+                  type="button"><i
             class="bi bi-calendar-month"></i>
         </b-button>
       </b-form-group>
@@ -116,7 +119,8 @@
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button"><i
+            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" data-dismiss="modal"
+                      @click="closeUpdateTimeTable()" type="button"><i
                 class="bi bi-power"></i></b-button>
           </div>
         </div>
@@ -160,7 +164,27 @@ export default {
     LineChart, BarChart
   },
   props: ['isDark'],
+  activated() {
+    let className = this.isDark ? 'dark-theme' : 'btn-info'
+    let $btn = $('button');
+    $btn.removeClass('btn-secondary')
+    $btn.removeClass('btn-info')
+    $btn.removeClass('dark-theme')
+    $btn.addClass(className)
+    if (this.isDark) {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'black',
+        'color': '#ced0d6'
+      });
+    } else {
+      $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+        'background-color': 'white',
+        'color': 'black'
+      });
+    }
+  },
   data() {
+    const dark = this.isDark;
     return {
       scale: 24,
       worldName: '中国',
@@ -340,6 +364,12 @@ export default {
           form.append($columns);
           $('.fixed-table-toolbar>div:not(:first)').remove();
           if (form.children().length > 12) form.children().last().remove();//TODO 魔法值
+          let className = dark ? 'dark-theme' : 'btn-info'
+          let $btn = $('button');
+          $btn.removeClass('btn-secondary')
+          $btn.removeClass('btn-info')
+          $btn.removeClass('dark-theme')
+          $btn.addClass(className)
         }
       },
     }

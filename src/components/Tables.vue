@@ -12,7 +12,9 @@
         <BootstrapTable :id="'citem-' + index" :columns="columns1" :options="tableOptions1"></BootstrapTable>
       </b-card-body>
       <template #footer>
-        <b-button href="#" @click="cancelCollect" :class="{ 'dark-theme': isDark,'btn-info':!isDark }" type="button">取消收藏</b-button>
+        <b-button href="#" @click="cancelCollect" :class="{ 'dark-theme': isDark,'btn-info':!isDark }" type="button">
+          取消收藏
+        </b-button>
       </template>
     </b-card>
 
@@ -28,7 +30,9 @@
         <BootstrapTable :id="'hitem-' + index" :columns="columns2" :options="tableOptions2"></BootstrapTable>
       </b-card-body>
       <template #footer>
-        <b-button @click="cancelCollect" href="#" :class="{ 'dark-theme': isDark,'btn-info':!isDark }" type="button">取消收藏</b-button>
+        <b-button @click="cancelCollect" href="#" :class="{ 'dark-theme': isDark,'btn-info':!isDark }" type="button">
+          取消收藏
+        </b-button>
       </template>
     </b-card>
   </b-card-group>
@@ -40,6 +44,10 @@ import $ from "jquery";
 export default {
   name: 'Tables',
   props: {
+    isDark: {
+      type: Boolean,
+      default: false
+    },
     item: {
       type: Object,
       default: {}
@@ -79,6 +87,7 @@ export default {
     },
   },
   data() {
+    const dark = this.isDark;
     let columns1 = [{
       field: 'worldName',
       title: '服务器',
@@ -109,7 +118,26 @@ export default {
       showSearchClearButton: true,
       paginationSuccessivelySize: 1,
       paginationPagesBySide: 1,
-      pageList: [5, 10, 20]
+      pageList: [5, 10, 20],
+      onAll: function () {
+        let className = dark ? 'dark-theme' : 'btn-info'
+        let $btn = $('button');
+        $btn.removeClass('btn-secondary')
+        $btn.removeClass('btn-info')
+        $btn.removeClass('dark-theme')
+        $btn.addClass(className)
+        if (dark) {
+          $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+            'background-color': 'black',
+            'color': '#ced0d6'
+          });
+        } else {
+          $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+            'background-color': 'white',
+            'color': 'black'
+          });
+        }
+      },
     };
     let columns2 = [{
       field: 'worldName',

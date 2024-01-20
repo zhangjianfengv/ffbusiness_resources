@@ -4,23 +4,30 @@
       <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
-      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" @click="searchItem()" type="button"><i
+          class="bi bi-search"></i>
       </b-button>
-      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
-      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="filterData()"
+      <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark }" class="mx-1" type="reset"><i
+          class="bi bi-arrow-clockwise"></i></b-button>
+      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="filterData()"
                        switch>
         只看HQ
       </b-form-checkbox>
-      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
+      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"
+                       style="margin: 5px 9px"
                        @change="loadMore()" switch>加载更多
       </b-form-checkbox>
       <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
     </b-form>
-    <b-modal id="modal-item" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok-:class="{ 'dark-theme': isDark,'btn-info':!isDark }" title="提示">
+      查询条件无匹配物品
+    </b-modal>
     <table id="currentTable"></table>
     <b-card no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block v-b-toggle.accordion-3 :class="{ 'dark-theme': isDark,'btn-info':!isDark }">切换最近销售履历</b-button>
+        <b-button block v-b-toggle.accordion-3 :class="{ 'dark-theme': isDark,'btn-info':!isDark }">切换最近销售履历
+        </b-button>
       </b-card-header>
       <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel">
         <b-card-body>
@@ -43,42 +50,7 @@ import $ from "jquery";
 import Base64 from '../plugins/base64'
 import moment from "moment";
 
-let optionCurrent = {
-  dataField: 'currents',
-  pagination: "true",
-  columns: [{
-    field: 'worldName',
-    title: '服务器',
-    filterControl: 'select'
-  }, {
-    field: 'retainerName',
-    title: '雇员名',
-    filterControl: 'select'
-  }, {
-    field: 'hq',
-    formatter: (value) => {
-      return (value === true || value === 'true') ? '✔' : '✗'
-    },
-    title: '高品质',
-    filterControl: 'select'
-  }, {
-    field: 'total',
-    formatter: (value, row) => {
-      let exp = /\B(?=(\d{3})+(?!\d))/g;
-      return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
-    },
-    title: '总计'
-  }], method: 'post',
-  pageNumber: 1,
-  pageSize: 5,
-  toolbar: '#queryCurrent',
-  filterControl: true,
-  paginationUseIntermediate: true,
-  showSearchClearButton: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  pageList: [10, 20, 50, 150, 450],
-};
+
 export default {
   mixins: [tableMixin],
   props: ['isDark'],
@@ -102,6 +74,9 @@ export default {
         }
       }, 500);
     },
+  },
+  activated() {
+    this.theme()
   },
   computed: {
     imageUrl() {
@@ -190,9 +165,65 @@ export default {
       // 使用Promise.race等待任意一个操作完成
       Promise.race([request1, request2])
           .then(result => {
+            const dark = vm.isDark;
             $('#loading-indicator').hide();
-            optionCurrent.data = result;
             vm.unFilteredData = result;
+            let optionCurrent = {
+              dataField: 'currents',
+              pagination: "true",
+              columns: [{
+                field: 'worldName',
+                title: '服务器',
+                filterControl: 'select'
+              }, {
+                field: 'retainerName',
+                title: '雇员名',
+                filterControl: 'select'
+              }, {
+                field: 'hq',
+                formatter: (value) => {
+                  return (value === true || value === 'true') ? '✔' : '✗'
+                },
+                title: '高品质',
+                filterControl: 'select'
+              }, {
+                field: 'total',
+                formatter: (value, row) => {
+                  let exp = /\B(?=(\d{3})+(?!\d))/g;
+                  return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
+                },
+                title: '总计'
+              }], method: 'post',
+              pageNumber: 1,
+              pageSize: 5,
+              toolbar: '#queryCurrent',
+              filterControl: true,
+              paginationUseIntermediate: true,
+              showSearchClearButton: true,
+              paginationSuccessivelySize: 1,
+              paginationPagesBySide: 1,
+              pageList: [10, 20, 50, 150, 450],
+              onAll: function () {
+                let className = dark ? 'dark-theme' : 'btn-info'
+                let $btn = $('button');
+                $btn.removeClass('btn-secondary')
+                $btn.removeClass('btn-info')
+                $btn.removeClass('dark-theme')
+                $btn.addClass(className)
+                if (dark) {
+                  $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+                    'background-color': 'black',
+                    'color': '#ced0d6'
+                  });
+                } else {
+                  $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+                    'background-color': 'white',
+                    'color': 'black'
+                  });
+                }
+              },
+            };
+            optionCurrent.data = result;
             $currentTable.bootstrapTable(optionCurrent);
             $historyTable.bootstrapTable({
               data: result,
@@ -235,7 +266,26 @@ export default {
               showSearchClearButton: true,
               paginationSuccessivelySize: 1,
               paginationPagesBySide: 1,
-              pageList: [10, 20, 40]
+              pageList: [10, 20, 40],
+              onAll: function () {
+                let className = dark ? 'dark-theme' : 'btn-info'
+                let $btn = $('button');
+                $btn.removeClass('btn-secondary')
+                $btn.removeClass('btn-info')
+                $btn.removeClass('dark-theme')
+                $btn.addClass(className)
+                if (dark) {
+                  $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+                    'background-color': 'black',
+                    'color': '#ced0d6'
+                  });
+                } else {
+                  $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+                    'background-color': 'white',
+                    'color': 'black'
+                  });
+                }
+              },
             });
             $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
           })
@@ -305,6 +355,24 @@ export default {
       } else vm.$bvModal.show('modal-item');
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    }, theme() {
+      let className = this.isDark ? 'dark-theme' : 'btn-info'
+      let $btn = $('button');
+      $btn.removeClass('btn-secondary')
+      $btn.removeClass('btn-info')
+      $btn.removeClass('dark-theme')
+      $btn.addClass(className)
+      if (this.isDark) {
+        $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+          'background-color': 'black',
+          'color': '#ced0d6'
+        });
+      } else {
+        $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+          'background-color': 'white',
+          'color': 'black'
+        });
+      }
     },
     filterData() {
       let $currentTable = $('#currentTable');
@@ -321,6 +389,61 @@ export default {
     },
     loadMore() {
       const vm = this;
+      let optionCurrent = {
+        dataField: 'currents',
+        pagination: "true",
+        columns: [{
+          field: 'worldName',
+          title: '服务器',
+          filterControl: 'select'
+        }, {
+          field: 'retainerName',
+          title: '雇员名',
+          filterControl: 'select'
+        }, {
+          field: 'hq',
+          formatter: (value) => {
+            return (value === true || value === 'true') ? '✔' : '✗'
+          },
+          title: '高品质',
+          filterControl: 'select'
+        }, {
+          field: 'total',
+          formatter: (value, row) => {
+            let exp = /\B(?=(\d{3})+(?!\d))/g;
+            return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
+          },
+          title: '总计'
+        }], method: 'post',
+        pageNumber: 1,
+        pageSize: 5,
+        toolbar: '#queryCurrent',
+        filterControl: true,
+        paginationUseIntermediate: true,
+        showSearchClearButton: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        pageList: [10, 20, 50, 150, 450],
+        onAll: function () {
+          let className = vm.dark ? 'dark-theme' : 'btn-info'
+          let $btn = $('button');
+          $btn.removeClass('btn-secondary')
+          $btn.removeClass('btn-info')
+          $btn.removeClass('dark-theme')
+          $btn.addClass(className)
+          if (vm.dark) {
+            $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+              'background-color': 'black',
+              'color': '#ced0d6'
+            });
+          } else {
+            $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
+              'background-color': 'white',
+              'color': 'black'
+            });
+          }
+        },
+      };
       let maximum = this.maximum;
       $.ajax({
         url: "/ffbusiness/currentData/queryCurrent",
@@ -333,7 +456,8 @@ export default {
           vm.unFilteredData = data;
           $currentTable.bootstrapTable('destroy').bootstrapTable(optionCurrent);
           vm.filterData();
-          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>');
+          vm.theme();
         }
       })
     },

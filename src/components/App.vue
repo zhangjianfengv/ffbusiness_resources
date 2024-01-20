@@ -11,7 +11,7 @@
             <b-nav-item to="/item" exact-path exact-active-class="active">物品查询</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
-            <b-button variant="info" type="button"
+            <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark}" variant="info" type="button"
                       href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
               <i class="bi bi-envelope-at-fill"></i></b-button>
             <b-button :class="{ 'dark-theme': isDark,'btn-info':!isDark}"
@@ -52,15 +52,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年1月6日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品查询页面，材料成本计算时可进行切换区服的操作<br/>
-                2.跳转至物品查询页面时输入框显示物品名
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2024年1月12日
               </h6>
               <span style="font-size: smaller">
@@ -76,6 +67,15 @@
                 1.大部分页面新增了CafeMaker物品详情悬浮窗，鼠标移动到物品名称会展示，可进行复制道具名和跳转维基等操作
             </span>
             </div>
+            <br>
+            <div>
+              <h6>
+                2024年1月21日
+              </h6>
+              <span style="font-size: smaller">
+                1.新增夜间模式
+            </span></div>
+
             <!--            body end-->
           </div>
           <div class="modal-footer">
@@ -109,20 +109,14 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
 }
 
 .dark-theme {
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
   border-color: black;
   background-color: black !important;
 }
 
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
-  text-decoration: none;
-  background-color: #fff !important;
-}
-
 .black-link-style {
-  color: #212529 !important;
+  color: black;
   text-decoration: underline;
 }
 </style>
@@ -170,12 +164,12 @@ export default {
       $btn.removeClass('dark-theme')
       $btn.addClass(className)
       if (this.isDark) {
-        $('body,table,input,select,.custom-select').css({
+        $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
           'background-color': 'black',
-          'color': 'white'
+          'color': '#ced0d6'
         });
       } else {
-        $('body,table,input,select,.custom-select').css({
+        $('body,table,input,select,.custom-select,li.page-item,.page-link,.black-link-style,.card-body,.modal-content').css({
           'background-color': 'white',
           'color': 'black'
         });
