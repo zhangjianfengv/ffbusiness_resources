@@ -73,7 +73,7 @@
                 2024年1月21日
               </h6>
               <span style="font-size: smaller">
-                1.新增夜间模式
+                1.新增夜间模式（仍在完善）
             </span></div>
 
             <!--            body end-->
