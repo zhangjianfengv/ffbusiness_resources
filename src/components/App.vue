@@ -46,15 +46,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年1月6日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品查询页面，材料成本计算时可进行切换区服的操作<br/>
-                2.跳转至物品查询页面时输入框显示物品名
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2024年1月12日
               </h6>
               <span style="font-size: smaller">
@@ -70,6 +61,14 @@
                 1.大部分页面新增了CafeMaker物品详情悬浮窗，鼠标移动到物品名称会展示，可进行复制道具名和跳转维基等操作
             </span>
             </div>
+            <br>
+            <div>
+              <h6>
+                2024年1月24日
+              </h6>
+              <span style="font-size: smaller">
+                1.CDN超时时间调整到了2分钟，现在大部分情况下销售履历的耗时查询都能正常完成（例如分类筛选，由于是特殊配置所以暂时仅www.ff14pvp.top生效）
+            </span></div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
