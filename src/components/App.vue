@@ -46,15 +46,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年1月12日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品查询页面材料成本计算时可点击某个材料右侧的按钮删除此材料不计入总价，适用于已经有部分材料的情况<br/>
-                2.材料成本计算时切换区服不会重置数量
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年1月14日
               </h6>
               <span style="font-size: smaller">
@@ -68,6 +59,14 @@
               </h6>
               <span style="font-size: smaller">
                 1.CDN超时时间调整到了2分钟，现在大部分情况下销售履历的耗时查询都能正常完成（例如分类筛选，由于是特殊配置所以暂时仅www.ff14pvp.top生效）
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2024年1月25日
+              </h6>
+              <span style="font-size: smaller">
+                1.材料成本计算选择大区或者国服时材料价格显示具体位于哪个服务器
             </span></div>
             <!--            body end-->
           </div>
