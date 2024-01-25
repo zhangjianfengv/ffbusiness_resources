@@ -102,7 +102,7 @@
                     value.num * craftCount
                   }}个*{{
                     value.price
-                  }}={{ value.num * value.price * craftCount }} <span @click="deleteItem(key)"><i
+                  }}({{ value.worldName }})={{ value.num * value.price * craftCount }} <span @click="deleteItem(key)"><i
                       class="bi bi-x-square"></i></span>
                 </li>
               </ul>
