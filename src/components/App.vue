@@ -19,6 +19,12 @@
               <i class="bi bi-tencent-qq"></i></b-button>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
+            <a style="color: #fff;padding-top: 6px" href="https://pal.ff14pvp.top/" target="_blank"><img width="16px"
+                                                                                                         height="16px"
+                                                                                                         src="/pal.png"
+                                                                                                         alt="pal">
+              幻兽帕鲁服务器十秒开固定服、一键改倍率
+            </a>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
