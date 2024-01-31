@@ -19,12 +19,12 @@
               <i class="bi bi-tencent-qq"></i></b-button>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
-            <a style="color: #fff;padding-top: 6px" href="https://pal.ff14pvp.top/" target="_blank"><img width="16px"
-                                                                                                         height="16px"
-                                                                                                         src="/pal.png"
-                                                                                                         alt="pal">
-              幻兽帕鲁服务器十秒开固定服、一键改倍率
-            </a>
+            <a style="color: #fff;padding-top: 6px;margin-left: 6px" href="https://pal.ff14pvp.top/"
+               id="linkWithHiddenText"
+               target="_blank"><img v-b-tooltip.hover title="幻兽帕鲁服务器十秒开固定服、一键改倍率" width="20px"
+                                    height="20px"
+                                    src="/pal.png" alt="pal"><span
+                id="hiddenText">幻兽帕鲁服务器十秒开固定服、一键改倍率</span></a>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
@@ -165,6 +165,23 @@ export default {
         vm.user = data;
       }
     });
+
+    if (localStorage.getItem('textHidden')) {
+      document.getElementById('hiddenText').style.display = 'none';
+    }
+
+    // Add click event listener to the link
+    document.getElementById('linkWithHiddenText').addEventListener('click', function (event) {
+      // Check if the hidden text is visible
+      if (document.getElementById('hiddenText').style.display !== 'none') {
+        // Hide the hidden text
+        document.getElementById('hiddenText').style.display = 'none';
+
+        // Set a flag in local storage to remember the user's choice
+        localStorage.setItem('textHidden', 'true');
+      }
+    });
+
   }
 }
 </script>
