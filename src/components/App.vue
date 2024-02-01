@@ -52,15 +52,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年1月14日
-              </h6>
-              <span style="font-size: smaller">
-                1.大部分页面新增了CafeMaker物品详情悬浮窗，鼠标移动到物品名称会展示，可进行复制道具名和跳转维基等操作
-            </span>
-            </div>
-            <br>
-            <div>
-              <h6>
                 2024年1月24日
               </h6>
               <span style="font-size: smaller">
@@ -74,6 +65,15 @@
               <span style="font-size: smaller">
                 1.材料成本计算选择大区或者国服时材料价格显示具体位于哪个服务器
             </span></div>
+            <div>
+              <h6>
+                2023年2月1日
+              </h6>
+              <span style="font-size: smaller">
+                1.市场统计页面适配了手机端
+            </span>
+            </div>
+            <br>
             <!--            body end-->
           </div>
           <div class="modal-footer">

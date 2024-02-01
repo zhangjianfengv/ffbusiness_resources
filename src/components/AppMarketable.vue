@@ -160,6 +160,10 @@ export default {
     LineChart, BarChart
   },
   data() {
+    // let mobile = false;
+    // if (window.matchMedia("(max-width: 767px)").matches) {
+    //   mobile = true;
+    // }
     return {
       scale: 24,
       worldName: '中国',
@@ -328,6 +332,7 @@ export default {
         showColumns: true,
         showColumnsToggleAll: true,
         showExport: true,
+        mobileResponsive: true,
         icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
         contentType: "application/json",
         onAll: function () {
