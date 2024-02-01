@@ -65,6 +65,7 @@
               <span style="font-size: smaller">
                 1.材料成本计算选择大区或者国服时材料价格显示具体位于哪个服务器
             </span></div>
+            <br>
             <div>
               <h6>
                 2023年2月1日
@@ -73,7 +74,6 @@
                 1.市场统计页面适配了手机端
             </span>
             </div>
-            <br>
             <!--            body end-->
           </div>
           <div class="modal-footer">
