@@ -19,6 +19,8 @@
               <i class="bi bi-tencent-qq"></i></b-button>
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
+            <b-button variant="info" type="button"
+                      @click="answer()"><i class="bi bi-question-circle"></i></b-button>
             <a style="color: #fff;padding-top: 6px;margin-left: 6px" href="https://pal.ff14pvp.top/"
                id="linkWithHiddenText"
                target="_blank"><img v-b-tooltip.hover title="幻兽帕鲁服务器十秒开固定服、一键改倍率" width="20px"
@@ -42,6 +44,36 @@
       <router-view>
       </router-view>
     </keep-alive>
+    <div aria-hidden="true" aria-labelledby="answer" class="modal fade" id="answer" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 380px">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">常见问题</h4>
+          </div>
+          <div class="modal-body">
+            1.Q:为什么销售履历查询有时候非常慢？<br>
+            A:销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是“中国”>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。如果确实有未优化的查询需求可使用https://www.ff14pvp.top(主域名容易超时)并结合刚刚新增的销售履历导出功能<br>
+            2.Q:实时物价近期速度不太稳定？<br>
+            A:基于统计的线路优化逻辑刚刚更新，近期应该会改善<br>
+            3.Q:为什么只有QQ登录？<br>
+            A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
+            4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
+            A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成<br>
+            5.Q:为什么出现了幻兽帕鲁？<br>
+            A:我也在玩幻兽帕鲁。点击推文链接并不会给我增加收入，但点击推文中的本人的推广链接购买租用服务器我可以有大概五分之一的返利，推文中有frp搭建方案，可以用低配甚至免费试用的云服务器来搭建。<b>点击推文链接后文字会消失只留图标</b>如果想试试专用服务器或者和我游戏内面基啥的可以加群或者发邮件给我，我会回复服务器信息<br>
+            6.Q:后续更新计划?<br>
+            A:<small>
+            <del>年后再说</del>
+          </small><br>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeAnswer()" type="button"><i
+                class="bi bi-power"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="note" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content" style="max-width: 380px">
@@ -50,14 +82,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6>
-                2024年1月24日
-              </h6>
-              <span style="font-size: smaller">
-                1.CDN超时时间调整到了2分钟，现在大部分情况下销售履历的耗时查询都能正常完成（例如分类筛选，由于是特殊配置所以暂时仅www.ff14pvp.top生效）
-            </span></div>
-            <br>
             <div>
               <h6>
                 2024年1月25日
@@ -74,6 +98,15 @@
                 1.市场统计页面适配了手机端
             </span>
             </div>
+            <br>
+            <div>
+              <h6>
+                2024年2月2日
+              </h6>
+              <span style="font-size: smaller">
+                1.销售履历支持导出
+            </span></div>
+
             <!--            body end-->
           </div>
           <div class="modal-footer">
@@ -141,6 +174,8 @@ export default {
   methods: {
     note() {
       $('#note').modal('show');
+    }, answer() {
+      $('#answer').modal('show');
     },
     toLogin() {
       QC.Login.showPopup({
@@ -153,6 +188,9 @@ export default {
     },
     closeNote() {
       $('#note').modal('toggle');
+    },
+    closeAnswer() {
+      $('#answer').modal('toggle');
     }
   }, mounted() {
     const vm = this;

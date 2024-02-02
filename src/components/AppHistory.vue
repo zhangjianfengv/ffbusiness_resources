@@ -87,7 +87,10 @@ let query = {
   worldName: '中国',
   onlyHq: 0
 };
-
+let mobile = false;
+if (window.matchMedia("(max-width: 767px)").matches) {
+  mobile = true;
+}
 let options = {
   url: '/ffbusiness/saleHistory/realData',
   pagination: "true",
@@ -107,6 +110,8 @@ let options = {
   paginationSuccessivelySize: 1,
   paginationPagesBySide: 1,
   mobileResponsive: true,
+  showExport: !mobile,
+  icons: {export: "bi bi-download"},
   checkOnInit: true,
   pageList: [20, 100, 200, 500, 1000]
 };
