@@ -7,11 +7,13 @@
       <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
       </b-button>
       <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
-      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="filterData()"
+      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="filterData()"
                        switch>
         只看HQ
       </b-form-checkbox>
-      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
+      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"
+                       style="margin: 5px 9px"
                        @change="loadMore()" switch>加载更多
       </b-form-checkbox>
       <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
@@ -33,6 +35,7 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+    <b-modal id="network" size="sm" ok-only ok-variant="info" title="提示">网络异常，正在重试....</b-modal>
   </div>
 </template>
 <style scoped>
@@ -171,6 +174,56 @@ export default {
       let $historyTable = $('#historyTable');
       $historyTable.bootstrapTable('destroy');
     },
+    doJob: function (result, vm, $currentTable, $historyTable) {
+      $('#loading-indicator').hide();
+      optionCurrent.data = result;
+      vm.unFilteredData = result;
+      $currentTable.bootstrapTable(optionCurrent);
+      $historyTable.bootstrapTable({
+        data: result,
+        dataField: 'realHistoryDtos',
+        columns: [{
+          field: 'worldName',
+          filterControl: 'select',
+          filterDefault: vm.childWorld,
+          title: '服务器'
+        }, {
+          field: 'buyerName',
+          filterControl: 'select',
+          title: '购买者'
+        }, {
+          field: 'hq',
+          formatter: (value) => {
+            return (value === true || value === 'true') ? '✔' : '✗'
+          },
+          title: '高品质',
+          filterControl: 'select'
+        }, {
+          field: 'total',
+          formatter: (value, row) => {
+            return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
+          },
+          title: '总计'
+        }, {
+          field: 'timestamp',
+          formatter: (value) => {
+            return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
+          },
+          title: '购买时间'
+        }],
+        contentType: "application/json",
+        pageNumber: 1,
+        pagination: "true",
+        pageSize: 5,
+        filterControl: true,
+        paginationUseIntermediate: true,
+        showSearchClearButton: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        pageList: [10, 20, 40]
+      });
+      $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+    },
     queryCurrent: function (worldName, itemId) {
       this.maximum = '0';
       this.itemId = itemId;
@@ -189,61 +242,20 @@ export default {
       // 使用Promise.race等待任意一个操作完成
       Promise.race([request1, request2])
           .then(result => {
-            $('#loading-indicator').hide();
-            optionCurrent.data = result;
-            vm.unFilteredData = result;
-            $currentTable.bootstrapTable(optionCurrent);
-            $historyTable.bootstrapTable({
-              data: result,
-              dataField: 'realHistoryDtos',
-              columns: [{
-                field: 'worldName',
-                filterControl: 'select',
-                filterDefault: vm.childWorld,
-                title: '服务器'
-              }, {
-                field: 'buyerName',
-                filterControl: 'select',
-                title: '购买者'
-              }, {
-                field: 'hq',
-                formatter: (value) => {
-                  return (value === true || value === 'true') ? '✔' : '✗'
-                },
-                title: '高品质',
-                filterControl: 'select'
-              }, {
-                field: 'total',
-                formatter: (value, row) => {
-                  return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
-                },
-                title: '总计'
-              }, {
-                field: 'timestamp',
-                formatter: (value) => {
-                  return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
-                },
-                title: '购买时间'
-              }],
-              contentType: "application/json",
-              pageNumber: 1,
-              pagination: "true",
-              pageSize: 5,
-              filterControl: true,
-              paginationUseIntermediate: true,
-              showSearchClearButton: true,
-              paginationSuccessivelySize: 1,
-              paginationPagesBySide: 1,
-              pageList: [10, 20, 40]
-            });
-            $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+            vm.doJob(result, vm, $currentTable, $historyTable);
           })
           .catch(error => {
-            // 如果任何一个操作出现异常，这里的代码将被执行
-            console.error("At least one operation encountered an exception:", error.message);
-            // 这里可以根据需要处理异常，比如记录日志或返回错误信息给客户端
+            console.log("failed with error:", error);
+            vm.$bvModal.show('network');
+            vm.raceAndHandle([request2, request1])
+                .then((result) => {
+                  vm.doJob(result, vm, $currentTable, $historyTable);
+                })
+                .catch((error) => {
+                  $('#loading-indicator').hide();
+                  console.log("Race and Handle failed with error:", error);
+                });
           });
-
     },
     performPostRequest(operationName, url, data) {
       return fetch(url, {
@@ -277,6 +289,25 @@ export default {
       }).catch(error => {
         throw error;
       });
+    },
+    raceAndHandle(promises) {
+      return Promise.race([Promise.allSettled(promises), new Promise((_, reject) => setTimeout(() => reject("Timeout"), 100000))])
+          .then((results) => {
+            const successResult = results.find((result) => result.status === 'fulfilled');
+            if (successResult) {
+              return successResult.value;
+            } else {
+              // Handle the case where all promises fail
+              const errorResults = results.filter((result) => result.status === 'rejected');
+
+              if (errorResults.length === promises.length) {
+                throw new Error("All promises failed");
+              } else {
+                // Handle other cases if needed
+                // ...
+              }
+            }
+          });
     },
     queryCurrentForm() {
       let tempItemId;
@@ -342,6 +373,14 @@ export default {
   },
   mounted() {
     $('#loading-indicator').hide();
+    const vm = this;
+    this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
+      if (modalId === 'network') {
+        setTimeout(function () {
+          vm.$bvModal.hide('network')
+        }, 3000);
+      }
+    })
     const worldCookie = this.$cookies.get('world');
     let worldName;
     if (this.isStr(worldCookie)) {
@@ -350,7 +389,7 @@ export default {
     const param = this.$route.params.worldName;
     if (param) worldName = param;
     const itemId = this.$route.params.itemId;
-    const vm = this;
+
     if (worldName) {
       switch (worldName) {
         case "陆行鸟":

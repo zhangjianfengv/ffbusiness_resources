@@ -105,6 +105,7 @@
               </h6>
               <span style="font-size: smaller">
                 1.使用https://www.ff14pvp.top进行qq登陆后不会默认跳转https://ff14pvp.top(www域名进行我的关注列表查询和销售履历耗时查询时不容易超时静默报错，两个域名是数据互通的，但页面验证登录状态存在一些问题)
+                2.网络状况不佳时的实时物价查询优化
             </span></div>
             <!--            body end-->
           </div>
