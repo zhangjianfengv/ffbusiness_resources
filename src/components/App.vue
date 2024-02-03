@@ -84,14 +84,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年1月25日
-              </h6>
-              <span style="font-size: smaller">
-                1.材料成本计算选择大区或者国服时材料价格显示具体位于哪个服务器
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年2月1日
               </h6>
               <span style="font-size: smaller">
@@ -104,9 +96,16 @@
                 2024年2月2日
               </h6>
               <span style="font-size: smaller">
-                1.销售履历支持导出
+                1.销售履历支持导出(暂时仅适配PC端)
             </span></div>
-
+            <br>
+            <div>
+              <h6>
+                2024年2月3日
+              </h6>
+              <span style="font-size: smaller">
+                1.使用https://www.ff14pvp.top进行qq登陆后不会默认跳转https://ff14pvp.top(www域名进行我的关注列表查询和销售履历耗时查询时不容易超时静默报错，两个域名是数据互通的，但页面验证登录状态存在一些问题)
+            </span></div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
