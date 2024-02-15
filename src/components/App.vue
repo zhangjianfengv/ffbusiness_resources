@@ -23,10 +23,10 @@
                       @click="answer()"><i class="bi bi-question-circle"></i></b-button>
             <a style="color: #fff;padding-top: 6px;margin-left: 6px" href="https://pal.ff14pvp.top/"
                id="linkWithHiddenText"
-               target="_blank"><img v-b-tooltip.hover title="幻兽帕鲁服务器十秒开固定服、一键改倍率" width="20px"
-                                    height="20px"
-                                    src="/pal.png" alt="pal"><span
-                id="hiddenText">幻兽帕鲁服务器十秒开固定服、一键改倍率</span></a>
+               target="_blank"><img v-b-tooltip.hover title="幻兽帕鲁服务器十秒开固定服" width="25px"
+                                    height="25px"
+                                    src="/c.png" alt="pal"><span
+                id="hiddenText">幻兽帕鲁服务器十秒开固定服</span></a>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
