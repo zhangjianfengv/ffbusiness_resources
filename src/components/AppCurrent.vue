@@ -6,6 +6,8 @@
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
       <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
       </b-button>
+      <b-button @click="clearFilterOption()" variant="info" type="button"><i class="bi bi-trash3"></i>
+      </b-button>
       <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
       <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="filterData()"
@@ -16,7 +18,7 @@
                        style="margin: 5px 9px"
                        @change="loadMore()" switch>加载更多
       </b-form-checkbox>
-      <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
+      <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
     <table id="currentTable"></table>
@@ -80,7 +82,7 @@ let optionCurrent = {
   showSearchClearButton: true,
   paginationSuccessivelySize: 1,
   paginationPagesBySide: 1,
-  pageList: [10, 20, 50, 150, 450],
+  pageList: [10, 20, 50, 150, 450]
 };
 export default {
   mixins: [tableMixin],
@@ -222,7 +224,9 @@ export default {
         paginationPagesBySide: 1,
         pageList: [10, 20, 40]
       });
-      $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+      let $button = $('button[title="Clear filters"]');
+      $button.html('<i class="bi bi-trash3"></i>')
+      $button.remove()
     },
     queryCurrent: function (worldName, itemId) {
       this.maximum = '0';
@@ -349,6 +353,12 @@ export default {
         $historyTable.bootstrapTable('load', this.unFilteredData)
       }
     },
+    clearFilterOption() {
+      let $currentTable = $('#currentTable');
+      let $historyTable = $('#historyTable');
+      $currentTable.bootstrapTable('clearFilterControl');
+      $historyTable.bootstrapTable('clearFilterControl');
+    },
     loadMore() {
       const vm = this;
       let maximum = this.maximum;
@@ -389,7 +399,6 @@ export default {
     const param = this.$route.params.worldName;
     if (param) worldName = param;
     const itemId = this.$route.params.itemId;
-
     if (worldName) {
       switch (worldName) {
         case "陆行鸟":

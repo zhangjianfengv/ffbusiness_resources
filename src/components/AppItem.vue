@@ -102,8 +102,8 @@
                     value.num * craftCount
                   }}个*{{
                     value.price
-                  }}({{ value.worldName }})={{ value.num * value.price * craftCount }} <span @click="deleteItem(key)"><i
-                      class="bi bi-x-square"></i></span>
+                  }}({{ value.worldName }})={{ value.num * value.price * craftCount }}
+                  <span @click="deleteItem(key)"><i class="bi bi-x-square"></i></span>
                 </li>
               </ul>
               <span>成本总计{{ this.singeCost * craftCount }}</span>
@@ -277,13 +277,6 @@ export default {
         return value === true ? '✔' : ''
       }
     },
-      //   {
-      //   field: 'isIndisposable',
-      //   title: '可丢弃',
-      //   formatter: (value) => {
-      //     return value === false ? '✔' : ''
-      //   },
-      // },
       {
         field: 'gather',
         title: '采集',

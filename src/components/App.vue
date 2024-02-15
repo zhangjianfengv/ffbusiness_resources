@@ -60,12 +60,6 @@
             A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
             4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
             A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成<br>
-            5.Q:为什么出现了幻兽帕鲁？<br>
-            A:我也在玩幻兽帕鲁。点击推文链接并不会给我增加收入，但点击推文中的本人的推广链接购买租用服务器我可以有大概五分之一的返利，推文中有frp搭建方案，可以用低配甚至免费试用的云服务器来搭建。<b>点击推文链接后文字会消失只留图标</b>如果想试试专用服务器或者和我游戏内面基啥的可以加群或者发邮件给我，我会回复服务器信息<br>
-            6.Q:后续更新计划?<br>
-            A:<small>
-            <del>年后再说</del>
-          </small><br>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeAnswer()" type="button"><i
@@ -85,15 +79,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年2月1日
-              </h6>
-              <span style="font-size: smaller">
-                1.市场统计页面适配了手机端
-            </span>
-            </div>
-            <br>
-            <div>
-              <h6>
                 2024年2月2日
               </h6>
               <span style="font-size: smaller">
@@ -108,6 +93,16 @@
                 1.使用www.ff14pvp.top进行QQ登陆后不会默认跳转ff14pvp.top(www域名进行我的关注列表查询和销售履历耗时查询时不容易超时静默报错，两个域名是数据互通的，但页面验证登录状态存在一些问题)<br>
                 2.网络状况不佳时的实时物价查询优化及页面提示
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年2月15日
+              </h6>
+              <span style="font-size: smaller">
+                1.实时物价页面清空筛选条件按钮合并为一个按钮，位于顶部
+            </span>
+            </div>
+
             <!--            body end-->
           </div>
           <div class="modal-footer">
