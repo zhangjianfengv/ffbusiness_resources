@@ -11,12 +11,11 @@
       <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
       <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="filterData()"
-                       switch>
-        只看HQ
+                       switch>HQ
       </b-form-checkbox>
       <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"
                        style="margin: 5px 9px"
-                       @change="loadMore()" switch>加载更多
+                       @change="loadMore()" switch>更多
       </b-form-checkbox>
       <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
     </b-form>

@@ -20,13 +20,13 @@
             <b-button variant="info" type="button"
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
             <b-button variant="info" type="button"
-                      @click="answer()"><i class="bi bi-question-circle"></i></b-button>
+                      @click="answer()"><i class="bi bi-question-circle-fill"></i></b-button>
             <a style="color: #fff;padding-top: 6px;margin-left: 6px" href="https://pal.ff14pvp.top/"
                id="linkWithHiddenText"
-               target="_blank"><img v-b-tooltip.hover title="幻兽帕鲁服务器十秒开固定服" width="25px"
+               target="_blank"><img v-b-tooltip.hover title="幻兽帕鲁开服务器攻略" width="25px"
                                     height="25px"
                                     src="/c.png" alt="pal"><span
-                id="hiddenText">幻兽帕鲁服务器十秒开固定服</span></a>
+                id="hiddenText">幻兽帕鲁开服务器攻略</span></a>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
@@ -102,7 +102,6 @@
                 1.实时物价页面清空筛选条件按钮合并为一个按钮，位于顶部
             </span>
             </div>
-
             <!--            body end-->
           </div>
           <div class="modal-footer">
