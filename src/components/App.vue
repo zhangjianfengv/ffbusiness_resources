@@ -64,7 +64,9 @@
             3.Q:为什么只有QQ登录？<br>
             A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
             4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
-            A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成<br>
+            A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成<br><br>
+            <b>小程序版本：</b><br>
+            <img src="/luoweina.jpg" alt="手机设置网络加速" loading="lazy" width="297" height="297"><br>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeAnswer()" type="button"><i
@@ -108,7 +110,8 @@
                 2024年2月17日
               </h6>
               <span style="font-size: smaller">
-                1.新增安卓app版本，由于暂未上架应用市场所以安装时手机的提示可能会言辞比较激烈😅。权限方面app实际使用的只有联网和存储(用于缓存)权限，其他权限为腾讯SDK需申请。
+                1.新增安卓app版本，由于暂未上架应用市场所以安装时手机的提示可能会言辞比较激烈😅。权限方面app实际使用的只有联网和存储(用于缓存)权限，其他权限为腾讯SDK需申请。<br>
+                1.新增小程序版本
             </span></div>
             <!--            body end-->
           </div>
