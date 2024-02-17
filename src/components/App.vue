@@ -21,7 +21,12 @@
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
             <b-button variant="info" type="button"
                       @click="answer()"><i class="bi bi-question-circle-fill"></i></b-button>
-            <a style="color: #fff;padding-top: 6px;margin-left: 6px" href="https://pal.ff14pvp.top/"
+            <a style="color: #fff;padding-top: 6px;margin-left: 6px"
+               href="https://www.ff14pvp.top/package/LuoWeiNa.apk"><img v-b-tooltip.hover title="安卓APP"
+                                                                        width="22px"
+                                                                        height="22px"
+                                                                        src="/Android_robot.svg.webp" alt="pal"></a>
+            <a style="color: #fff;padding-top: 6px;margin-left: 10px" href="https://pal.ff14pvp.top/"
                id="linkWithHiddenText"
                target="_blank"><img v-b-tooltip.hover title="幻兽帕鲁开服务器攻略" width="25px"
                                     height="25px"
@@ -77,14 +82,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6>
-                2024年2月2日
-              </h6>
-              <span style="font-size: smaller">
-                1.销售履历支持导出(暂时仅适配PC端)
-            </span></div>
-            <br>
+
             <div>
               <h6>
                 2024年2月3日
@@ -103,6 +101,15 @@
                 2.实时物价页面：清空筛选条件按钮合并为一个按钮，位于顶部
             </span>
             </div>
+
+            <br>
+            <div>
+              <h6>
+                2024年2月17日
+              </h6>
+              <span style="font-size: smaller">
+                1.新增安卓app版本，由于暂未上架应用市场所以安装时手机的提示可能会言辞比较激烈😅。权限方面app实际使用的只有联网和存储(用于缓存)权限，其他权限为腾讯SDK需申请。
+            </span></div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
