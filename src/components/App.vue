@@ -97,7 +97,7 @@
               </h6>
               <span style="font-size: smaller">
                 1.新增<a href="/luoweina.jpg">微信小程序</a>版本<br>
-                2.新增<a href="https://www.ff14pvp.top/package/LuoWeiNa.apk">安卓app</a>版本，由于暂未上架应用市场所以安装时手机的提示可能会言辞比较激烈😅。权限方面app实际使用的只有联网和存储(用于缓存)权限，其他权限为腾讯SDK需申请。
+                2.新增<a href="https://www.ff14pvp.top/package/LuoWeiNaV1.0.0.apk">安卓app</a>版本，由于暂未上架应用市场所以安装时手机的提示可能会言辞比较激烈😅。权限方面app实际使用的只有联网和存储(用于缓存)权限，其他权限为腾讯SDK需申请。
             </span></div>
             <!--            body end-->
           </div>
