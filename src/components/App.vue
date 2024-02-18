@@ -21,6 +21,11 @@
                       @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
             <b-button variant="info" type="button"
                       @click="answer()"><i class="bi bi-question-circle-fill"></i></b-button>
+            <a style="padding-top: 6px;margin-left: 6px" href="/luoweina.jpg"
+               id="linkWithHiddenText"
+               target="_blank"><img v-b-tooltip.hover title="小程序" width="25px"
+                                    height="25px"
+                                    src="/favicon324c17f2.ico" alt="小程序"></a>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
