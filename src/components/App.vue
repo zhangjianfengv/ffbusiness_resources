@@ -31,15 +31,13 @@
                  id="linkWithHiddenText"
                  target="_blank"><img v-b-tooltip.hover title="小程序" width="25px"
                                       height="25px"
-                                      src="/favicon324c17f2.ico" alt="小程序"></a>
-            </div>
-
+                                      src="/favicon324c17f2.ico" alt="小程序"></a></div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
               <template #button-content>
-                <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
-                <em>{{ user.nickname }}</em>
+                <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
+                <em>{{ user.nickname }}</em>，欢迎您！
               </template>
               <b-dropdown-item @click="logOut">退出登录</b-dropdown-item>
             </b-nav-item-dropdown>
