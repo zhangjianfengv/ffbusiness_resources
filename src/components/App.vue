@@ -153,9 +153,11 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
 }
 
 .dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
-  color: #fff;
   text-decoration: none;
-  background-color: #17a2b8 !important;
+  border-radius: 0 !important;
+  color: #343a40;
+  border-color: #343a40;
+  background-color: white;
 }
 
 .page-item.active, .page-link {
@@ -225,23 +227,6 @@ export default {
         vm.user = data;
       }
     });
-
-    if (localStorage.getItem('textHidden')) {
-      document.getElementById('hiddenText').style.display = 'none';
-    }
-
-    // Add click event listener to the link
-    document.getElementById('linkWithHiddenText').addEventListener('click', function (event) {
-      // Check if the hidden text is visible
-      if (document.getElementById('hiddenText').style.display !== 'none') {
-        // Hide the hidden text
-        document.getElementById('hiddenText').style.display = 'none';
-
-        // Set a flag in local storage to remember the user's choice
-        localStorage.setItem('textHidden', 'true');
-      }
-    });
-
   }
 }
 </script>

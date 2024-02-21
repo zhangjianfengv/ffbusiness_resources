@@ -48,14 +48,18 @@
                        @change="searchItem()">
         仅HQ
       </b-form-checkbox>
-      <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
+      <b-button squared variant="outline-dark" class="mx-1" @click="searchItem()" type="button"><i
+          class="bi bi-search"></i>
       </b-button>
-      <b-button variant="info" @click="queryCurrentForm()" type="button"><i class="bi bi-send"></i>
+      <b-button squared variant="outline-dark" @click="queryCurrentForm()" type="button"><i class="bi bi-send"></i>
       </b-button>
-      <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
+      <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
+      </b-button>
     </b-form>
-    <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
-    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-sm" size="sm" ok-only ok- squared variant="outline-dark" title="提示">角色名查询须指定物品
+    </b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
+    </b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -199,7 +203,7 @@ export default {
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-send"></i></b-button>',
+            template: '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-send"></i></b-button>',
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable

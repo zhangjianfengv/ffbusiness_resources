@@ -28,8 +28,9 @@
                        @change="searchItem()">
         可出售
       </b-form-checkbox>
-      <b-button variant="info" @click="searchItem()" type="button"><i class="bi bi-search"></i></b-button>
-      <b-button variant="info" class="mx-1" @click="resetQueryParams()"
+      <b-button squared variant="outline-dark" @click="searchItem()" type="button"><i class="bi bi-search"></i>
+      </b-button>
+      <b-button squared variant="outline-dark" class="mx-1" @click="resetQueryParams()"
                 type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
     </b-form>
     <div>
@@ -282,7 +283,7 @@ export default {
         align: 'center',
         formatter: (value, row) => {
           if (row.gatherCount > 0 && !row.recipeCount) {
-            let template = '<b-button variant="info" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
+            let template = '<b-button  squared variant="outline-dark" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
             return this.vueFormatter({
               template: template,
               data: {row},
@@ -298,7 +299,7 @@ export default {
         align: 'center',
         formatter: (value, row) => {
           if (row.npcTrade) {
-            let template = '<b-button variant="info" @click="seeSource(row)"><i class="bi bi-shop"></i></b-button>';
+            let template = '<b-button  squared variant="outline-dark" @click="seeSource(row)"><i class="bi bi-shop"></i></b-button>';
             return this.vueFormatter({
               template: template,
               data: {row},
@@ -312,7 +313,7 @@ export default {
         title: '查看配方',
         formatter: (value, row) => {
           if (row.craft) {
-            let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-receipt-cutoff"></i></b-button>';
+            let template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-receipt-cutoff"></i></b-button>';
             return this.vueFormatter({
               template: template,
               data: {row},
@@ -326,7 +327,7 @@ export default {
         title: '材料成本计算',
         formatter: (value, row) => {
           if (row.craft) {
-            let template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
+            let template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
             return this.vueFormatter({
               template: template,
               data: {row},

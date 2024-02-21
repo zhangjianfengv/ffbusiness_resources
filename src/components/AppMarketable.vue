@@ -62,11 +62,13 @@
           <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
           <b-form-select-option value="2">按售出总数排序</b-form-select-option>
         </b-form-select>
-        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i>
+        <b-button squared variant="outline-dark" class="mx-1" @click="filterMarketable()" type="button"><i
+            class="bi bi-search"></i>
         </b-button>
-        <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i>
+        <b-button squared variant="outline-dark" @click="resetMarketable()" type="button"><i
+            class="bi bi-arrow-clockwise"></i>
         </b-button>
-        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i
+        <b-button squared variant="outline-dark" class="mx-1" @click="openUpdateTimeTable()" type="button"><i
             class="bi bi-calendar-month"></i>
         </b-button>
       </b-form-group>
@@ -116,7 +118,8 @@
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <b-button variant="info" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button"><i
+            <b-button squared variant="outline-dark" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">
+              <i
                 class="bi bi-power"></i></b-button>
           </div>
         </div>
@@ -290,8 +293,8 @@ export default {
           formatter: (value, row) => {
             let template;
             if (row.quantityIndexChange < 0)
-              template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
-            else template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
+              template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
+            else template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
             return this.vueFormatter({
               template: template,
               data: {row},

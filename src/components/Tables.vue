@@ -12,7 +12,7 @@
         <BootstrapTable :id="'citem-' + index" :columns="columns1" :options="tableOptions1"></BootstrapTable>
       </b-card-body>
       <template #footer>
-        <b-button href="#" @click="cancelCollect" variant="info" type="button">取消收藏</b-button>
+        <b-button href="#" @click="cancelCollect" squared variant="outline-dark" type="button">取消收藏</b-button>
       </template>
     </b-card>
 
@@ -28,7 +28,7 @@
         <BootstrapTable :id="'hitem-' + index" :columns="columns2" :options="tableOptions2"></BootstrapTable>
       </b-card-body>
       <template #footer>
-        <b-button @click="cancelCollect" href="#" variant="info" type="button">取消收藏</b-button>
+        <b-button @click="cancelCollect" href="#" squared variant="outline-dark" type="button">取消收藏</b-button>
       </template>
     </b-card>
   </b-card-group>
