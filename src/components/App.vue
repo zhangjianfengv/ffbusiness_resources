@@ -160,12 +160,21 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   background-color: white;
 }
 
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
+.page-link {
   text-decoration: none;
-  background-color: #fff !important;
+  border-radius: 0 !important;
+  color: black;
+  border-color: rgb(86, 61, 124);
+  background-color: white;
+
 }
 
+.page-item.active .page-link {
+  z-index: 3;
+  color: white;
+  border-color: rgb(86, 61, 124);
+  background-color: rgb(86, 61, 124);
+}
 
 .n-link-style {
   color: white !important;
