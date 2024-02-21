@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="sm" type="dark" variant="info">
+      <b-navbar toggleable="sm"
+                type="dark"
+                style="background-color: #563d7c;box-shadow: 0 .5rem 1rem rgba(0,0,0,.05),inset 0 -1px 0 rgba(0,0,0,.1);">
         <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -12,21 +14,26 @@
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
-            <b-button variant="info" type="button"
-                      href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
-              <i class="bi bi-envelope-at-fill"></i></b-button>
-            <b-button variant="info"
-                      href="https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Am8SZj4VzSRfY5SKTfv6gAov0MnM_SPS&authKey=VT1%2FcriD%2FryxXz%2B%2BSewvL9YbN5pFwvympg%2Bt0XU70OPrvsJ8NBkBIIknzk6wiMVD&noverify=0&group_code=688539775">
-              <i class="bi bi-tencent-qq"></i></b-button>
-            <b-button variant="info" type="button"
-                      @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
-            <b-button variant="info" type="button"
-                      @click="answer()"><i class="bi bi-question-circle-fill"></i></b-button>
-            <a style="padding-top: 6px;margin-left: 6px" href="/luoweina.jpg"
-               id="linkWithHiddenText"
-               target="_blank"><img v-b-tooltip.hover title="小程序" width="25px"
-                                    height="25px"
-                                    src="/favicon324c17f2.ico" alt="小程序"></a>
+
+            <div class="container1">
+              <a class="top-button n-link-style"
+                 href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
+                <i class="bi bi-envelope-at-fill"></i></a>
+              <a class="top-button n-link-style"
+                 href="https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Am8SZj4VzSRfY5SKTfv6gAov0MnM_SPS&authKey=VT1%2FcriD%2FryxXz%2B%2BSewvL9YbN5pFwvympg%2Bt0XU70OPrvsJ8NBkBIIknzk6wiMVD&noverify=0&group_code=688539775">
+                <i class="bi bi-tencent-qq"></i></a>
+              <a class="top-button n-link-style"
+                 @click="note()"><i class="bi bi-clipboard-fill"></i></a>
+              <a class="top-button n-link-style"
+                 @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
+              <a class="top-button n-link-style"
+                 href="/luoweina.jpg"
+                 id="linkWithHiddenText"
+                 target="_blank"><img v-b-tooltip.hover title="小程序" width="25px"
+                                      height="25px"
+                                      src="/favicon324c17f2.ico" alt="小程序"></a>
+            </div>
+
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-nav-item-dropdown right>
@@ -134,6 +141,17 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   /*width: 100%;*/
 }
 
+.container1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-button {
+
+  margin: 0 6px;
+}
+
 .dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
   color: #fff;
   text-decoration: none;
@@ -144,6 +162,12 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   color: #17a2b8 !important;
   text-decoration: none;
   background-color: #fff !important;
+}
+
+
+.n-link-style {
+  color: white !important;
+  text-decoration: none;
 }
 
 .black-link-style {
