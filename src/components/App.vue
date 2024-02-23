@@ -84,15 +84,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年2月3日
-              </h6>
-              <span style="font-size: smaller">
-                1.使用www.ff14pvp.top进行QQ登陆后不会默认跳转ff14pvp.top(www域名进行我的关注列表查询和销售履历耗时查询时不容易超时静默报错，两个域名是数据互通的，但页面验证登录状态存在一些问题)<br>
-                2.网络状况不佳时的实时物价查询优化及页面提示
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年2月15日
               </h6>
               <span style="font-size: smaller">
@@ -100,7 +91,6 @@
                 2.实时物价页面：清空筛选条件按钮合并为一个按钮，位于顶部
             </span>
             </div>
-
             <br>
             <div>
               <h6>
@@ -108,7 +98,15 @@
               </h6>
               <span style="font-size: smaller">
                 1.新增<a href="/luoweina.jpg">微信小程序</a>版本<br>
-                2.新增<a href="https://www.ff14pvp.top/package/LuoWeiNaV1.0.0.apk">安卓app</a>版本，由于暂未上架应用市场所以安装时手机的提示可能会言辞比较激烈😅。权限方面app实际使用的只有联网和存储(用于缓存)权限，其他权限为腾讯SDK需申请。
+                2.新增<a href="https://www.ff14pvp.top/package/LuoWeiNaV1.1.0.apk">安卓app</a>版本。
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2024年2月23日
+              </h6>
+              <span style="font-size: smaller">
+                1.安卓app已经用纯原生重写，无任何第三方SDK，包体很小
             </span></div>
             <!--            body end-->
           </div>
