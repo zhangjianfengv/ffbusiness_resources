@@ -184,6 +184,7 @@ export default {
         {value: '15', text: '15天'},
         {value: '30', text: '30天'},
         {value: '90', text: '90天'},
+        {value: '180', text: '180天'},
         {value: 'all', text: '所有时间'}
       ],
       columns: [
