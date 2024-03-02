@@ -10,7 +10,7 @@
           <b-navbar-nav>
             <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
             <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
-            <b-nav-item to="/item" exact-path exact-active-class="active">配方成本</b-nav-item>
+            <b-nav-item to="/item" exact-path exact-active-class="active">物品详情和成本</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>

@@ -106,7 +106,9 @@
                   <span @click="deleteItem(key)"><i class="bi bi-x-square"></i></span>
                 </li>
               </ul>
-              <span>成本总计{{ this.singeCost * craftCount }}</span>
+              <span>成本总计{{
+                  (this.errorText === '' || !this.errorText) ? (this.singeCost * craftCount) : '（某个材料无在售，请尝试切换至大区）'
+                }}</span>
             </div>
           </div>
           <div id="loading-indicator" class="text-center">
@@ -382,6 +384,7 @@ export default {
       canGather: null,
       materials: [],
       craftCount: 1,
+      errorText: '',
       itemTypes: [],
       treeData: {},
       tempItemId: 0
@@ -487,6 +490,10 @@ export default {
           $('#loading-indicator').hide();
           $('#recipeList').show();
           vm.materials = data.list;
+          if (data.list === null) {
+            vm.errorText = 'error'
+            return;
+          }
           let total = 0;
           for (let item in data.list) {
             total += data.list[item].price * data.list[item].num;
