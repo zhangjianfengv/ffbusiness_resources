@@ -498,6 +498,7 @@ export default {
           for (let item in data.list) {
             total += data.list[item].price * data.list[item].num;
           }
+          vm.errorText = null;
           vm.singeCost = total;
         }
       });
@@ -510,10 +511,15 @@ export default {
           $('#loading-indicator').hide();
           $('#recipeList').show();
           vm.materials = data.list;
+          if (data.list === null) {
+            vm.errorText = 'error'
+            return;
+          }
           let total = 0;
           for (let item in data.list) {
             total += data.list[item].price * data.list[item].num;
           }
+          vm.errorText = null;
           vm.singeCost = total;
         }
       });
