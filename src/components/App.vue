@@ -83,16 +83,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年2月15日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品查询页面：查看配方时点击物品名可打开新标签页查询该物品的详情<br>
-                2.实时物价页面：清空筛选条件按钮合并为一个按钮，位于顶部
-            </span>
-            </div>
-            <br>
-            <div>
-              <h6>
                 2024年2月17日
               </h6>
               <span style="font-size: smaller">
@@ -107,6 +97,16 @@
               <span style="font-size: smaller">
                 1.安卓app已经用纯原生重写，无任何第三方SDK，包体很小
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年3月16日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品名称建议功能支持拼音检索<br>
+                2.修复了物品详情和成本页面的物品名称建议功能仅展示可出售物品的问题
+            </span>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
