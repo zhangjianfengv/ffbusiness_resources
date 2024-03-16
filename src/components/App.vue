@@ -73,6 +73,21 @@
         </div>
       </div>
     </div>
+
+    <div>
+      <b-modal v-model="showModal" hide-footer @hidden="modalHidden">
+        <template #modal-title>
+          <span>欢迎回来！🎇🎇🎇</span>
+        </template>
+        <div>
+          <p>网站已经更新，以下是更新内容：</p>
+          <ul>
+            <li>物品名称建议功能支持拼音检索</li>
+            <li>修复了物品详情和成本页面的物品名称建议功能仅展示可出售物品的问题</li>
+          </ul>
+        </div>
+      </b-modal>
+    </div>
     <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="note" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content" style="max-width: 380px">
@@ -143,7 +158,6 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
 }
 
 .top-button {
-
   margin: 0 6px;
 }
 
@@ -161,7 +175,6 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   color: black;
   border-color: rgb(86, 61, 124);
   background-color: white;
-
 }
 
 .page-item.active .page-link {
@@ -180,18 +193,35 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   color: #212529 !important;
   text-decoration: underline;
 }
+
+.input-wrapper {
+  position: relative;
+}
+
+.select-options {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* 保证选择框在最顶层 */
+}
 </style>
 <script>
 import $ from "jquery";
 import '../plugins/qc_jssdk'
 import Base64 from '../plugins/base64'
+import {BAlert} from "bootstrap-vue";
 
 export default {
   name: "App",
   data() {
     return {
-      user: {nickname: '用户'}
+      user: {nickname: '用户'},
+      showModal: false
     }
+  },
+  components: {
+    BAlert
   },
   computed: {
     imageUrl() {
@@ -210,6 +240,9 @@ export default {
         appId: Base64.decode("MTAyMDc1MDIx"),
         redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
       });
+    },
+    modalHidden() {
+      localStorage.setItem('hideModal', 'true');
     },
     logOut() {
       window.location.href = window.location.origin + '/ffbusiness/user/logOut';
@@ -231,6 +264,9 @@ export default {
         vm.user = data;
       }
     });
+    if (!localStorage.getItem('hideModal')) {
+      this.showModal = true;
+    }
   }
 }
 </script>

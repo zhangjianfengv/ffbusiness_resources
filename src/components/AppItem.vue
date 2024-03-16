@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <b-form inline id="itemForm">
-      <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+      <div class="input-wrapper">
+        <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+        <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
+                       @change="hideSelect">
+          <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
+        </b-form-select>
+      </div>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-input class="form-control" v-model="levelEquip" placeholder="等级" type="text" value=""></b-form-input>
       <b-form-input class="form-control" v-model="levelItem" placeholder="品级" type="text" value=""></b-form-input>
@@ -205,6 +211,7 @@ export default {
             data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
               vm.nameOptions = data;
+              vm.showOptions = true;
             }
           });
         }
@@ -387,11 +394,14 @@ export default {
       errorText: '',
       itemTypes: [],
       treeData: {},
-      tempItemId: 0
+      tempItemId: 0,
+      selectedValue: '',
+      showOptions: false
     }
   },
   activated() {
     const vm = this;
+    this.showOptions = false;
     let id = this.$route.query.id
     if (id) {
       $.ajax({
@@ -411,6 +421,7 @@ export default {
   },
   methods: {
     searchItem() {
+      this.showOptions = false;
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       query = {
@@ -435,6 +446,7 @@ export default {
       this.itemId = null;
     },
     resetQueryParams() {
+      this.showOptions = false;
       window.location.href = '/#/item';
       let $table = $('#table');
       $('#itemForm')[0].reset();
@@ -456,6 +468,7 @@ export default {
       $table.bootstrapTable(this.options)
     },
     openRecipe(row) {
+      this.showOptions = false;
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeList').hide();
@@ -473,6 +486,7 @@ export default {
         }
       });
     }, openList(row) {
+      this.showOptions = false;
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeTree').hide();
@@ -503,6 +517,7 @@ export default {
         }
       });
     }, changeWorld() {
+      this.showOptions = false;
       const vm = this;
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
@@ -524,6 +539,7 @@ export default {
         }
       });
     }, seeSource(row) {
+      this.showOptions = false;
       $.ajax({
         url: "/ffbusiness/npcSell/list",
         async: true,
@@ -562,6 +578,10 @@ export default {
           });
         }
       });
+    },
+    hideSelect() {
+      this.itemName = this.selectedValue;
+      this.showOptions = false;
     }, seeGather(row) {
       $.ajax({
         url: "/ffbusiness/itemGather/list",

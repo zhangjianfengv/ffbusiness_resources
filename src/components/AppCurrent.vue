@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <b-form inline id="queryCurrent" @reset="onReset">
-      <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+      <div class="input-wrapper">
+        <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
+        <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
+                       @change="hideSelect">
+          <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
+        </b-form-select>
+      </div>
       <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
       <b-button squared variant="outline-dark" class="mx-1" @click="searchItem()" type="button"><i
@@ -104,6 +110,7 @@ export default {
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
               vm.nameOptions = data;
+              vm.showOptions = true;
             }
           });
         }
@@ -124,6 +131,8 @@ export default {
       maximum: 0,
       itemName: null,
       date: null,
+      selectedValue: '',
+      showOptions: false,
       itemId: '0',
       nameOptions: [],
       timer: null,
@@ -166,6 +175,7 @@ export default {
       this.queryCurrentForm();
     },
     onReset(event) {
+      this.showOptions = false;
       event.preventDefault()
       this.itemName = null;
       this.worldName = "中国";
@@ -232,6 +242,7 @@ export default {
       $button.remove()
     },
     queryCurrent: function (worldName, itemId) {
+      this.showOptions = false;
       this.maximum = '0';
       this.itemId = itemId;
       $('#loading-indicator').show();
@@ -317,6 +328,7 @@ export default {
           });
     },
     queryCurrentForm() {
+      this.showOptions = false;
       let tempItemId;
       let tempItemName;
       const vm = this;
@@ -363,6 +375,7 @@ export default {
       $historyTable.bootstrapTable('clearFilterControl');
     },
     loadMore() {
+      this.showOptions = false;
       const vm = this;
       let maximum = this.maximum;
       $.ajax({
@@ -383,6 +396,10 @@ export default {
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
+    hideSelect() {
+      this.itemName = this.selectedValue;
+      this.showOptions = false;
+    }
   },
   mounted() {
     $('#loading-indicator').hide();

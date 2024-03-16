@@ -1,11 +1,17 @@
 <template>
   <div id="app">
     <b-form inline id="queryForm" @reset="onReset">
-      <b-form-input list="input-list" v-model="itemName" placeholder="关键词或物品ID" value=""></b-form-input>
+      <div class="input-wrapper">
+        <b-form-input autofocus id="nameKeyword" v-model="itemName" placeholder="关键词或物品ID"
+                      value=""></b-form-input>
+        <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
+                       @change="hideSelect">
+          <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
+        </b-form-select>
+      </div>
       <b-form-input v-model="buyerName" placeholder="购买者" type="text"
                     value="" :state="buyerNameState"></b-form-input>
       <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
-      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
       </bt-select>
       <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
@@ -144,6 +150,7 @@ export default {
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
               vm.nameOptions = data;
+              vm.showOptions = true;
             }
           });
         }
@@ -227,11 +234,13 @@ export default {
       itemTypes: [],
       itemTypeOptions: [],
       clickWorldName: null,
-      clickItemId: null
+      selectedValue: '',
+      showOptions: false
     }
   },
   methods: {
     searchItem() {
+      this.showOptions = false;
       if (this.buyerNameInvalidState) {
         this.$bvModal.show('modal-sm')
         return;
@@ -251,6 +260,7 @@ export default {
       $table.bootstrapTable(options)
     },
     onReset(event) {
+      this.showOptions = false;
       event.preventDefault()
       let $table = $('#table');
       $table.bootstrapTable('destroy');
@@ -271,6 +281,7 @@ export default {
       $table.bootstrapTable(options)
     },
     queryCurrentTable(row) {
+      this.showOptions = false;
       let id = row.itemId;
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
@@ -304,6 +315,7 @@ export default {
       }
     },
     queryCurrentForm() {
+      this.showOptions = false;
       let tempItemId;
       let tempItemName;
       const vm = this;
@@ -334,24 +346,13 @@ export default {
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
-    loadMore(worldName, itemId) {
-      let maximum = this.maximum;
-      $.ajax({
-        url: "/ffbusiness/currentData/queryCurrent",
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify({worldName: worldName, itemId: itemId, maximum: maximum === '1'}),
-        success: function (data) {
-          let $currentTable = $('#currentTable');
-          optionCurrent.data = data;
-          $currentTable.bootstrapTable('destroy').bootstrapTable(optionCurrent);
-          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
-        }
-      })
-    },
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
+    hideSelect() {
+      this.itemName = this.selectedValue;
+      this.showOptions = false;
+    }
   },
   mounted() {
     $('#itemType').selectpicker();
