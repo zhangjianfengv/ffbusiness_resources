@@ -145,6 +145,17 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   }
 }
 
+.input-wrapper {
+  width: auto; /* 在PC上默认宽度 */
+}
+
+/* 在小屏幕设备上（例如移动设备）设置输入框宽度为100% */
+@media only screen and (max-width: 768px) {
+  .input-wrapper {
+    width: 100%;
+  }
+}
+
 .bs-bars form, .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table
 .fixed-table-toolbar .search {
   position: relative;
