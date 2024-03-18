@@ -44,11 +44,6 @@ button {
   font-size: 1em;
   cursor: pointer;
 }
-
-.page-item.active .page-link {
-  background-color: white !important;
-}
-
 </style>
 <script>
 

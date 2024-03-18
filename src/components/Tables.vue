@@ -33,6 +33,11 @@
     </b-card>
   </b-card-group>
 </template>
+<style scoped>
+.page-item.active .page-link {
+  background-color: white !important;
+}
+</style>
 <script>
 import moment from "moment";
 import $ from "jquery";

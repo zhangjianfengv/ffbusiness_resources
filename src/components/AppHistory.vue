@@ -275,7 +275,7 @@ export default {
         itemTypes: this.itemTypes
       };
       this.options.columns = this.columns;
-      $table.bootstrapTable(options)
+      $table.bootstrapTable(this.options)
     },
     onReset(event) {
       event.preventDefault()
