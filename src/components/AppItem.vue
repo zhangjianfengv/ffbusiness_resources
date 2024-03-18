@@ -193,10 +193,10 @@ import Base64 from "@/plugins/base64.js";
 import {initTooltip} from "@thewakingsands/kit-tooltip";
 
 let query = {};
-
 export default {
   components: {Tree},
   mixins: [tableMixin],
+  props: ['themeColor'],
   watch: {
     itemName: function (newValue) {
       const vm = this;
@@ -278,7 +278,6 @@ export default {
       formatter: (value) => {
         return value === false ? '✔' : ''
       }
-
     }, {
       field: 'isDyeable',
       title: '可分解',
@@ -348,6 +347,7 @@ export default {
         }
       }];
     const vm = this;
+    let color = this.themeColor;
     let options = {
       url: '/ffbusiness/itemNew/realData',
       pagination: "true",
@@ -371,6 +371,24 @@ export default {
       paginationPagesBySide: 1,
       checkOnInit: true,
       itemTypeOptions: [],
+      onAll: function () {
+        const otherLinks = document.querySelectorAll('.page-link');
+        if (otherLinks) {
+          otherLinks.forEach(link => {
+            link.style.textDecoration = 'none';
+            link.style.borderRadius = '0 !important';
+            link.style.color = 'black';
+            link.style.borderColor = color;
+            link.style.backgroundColor = 'white';
+          });
+        }
+        const active = document.querySelector('.pagination .page-item.active .page-link');
+        if (active) {
+          active.style.color = 'white';
+          active.style.borderColor = color;
+          active.style.backgroundColor = color;
+        }
+      },
       pageList: [50, 100, 200, 500, 1000]
     };
     return {
@@ -401,7 +419,6 @@ export default {
   },
   activated() {
     const vm = this;
-
     let id = this.$route.query.id
     if (id) {
       $.ajax({
@@ -421,7 +438,6 @@ export default {
   },
   methods: {
     searchItem() {
-
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       query = {
@@ -446,7 +462,6 @@ export default {
       this.itemId = null;
     },
     resetQueryParams() {
-
       window.location.href = '/#/item';
       let $table = $('#table');
       $('#itemForm')[0].reset();
@@ -468,7 +483,6 @@ export default {
       $table.bootstrapTable(this.options)
     },
     openRecipe(row) {
-
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeList').hide();
@@ -486,7 +500,6 @@ export default {
         }
       });
     }, openList(row) {
-
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeTree').hide();
@@ -517,7 +530,6 @@ export default {
         }
       });
     }, changeWorld() {
-
       const vm = this;
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
@@ -539,7 +551,6 @@ export default {
         }
       });
     }, seeSource(row) {
-
       $.ajax({
         url: "/ffbusiness/npcSell/list",
         async: true,
@@ -581,7 +592,6 @@ export default {
     },
     hideSelect() {
       this.itemName = this.selectedValue;
-
     }, seeGather(row) {
       $.ajax({
         url: "/ffbusiness/itemGather/list",
@@ -679,6 +689,5 @@ export default {
       this.worldName = Base64.decode(worldCookie);
     } else this.worldName = "中国";
   }
-
 }
 </script>

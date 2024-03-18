@@ -120,7 +120,7 @@
           <div class="modal-footer">
             <b-button squared variant="outline-dark" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">
               <i
-                class="bi bi-power"></i></b-button>
+                  class="bi bi-power"></i></b-button>
           </div>
         </div>
       </div>
@@ -162,7 +162,9 @@ export default {
   components: {
     LineChart, BarChart
   },
+  props: ['themeColor'],
   data() {
+    let color = this.themeColor;
     return {
       scale: 24,
       worldName: '中国',
@@ -299,7 +301,6 @@ export default {
                 clickRow: this.openSummary
               }
             })
-
           }
         }],
       itemTypes: [],
@@ -343,6 +344,22 @@ export default {
           form.append($columns);
           $('.fixed-table-toolbar>div:not(:first)').remove();
           if (form.children().length > 12) form.children().last().remove();//TODO 魔法值
+          const otherLinks = document.querySelectorAll('.page-link');
+          if (otherLinks) {
+            otherLinks.forEach(link => {
+              link.style.textDecoration = 'none';
+              link.style.borderRadius = '0 !important';
+              link.style.color = 'black';
+              link.style.borderColor = color;
+              link.style.backgroundColor = 'white';
+            });
+          }
+          const active = document.querySelector('.pagination .page-item.active .page-link');
+          if (active) {
+            active.style.color = 'white';
+            active.style.borderColor = color;
+            active.style.backgroundColor = color;
+          }
         }
       },
     }

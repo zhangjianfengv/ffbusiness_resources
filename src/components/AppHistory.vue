@@ -101,7 +101,6 @@ let mobile = false;
 if (window.matchMedia("(max-width: 767px)").matches) {
   mobile = true;
 }
-let options;
 export default {
   mixins: [tableMixin],
   props: ['themeColor'],
@@ -137,44 +136,6 @@ export default {
   },
   data() {
     let color = this.themeColor;
-    options = {
-      url: '/ffbusiness/saleHistory/realData',
-      pagination: "true",
-      sidePagination: "server",
-      method: 'post',
-      contentType: "application/json",
-      queryParamsType: '',
-      queryParams: function (params) {
-        query.pageSize = params.pageSize;
-        query.pageNumber = params.pageNumber;
-        return query
-      },
-      pageNumber: 1,
-      pageSize: 10,
-      toolbar: '#queryForm',
-      paginationUseIntermediate: true,
-      paginationSuccessivelySize: 1,
-      paginationPagesBySide: 1,
-      mobileResponsive: true,
-      showExport: !mobile,
-      icons: {export: "bi bi-download"},
-      checkOnInit: true,
-      pageList: [20, 100, 200, 500, 1000],
-      onPostBody: function () {
-        const otherLinks = document.querySelectorAll('.page-link');
-        otherLinks.forEach(link => {
-          link.style.textDecoration = 'none';
-          link.style.borderRadius = '0 !important';
-          link.style.color = 'black';
-          link.style.borderColor = color;
-          link.style.backgroundColor = 'white';
-        });
-        const active = document.querySelector('.pagination .page-item.active .page-link');
-        active.style.color = 'white';
-        active.style.borderColor = color;
-        active.style.backgroundColor = color;
-      }
-    };
     let columns = [
       {
         field: 'itemId',
@@ -247,7 +208,48 @@ export default {
       onlyHq: 0,
       worldName: '中国',
       columns: columns,
-      options: options,
+      options: {
+        url: '/ffbusiness/saleHistory/realData',
+        pagination: "true",
+        sidePagination: "server",
+        method: 'post',
+        contentType: "application/json",
+        queryParamsType: '',
+        queryParams: function (params) {
+          query.pageSize = params.pageSize;
+          query.pageNumber = params.pageNumber;
+          return query
+        },
+        pageNumber: 1,
+        pageSize: 10,
+        toolbar: '#queryForm',
+        paginationUseIntermediate: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        mobileResponsive: true,
+        showExport: !mobile,
+        icons: {export: "bi bi-download"},
+        checkOnInit: true,
+        pageList: [20, 100, 200, 500, 1000],
+        onAll: function () {
+          const otherLinks = document.querySelectorAll('.page-link');
+          if (otherLinks) {
+            otherLinks.forEach(link => {
+              link.style.textDecoration = 'none';
+              link.style.borderRadius = '0 !important';
+              link.style.color = 'black';
+              link.style.borderColor = color;
+              link.style.backgroundColor = 'white';
+            });
+          }
+          const active = document.querySelector('.pagination .page-item.active .page-link');
+          if (active) {
+            active.style.color = 'white';
+            active.style.borderColor = color;
+            active.style.backgroundColor = color;
+          }
+        }
+      },
       itemTypes: [],
       itemTypeOptions: [],
       clickWorldName: null,
@@ -272,7 +274,7 @@ export default {
         onlyHq: this.onlyHq,
         itemTypes: this.itemTypes
       };
-      options.columns = this.columns;
+      this.options.columns = this.columns;
       $table.bootstrapTable(options)
     },
     onReset(event) {
@@ -292,7 +294,7 @@ export default {
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
-      options.columns = this.columns;
+      this.options.columns = this.columns;
       $table.bootstrapTable(options)
     },
     queryCurrentTable(row) {
