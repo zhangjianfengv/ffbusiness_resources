@@ -1,9 +1,8 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="sm"
-                type="dark"
-                style="background-color: #563d7c;box-shadow: 0 .5rem 1rem rgba(0,0,0,.05),inset 0 -1px 0 rgba(0,0,0,.1);">
+      <b-navbar id="navbar" toggleable="sm"
+                type="dark">
         <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -33,13 +32,20 @@
                                       src="/favicon324c17f2.ico" alt="小程序"></a></div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
-              <template #button-content>
-                <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
-                <em>{{ user.nickname }}</em>，欢迎您！
-              </template>
-              <b-dropdown-item @click="logOut">退出登录</b-dropdown-item>
-            </b-nav-item-dropdown>
+            <b-nav-item right>
+              <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
+            </b-nav-item>
+            <b-dropdown id="dropdown-form" :text="user.nickname+'，欢迎您！'" ref="dropdown" class="m-2">
+              <b-dropdown-item><em>{{ user.nickname }}</em></b-dropdown-item>
+              <b-dropdown-form>
+                <b-form-group label-for="dropdown-form-email" @submit.stop.prevent>
+                  <b-form-input label="主题" id="themeColor" v-model="themeColor" type="color"
+                                @change="applyColor"></b-form-input>
+                </b-form-group>
+              </b-dropdown-form>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item-button @click="logOut">退出登录</b-dropdown-item-button>
+            </b-dropdown>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
@@ -73,7 +79,6 @@
         </div>
       </div>
     </div>
-
     <div>
       <b-modal v-model="showModal" hide-footer @hidden="modalHidden">
         <template #modal-title>
@@ -121,6 +126,14 @@
                 1.物品名称建议功能支持拼音检索<br>
                 2.修复了物品详情和成本页面的物品名称建议功能仅展示可出售物品的问题
             </span>
+              <br>
+              <div>
+                <h6>
+                  2024年3月18日
+                </h6>
+                <span style="font-size: smaller">
+                1.新增切换主题配色功能，位于登录区
+            </span></div>
             </div>
             <!--            body end-->
           </div>
@@ -180,21 +193,6 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   background-color: white;
 }
 
-.page-link {
-  text-decoration: none;
-  border-radius: 0 !important;
-  color: black;
-  border-color: rgb(86, 61, 124);
-  background-color: white;
-}
-
-.page-item.active .page-link {
-  z-index: 3;
-  color: white;
-  border-color: rgb(86, 61, 124);
-  background-color: rgb(86, 61, 124);
-}
-
 .n-link-style {
   color: white !important;
   text-decoration: none;
@@ -228,7 +226,8 @@ export default {
   data() {
     return {
       user: {nickname: '用户'},
-      showModal: false
+      showModal: false,
+      themeColor: localStorage.getItem('themeColor') || '#563d7c'
     }
   },
   components: {
@@ -243,8 +242,29 @@ export default {
   methods: {
     note() {
       $('#note').modal('show');
-    }, answer() {
+    },
+    answer() {
       $('#answer').modal('show');
+    }, applyColor() {
+      const navbar = document.querySelectorAll('#navbar');
+      const dropDown = document.querySelectorAll('#dropdown-form');
+      const otherLinks = document.querySelectorAll('.page-link');
+      $('.page-item.active .page-link').css('color', 'white').css('border-color', this.themeColor).css('background-color', this.themeColor).css('z-index', '3');
+      navbar.forEach(link => {
+        link.style.backgroundColor = this.themeColor;
+        link.style.boxShadow = '0 .5rem 1rem rgba(0, 0, 0, .05), inset 0 -1px 0 rgba(0, 0, 0, .1)';
+      });
+      dropDown.forEach(link => {
+        link.style.backgroundColor = this.themeColor;
+      });
+      otherLinks.forEach(link => {
+        link.style.textDecoration = 'none';
+        link.style.borderRadius = '0 !important';
+        link.style.color = 'black';
+        link.style.borderColor = this.themeColor;
+        link.style.backgroundColor = 'white';
+      });
+      localStorage.setItem('selectedColor', this.themeColor);
     },
     toLogin() {
       QC.Login.showPopup({
@@ -264,7 +284,8 @@ export default {
     closeAnswer() {
       $('#answer').modal('toggle');
     }
-  }, mounted() {
+  },
+  mounted() {
     const vm = this;
     $.ajax({
       url: "/ffbusiness/user/current",
@@ -278,6 +299,11 @@ export default {
     if (!localStorage.getItem('hideModal')) {
       this.showModal = true;
     }
+    let item = localStorage.getItem('themeColor');
+    if (item) {
+      this.themeColor = item;
+    }
+    this.applyColor();
   }
 }
 </script>
