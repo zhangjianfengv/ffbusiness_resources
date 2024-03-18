@@ -96,6 +96,7 @@ let optionCurrent = {
 export default {
   mixins: [tableMixin],
   name: 'current',
+  props: ['themeColor'],
   watch: {
     itemName: function (newValue) {
       const vm = this;
@@ -175,7 +176,6 @@ export default {
       this.queryCurrentForm();
     },
     onReset(event) {
-
       event.preventDefault()
       this.itemName = null;
       this.worldName = "中国";
@@ -190,11 +190,12 @@ export default {
       $historyTable.bootstrapTable('destroy');
     },
     doJob: function (result, vm, $currentTable, $historyTable) {
+      let color = this.themeColor;
       $('#loading-indicator').hide();
       optionCurrent.data = result;
       vm.unFilteredData = result;
       $currentTable.bootstrapTable(optionCurrent);
-      $historyTable.bootstrapTable({
+      let options = {
         data: result,
         dataField: 'realHistoryDtos',
         columns: [{
@@ -235,14 +236,32 @@ export default {
         showSearchClearButton: true,
         paginationSuccessivelySize: 1,
         paginationPagesBySide: 1,
-        pageList: [10, 20, 40]
-      });
+        pageList: [10, 20, 40],
+        onAll: function () {
+          const otherLinks = document.querySelectorAll('.page-link');
+          if (otherLinks) {
+            otherLinks.forEach(link => {
+              link.style.textDecoration = 'none';
+              link.style.borderRadius = '0 !important';
+              link.style.color = 'black';
+              link.style.borderColor = color;
+              link.style.backgroundColor = 'white';
+            });
+          }
+          const active = document.querySelector('.pagination .page-item.active .page-link');
+          if (active) {
+            active.style.color = 'white';
+            active.style.borderColor = color;
+            active.style.backgroundColor = color;
+          }
+        }
+      }
+      $historyTable.bootstrapTable(options);
       let $button = $('button[title="Clear filters"]');
       $button.html('<i class="bi bi-trash3"></i>')
       $button.remove()
     },
     queryCurrent: function (worldName, itemId) {
-
       this.maximum = '0';
       this.itemId = itemId;
       $('#loading-indicator').show();
@@ -317,7 +336,6 @@ export default {
             } else {
               // Handle the case where all promises fail
               const errorResults = results.filter((result) => result.status === 'rejected');
-
               if (errorResults.length === promises.length) {
                 throw new Error("All promises failed");
               } else {
@@ -328,7 +346,6 @@ export default {
           });
     },
     queryCurrentForm() {
-
       let tempItemId;
       let tempItemName;
       const vm = this;
@@ -375,7 +392,6 @@ export default {
       $historyTable.bootstrapTable('clearFilterControl');
     },
     loadMore() {
-
       const vm = this;
       let maximum = this.maximum;
       $.ajax({
@@ -398,7 +414,6 @@ export default {
     },
     hideSelect() {
       this.itemName = this.selectedValue;
-
     }
   },
   mounted() {

@@ -56,6 +56,7 @@ import $ from "jquery";
 export default {
   name: "AppMy",
   components: {Tables},
+  props: ['themeColor'],
   data() {
     return {
       login: false,
@@ -75,6 +76,7 @@ export default {
   },
   mounted() {
     const vm = this;
+    let color = this.themeColor;
     const userCookie = this.$cookies.get('user');
     if (this.isStr(userCookie)) {
       this.login = true;
@@ -89,6 +91,22 @@ export default {
           vm.realData = data;
           $('#loading-indicator').hide();
           $('#content').show();
+          const otherLinks = document.querySelectorAll('.page-link');
+          if (otherLinks) {
+            otherLinks.forEach(link => {
+              link.style.textDecoration = 'none';
+              link.style.borderRadius = '0 !important';
+              link.style.color = 'black';
+              link.style.borderColor = color;
+              link.style.backgroundColor = 'white';
+            });
+          }
+          const active = document.querySelector('.pagination .page-item.active .page-link');
+          if (active) {
+            active.style.color = 'white';
+            active.style.borderColor = color;
+            active.style.backgroundColor = color;
+          }
         }
       });
     }
