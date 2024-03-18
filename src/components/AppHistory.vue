@@ -295,7 +295,7 @@ export default {
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
       this.options.columns = this.columns;
-      $table.bootstrapTable(options)
+      $table.bootstrapTable(this.options)
     },
     queryCurrentTable(row) {
       let id = row.itemId;
