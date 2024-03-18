@@ -110,7 +110,7 @@ export default {
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
               vm.nameOptions = data;
-              vm.showOptions = true;
+              vm.showOptions = data && data.length > 1
             }
           });
         }
@@ -175,7 +175,7 @@ export default {
       this.queryCurrentForm();
     },
     onReset(event) {
-      this.showOptions = false;
+
       event.preventDefault()
       this.itemName = null;
       this.worldName = "中国";
@@ -242,7 +242,7 @@ export default {
       $button.remove()
     },
     queryCurrent: function (worldName, itemId) {
-      this.showOptions = false;
+
       this.maximum = '0';
       this.itemId = itemId;
       $('#loading-indicator').show();
@@ -328,7 +328,7 @@ export default {
           });
     },
     queryCurrentForm() {
-      this.showOptions = false;
+
       let tempItemId;
       let tempItemName;
       const vm = this;
@@ -375,7 +375,7 @@ export default {
       $historyTable.bootstrapTable('clearFilterControl');
     },
     loadMore() {
-      this.showOptions = false;
+
       const vm = this;
       let maximum = this.maximum;
       $.ajax({
@@ -398,7 +398,7 @@ export default {
     },
     hideSelect() {
       this.itemName = this.selectedValue;
-      this.showOptions = false;
+
     }
   },
   mounted() {

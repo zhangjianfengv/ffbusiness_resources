@@ -211,7 +211,7 @@ export default {
             data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
               vm.nameOptions = data;
-              vm.showOptions = true;
+              vm.showOptions = data && data.length > 1
             }
           });
         }
@@ -401,7 +401,7 @@ export default {
   },
   activated() {
     const vm = this;
-    this.showOptions = false;
+
     let id = this.$route.query.id
     if (id) {
       $.ajax({
@@ -421,7 +421,7 @@ export default {
   },
   methods: {
     searchItem() {
-      this.showOptions = false;
+
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       query = {
@@ -446,7 +446,7 @@ export default {
       this.itemId = null;
     },
     resetQueryParams() {
-      this.showOptions = false;
+
       window.location.href = '/#/item';
       let $table = $('#table');
       $('#itemForm')[0].reset();
@@ -468,7 +468,7 @@ export default {
       $table.bootstrapTable(this.options)
     },
     openRecipe(row) {
-      this.showOptions = false;
+
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeList').hide();
@@ -486,7 +486,7 @@ export default {
         }
       });
     }, openList(row) {
-      this.showOptions = false;
+
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeTree').hide();
@@ -517,7 +517,7 @@ export default {
         }
       });
     }, changeWorld() {
-      this.showOptions = false;
+
       const vm = this;
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
@@ -539,7 +539,7 @@ export default {
         }
       });
     }, seeSource(row) {
-      this.showOptions = false;
+
       $.ajax({
         url: "/ffbusiness/npcSell/list",
         async: true,
@@ -581,7 +581,7 @@ export default {
     },
     hideSelect() {
       this.itemName = this.selectedValue;
-      this.showOptions = false;
+
     }, seeGather(row) {
       $.ajax({
         url: "/ffbusiness/itemGather/list",
