@@ -45,8 +45,8 @@ button {
   cursor: pointer;
 }
 
-.pagination .page-item.active .page-link {
-  background-color: white;
+.page-item.active .page-link {
+  background-color: white !important;
 }
 
 </style>
