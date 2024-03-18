@@ -51,7 +51,7 @@
       </b-navbar>
     </div>
     <keep-alive exclude="current">
-      <router-view>
+      <router-view :themeColor="themeColor">
       </router-view>
     </keep-alive>
     <div aria-hidden="true" aria-labelledby="answer" class="modal fade" id="answer" role="dialog" tabindex="-1">
@@ -126,15 +126,15 @@
                 1.物品名称建议功能支持拼音检索<br>
                 2.修复了物品详情和成本页面的物品名称建议功能仅展示可出售物品的问题
             </span>
-              <br>
-              <div>
-                <h6>
-                  2024年3月18日
-                </h6>
-                <span style="font-size: smaller">
+            </div>
+            <br>
+            <div>
+              <h6>
+                2024年3月18日
+              </h6>
+              <span style="font-size: smaller">
                 1.新增切换主题配色功能，位于登录区
             </span></div>
-            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
@@ -219,7 +219,6 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
 import $ from "jquery";
 import '../plugins/qc_jssdk'
 import Base64 from '../plugins/base64'
-import {BAlert} from "bootstrap-vue";
 
 export default {
   name: "App",
@@ -227,11 +226,8 @@ export default {
     return {
       user: {nickname: '用户'},
       showModal: false,
-      themeColor: localStorage.getItem('themeColor') || '#563d7c'
+      themeColor: (localStorage.getItem('themeColor') || '#563d7c')
     }
-  },
-  components: {
-    BAlert
   },
   computed: {
     imageUrl() {
@@ -246,25 +242,23 @@ export default {
     answer() {
       $('#answer').modal('show');
     }, applyColor() {
+      const currentColor = this.themeColor;
       const navbar = document.querySelectorAll('#navbar');
       const dropDown = document.querySelectorAll('#dropdown-form');
-      const otherLinks = document.querySelectorAll('.page-link');
-      $('.page-item.active .page-link').css('color', 'white').css('border-color', this.themeColor).css('background-color', this.themeColor).css('z-index', '3');
+      const form = document.querySelectorAll('#dropdown-form__BV_toggle_');
+      form.forEach(function (element) {
+        element.style.color = 'white';
+        element.style.borderColor = currentColor;
+        element.style.backgroundColor = currentColor;
+      });
       navbar.forEach(link => {
-        link.style.backgroundColor = this.themeColor;
+        link.style.backgroundColor = currentColor;
         link.style.boxShadow = '0 .5rem 1rem rgba(0, 0, 0, .05), inset 0 -1px 0 rgba(0, 0, 0, .1)';
       });
       dropDown.forEach(link => {
-        link.style.backgroundColor = this.themeColor;
+        link.style.backgroundColor = currentColor;
       });
-      otherLinks.forEach(link => {
-        link.style.textDecoration = 'none';
-        link.style.borderRadius = '0 !important';
-        link.style.color = 'black';
-        link.style.borderColor = this.themeColor;
-        link.style.backgroundColor = 'white';
-      });
-      localStorage.setItem('selectedColor', this.themeColor);
+      localStorage.setItem('themeColor', currentColor);
     },
     toLogin() {
       QC.Login.showPopup({

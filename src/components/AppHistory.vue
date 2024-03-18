@@ -2,7 +2,7 @@
   <div id="app">
     <b-form inline id="queryForm" @reset="onReset">
       <div class="input-wrapper">
-        <b-form-input autofocus id="nameKeyword" v-model="itemName" placeholder="关键词或物品ID"
+        <b-form-input id="nameKeyword" v-model="itemName" placeholder="关键词或物品ID"
                       value=""></b-form-input>
         <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
                        @change="hideSelect">
@@ -101,32 +101,10 @@ let mobile = false;
 if (window.matchMedia("(max-width: 767px)").matches) {
   mobile = true;
 }
-let options = {
-  url: '/ffbusiness/saleHistory/realData',
-  pagination: "true",
-  sidePagination: "server",
-  method: 'post',
-  contentType: "application/json",
-  queryParamsType: '',
-  queryParams: function (params) {
-    query.pageSize = params.pageSize;
-    query.pageNumber = params.pageNumber;
-    return query
-  },
-  pageNumber: 1,
-  pageSize: 10,
-  toolbar: '#queryForm',
-  paginationUseIntermediate: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  mobileResponsive: true,
-  showExport: !mobile,
-  icons: {export: "bi bi-download"},
-  checkOnInit: true,
-  pageList: [20, 100, 200, 500, 1000]
-};
+let options;
 export default {
   mixins: [tableMixin],
+  props: ['themeColor'],
   computed: {
     buyerNameInvalidState() {
       if (!this.buyerName) return null;
@@ -158,6 +136,45 @@ export default {
     },
   },
   data() {
+    let color = this.themeColor;
+    options = {
+      url: '/ffbusiness/saleHistory/realData',
+      pagination: "true",
+      sidePagination: "server",
+      method: 'post',
+      contentType: "application/json",
+      queryParamsType: '',
+      queryParams: function (params) {
+        query.pageSize = params.pageSize;
+        query.pageNumber = params.pageNumber;
+        return query
+      },
+      pageNumber: 1,
+      pageSize: 10,
+      toolbar: '#queryForm',
+      paginationUseIntermediate: true,
+      paginationSuccessivelySize: 1,
+      paginationPagesBySide: 1,
+      mobileResponsive: true,
+      showExport: !mobile,
+      icons: {export: "bi bi-download"},
+      checkOnInit: true,
+      pageList: [20, 100, 200, 500, 1000],
+      onPostBody: function () {
+        const otherLinks = document.querySelectorAll('.page-link');
+        otherLinks.forEach(link => {
+          link.style.textDecoration = 'none';
+          link.style.borderRadius = '0 !important';
+          link.style.color = 'black';
+          link.style.borderColor = color;
+          link.style.backgroundColor = 'white';
+        });
+        const active = document.querySelector('.pagination .page-item.active .page-link');
+        active.style.color = 'white';
+        active.style.borderColor = color;
+        active.style.backgroundColor = color;
+      }
+    };
     let columns = [
       {
         field: 'itemId',
@@ -240,7 +257,6 @@ export default {
   },
   methods: {
     searchItem() {
-
       if (this.buyerNameInvalidState) {
         this.$bvModal.show('modal-sm')
         return;
@@ -260,7 +276,6 @@ export default {
       $table.bootstrapTable(options)
     },
     onReset(event) {
-
       event.preventDefault()
       let $table = $('#table');
       $table.bootstrapTable('destroy');
@@ -281,7 +296,6 @@ export default {
       $table.bootstrapTable(options)
     },
     queryCurrentTable(row) {
-
       let id = row.itemId;
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
@@ -315,7 +329,6 @@ export default {
       }
     },
     queryCurrentForm() {
-
       let tempItemId;
       let tempItemName;
       const vm = this;
@@ -351,7 +364,6 @@ export default {
     },
     hideSelect() {
       this.itemName = this.selectedValue;
-
     }
   },
   mounted() {
