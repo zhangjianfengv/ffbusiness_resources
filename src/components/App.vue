@@ -24,6 +24,8 @@
                  @click="note()"><i class="bi bi-clipboard-fill"></i></a>
               <a class="top-button n-link-style"
                  @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV1.1.2.apk"><i
+                  class="bi bi-android"></i></a>
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
                  id="linkWithHiddenText"
@@ -72,7 +74,7 @@
             A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成
             <br>
             5.Q:安卓app无法打开/功能异常？<br>
-            A:请更新到<a href="https://www.ff14pvp.top/package/LuoWeiNaV1.1.1.apk">最新版本</a>
+            A:已修复，请重新下载安装
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeAnswer()" type="button"><i
