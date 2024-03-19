@@ -70,6 +70,9 @@
             A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
             4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
             A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成
+            <br>
+            5.Q:安卓app无法打开/功能异常？<br>
+            A:请更新到<a href="https://www.ff14pvp.top/package/LuoWeiNaV1.1.1.apk">最新版本</a>
           </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeAnswer()" type="button"><i
@@ -101,15 +104,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6>
-                2024年2月17日
-              </h6>
-              <span style="font-size: smaller">
-                1.新增<a href="/luoweina.jpg">微信小程序</a>版本<br>
-                2.新增<a href="https://www.ff14pvp.top/package/LuoWeiNaV1.1.0.apk">安卓app</a>版本。
-            </span></div>
-            <br>
             <div>
               <h6>
                 2024年2月23日
