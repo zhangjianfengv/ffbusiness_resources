@@ -2,10 +2,10 @@
   <div id="app">
     <b-form inline id="queryForm" @reset="onReset">
       <div class="input-wrapper">
-        <b-form-input id="nameKeyword" v-model="itemName" placeholder="关键词或物品ID"
-                      value=""></b-form-input>
-        <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
-                       @change="hideSelect">
+        <b-form-input id="nameKeyword" autocomplete="off" v-model="itemName" placeholder="关键词或物品ID"
+                      value="" @keyup.enter="searchItem"></b-form-input>
+        <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions"
+                       @change="selectChange">
           <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
         </b-form-select>
       </div>
@@ -364,8 +364,9 @@ export default {
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
-    hideSelect() {
+    selectChange() {
       this.itemName = this.selectedValue;
+      this.searchItem();
     }
   },
   mounted() {
