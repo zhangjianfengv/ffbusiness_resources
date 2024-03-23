@@ -93,7 +93,7 @@
           <p>网站已经更新，以下是更新内容：</p>
           <ul>
             <li>物品名称建议功能支持拼音检索</li>
-            <li>修复了物品详情和成本页面的物品名称建议功能仅展示可出售物品的问题</li>
+            <li>新增切换主题配色功能，位于登录区</li>
           </ul>
         </div>
       </b-modal>
@@ -106,14 +106,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6>
-                2024年2月23日
-              </h6>
-              <span style="font-size: smaller">
-                1.安卓app已经用纯原生重写，无任何第三方SDK，包体很小
-            </span></div>
-            <br>
+
             <div>
               <h6>
                 2023年3月16日
@@ -131,6 +124,17 @@
               <span style="font-size: smaller">
                 1.新增切换主题配色功能，位于登录区
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2024年3月23日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品名称提示新增黑话检索：<br>①"g"=藏宝图，"g10"=陈旧的瞪羚革地图，以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
+                2.新增：物品名输入框按下回车键触发查询、弹出物品名提示后选中选项触发查询<br>
+                3.拼音物品名提示不区分输入内容的大小写
+            </span></div>
+
             <!--            body end-->
           </div>
           <div class="modal-footer">

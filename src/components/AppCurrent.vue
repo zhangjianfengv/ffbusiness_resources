@@ -112,7 +112,7 @@ export default {
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
               vm.nameOptions = data;
-              vm.showOptions = data && data.length > 1
+              vm.showOptions = data && (data.length > 1 || newValue.startsWith("g"))
             }
           });
         }
