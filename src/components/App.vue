@@ -76,6 +76,14 @@
             5.Q:安卓app无法打开/功能异常？<br>
             A:已修复，请重新下载安装
           </div>
+          <div>
+            <b-alert show variant="info">
+              <h4 class="alert-heading">使用技巧</h4>
+              <p>
+                黑话检索：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
+              </p>
+            </b-alert>
+          </div>
           <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" @click="closeAnswer()" type="button"><i
                 class="bi bi-power"></i>
@@ -130,11 +138,10 @@
                 2024年3月23日
               </h6>
               <span style="font-size: smaller">
-                1.物品名称提示新增黑话检索：<br>①"g"=藏宝图，"g10"=陈旧的瞪羚革地图，以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
+                1.物品名称提示新增黑话检索：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
                 2.新增：物品名输入框按下回车键触发查询、弹出物品名提示后选中选项触发查询<br>
                 3.拼音物品名提示不区分输入内容的大小写
             </span></div>
-
             <!--            body end-->
           </div>
           <div class="modal-footer">
