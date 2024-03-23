@@ -593,6 +593,7 @@ export default {
     },
     hideSelect() {
       this.itemName = this.selectedValue;
+      this.searchItem();
     }, seeGather(row) {
       $.ajax({
         url: "/ffbusiness/itemGather/list",

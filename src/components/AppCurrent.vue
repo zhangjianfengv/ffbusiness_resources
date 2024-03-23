@@ -415,6 +415,7 @@ export default {
     },
     hideSelect() {
       this.itemName = this.selectedValue;
+      this.searchItem();
     }
   },
   mounted() {
