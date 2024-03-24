@@ -114,17 +114,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
-            <div>
-              <h6>
-                2023年3月16日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品名称建议功能支持拼音检索<br>
-                2.修复了物品详情和成本页面的物品名称建议功能仅展示可出售物品的问题
-            </span>
-            </div>
-            <br>
             <div>
               <h6>
                 2024年3月18日
@@ -142,6 +131,15 @@
                 2.新增：物品名输入框按下回车键触发查询、弹出物品名提示后选中选项触发查询<br>
                 3.拼音物品名提示不区分输入内容的大小写
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年3月17日
+              </h6>
+              <span style="font-size: smaller">
+                1.在<i>物品详情和成本</i>页面可以输入"f""g""t"来查询具体物品列表
+            </span>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
