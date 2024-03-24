@@ -189,6 +189,7 @@ export default {
       $currentTable.bootstrapTable('destroy');
       let $historyTable = $('#historyTable');
       $historyTable.bootstrapTable('destroy');
+      this.showOptions = false;
     },
     doJob: function (result, vm, $currentTable, $historyTable) {
       let color = this.themeColor;
@@ -259,8 +260,9 @@ export default {
       }
       $historyTable.bootstrapTable(options);
       let $button = $('button[title="Clear filters"]');
-      $button.html('<i class="bi bi-trash3"></i>')
-      $button.remove()
+      $button.html('<i class="bi bi-trash3"></i>');
+      $button.remove();
+      this.showOptions = false;
     },
     queryCurrent: function (worldName, itemId) {
       this.maximum = '0';
@@ -391,6 +393,7 @@ export default {
       let $historyTable = $('#historyTable');
       $currentTable.bootstrapTable('clearFilterControl');
       $historyTable.bootstrapTable('clearFilterControl');
+      this.showOptions = false;
     },
     loadMore() {
       const vm = this;
@@ -409,6 +412,7 @@ export default {
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }
       })
+      this.showOptions = false;
     },
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

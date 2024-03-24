@@ -276,6 +276,7 @@ export default {
       };
       this.options.columns = this.columns;
       $table.bootstrapTable(this.options)
+      this.showOptions = false;
     },
     onReset(event) {
       event.preventDefault()
@@ -296,6 +297,7 @@ export default {
       $itemType.selectpicker('refresh');
       this.options.columns = this.columns;
       $table.bootstrapTable(this.options)
+      this.showOptions = false;
     },
     queryCurrentTable(row) {
       let id = row.itemId;

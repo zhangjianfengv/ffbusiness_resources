@@ -461,6 +461,7 @@ export default {
         query: query
       });
       this.itemId = null;
+      this.showOptions = false;
     },
     resetQueryParams() {
       window.location.href = '/#/item';
@@ -482,6 +483,7 @@ export default {
       $itemType.selectpicker('refresh');
       this.options.columns = this.columns;
       $table.bootstrapTable(this.options)
+      this.showOptions = false;
     },
     openRecipe(row) {
       const vm = this;
@@ -498,6 +500,7 @@ export default {
           $('#loading-indicator').hide();
           $('#recipeTree').show();
           vm.treeData = data.tree;
+          vm.showOptions = false;
         }
       });
     }, openList(row) {
@@ -528,6 +531,7 @@ export default {
           }
           vm.errorText = null;
           vm.singeCost = total;
+          vm.showOptions = false;
         }
       });
     }, changeWorld() {
@@ -549,6 +553,7 @@ export default {
           }
           vm.errorText = null;
           vm.singeCost = total;
+          vm.showOptions = false;
         }
       });
     }, seeSource(row) {
@@ -590,6 +595,7 @@ export default {
           });
         }
       });
+      this.showOptions = false;
     },
     hideSelect() {
       this.itemName = this.selectedValue;
@@ -641,6 +647,7 @@ export default {
           });
         }
       });
+      this.showOptions = false;
     },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
