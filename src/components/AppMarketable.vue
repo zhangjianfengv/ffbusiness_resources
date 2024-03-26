@@ -97,7 +97,7 @@
             <div>
               <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
                              @change="changeSummaryScale(summaryScale)"></b-form-select>
-              <span>📌均价已经剔除数值超出平均值加上标准差的两倍的数据</span>
+              <span>※均价已剔除偏离其他值过多的数据</span>
             </div>
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
