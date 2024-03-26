@@ -82,6 +82,12 @@
               <p>
                 黑话检索：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
               </p>
+              <p>
+                物品名可直接输入拼音，不区分大小写
+              </p>
+              <p>
+                登录区有切换主题配色功能
+              </p>
             </b-alert>
           </div>
           <div class="modal-footer">
@@ -116,14 +122,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年3月18日
-              </h6>
-              <span style="font-size: smaller">
-                1.新增切换主题配色功能，位于登录区
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2024年3月23日
               </h6>
               <span style="font-size: smaller">
@@ -140,6 +138,14 @@
                 1.在<i>物品详情和成本</i>页面可以输入"f"、"g"、"t"来查询具体物品列表
             </span>
             </div>
+            <br>
+            <div>
+              <h6>
+                2024年3月26日
+              </h6>
+              <span style="font-size: smaller">
+                1.物品价格走势图默认剔除远离大多数数值的数据点。具体为超出平均值加上标准差的两倍的数据
+            </span></div>
             <!--            body end-->
           </div>
           <div class="modal-footer">

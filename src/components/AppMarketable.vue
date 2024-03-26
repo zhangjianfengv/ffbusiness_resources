@@ -97,6 +97,7 @@
             <div>
               <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
                              @change="changeSummaryScale(summaryScale)"></b-form-select>
+              <span>📌均价已经剔除数值超出平均值加上标准差的两倍的数据</span>
             </div>
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
@@ -462,13 +463,20 @@ export default {
           for (let l of labels) {
             realLabels.push(moment(l).subtract(1, "days").format(format));//因为后端日期总是加一天
           }
+          let priceData = data.values[0].value;
+          const mean = priceData.reduce((acc, val) => acc + val, 0) / priceData.length;
+          const stdDev = Math.sqrt(priceData.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / priceData.length);
+          // 定义阈值为平均值加上标准差的两倍
+          const threshold = mean + (2 * stdDev);
+          // 将超出阈值的数据点替换为null
+          const filteredData = priceData.map(value => value > threshold ? null : value);
           vm.chartData = {
             labels: realLabels,
             datasets: [
               {
                 label: '均价',
                 backgroundColor: '#df9ba1',
-                data: data.values[0].value
+                data: filteredData
               }
             ]
           };
