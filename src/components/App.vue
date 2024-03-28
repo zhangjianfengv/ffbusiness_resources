@@ -24,7 +24,7 @@
                  @click="note()"><i class="bi bi-clipboard-fill"></i></a>
               <a class="top-button n-link-style"
                  @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
-              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV1.1.2.apk"><i
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV1.2.0.apk"><i
                   class="bi bi-android"></i></a>
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
@@ -125,16 +125,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年3月23日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品名称提示新增黑话检索：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
-                2.新增：物品名输入框按下回车键触发查询、弹出物品名提示后选中选项触发查询<br>
-                3.拼音物品名提示不区分输入内容的大小写
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年3月24日
               </h6>
               <span style="font-size: smaller">
@@ -148,6 +138,14 @@
               </h6>
               <span style="font-size: smaller">
                 1.物品价格走势图默认剔除（置空，并非删除）远离大多数数值的数据点。具体为超出平均值±标准差的两倍的数据
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2024年3月28日
+              </h6>
+              <span style="font-size: smaller">
+                1.安卓app适配了返回键和全面屏手势，返回不会直接退出
             </span></div>
             <!--            body end-->
           </div>
