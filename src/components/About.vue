@@ -17,7 +17,7 @@
     >
       <b-carousel-slide
           caption="喵~o(〃＾▽＾〃)o"
-          img-src="/1.jpg"
+          img-src="/0.jpg"
       ></b-carousel-slide>
       <b-carousel-slide
           caption="喵~o(〃＾▽＾〃)o"
