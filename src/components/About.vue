@@ -16,15 +16,15 @@
         @sliding-end="onSlideEnd"
     >
       <b-carousel-slide
-          caption="o(〃＾▽＾〃)o"
+          caption="喵~o(〃＾▽＾〃)o"
           img-src="/1.jpg"
       ></b-carousel-slide>
       <b-carousel-slide
-          caption="o(〃＾▽＾〃)o"
+          caption="喵~o(〃＾▽＾〃)o"
           img-src="/2.jpg"
       ></b-carousel-slide>
       <b-carousel-slide
-          caption="o(〃＾▽＾〃)o"
+          caption="喵~o(〃＾▽＾〃)o"
           img-src="/3.jpg"
       ></b-carousel-slide>
     </b-carousel>
