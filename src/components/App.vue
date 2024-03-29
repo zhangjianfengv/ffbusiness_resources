@@ -24,7 +24,7 @@
                  @click="note()"><i class="bi bi-clipboard-fill"></i></a>
               <a class="top-button n-link-style"
                  @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
-              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV1.2.0.apk"><i
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.0.0.apk"><i
                   class="bi bi-android"></i></a>
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
@@ -73,8 +73,8 @@
             4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
             A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成
             <br>
-            5.Q:安卓app无法打开/功能异常？<br>
-            A:已修复，请重新下载安装
+            5.Q:安卓app无法打开/功能异常/未包含更新笔记提到的功能？<br>
+            A:请重新下载安装
           </div>
           <div>
             <b-alert show variant="info">
@@ -125,15 +125,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年3月24日
-              </h6>
-              <span style="font-size: smaller">
-                1.在<i>物品详情和成本</i>页面可以输入"f"、"g"、"t"来查询具体物品列表
-            </span>
-            </div>
-            <br>
-            <div>
-              <h6>
                 2024年3月26日
               </h6>
               <span style="font-size: smaller">
@@ -147,6 +138,15 @@
               <span style="font-size: smaller">
                 1.安卓app适配了返回键和全面屏手势，返回不会直接退出
             </span></div>
+            <br>
+            <div>
+              <h6>
+                2023年3月29日
+              </h6>
+              <span style="font-size: smaller">
+                1.安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）
+            </span>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
