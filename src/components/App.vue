@@ -1,28 +1,120 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar toggleable="sm" type="dark" variant="info">
-        <b-navbar-brand href="/">最终幻想14微观经济学</b-navbar-brand>
+      <b-navbar id="navbar" toggleable="sm"
+                type="dark">
+        <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item to="/history">销售履历</b-nav-item>
-            <b-nav-item to="/marketable">市场统计</b-nav-item>
-            <b-nav-item to="/item">物品查询</b-nav-item>
-            <b-nav-item to="/current">实时物价</b-nav-item>
-            <b-button variant="info" type="button"
-                      @click="note()"><i class="bi bi-clipboard-fill"></i></b-button>
-            <b-button variant="info" type="button"
-                      href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
-              <i class="bi bi-envelope-at-fill"></i></b-button>
+            <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
+            <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
+            <b-nav-item to="/item" exact-path exact-active-class="active">物品详情和成本</b-nav-item>
+            <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
+            <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
+            <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
+            <div class="container1">
+              <a class="top-button n-link-style"
+                 href="mailto:jianfengfj@foxmail.com?subject=%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%8F%8D%E9%A6%88&body=%E8%AF%B7%E5%A1%AB%E5%86%99%E6%82%A8%E7%9A%84%E5%AE%9D%E8%B4%B5%E6%84%8F%E8%A7%81%E6%88%96%E5%BB%BA%E8%AE%AE">
+                <i class="bi bi-envelope-at-fill"></i></a>
+              <a class="top-button n-link-style"
+                 href="https://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=Am8SZj4VzSRfY5SKTfv6gAov0MnM_SPS&authKey=VT1%2FcriD%2FryxXz%2B%2BSewvL9YbN5pFwvympg%2Bt0XU70OPrvsJ8NBkBIIknzk6wiMVD&noverify=0&group_code=688539775">
+                <i class="bi bi-tencent-qq"></i></a>
+              <a class="top-button n-link-style"
+                 @click="note()"><i class="bi bi-clipboard-fill"></i></a>
+              <a class="top-button n-link-style"
+                 @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.0.0.apk"><i
+                  class="bi bi-android"></i></a>
+              <a class="top-button n-link-style"
+                 href="/luoweina.jpg"
+                 id="linkWithHiddenText"
+                 target="_blank"><img v-b-tooltip.hover title="小程序" width="25px"
+                                      height="25px"
+                                      src="/favicon324c17f2.ico" alt="小程序"></a></div>
+          </b-navbar-nav>
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item right>
+              <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
+            </b-nav-item>
+            <b-dropdown id="dropdown-form" :text="user.nickname+'，欢迎您！'" ref="dropdown" class="m-2">
+              <b-dropdown-item><em>{{ user.nickname }}</em></b-dropdown-item>
+              <b-dropdown-form>
+                <b-form-group label-for="dropdown-form-email" @submit.stop.prevent>
+                  <b-form-input label="主题" id="themeColor" v-model="themeColor" type="color"
+                                @change="applyColor"></b-form-input>
+                </b-form-group>
+              </b-dropdown-form>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item-button @click="logOut">退出登录</b-dropdown-item-button>
+            </b-dropdown>
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
     </div>
     <keep-alive exclude="current">
-      <router-view>
+      <router-view :themeColor="themeColor">
       </router-view>
     </keep-alive>
+    <div aria-hidden="true" aria-labelledby="answer" class="modal fade" id="answer" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content" style="max-width: 380px">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">常见问题</h4>
+          </div>
+          <div class="modal-body">
+            1.Q:为什么销售履历查询有时候非常慢？<br>
+            A:销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是中国>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。如果确实有未优化的查询需求可使用https://www.ff14pvp.top(主域名容易超时)并结合刚刚新增的销售履历导出功能<br>
+            2.Q:实时物价近期速度不太稳定？<br>
+            A:基于统计的线路优化逻辑刚刚更新，近期应该会改善。如果是手机使用WI-FI浏览可开启数据网络加速，具体开启方式各个手机品牌不同，例如小米手机位于设置-WLAN-网络加速：<br>
+            <img src="/network.jpg" alt="手机设置网络加速" loading="lazy" width="340" height="297"><br>
+            3.Q:为什么只有QQ登录？<br>
+            A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
+            4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
+            A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成
+            <br>
+            5.Q:安卓app无法打开/功能异常/未包含更新笔记提到的功能？<br>
+            A:请重新下载安装
+          </div>
+          <div>
+            <b-alert show variant="info">
+              <h4 class="alert-heading">使用技巧</h4>
+              <p>
+                配方成本计算可点击<i class="bi bi-x-square"></i>按钮删除某个已经有的材料不计入总成本
+              </p>
+              <p>
+                物品名可直接输入拼音，不区分大小写
+              </p>
+              <p>
+                登录区有切换主题配色功能
+              </p>
+              <p>
+                黑话检索-输入指定快捷短语会出现关键词列表，选择关键词后会出现实际的可选物品列表（当只有一个选项时不会出现选择框）：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
+              </p>
+            </b-alert>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeAnswer()" type="button"><i
+                class="bi bi-power"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <b-modal v-model="showModal" hide-footer @hidden="modalHidden">
+        <template #modal-title>
+          <span>欢迎回来！🎇🎇🎇</span>
+        </template>
+        <div>
+          <p>网站已经更新，以下是更新内容：</p>
+          <ul>
+            <li>物品名称建议功能支持拼音检索</li>
+            <li>新增切换主题配色功能，位于登录区</li>
+          </ul>
+        </div>
+      </b-modal>
+    </div>
     <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="note" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content" style="max-width: 380px">
@@ -33,32 +125,33 @@
             <!--            body begin-->
             <div>
               <h6>
-                2023年11月11日
+                2024年3月26日
               </h6>
               <span style="font-size: smaller">
-                1.物品查询页面可筛选可出售或者有高品质的物品<br>
-                2.修复了物品查询页面材料清单只到第三级素材的问题
+                1.物品价格走势图默认剔除（置空，并非删除）远离大多数数值的数据点。具体为超出平均值±标准差的两倍的数据
             </span></div>
             <br>
             <div>
               <h6>
-                2023年11月12日
+                2024年3月28日
               </h6>
               <span style="font-size: smaller">
-                1.实时物价查询时会同时查询本站与universalis的接口，只要有一个查询成功就立即展示结果<br>
+                1.安卓app适配了返回键和全面屏手势，返回不会直接退出
             </span></div>
             <br>
             <div>
               <h6>
-                2023年11月17日
+                2023年3月29日
               </h6>
               <span style="font-size: smaller">
-                1. 修复了实时物价查询页面只看HQ开关的有时不起作用的问题
-            </span></div>
+                1.安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）
+            </span>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i class="bi bi-power"></i>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeNote()" type="button"><i
+                class="bi bi-power"></i>
             </button>
           </div>
         </div>
@@ -66,19 +159,157 @@
     </div>
   </div>
 </template>
+<style>
+select.form-control, .form-control.dropdown, .dropdown-menu {
+  width: 100% !important;
+}
 
+@media screen and (min-width: 768px) {
+  select.form-control, .form-control.dropdown, .dropdown-menu {
+    max-width: 220px !important;
+  }
+}
+
+.input-wrapper {
+  width: auto; /* 在PC上默认宽度 */
+}
+
+/* 在小屏幕设备上（例如移动设备）设置输入框宽度为100% */
+@media only screen and (max-width: 768px) {
+  .input-wrapper {
+    width: 100%;
+  }
+}
+
+.bs-bars form, .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table
+.fixed-table-toolbar .search {
+  position: relative;
+  /*width: 100%;*/
+}
+
+.container1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-button {
+  margin: 0 6px;
+}
+
+.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
+  text-decoration: none;
+  border-radius: 0 !important;
+  color: #343a40;
+  border-color: #343a40;
+  background-color: white;
+}
+
+.n-link-style {
+  color: white !important;
+  text-decoration: none;
+}
+
+.black-link-style {
+  color: #212529 !important;
+  text-decoration: underline;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.select-options {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* 保证选择框在最顶层 */
+}
+</style>
 <script>
 import $ from "jquery";
+import '../plugins/qc_jssdk'
+import Base64 from '../plugins/base64'
 
 export default {
   name: "App",
+  data() {
+    return {
+      user: {nickname: '用户'},
+      showModal: false,
+      themeColor: (localStorage.getItem('themeColor') || '#563d7c')
+    }
+  },
+  computed: {
+    imageUrl() {
+      let s = this.user.figureQQ + '';
+      return s.replace(/http:\/\//g, "https://");
+    },
+  },
   methods: {
     note() {
       $('#note').modal('show');
     },
+    answer() {
+      $('#answer').modal('show');
+    }, applyColor() {
+      const currentColor = this.themeColor;
+      const navbar = document.querySelectorAll('#navbar');
+      const dropDown = document.querySelectorAll('#dropdown-form');
+      const form = document.querySelectorAll('#dropdown-form__BV_toggle_');
+      form.forEach(function (element) {
+        element.style.color = 'white';
+        element.style.borderColor = currentColor;
+        element.style.backgroundColor = currentColor;
+      });
+      navbar.forEach(link => {
+        link.style.backgroundColor = currentColor;
+        link.style.boxShadow = '0 .5rem 1rem rgba(0, 0, 0, .05), inset 0 -1px 0 rgba(0, 0, 0, .1)';
+      });
+      dropDown.forEach(link => {
+        link.style.backgroundColor = currentColor;
+      });
+      localStorage.setItem('themeColor', currentColor);
+    },
+    toLogin() {
+      QC.Login.showPopup({
+        appId: Base64.decode("MTAyMDc1MDIx"),
+        redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
+      });
+    },
+    modalHidden() {
+      localStorage.setItem('hideModal', 'true');
+    },
+    logOut() {
+      window.location.href = window.location.origin + '/ffbusiness/user/logOut';
+    },
     closeNote() {
       $('#note').modal('toggle');
+    },
+    closeAnswer() {
+      $('#answer').modal('toggle');
     }
+  },
+  mounted() {
+    const vm = this;
+    $.ajax({
+      url: "/ffbusiness/user/current",
+      method: "post",
+      contentType: "application/json",
+      data: JSON.stringify({}),
+      success: function (data) {
+        vm.user = data;
+      }
+    });
+    if (!localStorage.getItem('hideModal')) {
+      this.showModal = true;
+    }
+    let item = localStorage.getItem('themeColor');
+    if (item) {
+      this.themeColor = item;
+    }
+    this.applyColor();
   }
 }
 </script>

@@ -1,62 +1,71 @@
 <template>
   <div id="app">
     <b-form inline id="queryForm" @reset="onReset">
-      <b-row>
-        <!--        <b-form-input v-model="itemId" id="itemId" placeholder="物品ID" :state="idState" trim></b-form-input>-->
-        <b-form-input list="input-list" v-model="itemName" placeholder="关键词或物品ID" value=""></b-form-input>
-        <b-form-input v-model="buyerName" placeholder="购买者" type="text"
-                      value="" :state="buyerNameState"></b-form-input>
-        <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
-        <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
-        <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
-        </bt-select>
-        <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
-          <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
-          <option value="拉诺西亚">拉诺西亚</option>
-          <option value="幻影群岛">幻影群岛</option>
-          <option value="神意之地">神意之地</option>
-          <option value="萌芽池">萌芽池</option>
-          <option value="红玉海">红玉海</option>
-          <option value="宇宙和音">宇宙和音</option>
-          <option value="沃仙曦染">沃仙曦染</option>
-          <option value="晨曦王座">晨曦王座</option>
-          <option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</option>
-          <option value="紫水栈桥">紫水栈桥</option>
-          <option value="摩杜纳">摩杜纳</option>
-          <option value="海猫茶屋">海猫茶屋</option>
-          <option value="琥珀原">琥珀原</option>
-          <option value="静语庄园">静语庄园</option>
-          <option value="延夏">延夏</option>
-          <option value="柔风海湾">柔风海湾</option>
-          <option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</option>
-          <option value="梦羽宝境">梦羽宝境</option>
-          <option value="旅人栈桥">旅人栈桥</option>
-          <option value="白银乡">白银乡</option>
-          <option value="白金幻象">白金幻象</option>
-          <option value="拂晓之间">拂晓之间</option>
-          <option value="神拳痕">神拳痕</option>
-          <option value="龙巢神殿">龙巢神殿</option>
-          <option value="潮风亭">潮风亭</option>
-          <option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</option>
-          <option value="银泪湖">银泪湖</option>
-          <option value="伊修加德">伊修加德</option>
-          <option value="红茶川">红茶川</option>
-          <option value="太阳海岸">太阳海岸</option>
-          <option value="水晶塔">水晶塔</option>
-          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
+      <div class="input-wrapper">
+        <b-form-input id="nameKeyword" autocomplete="off" v-model="itemName" placeholder="关键词或物品ID"
+                      value="" @keyup.enter="searchItem"></b-form-input>
+        <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions"
+                       @change="selectChange">
+          <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
         </b-form-select>
-        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="searchItem()">
-          仅HQ
-        </b-form-checkbox>
-        <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
-        </b-button>
-        <b-button variant="info" @click="queryCurrentForm()" type="button"><i class="bi bi-cart4"></i>
-        </b-button>
-        <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
-      </b-row>
+      </div>
+      <b-form-input v-model="buyerName" placeholder="购买者" type="text"
+                    value="" :state="buyerNameState"></b-form-input>
+      <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
+      <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+      </bt-select>
+      <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
+        <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</b-form-select-option>
+        <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
+        <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
+        <b-form-select-option value="神意之地">神意之地</b-form-select-option>
+        <b-form-select-option value="萌芽池">萌芽池</b-form-select-option>
+        <b-form-select-option value="红玉海">红玉海</b-form-select-option>
+        <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
+        <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
+        <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
+        <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</b-form-select-option>
+        <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
+        <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
+        <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
+        <b-form-select-option value="琥珀原">琥珀原</b-form-select-option>
+        <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
+        <b-form-select-option value="延夏">延夏</b-form-select-option>
+        <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
+        <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</b-form-select-option>
+        <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
+        <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
+        <b-form-select-option value="白银乡">白银乡</b-form-select-option>
+        <b-form-select-option value="白金幻象">白金幻象</b-form-select-option>
+        <b-form-select-option value="拂晓之间">拂晓之间</b-form-select-option>
+        <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
+        <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
+        <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
+        <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</b-form-select-option>
+        <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
+        <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
+        <b-form-select-option value="红茶川">红茶川</b-form-select-option>
+        <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
+        <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
+        <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
+        </b-form-select-option>
+      </b-form-select>
+      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="searchItem()">
+        仅HQ
+      </b-form-checkbox>
+      <b-button squared variant="outline-dark" class="mx-1" @click="searchItem()" type="button"><i
+          class="bi bi-search"></i>
+      </b-button>
+      <b-button squared variant="outline-dark" @click="queryCurrentForm()" type="button"><i class="bi bi-send"></i>
+      </b-button>
+      <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
+      </b-button>
     </b-form>
-    <b-modal id="modal-sm" size="sm" ok-only ok-variant="info" title="提示">角色名查询须指定物品</b-modal>
-    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-sm" size="sm" ok-only ok- squared variant="outline-dark" title="提示">角色名查询须指定物品
+    </b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
+    </b-modal>
     <div>
       <BootstrapTable id="table"
                       ref="table"
@@ -76,33 +85,8 @@
   </div>
 </template>
 <style>
-.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
-  position: relative;
-  max-width: 94%;
-  margin: 10px 5px;
-}
-
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
-  color: #fff;
-  text-decoration: none;
-  background-color: #17a2b8 !important;
-}
-
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
-  text-decoration: none;
-  background-color: #fff !important;
-}
-
-input.form-control {
-  width: 180px;
-  display: inline !important;
-}
 </style>
 <style scoped>
-#itemType {
-  width: 180px !important;
-}
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -113,31 +97,13 @@ let query = {
   worldName: '中国',
   onlyHq: 0
 };
-
-let options = {
-  url: '/ffbusiness/saleHistory/realData',
-  pagination: "true",
-  sidePagination: "server",
-  method: 'post',
-  contentType: "application/json",
-  queryParamsType: '',
-  queryParams: function (params) {
-    query.pageSize = params.pageSize;
-    query.pageNumber = params.pageNumber;
-    return query
-  },
-  pageNumber: 1,
-  pageSize: 10,
-  toolbar: '#queryForm',
-  paginationUseIntermediate: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  mobileResponsive: true,
-  checkOnInit: true,
-  pageList: [20, 100, 200, 500, 1000]
-};
+let mobile = false;
+if (window.matchMedia("(max-width: 767px)").matches) {
+  mobile = true;
+}
 export default {
   mixins: [tableMixin],
+  props: ['themeColor'],
   computed: {
     buyerNameInvalidState() {
       if (!this.buyerName) return null;
@@ -161,6 +127,7 @@ export default {
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
               vm.nameOptions = data;
+              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
             }
           });
         }
@@ -168,14 +135,18 @@ export default {
     },
   },
   data() {
+    let color = this.themeColor;
     let columns = [
       {
         field: 'itemId',
-        title: '物品ID'
+        title: '物品ID',
+        formatter: (value) => {
+          return '<a class="black-link-style" href="/#/item?id=' + value + '">' + value + '</a>'
+        }
       }, {
         field: 'itemName',
         formatter: (value, row) => {
-          let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
           if (row.hq)
             return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
                 ' decoding="async" width="16" height="16" alt="hq">';
@@ -198,12 +169,26 @@ export default {
       }, {
         field: 'timestamp',
         title: '购买时间'
+      }
+      , {
+        title: '收藏',
+        width: 100,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: row.collect ? '<i class="bi bi-star-fill" @click="operate(row)"></i>' :
+                '<i class="bi bi-star" @click="operate(row)"></i>',
+            data: {row},
+            methods: {
+              operate: this.operateCollect
+            }
+          })
+        }
       }, {
         title: '实时数据',
         width: 100,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-cart4"></i></b-button>',
+            template: '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-send"></i></b-button>',
             data: {row},
             methods: {
               clickRow: this.queryCurrentTable
@@ -223,11 +208,53 @@ export default {
       onlyHq: 0,
       worldName: '中国',
       columns: columns,
-      options: options,
+      options: {
+        url: '/ffbusiness/saleHistory/realData',
+        pagination: "true",
+        sidePagination: "server",
+        method: 'post',
+        contentType: "application/json",
+        queryParamsType: '',
+        queryParams: function (params) {
+          query.pageSize = params.pageSize;
+          query.pageNumber = params.pageNumber;
+          return query
+        },
+        pageNumber: 1,
+        pageSize: 10,
+        toolbar: '#queryForm',
+        paginationUseIntermediate: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        mobileResponsive: true,
+        showExport: !mobile,
+        icons: {export: "bi bi-download"},
+        checkOnInit: true,
+        pageList: [20, 100, 200, 500, 1000],
+        onAll: function () {
+          const otherLinks = document.querySelectorAll('.page-link');
+          if (otherLinks) {
+            otherLinks.forEach(link => {
+              link.style.textDecoration = 'none';
+              link.style.borderRadius = '0 !important';
+              link.style.color = 'black';
+              link.style.borderColor = color;
+              link.style.backgroundColor = 'white';
+            });
+          }
+          const active = document.querySelector('.pagination .page-item.active .page-link');
+          if (active) {
+            active.style.color = 'white';
+            active.style.borderColor = color;
+            active.style.backgroundColor = color;
+          }
+        }
+      },
       itemTypes: [],
       itemTypeOptions: [],
       clickWorldName: null,
-      clickItemId: null
+      selectedValue: '',
+      showOptions: false
     }
   },
   methods: {
@@ -247,8 +274,9 @@ export default {
         onlyHq: this.onlyHq,
         itemTypes: this.itemTypes
       };
-      options.columns = this.columns;
-      $table.bootstrapTable(options)
+      this.options.columns = this.columns;
+      $table.bootstrapTable(this.options)
+      this.showOptions = false;
     },
     onReset(event) {
       event.preventDefault()
@@ -267,15 +295,42 @@ export default {
       let $itemType = $('#itemType');
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
-      let $worldName = $('#worldName');
-      $worldName.selectpicker('val', '中国');
-      $worldName.selectpicker('refresh');
-      options.columns = this.columns;
-      $table.bootstrapTable(options)
+      this.options.columns = this.columns;
+      $table.bootstrapTable(this.options)
+      this.showOptions = false;
     },
     queryCurrentTable(row) {
       let id = row.itemId;
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
+    },
+    operateCollect(row) {
+      let $table = $('#table');
+      const userCookie = this.$cookies.get('user');
+      if (!userCookie) {
+        this.$router.push({name: 'AppMy'});
+        return;
+      }
+      if (!row.collect) {
+        $.ajax({
+          url: "/ffbusiness/listItem/add",
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({itemId: row.itemId}),
+          success: function (data) {
+            $table.bootstrapTable('refresh', {silent: true})
+          }
+        });
+      } else {
+        $.ajax({
+          url: "/ffbusiness/listItem/del",
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({itemId: row.itemId}),
+          success: function (data) {
+            $table.bootstrapTable('refresh', {silent: true})
+          }
+        });
+      }
     },
     queryCurrentForm() {
       let tempItemId;
@@ -308,38 +363,22 @@ export default {
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
-    loadMore(worldName, itemId) {
-      let maximum = this.maximum;
-      $.ajax({
-        url: "/ffbusiness/currentData/queryCurrent",
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify({worldName: worldName, itemId: itemId, maximum: maximum === '1'}),
-        success: function (data) {
-          let $currentTable = $('#currentTable');
-          optionCurrent.data = data;
-          $currentTable.bootstrapTable('destroy').bootstrapTable(optionCurrent);
-          $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
-        }
-      })
-    },
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
+    selectChange() {
+      this.itemName = this.selectedValue;
+      this.searchItem();
+    }
   },
   mounted() {
-    $('select').selectpicker();
+    $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
-      let worldName = Base64.decode(worldCookie);
-      let $worldName = $('#worldName');
-      $worldName.selectpicker('val', worldName);
-      $worldName.selectpicker('refresh');
-      this.worldName = worldName;
-    }
+      this.worldName = Base64.decode(worldCookie);
+    } else this.worldName = "中国";
     $('#date').datepicker({language: 'zh-CN'});
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
-
   }
 }
 

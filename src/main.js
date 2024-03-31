@@ -12,6 +12,8 @@ import App from "@/components/App.vue";
 import AppItem from "@/components/AppItem.vue";
 import VueCookies from 'vue-cookies'
 import AppCurrent from "@/components/AppCurrent.vue";
+import AppMy from "@/components/AppMy.vue";
+import About from "@/components/About.vue";
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -28,6 +30,8 @@ const routes = [
     {path: '/history/', component: AppHistory},
     {path: '/marketable/', component: AppMarketable},
     {path: '/current/', name: 'AppCurrent', component: AppCurrent},
+    {path: '/my/', name: 'AppMy', component: AppMy},
+    {path: '/about/', name: 'AppMy', component: About},
     {path: '/item/', component: AppItem}
 ]
 

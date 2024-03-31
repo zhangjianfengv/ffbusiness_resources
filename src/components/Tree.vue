@@ -3,9 +3,11 @@
     <div
         @click="toggle"
         @dblclick="makeFolder">
-      <span style="font-size: large">  {{
-          item.amount ? (item.itemName + 'X' + item.amount) : item.itemName
-        }}</span>
+      <span style="font-size: large">
+         <a class="black-link-style" target="_blank" :href="'/#/item?id='+item.itemId">{{ item.itemName }}</a>{{
+          item.amount ? ('X' + item.amount) : ''
+        }}
+       </span>
       &nbsp;{{ item.craftJobName ? item.craftJobName : '' }}
       <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
     </div>

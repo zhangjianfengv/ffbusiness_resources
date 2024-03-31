@@ -1,34 +1,39 @@
 <template>
   <div id="app">
     <b-form inline id="queryCurrent" @reset="onReset">
-      <b-row>
-        <b-form-input list="input-list" v-model="itemName" placeholder="物品名" value=""></b-form-input>
-        <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
-        <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
-          <option value="陆行鸟">陆行鸟</option>
-          <option value="猫小胖">猫小胖</option>
-          <option value="莫古力">莫古力</option>
-          <option value="豆豆柴">豆豆柴</option>
-          <option selected value="中国">中国</option>
+      <div class="input-wrapper">
+        <b-form-input list="input-list" autocomplete="off" v-model="itemName" placeholder="物品名"
+                      value="" @keyup.enter="searchItem"></b-form-input>
+        <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
+                       @change="hideSelect">
+          <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
         </b-form-select>
-        <b-button variant="info" class="mx-1" @click="searchItem()" type="button"><i class="bi bi-search"></i>
-        </b-button>
-        <b-button variant="info" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i></b-button>
-        <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0" @change="filterData()"
-                         switch>
-          只看HQ
-        </b-form-checkbox>
-        <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0" style="margin: 5px 9px"
-                         @change="loadMore()" switch>加载更多
-        </b-form-checkbox>
-        <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
-      </b-row>
+      </div>
+      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
+      <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
+      <b-button squared variant="outline-dark" class="mx-1" @click="searchItem()" type="button"><i
+          class="bi bi-search"></i>
+      </b-button>
+      <b-button @click="clearFilterOption()" squared variant="outline-dark" type="button"><i class="bi bi-trash3"></i>
+      </b-button>
+      <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
+      </b-button>
+      <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="filterData()"
+                       switch>HQ
+      </b-form-checkbox>
+      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"
+                       style="margin: 5px 9px"
+                       @change="loadMore()" switch>更多
+      </b-form-checkbox>
+      <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
     </b-form>
-    <b-modal id="modal-item" size="sm" ok-only ok-variant="info" title="提示">查询条件无匹配物品</b-modal>
+    <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
+    </b-modal>
     <table id="currentTable"></table>
     <b-card no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1" role="tab">
-        <b-button block v-b-toggle.accordion-3 variant="info">切换最近销售履历</b-button>
+        <b-button block v-b-toggle.accordion-3 squared variant="outline-dark">切换最近销售履历</b-button>
       </b-card-header>
       <b-collapse id="accordion-3" visible accordion="my-accordion" role="tabpanel">
         <b-card-body>
@@ -41,35 +46,11 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+    <b-modal id="network" size="sm" ok-only ok- squared variant="outline-dark" title="提示">网络异常，正在重试....
+    </b-modal>
   </div>
 </template>
 <style scoped>
-.bootstrap-table .fixed-table-toolbar .bs-bars, .bootstrap-table .fixed-table-toolbar .columns, .bootstrap-table .fixed-table-toolbar .search {
-  position: relative;
-  max-width: 94%;
-  margin: 10px 5px;
-}
-
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
-  color: #fff;
-  text-decoration: none;
-  background-color: #17a2b8 !important;
-}
-
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
-  text-decoration: none;
-  background-color: #fff !important;
-}
-
-input.form-control {
-  max-width: 180px;
-  display: inline !important;
-}
-
-.dropdown, .dropdown-menu {
-  max-width: 200px;
-}
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -111,11 +92,12 @@ let optionCurrent = {
   showSearchClearButton: true,
   paginationSuccessivelySize: 1,
   paginationPagesBySide: 1,
-  pageList: [10, 20, 50, 150, 450],
+  pageList: [10, 20, 50, 150, 450]
 };
 export default {
   mixins: [tableMixin],
   name: 'current',
+  props: ['themeColor'],
   watch: {
     itemName: function (newValue) {
       const vm = this;
@@ -130,6 +112,7 @@ export default {
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
               vm.nameOptions = data;
+              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
             }
           });
         }
@@ -138,7 +121,7 @@ export default {
   },
   computed: {
     imageUrl() {
-      const currentDomain = window.location.origin; // 获取当前域名
+      const currentDomain = "https://static.ff14pvp.top/icon/"; // 获取当前域名
       let itemId = this.itemId;
       if (itemId === '0' || itemId === 0 || !itemId)
         return currentDomain + '/icon/placeholder.png';
@@ -150,13 +133,43 @@ export default {
       maximum: 0,
       itemName: null,
       date: null,
+      selectedValue: '',
+      showOptions: false,
       itemId: '0',
       nameOptions: [],
       timer: null,
       onlyHq: 0,
       worldName: '中国',
       childWorld: null,
-      unFilteredData: []
+      unFilteredData: [],
+      worldNames: [
+        {"value": "陆行鸟", "text": "陆行鸟"},
+        {"value": "猫小胖", "text": "猫小胖"},
+        {"value": "莫古力", "text": "莫古力"},
+        {"value": "豆豆柴", "text": "豆豆柴"},
+        {"value": "中国", "text": "中国"},
+        {
+          label: '国际服',
+          options: [
+            {"value": "Aether", "text": "Aether"},
+            {"value": "Crystal", "text": "Crystal"},
+            {"value": "Elemental", "text": "Elemental"},
+            {"value": "Gaia", "text": "Gaia"},
+            {"value": "Mana", "text": "Mana"},
+            {"value": "Primal", "text": "Primal"},
+            {"value": "Chaos", "text": "Chaos"},
+            {"value": "Light", "text": "Light"},
+            {"value": "Materia", "text": "Materia"},
+            {"value": "Meteor", "text": "Meteor"},
+            {"value": "Dynamis", "text": "Dynamis"},
+            {"value": "Japan", "text": "Japan"},
+            {"value": "North-America", "text": "North-America"},
+            {"value": "Europe", "text": "Europe"},
+            {"value": "Oceania", "text": "Oceania"},
+            {"value": "한국", "text": "한국"}
+          ]
+        }
+      ]
     }
   },
   methods: {
@@ -176,6 +189,80 @@ export default {
       $currentTable.bootstrapTable('destroy');
       let $historyTable = $('#historyTable');
       $historyTable.bootstrapTable('destroy');
+      this.showOptions = false;
+    },
+    doJob: function (result, vm, $currentTable, $historyTable) {
+      let color = this.themeColor;
+      $('#loading-indicator').hide();
+      optionCurrent.data = result;
+      vm.unFilteredData = result;
+      $currentTable.bootstrapTable(optionCurrent);
+      let options = {
+        data: result,
+        dataField: 'realHistoryDtos',
+        columns: [{
+          field: 'worldName',
+          filterControl: 'select',
+          filterDefault: vm.childWorld,
+          title: '服务器'
+        }, {
+          field: 'buyerName',
+          filterControl: 'select',
+          title: '购买者'
+        }, {
+          field: 'hq',
+          formatter: (value) => {
+            return (value === true || value === 'true') ? '✔' : '✗'
+          },
+          title: '高品质',
+          filterControl: 'select'
+        }, {
+          field: 'total',
+          formatter: (value, row) => {
+            return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
+          },
+          title: '总计'
+        }, {
+          field: 'timestamp',
+          formatter: (value) => {
+            return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
+          },
+          title: '购买时间'
+        }],
+        contentType: "application/json",
+        pageNumber: 1,
+        pagination: "true",
+        pageSize: 5,
+        filterControl: true,
+        paginationUseIntermediate: true,
+        showSearchClearButton: true,
+        paginationSuccessivelySize: 1,
+        paginationPagesBySide: 1,
+        pageList: [10, 20, 40],
+        onAll: function () {
+          const otherLinks = document.querySelectorAll('.page-link');
+          if (otherLinks) {
+            otherLinks.forEach(link => {
+              link.style.textDecoration = 'none';
+              link.style.borderRadius = '0 !important';
+              link.style.color = 'black';
+              link.style.borderColor = color;
+              link.style.backgroundColor = 'white';
+            });
+          }
+          const active = document.querySelector('.pagination .page-item.active .page-link');
+          if (active) {
+            active.style.color = 'white';
+            active.style.borderColor = color;
+            active.style.backgroundColor = color;
+          }
+        }
+      }
+      $historyTable.bootstrapTable(options);
+      let $button = $('button[title="Clear filters"]');
+      $button.html('<i class="bi bi-trash3"></i>');
+      $button.remove();
+      this.showOptions = false;
     },
     queryCurrent: function (worldName, itemId) {
       this.maximum = '0';
@@ -191,65 +278,24 @@ export default {
         itemId: itemId
       });
       const request2 = this.performGetRequest("Operation 2",
-          "https://universalis.app/api/v2/" + worldName + '/' + itemId + "?listings=50&noGst=1");
+          "https://universalis.app/api/v2/" + worldName + '/' + itemId + "?listings=50&entries=20&noGst=1");
       // 使用Promise.race等待任意一个操作完成
       Promise.race([request1, request2])
           .then(result => {
-            $('#loading-indicator').hide();
-            optionCurrent.data = result;
-            vm.unFilteredData = result;
-            $currentTable.bootstrapTable(optionCurrent);
-            $historyTable.bootstrapTable({
-              data: result,
-              dataField: 'realHistoryDtos',
-              columns: [{
-                field: 'worldName',
-                filterControl: 'select',
-                filterDefault: vm.childWorld,
-                title: '服务器'
-              }, {
-                field: 'buyerName',
-                filterControl: 'select',
-                title: '购买者'
-              }, {
-                field: 'hq',
-                formatter: (value) => {
-                  return (value === true || value === 'true') ? '✔' : '✗'
-                },
-                title: '高品质',
-                filterControl: 'select'
-              }, {
-                field: 'total',
-                formatter: (value, row) => {
-                  return vm.formatNumber(row.pricePerUnit) + 'X' + vm.formatNumber(row.quantity) + '=' + vm.formatNumber(value)
-                },
-                title: '总计'
-              }, {
-                field: 'timestamp',
-                formatter: (value) => {
-                  return moment.unix(value).format('yyyy/MM/DD HH:mm:ss')
-                },
-                title: '购买时间'
-              }],
-              contentType: "application/json",
-              pageNumber: 1,
-              pagination: "true",
-              pageSize: 5,
-              filterControl: true,
-              paginationUseIntermediate: true,
-              showSearchClearButton: true,
-              paginationSuccessivelySize: 1,
-              paginationPagesBySide: 1,
-              pageList: [10, 20, 40]
-            });
-            $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
+            vm.doJob(result, vm, $currentTable, $historyTable);
           })
           .catch(error => {
-            // 如果任何一个操作出现异常，这里的代码将被执行
-            console.error("At least one operation encountered an exception:", error.message);
-            // 这里可以根据需要处理异常，比如记录日志或返回错误信息给客户端
+            console.log("failed with error:", error);
+            vm.$bvModal.show('network');
+            vm.raceAndHandle([request2, request1])
+                .then((result) => {
+                  vm.doJob(result, vm, $currentTable, $historyTable);
+                })
+                .catch((error) => {
+                  $('#loading-indicator').hide();
+                  console.log("Race and Handle failed with error:", error);
+                });
           });
-
     },
     performPostRequest(operationName, url, data) {
       return fetch(url, {
@@ -283,6 +329,24 @@ export default {
       }).catch(error => {
         throw error;
       });
+    },
+    raceAndHandle(promises) {
+      return Promise.race([Promise.allSettled(promises), new Promise((_, reject) => setTimeout(() => reject("Timeout"), 100000))])
+          .then((results) => {
+            const successResult = results.find((result) => result.status === 'fulfilled');
+            if (successResult) {
+              return successResult.value;
+            } else {
+              // Handle the case where all promises fail
+              const errorResults = results.filter((result) => result.status === 'rejected');
+              if (errorResults.length === promises.length) {
+                throw new Error("All promises failed");
+              } else {
+                // Handle other cases if needed
+                // ...
+              }
+            }
+          });
     },
     queryCurrentForm() {
       let tempItemId;
@@ -324,6 +388,13 @@ export default {
         $historyTable.bootstrapTable('load', this.unFilteredData)
       }
     },
+    clearFilterOption() {
+      let $currentTable = $('#currentTable');
+      let $historyTable = $('#historyTable');
+      $currentTable.bootstrapTable('clearFilterControl');
+      $historyTable.bootstrapTable('clearFilterControl');
+      this.showOptions = false;
+    },
     loadMore() {
       const vm = this;
       let maximum = this.maximum;
@@ -341,15 +412,26 @@ export default {
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }
       })
+      this.showOptions = false;
     },
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
+    hideSelect() {
+      this.itemName = this.selectedValue;
+      this.searchItem();
+    }
   },
   mounted() {
     $('#loading-indicator').hide();
-    $('select').selectpicker();
-    let $worldName = $('#worldName');
+    const vm = this;
+    this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
+      if (modalId === 'network') {
+        setTimeout(function () {
+          vm.$bvModal.hide('network')
+        }, 3000);
+      }
+    })
     const worldCookie = this.$cookies.get('world');
     let worldName;
     if (this.isStr(worldCookie)) {
@@ -358,7 +440,6 @@ export default {
     const param = this.$route.params.worldName;
     if (param) worldName = param;
     const itemId = this.$route.params.itemId;
-    const vm = this;
     if (worldName) {
       switch (worldName) {
         case "陆行鸟":
@@ -371,8 +452,6 @@ export default {
             this.itemName = this.$route.params.itemName;
           }
           this.worldName = worldName;
-          $worldName.selectpicker('val', worldName);
-          $worldName.selectpicker('refresh');
           break;
         default: {
           vm.childWorld = worldName;
@@ -385,8 +464,6 @@ export default {
                 vm.itemName = vm.$route.params.itemName;
               }
               vm.worldName = data.worldName
-              $worldName.selectpicker('val', data.worldName);
-              $worldName.selectpicker('refresh');
             }
           });
         }

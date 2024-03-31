@@ -1,17 +1,61 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+    <meta charset="UTF-8">
+
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+
+    <meta name="keywords"
+          content="市场统计,ff14,板子PVP,最终幻想14,市场,经济,罗薇娜的手抄本,最终幻想14微观经济学,林梢攻略站,ff14微观经济学">
+
+    <meta name="description"
+          content="ff14市场布告板实时价格、畅销物品、贵重物品排行、市场物价统计、物品高级筛选，配方成本计算。使用技巧：直接输入拼音检索、查看物价走势图，计算配方成本、黑话检索：①g=藏宝图g10=陈旧的瞪羚革地图以此类推(绿图=g0)>②f=时装（富婆衣）③t=各种头花">
+
+    <meta name="applicable-device" content="pc,wap">
+
+    <meta name="MobileOptimized" content="width">
+
+    <meta name="HandheldFriendly" content="true">
+
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+    <title>罗薇娜的手抄本 | 最终幻想14微观经济学 | 林梢攻略站 | ff14微观经济学</title>
+    <style>
+        .hidden-text {
+            display: none; /* 使用 display: none; 将文字隐藏 */
+        }
+    </style>
+</head>
+<body>
+<div class="hidden-text">
+    <div>
+        <p>网站已经更新，以下是更新内容：</p>
+        <ul>
+            <li>物品名称建议功能支持拼音检索</li>
+            <li>新增切换主题配色功能，位于登录区</li>
+        </ul>
+    </div>
+    销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是中国>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。如果确实有未优化的查询需求可使用https://www.ff14pvp.top(主域名容易超时)并结合刚刚新增的销售履历导出功能<br>
+    2.Q:实时物价近期速度不太稳定？<br>
+    A:基于统计的线路优化逻辑刚刚更新，近期应该会改善。如果是手机使用WI-FI浏览可开启数据网络加速，具体开启方式各个手机品牌不同，例如小米手机位于设置-WLAN-网络加速：<br>
+    <img src="/network.jpg" alt="手机设置网络加速" loading="lazy" width="340" height="297"><br>
+    3.Q:为什么只有QQ登录？<br>
+    A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
+    4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
+    A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成
+</div>
+
+<noscript>
+    <strong>We're sorry but 罗薇娜的手抄本 doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
 </html>

@@ -3,47 +3,52 @@
     <b-form inline id="marketableForm" ref="marketableForm">
       <b-form-group>
         <b-form-select v-model="worldName" id="worldName">
-          <option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟</option>
-          <option value="拉诺西亚">拉诺西亚</option>
-          <option value="幻影群岛">幻影群岛</option>
-          <option value="神意之地">神意之地</option>
-          <option value="萌芽池">萌芽池</option>
-          <option value="红玉海">红玉海</option>
-          <option value="宇宙和音">宇宙和音</option>
-          <option value="沃仙曦染">沃仙曦染</option>
-          <option value="晨曦王座">晨曦王座</option>
-          <option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖</option>
-          <option value="紫水栈桥">紫水栈桥</option>
-          <option value="摩杜纳">摩杜纳</option>
-          <option value="海猫茶屋">海猫茶屋</option>
-          <option value="琥珀原">琥珀原</option>
-          <option value="静语庄园">静语庄园</option>
-          <option value="延夏">延夏</option>
-          <option value="柔风海湾">柔风海湾</option>
-          <option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力</option>
-          <option value="梦羽宝境">梦羽宝境</option>
-          <option value="旅人栈桥">旅人栈桥</option>
-          <option value="白银乡">白银乡</option>
-          <option value="白金幻象">白金幻象</option>
-          <option value="拂晓之间">拂晓之间</option>
-          <option value="神拳痕">神拳痕</option>
-          <option value="龙巢神殿">龙巢神殿</option>
-          <option value="潮风亭">潮风亭</option>
-          <option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴</option>
-          <option value="银泪湖">银泪湖</option>
-          <option value="伊修加德">伊修加德</option>
-          <option value="红茶川">红茶川</option>
-          <option value="太阳海岸">太阳海岸</option>
-          <option value="水晶塔">水晶塔</option>
-          <option selected value="中国" style="font-weight: bold;font-style: italic;">中国</option>
+          <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic;">陆行鸟
+          </b-form-select-option>
+          <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
+          <b-form-select-option value="幻影群岛">幻影群岛</b-form-select-option>
+          <b-form-select-option value="神意之地">神意之地</b-form-select-option>
+          <b-form-select-option value="萌芽池">萌芽池</b-form-select-option>
+          <b-form-select-option value="红玉海">红玉海</b-form-select-option>
+          <b-form-select-option value="宇宙和音">宇宙和音</b-form-select-option>
+          <b-form-select-option value="沃仙曦染">沃仙曦染</b-form-select-option>
+          <b-form-select-option value="晨曦王座">晨曦王座</b-form-select-option>
+          <b-form-select-option value="猫小胖" style="font-weight: bold;font-style: italic;">猫小胖
+          </b-form-select-option>
+          <b-form-select-option value="紫水栈桥">紫水栈桥</b-form-select-option>
+          <b-form-select-option value="摩杜纳">摩杜纳</b-form-select-option>
+          <b-form-select-option value="海猫茶屋">海猫茶屋</b-form-select-option>
+          <b-form-select-option value="琥珀原">琥珀原</b-form-select-option>
+          <b-form-select-option value="静语庄园">静语庄园</b-form-select-option>
+          <b-form-select-option value="延夏">延夏</b-form-select-option>
+          <b-form-select-option value="柔风海湾">柔风海湾</b-form-select-option>
+          <b-form-select-option value="莫古力" style="font-weight: bold;font-style: italic;">莫古力
+          </b-form-select-option>
+          <b-form-select-option value="梦羽宝境">梦羽宝境</b-form-select-option>
+          <b-form-select-option value="旅人栈桥">旅人栈桥</b-form-select-option>
+          <b-form-select-option value="白银乡">白银乡</b-form-select-option>
+          <b-form-select-option value="白金幻象">白金幻象</b-form-select-option>
+          <b-form-select-option value="拂晓之间">拂晓之间</b-form-select-option>
+          <b-form-select-option value="神拳痕">神拳痕</b-form-select-option>
+          <b-form-select-option value="龙巢神殿">龙巢神殿</b-form-select-option>
+          <b-form-select-option value="潮风亭">潮风亭</b-form-select-option>
+          <b-form-select-option value="豆豆柴" style="font-weight: bold;font-style: italic;">豆豆柴
+          </b-form-select-option>
+          <b-form-select-option value="银泪湖">银泪湖</b-form-select-option>
+          <b-form-select-option value="伊修加德">伊修加德</b-form-select-option>
+          <b-form-select-option value="红茶川">红茶川</b-form-select-option>
+          <b-form-select-option value="太阳海岸">太阳海岸</b-form-select-option>
+          <b-form-select-option value="水晶塔">水晶塔</b-form-select-option>
+          <b-form-select-option selected value="中国" style="font-weight: bold;font-style: italic;">中国
+          </b-form-select-option>
         </b-form-select>
         <b-form-select id="timeScale" v-model="scale">
-          <option value="8">统计8小时</option>
-          <option selected value="24">统计24小时</option>
-          <option value="72">统计3天</option>
-          <option value="168">统计7天</option>
-          <option value="360">统计15天</option>
-          <option value="720">统计30天</option>
+          <b-form-select-option value="8">统计8小时</b-form-select-option>
+          <b-form-select-option selected value="24">统计24小时</b-form-select-option>
+          <b-form-select-option value="72">统计3天</b-form-select-option>
+          <b-form-select-option value="168">统计7天</b-form-select-option>
+          <b-form-select-option value="360">统计15天</b-form-select-option>
+          <b-form-select-option value="720">统计30天</b-form-select-option>
         </b-form-select>
         <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
         </bt-select>
@@ -54,12 +59,17 @@
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
         <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
         <b-form-select id="sortType" v-model="sortType">
-          <option selected value="1">按交易次数排序</option>
-          <option value="2">按售出总数排序</option>
+          <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
+          <b-form-select-option value="2">按售出总数排序</b-form-select-option>
         </b-form-select>
-        <b-button variant="info" class="mx-1" @click="filterMarketable()" type="button"><i class="bi bi-search"></i></b-button>
-        <b-button variant="info" @click="resetMarketable()" type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
-        <b-button variant="info" class="mx-1" @click="openUpdateTimeTable()" type="button"><i class="bi bi-calendar-month"></i>
+        <b-button squared variant="outline-dark" class="mx-1" @click="filterMarketable()" type="button"><i
+            class="bi bi-search"></i>
+        </b-button>
+        <b-button squared variant="outline-dark" @click="resetMarketable()" type="button"><i
+            class="bi bi-arrow-clockwise"></i>
+        </b-button>
+        <b-button squared variant="outline-dark" class="mx-1" @click="openUpdateTimeTable()" type="button"><i
+            class="bi bi-calendar-month"></i>
         </b-button>
       </b-form-group>
     </b-form>
@@ -76,7 +86,8 @@
         <span><i class="bi bi-github"></i></span>
       </a>
     </div>
-    <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="summaryModal" role="dialog" tabindex="-1">
+    <div aria-hidden="true" aria-labelledby="summaryTable" class="modal fade" id="summaryModal" role="dialog"
+         tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -84,8 +95,9 @@
           </div>
           <div class="modal-body">
             <div>
-              <b-form-select v-model="summaryScale" :options="summaryOptions"
+              <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
                              @change="changeSummaryScale(summaryScale)"></b-form-select>
+              <span>※均价已剔除偏离其他值过多的数据</span>
             </div>
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
@@ -107,51 +119,29 @@
             <table id="updateTimeTable"></table>
           </div>
           <div class="modal-footer">
-            <b-button variant="info" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button"><i
-                class="bi bi-power"></i></b-button>
+            <b-button squared variant="outline-dark" data-dismiss="modal" @click="closeUpdateTimeTable()" type="button">
+              <i
+                  class="bi bi-power"></i></b-button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<style>
-.custom-select {
-  padding: 0 !important;
-}
-
-.dropdown-item.active, .dropdown-item:active, .btn-secondary, .btn-info {
-  color: #fff;
-  text-decoration: none;
-  background-color: #17a2b8 !important;
-}
-
-.page-item.active, .page-link {
-  color: #17a2b8 !important;
-  text-decoration: none;
-  background-color: #fff !important;
-}
-
-.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-  width: auto;
-}
-
-.dropdown, .dropdown-menu {
-  max-width: 200px;
-}
-
-.color-today {
-  color: #17a2b8;
-}
-</style>
-
 <style scoped>
-.form-control {
-  max-width: 108px !important;
-}
-
 a, a:hover {
   color: #343a40;
+}
+
+.modal-select {
+  width: 80px;
+}
+
+@media screen and (max-width: 1000px) {
+  .modal {
+    max-width: 100%; /* 当设备宽度小于或等于600px时，弹框宽度为设备宽度的100% */
+    width: 400px; /* 当设备宽度小于或等于600px时，弹框宽度为设备宽度的100% */
+  }
 }
 
 </style>
@@ -162,6 +152,7 @@ import Base64 from '../plugins/base64'
 import LineChart from "@/components/LineChart.vue";
 import BarChart from "@/components/BarChart.vue";
 import moment from "moment";
+import {initTooltip} from "@thewakingsands/kit-tooltip";
 
 let queryMarketable = {
   worldName: '中国',
@@ -172,7 +163,9 @@ export default {
   components: {
     LineChart, BarChart
   },
+  props: ['themeColor'],
   data() {
+    let color = this.themeColor;
     return {
       scale: 24,
       worldName: '中国',
@@ -190,6 +183,7 @@ export default {
         {value: '15', text: '15天'},
         {value: '30', text: '30天'},
         {value: '90', text: '90天'},
+        {value: '180', text: '180天'},
         {value: 'all', text: '所有时间'}
       ],
       columns: [
@@ -210,8 +204,8 @@ export default {
           field: 'name',
           sortable: true,
           formatter: function iconFormatter(value, row) {
-            let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+            let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<span data-ck-item-id="' + row.itemId + '">' + value + '</span>';
           },
           title: '物品名称'
         }, {
@@ -299,8 +293,8 @@ export default {
           formatter: (value, row) => {
             let template;
             if (row.quantityIndexChange < 0)
-              template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
-            else template = '<b-button variant="info" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
+              template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-graph-up-arrow"></i></b-button>';
+            else template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-graph-down-arrow"></i></b-button>'
             return this.vueFormatter({
               template: template,
               data: {row},
@@ -308,7 +302,6 @@ export default {
                 clickRow: this.openSummary
               }
             })
-
           }
         }],
       itemTypes: [],
@@ -341,16 +334,33 @@ export default {
         showColumns: true,
         showColumnsToggleAll: true,
         showExport: true,
+        mobileResponsive: true,
         icons: {columns: 'bi bi-list-ul', export: "bi bi-download"},
         contentType: "application/json",
         onAll: function () {
           let $columns = $('.columns');
-          $columns.css('margin', '0')
           $columns.removeClass('float-right')
+          $columns.removeClass('columns')
           let form = $('#marketableForm>fieldset.form-group>div');
           form.append($columns);
           $('.fixed-table-toolbar>div:not(:first)').remove();
           if (form.children().length > 12) form.children().last().remove();//TODO 魔法值
+          const otherLinks = document.querySelectorAll('.page-link');
+          if (otherLinks) {
+            otherLinks.forEach(link => {
+              link.style.textDecoration = 'none';
+              link.style.borderRadius = '0 !important';
+              link.style.color = 'black';
+              link.style.borderColor = color;
+              link.style.backgroundColor = 'white';
+            });
+          }
+          const active = document.querySelector('.pagination .page-item.active .page-link');
+          if (active) {
+            active.style.color = 'white';
+            active.style.borderColor = color;
+            active.style.backgroundColor = color;
+          }
         }
       },
     }
@@ -367,19 +377,13 @@ export default {
         minQuantity: this.minQuantity,
         itemTypes: this.itemTypes
       };
-      let $sortType = $('#sortType');
       this.sortType = "1";
-      $sortType.selectpicker('val', '1');
-      $sortType.selectpicker('refresh');
       $marketableTable.bootstrapTable('refresh', {
         query: queryMarketable
       });
     },
     resetMarketable() {
       let $itemType = $('#itemType');
-      let $worldName = $('#worldName');
-      let $timeScale = $('#timeScale');
-      let $sortType = $('#sortType');
       let $marketableTable = $('#marketableTable');
       $('#marketableForm')[0].reset();
       this.scale = 24;
@@ -390,12 +394,6 @@ export default {
       this.itemTypes = [];
       this.minQuantity = null;
       $itemType.selectpicker('val', []);
-      $worldName.selectpicker('val', '中国');
-      $timeScale.selectpicker('val', 24);
-      $sortType.selectpicker('val', '1');
-      $sortType.selectpicker('refresh');
-      $timeScale.selectpicker('refresh');
-      $worldName.selectpicker('refresh');
       $itemType.selectpicker('refresh');
       this.searchText = null;
       queryMarketable = {
@@ -419,22 +417,29 @@ export default {
           title: '更新于',
           formatter: function (value, row) {
             let s = row.end.substring(0, 19);
-            if (row.scale / 24 > 1 && (moment().format(format) === row.end.substring(0, 10)))
-              return '<span class="color-today">' + s + '</span>';
-            return s;
+            let today = moment().format(format) === row.end.substring(0, 10);
+            if (row.scale / 24 > 1) {
+              s = s.substring(0, 10)
+              if (today)
+                return '<span style="color: #17a2b8;">' + s + '</span>';
+              return s;
+            } else return s;
           }
         }, {
           field: 'next',
           title: '下次更新',
-          formatter: function (value) {
-            return value.substring(0, 19);
+          formatter: function (value, row) {
+            if (row.scale / 24 > 1) {
+              value = value.substring(0, 10)
+            }
+            return value;
           }
         }], method: 'post',
         contentType: "application/json"
       });
     },
     openSummary(row) {
-      let url = window.location.protocol + '//' + window.location.host + '/icon/' + row.itemId + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
       $('#summaryModal').modal('show');
@@ -458,13 +463,20 @@ export default {
           for (let l of labels) {
             realLabels.push(moment(l).subtract(1, "days").format(format));//因为后端日期总是加一天
           }
+          let priceData = data.values[0].value;
+          const mean = priceData.reduce((acc, val) => acc + val, 0) / priceData.length;
+          const stdDev = Math.sqrt(priceData.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / priceData.length);
+          // 定义阈值为平均值加上标准差的两倍
+          const threshold = mean + (2 * stdDev);
+          // 将超出阈值的数据点替换为null
+          const filteredData = priceData.map(value => value > threshold ? null : value);
           vm.chartData = {
             labels: realLabels,
             datasets: [
               {
                 label: '均价',
                 backgroundColor: '#df9ba1',
-                data: data.values[0].value
+                data: filteredData
               }
             ]
           };
@@ -495,14 +507,26 @@ export default {
     }
   },
   mounted() {
-    $('select').selectpicker();
+    initTooltip({
+      context: {
+        apiBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/item',  // xivapi 或 cafemaker 的 url；最后不要有斜线
+        iconBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/i', // 图标 cdn 的 url；最后不要有斜线
+        defaultHq: true,  // 是否默认显示 HQ 数据
+        hideSeCopyright: false, // 是否隐藏 SE 版权信息
+      },
+      links: {
+        detectWikiLinks: true,  // 是否自动识别 wiki 物品链接
+        itemNameAttribute: 'data-ck-item-name', // 自定义悬浮窗时，声明物品名字的属性
+        itemIdAttribute: 'data-ck-item-id', // 自定义悬浮窗时，声明物品 ID 的属性
+        actionNameAttribute: 'data-ck-action-name', // 自定义悬浮窗时，声明技能名字的属性
+        actionIdAttribute: 'data-ck-action-id', // 自定义悬浮窗时，声明技能 ID 的属性
+        rootContainer: document.body, // 监控的根元素
+      },
+    })
+    $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
-      let worldName = Base64.decode(worldCookie);
-      let $worldName = $('#worldName');
-      $worldName.selectpicker('val', worldName);
-      $worldName.selectpicker('refresh');
-      this.worldName = worldName;
+      this.worldName = Base64.decode(worldCookie);
     }
     let $sortType = $('#sortType');
     $sortType.change(function () {
