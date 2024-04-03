@@ -155,7 +155,7 @@
             <h4 class="modal-title" style="margin: 0 auto" id="gatherLabel"></h4>
           </div>
           <div class="modal-body" style="text-align: center">
-            当前艾欧泽亚时间：&nbsp;<b>{{ ETStr }}</b><br>
+            当前艾欧泽亚时间：&nbsp;<b>{{ ETStr }}</b><br><br>
             <BootstrapTable id="gatherTable"
                             ref="gatherTable"
                             @on-post-body="vueFormatterPostBody"/>
