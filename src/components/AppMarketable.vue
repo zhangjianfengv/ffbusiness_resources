@@ -234,11 +234,11 @@ export default {
           sortable: true,
           title: '排序较上次',
           formatter: function changeFormatter(value, row) {
-            if (!$.isNumeric(row.quantityIndexChange)) return 99999
+            if (!$.isNumeric(row.quantityIndexChange)) return -99999
             else if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return 99999;
+            else return -99999;
           },
         }, {
           field: 'quantityIndexCurrent',
@@ -254,7 +254,7 @@ export default {
             if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return 99999
+            else return -99999
           },
         }, {
           field: 'pricePerUnit',
