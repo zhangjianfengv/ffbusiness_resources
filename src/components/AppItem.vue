@@ -154,7 +154,8 @@
           <div class="modal-header">
             <h4 class="modal-title" style="margin: 0 auto" id="gatherLabel"></h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" style="text-align: center">
+            当前ET：&nbsp;<b>{{ ETStr }}</b>
             <BootstrapTable id="gatherTable"
                             ref="gatherTable"
                             @on-post-body="vueFormatterPostBody"/>
@@ -192,6 +193,7 @@ import $ from "jquery";
 import Tree from "@/components/Tree.vue";
 import Base64 from "@/plugins/base64.js";
 import {initTooltip} from "@thewakingsands/kit-tooltip";
+import moment from "moment";
 
 let query = {};
 export default {
@@ -615,8 +617,7 @@ export default {
           $('#gatherModal').modal('show');
           let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
           $('#gatherLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点 &nbsp;当前ET:<span>' + ET +
-              '</span>');
+              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
           $sourceTable.bootstrapTable({
             data: data,
             columns: [{
@@ -644,16 +645,57 @@ export default {
                 } else return '';
               },
               title: 'ET'
+            }, {
+              formatter: (value, row) => {
+                if (row.type && row.et1) {
+                  let s;
+                  const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+                  const etSeconds = currentTimeStampInSeconds * 720 / 35;
+                  const hours = Math.floor(etSeconds / 3600) % 24;
+                  const minutes = Math.floor((etSeconds % 3600) / 60);
+                  const firstTime = row.et1;
+                  const secondTime = row.et2;
+                  const currentTime = moment('2000-01-01 ' + hours + ':' + minutes + ':00', 'YYYY-MM-DD HH:mm:ss');
+                  const currentTimeFormatted = currentTime.format('HH:mm');
+                  let diff1;
+                  let diff2 = null;
+                  if (secondTime) {
+                    if (currentTimeFormatted >= secondTime) {
+                      currentTime.add(1, 'day');
+                      const nextDayFormatted = currentTime.format('YYYY-MM-DD');
+                      const nextSecondTime = moment(`${nextDayFormatted} ${secondTime}`, 'YYYY-MM-DD HH');
+                      diff2 = nextSecondTime.diff(currentTime, 'minutes');
+                    } else {
+                      diff2 = moment(secondTime, 'HH').diff(currentTime, 'minutes');
+                    }
+                  }
+                  if (currentTimeFormatted >= firstTime) {
+                    currentTime.add(1, 'day');
+                    const nextDayFormatted = currentTime.format('YYYY-MM-DD');
+                    const nextSecondTime = moment(`${nextDayFormatted} ${firstTime}`, 'YYYY-MM-DD HH');
+                    diff1 = nextSecondTime.diff(currentTime, 'minutes');
+                  } else {
+                    diff1 = moment(firstTime, 'HH').diff(currentTime, 'minutes');
+                  }
+                  if (diff1) s = '距离艾欧泽亚时间' + firstTime + '时还有' + diff1 * 35 / 780 + '分' + diff1 * 60 * 35 / 780 % 60 + '秒<br/>'
+                  if (diff2) s = s + '距离艾欧泽亚时间' + secondTime + '时还有' + diff2 * 35 / 780 + '分' + diff2 * 60 * 35 / 780 % 60 + '秒<br/>'
+                  return s;
+                } else return '';
+              },
+              title: '采集时间'
             }],
             mobileResponsive: true,
             checkOnInit: true
           });
+          setInterval(function () {
+            $sourceTable.bootstrapTable('refresh', {silent: true});
+          }, 1000);
         }
       });
       this.showOptions = false;
     },
     eorzeaTime() {
-      const currentTimeStampInSeconds = Date.now() / 1000;//TODO:需不需要math.floor?
+      const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
       const etSeconds = currentTimeStampInSeconds * 720 / 35;
       const hours = Math.floor(etSeconds / 3600) % 24;
       const minutes = Math.floor((etSeconds % 3600) / 60);
