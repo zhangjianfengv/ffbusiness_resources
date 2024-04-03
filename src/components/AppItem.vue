@@ -155,7 +155,7 @@
             <h4 class="modal-title" style="margin: 0 auto" id="gatherLabel"></h4>
           </div>
           <div class="modal-body" style="text-align: center">
-            当前ET：&nbsp;<b>{{ ETStr }}</b>
+            当前艾欧泽亚时间：&nbsp;<b>{{ ETStr }}</b><br>
             <BootstrapTable id="gatherTable"
                             ref="gatherTable"
                             @on-post-body="vueFormatterPostBody"/>
@@ -193,7 +193,6 @@ import $ from "jquery";
 import Tree from "@/components/Tree.vue";
 import Base64 from "@/plugins/base64.js";
 import {initTooltip} from "@thewakingsands/kit-tooltip";
-import moment from "moment";
 
 let query = {};
 export default {
@@ -293,7 +292,7 @@ export default {
         title: '采集',
         align: 'center',
         formatter: (value, row) => {
-          if (row.gatherCount > 0 && !row.recipeCount) {
+          if (row.gatherCount > 0 && !row.recipeCount && !row.isDyeable) {
             let template = '<b-button  squared variant="outline-dark" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
             return this.vueFormatter({
               template: template,
@@ -418,6 +417,7 @@ export default {
       tempItemId: 0,
       ETStr: '00:00',
       selectedValue: '',
+      currentIntervalId: 0,
       showOptions: false
     }
   },
@@ -604,7 +604,8 @@ export default {
       this.itemName = this.selectedValue;
       this.searchItem();
     }, seeGather(row) {
-      const ET = this.ETStr;
+      clearInterval(this.currentIntervalId);
+      const vm = this;
       $.ajax({
         url: "/ffbusiness/itemGather/list",
         async: true,
@@ -618,7 +619,7 @@ export default {
           let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
           $('#gatherLabel').html('<img src="' + url +
               '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
-          $sourceTable.bootstrapTable({
+          let options = {
             data: data,
             columns: [{
               field: 'locationName',
@@ -653,32 +654,38 @@ export default {
                   const etSeconds = currentTimeStampInSeconds * 720 / 35;
                   const hours = Math.floor(etSeconds / 3600) % 24;
                   const minutes = Math.floor((etSeconds % 3600) / 60);
-                  const firstTime = row.et1;
-                  const secondTime = row.et2;
-                  const currentTime = moment('2000-01-01 ' + hours + ':' + minutes + ':00', 'YYYY-MM-DD HH:mm:ss');
-                  const currentTimeFormatted = currentTime.format('HH:mm');
+                  let et1 = row.et1;
+                  let et2 = row.et2;
                   let diff1;
                   let diff2 = null;
-                  if (secondTime) {
-                    if (currentTimeFormatted >= secondTime) {
-                      currentTime.add(1, 'day');
-                      const nextDayFormatted = currentTime.format('YYYY-MM-DD');
-                      const nextSecondTime = moment(`${nextDayFormatted} ${secondTime}`, 'YYYY-MM-DD HH');
-                      diff2 = nextSecondTime.diff(currentTime, 'minutes');
+                  if (et2) {
+                    if (et2 && hours >= et2) {
+                      et1 = et1 + ':00';
+                      et2 = et2 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+                      diff2 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et2);
+                    } else if (hours >= et1) {
+                      et1 = et1 + ':00';
+                      et2 = et2 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+                      diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
                     } else {
-                      diff2 = moment(secondTime, 'HH').diff(currentTime, 'minutes');
+                      et1 = et1 + ':00';
+                      et2 = et2 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
+                      diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
+                    }
+                  } else {
+                    if (hours >= et1) {
+                      et1 = et1 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+                    } else {
+                      et1 = et1 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
                     }
                   }
-                  if (currentTimeFormatted >= firstTime) {
-                    currentTime.add(1, 'day');
-                    const nextDayFormatted = currentTime.format('YYYY-MM-DD');
-                    const nextSecondTime = moment(`${nextDayFormatted} ${firstTime}`, 'YYYY-MM-DD HH');
-                    diff1 = nextSecondTime.diff(currentTime, 'minutes');
-                  } else {
-                    diff1 = moment(firstTime, 'HH').diff(currentTime, 'minutes');
-                  }
-                  if (diff1) s = '距离艾欧泽亚时间' + firstTime + '时还有' + diff1 * 35 / 780 + '分' + diff1 * 60 * 35 / 780 % 60 + '秒<br/>'
-                  if (diff2) s = s + '距离艾欧泽亚时间' + secondTime + '时还有' + diff2 * 35 / 780 + '分' + diff2 * 60 * 35 / 780 % 60 + '秒<br/>'
+                  if (diff1) s = '距离' + et1 + '还有' + Math.floor(diff1 * 35 / 720 / 60) + '分' + Math.floor((diff1 * 35 / 720) % 60) + '秒<br/>'
+                  if (diff2) s = s + '距离' + et2 + '还有' + Math.floor(diff2 * 35 / 720 / 60) + '分' + Math.floor((diff2 * 35 / 720) % 60) + '秒<br/>'
                   return s;
                 } else return '';
               },
@@ -686,13 +693,25 @@ export default {
             }],
             mobileResponsive: true,
             checkOnInit: true
-          });
-          setInterval(function () {
-            $sourceTable.bootstrapTable('refresh', {silent: true});
+          };
+          $sourceTable.bootstrapTable(options);
+          vm.currentIntervalId = setInterval(function () {
+            $sourceTable.bootstrapTable('refreshOptions', options);
           }, 1000);
         }
       });
       this.showOptions = false;
+    },
+    timeToSeconds(time) {
+      const parts = time.split(':');
+      const hours = parseInt(parts[0]);
+      const minutes = parseInt(parts[1]);
+      return hours * 3600 + minutes * 60;
+    },
+    timeDifferenceInSeconds(time1, time2) {
+      var seconds1 = this.timeToSeconds(time1);
+      var seconds2 = this.timeToSeconds(time2);
+      return Math.abs(seconds1 - seconds2);
     },
     eorzeaTime() {
       const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?

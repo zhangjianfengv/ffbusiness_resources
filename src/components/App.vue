@@ -125,14 +125,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年3月26日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品价格走势图默认剔除（置空，并非删除）远离大多数数值的数据点。具体为超出平均值±标准差的两倍的数据
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2024年3月28日
               </h6>
               <span style="font-size: smaller">
@@ -147,6 +139,15 @@
                 1.安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）
             </span>
             </div>
+            <br>
+            <div>
+              <h6>
+                2024年4月3日
+              </h6>
+              <span style="font-size: smaller">
+                1.<i>物品详情和成本页面</i>查看物品采集地点时会显示艾欧泽亚时间还有下一个可采集的现实时间<br>
+                2.<i>市场统计页面</i>新增可按照均价或者销量排序
+            </span></div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
