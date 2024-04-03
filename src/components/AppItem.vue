@@ -414,6 +414,7 @@ export default {
       itemTypes: [],
       treeData: {},
       tempItemId: 0,
+      ETStr: '00:00',
       selectedValue: '',
       showOptions: false
     }
@@ -601,6 +602,7 @@ export default {
       this.itemName = this.selectedValue;
       this.searchItem();
     }, seeGather(row) {
+      const ET = this.ETStr;
       $.ajax({
         url: "/ffbusiness/itemGather/list",
         async: true,
@@ -613,7 +615,8 @@ export default {
           $('#gatherModal').modal('show');
           let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
           $('#gatherLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
+              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点 &nbsp;当前ET:<span>' + ET +
+              '</span>');
           $sourceTable.bootstrapTable({
             data: data,
             columns: [{
@@ -649,6 +652,13 @@ export default {
       });
       this.showOptions = false;
     },
+    eorzeaTime() {
+      const currentTimeStampInSeconds = Date.now() / 1000;//TODO:需不需要math.floor?
+      const etSeconds = currentTimeStampInSeconds * 720 / 35;
+      const hours = Math.floor(etSeconds / 3600) % 24;
+      const minutes = Math.floor((etSeconds % 3600) / 60);
+      this.ETStr = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
+    },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
@@ -671,6 +681,8 @@ export default {
     }
   },
   mounted() {
+    this.eorzeaTime();
+    setInterval(this.eorzeaTime, 1000);
     initTooltip({
       context: {
         apiBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/item',  // xivapi 或 cafemaker 的 url；最后不要有斜线
