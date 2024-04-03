@@ -62,7 +62,7 @@
           <b-form-select-option selected value="1">交易次数倒序</b-form-select-option>
           <b-form-select-option value="2">售出总数倒序</b-form-select-option>
           <b-form-select-option value="3">均价倒序</b-form-select-option>
-          <b-form-select-option value="4">销量上升最多</b-form-select-option>
+          <!--          <b-form-select-option value="4">销量上升最多</b-form-select-option>-->
         </b-form-select>
         <b-button squared variant="outline-dark" class="mx-1" @click="filterMarketable()" type="button"><i
             class="bi bi-search"></i>
@@ -254,7 +254,7 @@ export default {
             if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + 999999 + "(无此物品)";
+            else return "无此物品";
           },
         }, {
           field: 'pricePerUnit',
@@ -544,7 +544,7 @@ export default {
       }
       if (val === '4') {
         table.bootstrapTable('refreshOptions', {
-          sortOrder: 'asc',
+          sortOrder: 'desc',
           sortName: 'quantityIndexChange',
           columns: this.columns
         })
