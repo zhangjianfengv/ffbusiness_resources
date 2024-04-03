@@ -234,11 +234,11 @@ export default {
           sortable: true,
           title: '排序较上次',
           formatter: function changeFormatter(value, row) {
-            if (!$.isNumeric(row.quantityIndexChange)) return "无此物品"
+            if (!$.isNumeric(row.quantityIndexChange)) return 99999
             else if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return 99999;
           },
         }, {
           field: 'quantityIndexCurrent',
@@ -254,7 +254,7 @@ export default {
             if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return 99999
           },
         }, {
           field: 'pricePerUnit',
@@ -556,13 +556,24 @@ export default {
         table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
         table.bootstrapTable('hideColumn', 'quantityIndexChange');
         table.bootstrapTable('hideColumn', 'quantity');
-      } else {
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'asc',
+          sortName: 'numIndexCurrent',
+          columns: this.columns
+        })
+      }
+      if (val === '2') {
         table.bootstrapTable('showColumn', 'quantityIndexCurrent');
         table.bootstrapTable('showColumn', 'quantityIndexChange');
         table.bootstrapTable('showColumn', 'quantity');
         table.bootstrapTable('hideColumn', 'numIndexCurrent');
         table.bootstrapTable('hideColumn', 'num');
         table.bootstrapTable('hideColumn', 'numIndexChange');
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'asc',
+          sortName: 'quantityIndexCurrent',
+          columns: this.columns
+        })
       }
     })
   }
