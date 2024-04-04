@@ -111,8 +111,15 @@ export default {
             contentType: "application/json",
             data: JSON.stringify({name: this.itemName}),
             success: function (data) {
-              vm.nameOptions = data;
-              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
+              if (data) {
+                if (data.length > 1) {
+                  vm.showOptions = true;
+                  vm.nameOptions = data;
+                } else {
+                  vm.showOptions = false;
+                  vm.itemName = data[0];
+                }
+              }
             }
           });
         }

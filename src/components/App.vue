@@ -148,6 +148,7 @@
                 2024年4月4日
               </h6>
               <span style="font-size: smaller">
+                1.物品名提示，当只有一个选项时会将物品名自动填入输入框<br>
                 1.修复了拼音物品名检索由于多音字导致的问题：例如之前只能输入zhongjian来匹配“重建”，现在可以使用正确读音chongjian
             </span></div>
             <!--            body end-->
