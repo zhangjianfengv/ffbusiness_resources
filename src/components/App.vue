@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="app">
-      <b-navbar id="navbar" toggleable="sm" class="defineFont" type="dark">
+      <b-navbar id="navbar" toggleable="sm" type="dark">
         <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -33,15 +33,8 @@
                                       src="/favicon324c17f2.ico" alt="小程序"></a></div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
-            <b-container fluid class="text-with-border">
-              艾
-            </b-container>
-            <b-container fluid class="clock-container">
-              <b-row class="justify-content-center">
-                <b-col cols="auto">
-                  <div class="clock">{{ ETStr }}</div>
-                </b-col>
-              </b-row>
+            <b-container fluid class="text-with-border  defineFont">
+              艾&nbsp;{{ ETStr }}
             </b-container>
             <b-nav-item right>
               <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
@@ -62,7 +55,7 @@
       </b-navbar>
     </div>
     <keep-alive exclude="current">
-      <router-view class="defineFont" :themeColor="themeColor">
+      <router-view :themeColor="themeColor">
       </router-view>
     </keep-alive>
     <div aria-hidden="true" aria-labelledby="answer" class="modal fade" id="answer" role="dialog" tabindex="-1">
@@ -229,18 +222,8 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   position: relative;
 }
 
-.clock-container {
-  background-color: transparent;
-}
-
-.clock {
-  font-family: 'Arial', sans-serif;
-  font-size: 1rem;
-  color: white;
-}
-
 .defineFont {
-  //font-family: Arial, '华文仿宋', '楷体', '微软雅黑', 'Microsoft YaHei', '宋体', SimSun, '思源宋体', 'Source Han Serif', '方正兰亭黑体', 'FZLanTingHei-R-GBK', '华文黑体', STHeiti, 'Noto Sans CJK', Helvetica, sans-serif;
+  font-family: '楷体', Arial, '华文仿宋', '微软雅黑', 'Microsoft YaHei', '宋体', SimSun, '思源宋体', 'Source Han Serif', '方正兰亭黑体', 'FZLanTingHei-R-GBK', '华文黑体', STHeiti, 'Noto Sans CJK', Helvetica, sans-serif;
 }
 
 .text-with-border {
