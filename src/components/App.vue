@@ -34,7 +34,7 @@
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-container fluid class="text-with-border  defineFont">
-              艾&nbsp;{{ ETStr }}
+              艾&nbsp;{{ ETStr }}&nbsp;
             </b-container>
             <b-nav-item right>
               <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
