@@ -1,8 +1,7 @@
 <template>
-  <div id="app">
-    <div>
-      <b-navbar id="navbar" toggleable="sm"
-                type="dark">
+  <div>
+    <div id="app">
+      <b-navbar id="navbar" toggleable="sm" class="defineFont" type="dark">
         <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -34,6 +33,16 @@
                                       src="/favicon324c17f2.ico" alt="小程序"></a></div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
+            <b-container fluid class="text-with-border">
+              艾
+            </b-container>
+            <b-container fluid class="clock-container">
+              <b-row class="justify-content-center">
+                <b-col cols="auto">
+                  <div class="clock">{{ ETStr }}</div>
+                </b-col>
+              </b-row>
+            </b-container>
             <b-nav-item right>
               <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
             </b-nav-item>
@@ -53,7 +62,7 @@
       </b-navbar>
     </div>
     <keep-alive exclude="current">
-      <router-view :themeColor="themeColor">
+      <router-view class="defineFont" :themeColor="themeColor">
       </router-view>
     </keep-alive>
     <div aria-hidden="true" aria-labelledby="answer" class="modal fade" id="answer" role="dialog" tabindex="-1">
@@ -145,8 +154,8 @@
                 2024年4月3日
               </h6>
               <span style="font-size: smaller">
-                1.<i>物品详情和成本页面</i>查看物品采集地点时会显示艾欧泽亚时间还有下一个可采集的现实时间<br>
-                2.<i>市场统计页面</i>新增可按照均价排序
+                1.<u>物品详情和成本页面</u>查看物品采集地点时会显示艾欧泽亚时间还有下一个可采集的现实时间<br>
+                2.<u>市场统计页面</u>新增可按照均价排序
             </span></div>
             <!--            body end-->
           </div>
@@ -220,6 +229,27 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   position: relative;
 }
 
+.clock-container {
+  background-color: transparent;
+}
+
+.clock {
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  color: white;
+}
+
+.defineFont {
+  //font-family: Arial, '华文仿宋', '楷体', '微软雅黑', 'Microsoft YaHei', '宋体', SimSun, '思源宋体', 'Source Han Serif', '方正兰亭黑体', 'FZLanTingHei-R-GBK', '华文黑体', STHeiti, 'Noto Sans CJK', Helvetica, sans-serif;
+}
+
+.text-with-border {
+  width: fit-content; /* 让容器宽度根据文本内容自适应 */
+  color: white;
+  padding-right: 0;
+  font-weight: bold; /* 设置加粗样式 */
+}
+
 .select-options {
   position: absolute;
   top: calc(100% + 5px);
@@ -239,6 +269,7 @@ export default {
     return {
       user: {nickname: '用户'},
       showModal: false,
+      ETStr: '',
       themeColor: (localStorage.getItem('themeColor') || '#563d7c')
     }
   },
@@ -288,12 +319,21 @@ export default {
     closeNote() {
       $('#note').modal('toggle');
     },
+    eorzeaTime() {
+      const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+      const etSeconds = currentTimeStampInSeconds * 720 / 35;
+      const hours = Math.floor(etSeconds / 3600) % 24;
+      const minutes = Math.floor((etSeconds % 3600) / 60);
+      this.ETStr = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
+    },
     closeAnswer() {
       $('#answer').modal('toggle');
     }
   },
   mounted() {
     const vm = this;
+    this.eorzeaTime();
+    setInterval(this.eorzeaTime, 1000);
     $.ajax({
       url: "/ffbusiness/user/current",
       method: "post",
@@ -301,6 +341,7 @@ export default {
       data: JSON.stringify({}),
       success: function (data) {
         vm.user = data;
+        if (!data.nickname) vm.user = {nickname: '暗之战士'};
       }
     });
     if (!localStorage.getItem('hideModal')) {
