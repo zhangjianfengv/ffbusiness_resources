@@ -127,14 +127,6 @@
             <!--            body begin-->
             <div>
               <h6>
-                2024年3月28日
-              </h6>
-              <span style="font-size: smaller">
-                1.安卓app适配了返回键和全面屏手势，返回不会直接退出
-            </span></div>
-            <br>
-            <div>
-              <h6>
                 2023年3月29日
               </h6>
               <span style="font-size: smaller">
@@ -147,8 +139,16 @@
                 2024年4月3日
               </h6>
               <span style="font-size: smaller">
-                1.<u>物品详情和成本页面</u>查看物品采集地点时会显示艾欧泽亚时间还有下一个可采集的现实时间<br>
+                1.<u>物品详情和成本页面</u>查看限时采集物品时显示距离下一次出现还需要多久<br>
                 2.<u>市场统计页面</u>新增可按照均价排序
+            </span></div>
+            <br>
+            <div>
+              <h6>
+                2024年4月4日
+              </h6>
+              <span style="font-size: smaller">
+                1.修复了拼音物品名检索由于多音字导致的问题：例如之前只能输入zhongjian来匹配“重建”，现在可以使用正确读音chongjian
             </span></div>
             <!--            body end-->
           </div>
