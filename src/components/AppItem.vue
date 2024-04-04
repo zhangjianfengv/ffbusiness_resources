@@ -210,7 +210,7 @@ export default {
             async: true,
             method: "post",
             contentType: "application/json",
-            data: JSON.stringify({name: this.itemName}),
+            data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
               if (data) {
                 if (data.length > 1) {
