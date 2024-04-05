@@ -37,7 +37,8 @@
               艾&nbsp;{{ ETStr }}&nbsp;
             </b-container>
             <b-nav-item right>
-              <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
+              <b-img :src="imageUrl?imageUrl:'https://static.ff14pvp.top/icon/icon/placeholder.png'" fluid alt="icon"
+                     width="32px" height="32px" class="rounded-circle"></b-img>
             </b-nav-item>
             <b-dropdown id="dropdown-form" :text="user.nickname+'，欢迎您！'" ref="dropdown" class="m-2">
               <b-dropdown-item><em>{{ user.nickname }}</em></b-dropdown-item>

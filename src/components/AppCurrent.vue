@@ -115,11 +115,11 @@ export default {
                 if (data.length > 1) {
                   vm.showOptions = true;
                   vm.nameOptions = data;
-                } else {
+                } else if (data.length === 1) {
                   vm.showOptions = false;
                   vm.itemName = data[0];
-                }
-              }
+                } else vm.showOptions = false;
+              } else vm.showOptions = false;
             }
           });
         }
@@ -128,7 +128,7 @@ export default {
   },
   computed: {
     imageUrl() {
-      const currentDomain = "https://static.ff14pvp.top/icon/"; // 获取当前域名
+      const currentDomain = "https://static.ff14pvp.top/icon"; // 获取当前域名
       let itemId = this.itemId;
       if (itemId === '0' || itemId === 0 || !itemId)
         return currentDomain + '/icon/placeholder.png';

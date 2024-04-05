@@ -130,11 +130,11 @@ export default {
                 if (data.length > 1) {
                   vm.showOptions = true;
                   vm.nameOptions = data;
-                } else {
+                } else if (data.length === 1) {
                   vm.showOptions = false;
                   vm.itemName = data[0];
-                }
-              }
+                } else vm.showOptions = false;
+              } else vm.showOptions = false;
             }
           });
         }
