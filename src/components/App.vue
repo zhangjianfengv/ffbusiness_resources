@@ -260,7 +260,7 @@ export default {
   },
   computed: {
     imageUrl() {
-      let s = this.user.figureQQ + '';
+      let s = this.user.figureQQ;
       if (s)
         return s.replace(/http:\/\//g, "https://");
       else return 'https://static.ff14pvp.top/icon/icon/placeholder.png';
