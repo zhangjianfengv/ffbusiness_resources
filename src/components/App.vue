@@ -9,6 +9,7 @@
             <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
             <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
             <b-nav-item to="/item" exact-path exact-active-class="active">物品详情和成本</b-nav-item>
+            <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
@@ -154,6 +155,14 @@
                 <li>
                   修复了拼音物品名检索由于多音字导致的问题：例如之前只能输入zhongjian来匹配“重建”，现在可以使用正确读音chongjian
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年4月7日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>新增随机家具预览页面</li>
               </ul>
             </div>
             <!--            body end-->
