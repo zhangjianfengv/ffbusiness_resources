@@ -127,31 +127,35 @@
           <div class="modal-body">
             <!--            body begin-->
             <div>
-              <h6>
+              <h6 style="padding-left: 16px">
                 2023年3月29日
               </h6>
-              <span style="font-size: smaller">
-                1.安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）
-            </span>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）</li>
+              </ul>
             </div>
-            <br>
             <div>
-              <h6>
+              <h6 style="padding-left: 16px">
                 2024年4月3日
               </h6>
-              <span style="font-size: smaller">
-                1.<u>物品详情和成本页面</u>查看限时采集物品时显示距离下一次出现还需要多久<br>
-                2.<u>市场统计页面</u>新增可按照均价排序
-            </span></div>
-            <br>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>物品详情和成本页面</u>查看限时采集物品时显示距离下一次出现还需要多久</li>
+                <li>
+                  <u>市场统计页面</u>新增可按照均价排序
+                </li>
+              </ul>
+            </div>
             <div>
-              <h6>
+              <h6 style="padding-left: 16px">
                 2024年4月4日
               </h6>
-              <span style="font-size: smaller">
-                1.物品名提示，当只有一个选项时会将物品名自动填入输入框<br>
-                1.修复了拼音物品名检索由于多音字导致的问题：例如之前只能输入zhongjian来匹配“重建”，现在可以使用正确读音chongjian
-            </span></div>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>物品名提示，当只有一个选项时会将物品名自动填入输入框</li>
+                <li>
+                  修复了拼音物品名检索由于多音字导致的问题：例如之前只能输入zhongjian来匹配“重建”，现在可以使用正确读音chongjian
+                </li>
+              </ul>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
