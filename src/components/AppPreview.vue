@@ -85,7 +85,7 @@ export default {
     },
     handleImageError(event) {
       if (event.target.src.startsWith('https://preview.linshaosoft.com/preview/'))
-        event.target.src = event.target.src.replace('https://preview.linshaosoft.com/preview/', 'https://preview.linshaosoft.com/lpreview/l/');
+        event.target.src = event.target.src.replace('https://preview.linshaosoft.com/preview/', 'https://preview.linshaosoft.com/lpreview/l/').replace(".jpg", '.png');
       else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
     }
   }
