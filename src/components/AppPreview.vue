@@ -2,23 +2,24 @@
   <div>
     <div style="text-align: center" class="mt-2 mb-2">
       <b-container fluid>
+        <b-button squared class="ml-2" variant="outline-dark" @click="fetchItems">全部</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(57)">家具</b-button>
-        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(65)">房顶</b-button>
-        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(66)">外墙</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(76)">庭具</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(67)">窗户</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(77)">桌台</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(78)">桌上</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(79)">壁挂</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(80)">地毯</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(73)">内墙</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(74)">地板</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(68)">房门</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(69)">房顶装饰</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(70)">外墙装饰</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(71)">门牌</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(72)">院墙</b-button>
-        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(73)">内墙</b-button>
-        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(74)">地板</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(66)">外墙</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(65)">房顶</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(75)">屋顶照明</b-button>
-        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(76)">庭具</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(64)">房产证书</b-button>
       </b-container>
     </div>
@@ -32,7 +33,7 @@
             sm="6"
             class="mb-4">
           <b-card :title="item.itemName" img-top>
-            <img style="width: 600px;height: 600px" :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
+            <img :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
           </b-card>
@@ -41,7 +42,18 @@
     </b-container>
   </div>
 </template>
+<style scoped>
+img {
+  width: 600px; /* 在PC上默认宽度 */
+}
 
+/* 在小屏幕设备上（例如移动设备）设置输入框宽度为100% */
+@media only screen and (max-width: 768px) {
+  img {
+    width: 100%;
+  }
+}
+</style>
 <script>
 export default {
   data() {
