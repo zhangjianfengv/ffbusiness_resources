@@ -32,7 +32,7 @@
             sm="6"
             class="mb-4">
           <b-card :title="item.itemName" img-top>
-            <img :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
+            <img style="width: 600px;height: 600px" :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
           </b-card>
