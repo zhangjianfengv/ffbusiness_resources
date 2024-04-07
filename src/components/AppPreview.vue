@@ -33,7 +33,8 @@
             class="mb-4">
           <b-card :title="item.itemName" img-top>
             <b-card-img-lazy :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
-                             alt="莫古用力找也找不到照片库啵!"></b-card-img-lazy>
+                             alt="莫古用力找也找不到照片库啵!"
+                             @error="handleImageError(items, index)"></b-card-img-lazy>
           </b-card>
         </b-col>
       </b-row>
@@ -81,6 +82,10 @@ export default {
           .catch(error => {
             console.error('Error fetching items:', error);
           });
+    },
+    handleImageError(currentUrl, index) {
+      const fallbackUrl = currentUrl.replace('https://preview.linshaosoft.com/preview/', 'https://preview.linshaosoft.com/lpreview/');
+      this.$set(this.items, index, fallbackUrl);
     }
   }
 };
