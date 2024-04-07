@@ -1,5 +1,27 @@
 <template>
   <div>
+    <div style="text-align: center" class="mt-2 mb-2">
+      <b-button-group>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(57)">家具</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(65)">房顶</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(66)">外墙</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(67)">窗户</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(77)">桌台</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(78)">桌上</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(79)">壁挂</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(80)">地毯</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(68)">房门</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(69)">房顶装饰</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(70)">外墙装饰</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(71)">门牌</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(72)">院墙</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(73)">内墙</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(74)">地板</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(75)">屋顶照明</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(76)">庭具</b-button>
+        <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(64)">房产证书</b-button>
+      </b-button-group>
+    </div>
     <b-container fluid>
       <b-row>
         <b-col
@@ -32,6 +54,21 @@ export default {
   methods: {
     fetchItems() {
       fetch('/ffbusiness/preview/random')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            this.items = data; // 将获取的物品数据保存到 items 中
+          })
+          .catch(error => {
+            console.error('Error fetching items:', error);
+          });
+    },
+    clickRow(type) {
+      fetch('/ffbusiness/preview/type/' + type)
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');

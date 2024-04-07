@@ -162,7 +162,7 @@
                 2024年4月7日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li>新增随机家具预览页面</li>
+                <li>新增家具分类随机预览页面</li>
               </ul>
             </div>
             <!--            body end-->
