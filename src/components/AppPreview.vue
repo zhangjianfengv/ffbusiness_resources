@@ -32,9 +32,9 @@
             sm="6"
             class="mb-4">
           <b-card :title="item.itemName" img-top>
-            <b-card-img-lazy :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
-                             alt="莫古用力找也找不到照片库啵!"
-                             @error="handleImageError(items, index)"></b-card-img-lazy>
+            <img :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
+                 alt="莫古用力找也找不到照片库啵!"
+                 v-on:error="handleImageError">
           </b-card>
         </b-col>
       </b-row>
@@ -83,9 +83,10 @@ export default {
             console.error('Error fetching items:', error);
           });
     },
-    handleImageError(currentUrl, index) {
-      const fallbackUrl = currentUrl.replace('https://preview.linshaosoft.com/preview/', 'https://preview.linshaosoft.com/lpreview/');
-      this.$set(this.items, index, fallbackUrl);
+    handleImageError(event) {
+      if (event.target.src.startsWith('https://preview.linshaosoft.com/preview/'))
+        event.target.src = event.target.src.replace('https://preview.linshaosoft.com/preview/', 'https://preview.linshaosoft.com/lpreview/l/');
+      else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
     }
   }
 };
