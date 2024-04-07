@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="text-align: center" class="mt-2 mb-2">
-      <b-button-group>
+      <b-container fluid>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(57)">家具</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(65)">房顶</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(66)">外墙</b-button>
@@ -20,7 +20,7 @@
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(75)">屋顶照明</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(76)">庭具</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(64)">房产证书</b-button>
-      </b-button-group>
+      </b-container>
     </div>
     <b-container fluid>
       <b-row>
@@ -33,7 +33,7 @@
             class="mb-4">
           <b-card :title="item.itemName" img-top>
             <b-card-img-lazy :src="'https://preview.linshaosoft.com/preview/'+item.url+'.jpg'"
-                             alt="Item Image"></b-card-img-lazy>
+                             alt="莫古用力找也找不到照片库啵!"></b-card-img-lazy>
           </b-card>
         </b-col>
       </b-row>
