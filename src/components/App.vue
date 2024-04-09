@@ -24,7 +24,7 @@
                  @click="note()"><i class="bi bi-clipboard-fill"></i></a>
               <a class="top-button n-link-style"
                  @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
-              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.0.0.apk"><i
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.1.0.apk"><i
                   class="bi bi-android"></i></a>
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
@@ -129,14 +129,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2023年3月29日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年4月3日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -163,6 +155,14 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>新增家具分类随机预览页面</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2023年4月9日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>安卓APP已经支持QQ登录</li>
               </ul>
             </div>
             <!--            body end-->
