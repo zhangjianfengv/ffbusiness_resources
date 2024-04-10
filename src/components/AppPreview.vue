@@ -32,7 +32,7 @@
             md="4"
             sm="6"
             class="mb-4">
-          <b-card :title="item.itemName" img-top>
+          <b-card style="text-align: center" :title="item.itemName" img-top>
             <img :src="defaultUrl+item.url+'.jpg?v=2'"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
@@ -52,6 +52,10 @@ img {
   img {
     width: 100%;
   }
+}
+
+.card-body {
+  padding: 0;
 }
 </style>
 <script>
