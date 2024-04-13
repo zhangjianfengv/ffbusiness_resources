@@ -191,13 +191,6 @@
         href="https://garlandtools.cn/db/" target="_blank">GarlandTools Database</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
       All Rights Reserved.
     </div>
-
-
-    <div>
-      <ImagePopover ref="customComponentRef"/>
-    </div>
-
-
   </div>
 </template>
 <style>
@@ -213,8 +206,6 @@ import $ from "jquery";
 import Tree from "@/components/Tree.vue";
 import Base64 from "@/plugins/base64.js";
 import {initTooltip} from "@thewakingsands/kit-tooltip";
-import Vue from "vue";
-import ImagePopover from "@/components/ImagePopover.vue";
 
 let query = {};
 export default {
@@ -247,26 +238,9 @@ export default {
       field: 'id',
       title: 'id'
     }, {
-      // formatter: (value, row) => {
-      //   let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
-      //   return '<ImagePopover :id="' + row.id + '" />';
-      // },
       formatter: (value, row) => {
-        let vm = new Vue({
-          render: h => h('div', [
-            h('custom-component', {
-              props: {
-                id: row.id
-              },
-              ref: 'customComponentRef' // 设置组件引用
-            })
-          ])
-        });
-        const tempDiv = document.createElement('div');
-        vm.$mount(tempDiv);
-        const html = tempDiv.innerHTML;
-        vm.$destroy();
-        return html;
+        let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
+        return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
       },
       title: '图标'
     }, {
@@ -553,7 +527,7 @@ export default {
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeList').hide();
-      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
       $('#recipeLabel').html('<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
       $('#recipeModal').modal('show');
@@ -574,7 +548,7 @@ export default {
       $('#recipeList').hide();
       this.craftCount = 1;
       this.tempItemId = row.id;
-      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
       $('#recipeLabel').html('<img src="' + url +
           '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
       $('#recipeModal').modal('show');
@@ -631,7 +605,7 @@ export default {
           let $sourceTable = $('#sourceTable');
           $sourceTable.bootstrapTable('destroy')
           $('#sourceModal').modal('show');
-          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
           $('#sourceLabel').html('<img src="' + url +
               '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;购买兑换');
           $sourceTable.bootstrapTable({
@@ -648,7 +622,7 @@ export default {
               title: '位置'
             }, {
               formatter: (value, row) => {
-                let url = "https://static.ff14pvp.top/icon/icon/" + row.currencyId + '.png?eo-img.resize=w/32/h/32';
+                let url = "https://static.ff14pvp.top/icon/icon/" + row.currencyId + '.png';
                 let s = '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">';
                 return s + 'X' + row.price;
               },
@@ -676,7 +650,7 @@ export default {
           let $sourceTable = $('#gatherTable');
           $sourceTable.bootstrapTable('destroy')
           $('#gatherModal').modal('show');
-          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
           $('#gatherLabel').html('<img src="' + url +
               '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点 &nbsp;当前ET:<span>' + ET +
               '</span>');

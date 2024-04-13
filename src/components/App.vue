@@ -124,14 +124,6 @@
           <div class="modal-body">
             <!--            body begin-->
             <div>
-              <h6 style="padding-left: 16px">
-                2024年4月4日
-              </h6>
-              <span style="font-size: smaller">
-                1.安卓app适配了返回键和全面屏手势，返回不会直接退出
-            </span></div>
-            <br>
-            <div>
               <h6>
                 2023年3月29日
               </h6>
@@ -147,6 +139,7 @@
                 <li>安卓APP已经支持QQ登录</li>
               </ul>
             </div>
+            <br>
             <div>
               <h6 style="padding-left: 16px">
                 2024年4月13日
