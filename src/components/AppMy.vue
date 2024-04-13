@@ -66,10 +66,13 @@ export default {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
     toLogin() {
-      QC.Login.showPopup({
-        appId: Base64.decode("MTAyMDc1MDIx"),
-        redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
-      });
+      try {
+        QC.Login.showPopup({
+          appId: Base64.decode("MTAyMDc1MDIx"),
+          redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
+        });
+      } catch (error) {
+      }
     },
   },
   mounted() {
