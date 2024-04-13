@@ -154,7 +154,8 @@
           <div class="modal-header">
             <h4 class="modal-title" style="margin: 0 auto" id="gatherLabel"></h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" style="text-align: center">
+            当前艾欧泽亚时间：&nbsp;<b>{{ ETStr }}</b><br><br>
             <BootstrapTable id="gatherTable"
                             ref="gatherTable"
                             @on-post-body="vueFormatterPostBody"/>
@@ -225,8 +226,15 @@ export default {
             contentType: "application/json",
             data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
-              vm.nameOptions = data;
-              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
+              if (data) {
+                if (data.length > 1) {
+                  vm.showOptions = true;
+                  vm.nameOptions = data;
+                } else if (data.length === 1) {
+                  vm.showOptions = false;
+                  vm.itemName = data[0];
+                } else vm.showOptions = false;
+              } else vm.showOptions = false;
             }
           });
         }
@@ -325,7 +333,7 @@ export default {
         title: '采集',
         align: 'center',
         formatter: (value, row) => {
-          if (row.gatherCount > 0 && !row.recipeCount) {
+          if (row.gatherCount > 0 && !row.recipeCount && !row.isDyeable) {
             let template = '<b-button  squared variant="outline-dark" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
             return this.vueFormatter({
               template: template,
@@ -452,6 +460,7 @@ export default {
       tempItemId: 0,
       ETStr: '00:00',
       selectedValue: '',
+      currentIntervalId: 0,
       showOptions: false
     }
   },
@@ -639,7 +648,8 @@ export default {
       this.itemName = this.selectedValue;
       this.searchItem();
     }, seeGather(row) {
-      const ET = this.ETStr;
+      clearInterval(this.currentIntervalId);
+      const vm = this;
       $.ajax({
         url: "/ffbusiness/itemGather/list",
         async: true,
@@ -652,9 +662,8 @@ export default {
           $('#gatherModal').modal('show');
           let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
           $('#gatherLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点 &nbsp;当前ET:<span>' + ET +
-              '</span>');
-          $sourceTable.bootstrapTable({
+              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
+          let options = {
             data: data,
             columns: [{
               field: 'locationName',
@@ -681,10 +690,58 @@ export default {
                 } else return '';
               },
               title: 'ET'
+            }, {
+              formatter: (value, row) => {
+                if (row.type && row.et1) {
+                  let s;
+                  const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+                  const etSeconds = currentTimeStampInSeconds * 720 / 35;
+                  const hours = Math.floor(etSeconds / 3600) % 24;
+                  const minutes = Math.floor((etSeconds % 3600) / 60);
+                  let et1 = row.et1;
+                  let et2 = row.et2;
+                  let diff1;
+                  let diff2 = null;
+                  if (et2) {
+                    if (et2 && hours >= et2) {
+                      et1 = et1 + ':00';
+                      et2 = et2 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+                      diff2 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et2);
+                    } else if (hours >= et1) {
+                      et1 = et1 + ':00';
+                      et2 = et2 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+                      diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
+                    } else {
+                      et1 = et1 + ':00';
+                      et2 = et2 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
+                      diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
+                    }
+                  } else {
+                    if (hours >= et1) {
+                      et1 = et1 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+                    } else {
+                      et1 = et1 + ':00';
+                      diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
+                    }
+                  }
+                  if (diff1) s = '距离' + et1 + '还有' + Math.floor(diff1 * 35 / 720 / 60) + '分' + Math.floor((diff1 * 35 / 720) % 60) + '秒<br/>'
+                  if (diff2) s = s + '距离' + et2 + '还有' + Math.floor(diff2 * 35 / 720 / 60) + '分' + Math.floor((diff2 * 35 / 720) % 60) + '秒<br/>'
+                  return s;
+                } else return '';
+              },
+              title: '采集时间'
             }],
             mobileResponsive: true,
             checkOnInit: true
-          });
+          };
+          $sourceTable.bootstrapTable(options);
+          vm.currentIntervalId = setInterval(function () {
+            $sourceTable.bootstrapTable('refreshOptions', options);
+          }, 1000);
         }
       });
       this.showOptions = false;
@@ -704,8 +761,19 @@ export default {
             console.error('Error fetching items:', error);
           });
     },
+    timeToSeconds(time) {
+      const parts = time.split(':');
+      const hours = parseInt(parts[0]);
+      const minutes = parseInt(parts[1]);
+      return hours * 3600 + minutes * 60;
+    },
+    timeDifferenceInSeconds(time1, time2) {
+      var seconds1 = this.timeToSeconds(time1);
+      var seconds2 = this.timeToSeconds(time2);
+      return Math.abs(seconds1 - seconds2);
+    },
     eorzeaTime() {
-      const currentTimeStampInSeconds = Date.now() / 1000;//TODO:需不需要math.floor?
+      const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
       const etSeconds = currentTimeStampInSeconds * 720 / 35;
       const hours = Math.floor(etSeconds / 3600) % 24;
       const minutes = Math.floor((etSeconds % 3600) / 60);

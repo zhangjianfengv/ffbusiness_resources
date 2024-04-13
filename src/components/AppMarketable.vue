@@ -59,8 +59,10 @@
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
         <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
         <b-form-select id="sortType" v-model="sortType">
-          <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
-          <b-form-select-option value="2">按售出总数排序</b-form-select-option>
+          <b-form-select-option selected value="1">交易次数倒序</b-form-select-option>
+          <b-form-select-option value="2">售出总数倒序</b-form-select-option>
+          <b-form-select-option value="3">均价倒序</b-form-select-option>
+          <!--          <b-form-select-option value="4">销量上升最多</b-form-select-option>-->
         </b-form-select>
         <b-button squared variant="outline-dark" class="mx-1" @click="filterMarketable()" type="button"><i
             class="bi bi-search"></i>
@@ -236,7 +238,7 @@ export default {
             else if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return '无此物品';
           },
         }, {
           field: 'quantityIndexCurrent',
@@ -252,7 +254,7 @@ export default {
             if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return "无此物品";
           },
         }, {
           field: 'pricePerUnit',
@@ -533,11 +535,33 @@ export default {
       let $sortType1 = $('#sortType');
       let val = $sortType1.val();
       let table = $("#marketableTable");
-      table.bootstrapTable('refreshOptions', {
-        sortOrder: 'asc',
-        sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
-        columns: this.columns
-      })
+      if (val === '3') {
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'desc',
+          sortName: 'pricePerUnit',
+          columns: this.columns
+        });
+      }
+      if (val === '4') {
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'desc',
+          sortName: 'quantityIndexChange',
+          columns: this.columns
+        })
+      }
+      if (val === '1') {
+        table.bootstrapTable('showColumn', 'numIndexCurrent');
+        table.bootstrapTable('showColumn', 'numIndexChange');
+        table.bootstrapTable('showColumn', 'num');
+        table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
+        table.bootstrapTable('hideColumn', 'quantityIndexChange');
+        table.bootstrapTable('hideColumn', 'quantity');
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'asc',
+          sortName: 'numIndexCurrent',
+          columns: this.columns
+        })
+      }
       if (val === '2') {
         table.bootstrapTable('showColumn', 'quantityIndexCurrent');
         table.bootstrapTable('showColumn', 'quantityIndexChange');
@@ -545,13 +569,11 @@ export default {
         table.bootstrapTable('hideColumn', 'numIndexCurrent');
         table.bootstrapTable('hideColumn', 'num');
         table.bootstrapTable('hideColumn', 'numIndexChange');
-      } else {
-        table.bootstrapTable('showColumn', 'numIndexCurrent');
-        table.bootstrapTable('showColumn', 'numIndexChange');
-        table.bootstrapTable('showColumn', 'num');
-        table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
-        table.bootstrapTable('hideColumn', 'quantityIndexChange');
-        table.bootstrapTable('hideColumn', 'quantity');
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'asc',
+          sortName: 'quantityIndexCurrent',
+          columns: this.columns
+        })
       }
     })
   }

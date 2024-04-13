@@ -1,8 +1,7 @@
 <template>
-  <div id="app">
-    <div>
-      <b-navbar id="navbar" toggleable="sm"
-                type="dark">
+  <div>
+    <div id="app">
+      <b-navbar id="navbar" toggleable="sm" type="dark">
         <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
@@ -10,6 +9,7 @@
             <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
             <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
             <b-nav-item to="/item" exact-path exact-active-class="active">物品详情和成本</b-nav-item>
+            <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
@@ -24,7 +24,7 @@
                  @click="note()"><i class="bi bi-clipboard-fill"></i></a>
               <a class="top-button n-link-style"
                  @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
-              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.0.0.apk"><i
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.1.0.apk"><i
                   class="bi bi-android"></i></a>
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
@@ -34,8 +34,12 @@
                                       src="/favicon324c17f2.ico" alt="小程序"></a></div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
+            <b-container fluid class="text-with-border  defineFont">
+              艾&nbsp;{{ ETStr }}&nbsp;
+            </b-container>
             <b-nav-item right>
-              <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
+              <b-img :src="imageUrl" fluid alt="icon"
+                     width="32px" height="32px" class="rounded-circle"></b-img>
             </b-nav-item>
             <b-dropdown id="dropdown-form" :text="user.nickname+'，欢迎您！'" ref="dropdown" class="m-2">
               <b-dropdown-item><em>{{ user.nickname }}</em></b-dropdown-item>
@@ -79,18 +83,23 @@
           <div>
             <b-alert show variant="info">
               <h4 class="alert-heading">使用技巧</h4>
-              <p>
-                配方成本计算可点击<i class="bi bi-x-square"></i>按钮删除某个已经有的材料不计入总成本
-              </p>
-              <p>
-                物品名可直接输入拼音，不区分大小写
-              </p>
-              <p>
-                登录区有切换主题配色功能
-              </p>
-              <p>
-                黑话检索-输入指定快捷短语会出现关键词列表，选择关键词后会出现实际的可选物品列表（当只有一个选项时不会出现选择框）：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
-              </p>
+              <ul>
+                <li>
+                  配方成本计算可点击<i class="bi bi-x-square"></i>按钮删除某个已经有的材料不计入总成本
+                </li>
+                <li>
+                  物品名可直接输入拼音，不区分大小写
+                </li>
+                <li>
+                  物品名输入框按回车键可快捷触发搜索
+                </li>
+                <li>
+                  登录区有切换主题配色功能
+                </li>
+                <li>
+                  黑话检索-输入指定快捷短语会出现关键词列表，选择关键词后会出现实际的可选物品列表（当只有一个选项时会自动填入输入框）：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
+                </li>
+              </ul>
             </b-alert>
           </div>
           <div class="modal-footer">
@@ -222,6 +231,17 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   position: relative;
 }
 
+.defineFont {
+  font-family: '楷体', Arial, '华文仿宋', '微软雅黑', 'Microsoft YaHei', '宋体', SimSun, '思源宋体', 'Source Han Serif', '方正兰亭黑体', 'FZLanTingHei-R-GBK', '华文黑体', STHeiti, 'Noto Sans CJK', Helvetica, sans-serif;
+}
+
+.text-with-border {
+  width: fit-content; /* 让容器宽度根据文本内容自适应 */
+  color: white;
+  padding-right: 0;
+  font-weight: bold; /* 设置加粗样式 */
+}
+
 .select-options {
   position: absolute;
   top: calc(100% + 5px);
@@ -241,13 +261,16 @@ export default {
     return {
       user: {nickname: '用户'},
       showModal: false,
+      ETStr: '',
       themeColor: (localStorage.getItem('themeColor') || '#563d7c')
     }
   },
   computed: {
     imageUrl() {
-      let s = this.user.figureQQ + '';
-      return s.replace(/http:\/\//g, "https://");
+      let s = this.user.figureQQ;
+      if (s)
+        return s.replace(/http:\/\//g, "https://");
+      else return 'https://static.ff14pvp.top/icon/icon/placeholder.png';
     },
   },
   methods: {
@@ -290,12 +313,21 @@ export default {
     closeNote() {
       $('#note').modal('toggle');
     },
+    eorzeaTime() {
+      const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+      const etSeconds = currentTimeStampInSeconds * 720 / 35;
+      const hours = Math.floor(etSeconds / 3600) % 24;
+      const minutes = Math.floor((etSeconds % 3600) / 60);
+      this.ETStr = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
+    },
     closeAnswer() {
       $('#answer').modal('toggle');
     }
   },
   mounted() {
     const vm = this;
+    this.eorzeaTime();
+    setInterval(this.eorzeaTime, 1000);
     $.ajax({
       url: "/ffbusiness/user/current",
       method: "post",
@@ -303,6 +335,7 @@ export default {
       data: JSON.stringify({}),
       success: function (data) {
         vm.user = data;
+        if (!data.nickname) vm.user = {nickname: '暗之战士'};
       }
     });
     if (!localStorage.getItem('hideModal')) {

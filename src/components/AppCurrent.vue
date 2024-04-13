@@ -109,10 +109,17 @@ export default {
             async: true,
             method: "post",
             contentType: "application/json",
-            data: JSON.stringify({name: this.itemName}),
+            data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
-              vm.nameOptions = data;
-              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
+              if (data) {
+                if (data.length > 1) {
+                  vm.showOptions = true;
+                  vm.nameOptions = data;
+                } else if (data.length === 1) {
+                  vm.showOptions = false;
+                  vm.itemName = data[0];
+                } else vm.showOptions = false;
+              } else vm.showOptions = false;
             }
           });
         }
@@ -121,7 +128,7 @@ export default {
   },
   computed: {
     imageUrl() {
-      const currentDomain = "https://static.ff14pvp.top/icon/"; // 获取当前域名
+      const currentDomain = "https://static.ff14pvp.top/icon"; // 获取当前域名
       let itemId = this.itemId;
       if (itemId === '0' || itemId === 0 || !itemId)
         return currentDomain + '/icon/placeholder.png';
