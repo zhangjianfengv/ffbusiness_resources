@@ -4,7 +4,7 @@
         @click="toggle"
         @dblclick="makeFolder">
       <span style="font-size: large">
-         <a class="black-link-style" @change="closeRecipe" :href="'/#/item?id='+item.itemId">{{ item.itemName }}</a>{{
+         <a class="black-link-style" @click="closeRecipe(item.itemId)">{{ item.itemName }}</a>{{
           item.amount ? ('X' + item.amount) : ''
         }}
        </span>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 
 export default {
   name: "Tree", props: {
@@ -46,8 +45,16 @@ export default {
       if (this.isFolder) {
         this.isOpen = !this.isOpen;
       }
-    }, closeRecipe() {
-      $('#recipeModal').modal('toggle');
+    }, closeRecipe(id) {
+      this.setLocalStorageItem('recipeId', id);
+    },
+    setLocalStorageItem(key, value) {
+      localStorage.setItem(key, value);
+      const storageEvent = new StorageEvent('storage', {
+        key: key,
+        newValue: value
+      });
+      window.dispatchEvent(storageEvent);
     },
     makeFolder: function () {
       if (!this.isFolder) {

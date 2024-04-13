@@ -133,7 +133,7 @@
           <div class="modal-body">
             <!--            body begin-->
             <div>
-              <h6>
+              <h6 style="padding-left: 16px">
                 2023年3月29日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -148,7 +148,6 @@
                 <li>安卓APP已经支持QQ登录</li>
               </ul>
             </div>
-            <br>
             <div>
               <h6 style="padding-left: 16px">
                 2024年4月13日
@@ -157,6 +156,7 @@
                 <li><u>物品详情和成本页面</u>可预览指定家具</li>
                 <li><u>物品详情和成本页面</u>显示物品各级分类名称</li>
                 <li><u>物品详情和成本页面</u>可以输入ID来检索物品</li>
+                <li><u>物品详情和成本页面</u>查看配方时点击材料不会再打开新标签页，同时修复了相关的安卓app兼容问题</li>
               </ul>
             </div>
             <!--            body end-->

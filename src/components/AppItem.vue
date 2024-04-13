@@ -208,6 +208,7 @@ import Tree from "@/components/Tree.vue";
 import Base64 from "@/plugins/base64.js";
 import {initTooltip} from "@thewakingsands/kit-tooltip";
 
+let query = {};
 export default {
   components: {Tree},
   mixins: [tableMixin],
@@ -401,6 +402,7 @@ export default {
       queryParams: function (params) {
         query.pageSize = params.pageSize;
         query.pageNumber = params.pageNumber;
+        query.id = vm.$route.query.id ? vm.$route.query.id : null;
         return query
       },
       pageNumber: 1,
@@ -433,7 +435,6 @@ export default {
       },
       pageList: [50, 100, 200, 500, 1000]
     };
-    this.query = query;
     return {
       worldName: '中国',
       columns: columns,
@@ -445,7 +446,6 @@ export default {
       trade: null,
       timer: null,
       canBeHq: null,
-      query: {},
       canMake: null,
       defaultUrl: 'https://preview.linshaosoft.com/preview/',
       currentPreview: 'https://static.ff14pvp.top/icon/icon/placeholder.png',
@@ -489,7 +489,7 @@ export default {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
       let checkNumber1 = this.checkNumber(this.itemName);
-      this.query = {
+      query = {
         id: checkNumber1 ? parseInt(this.itemName) : this.$route.query.id ? this.$route.query.id : null,
         name: checkNumber1 ? null : this.itemName,
         description: $('#description').val(),
@@ -504,13 +504,12 @@ export default {
         canMake: this.canMake,
       };
       this.options.columns = this.columns;
-      this.query.pageNumber = 1;
-      this.query.pageSize = 15;
-      this.options.queryParams = this.query;
+      this.options.queryParams = function (params) {
+        query.pageSize = params.pageSize;
+        query.pageNumber = params.pageNumber;
+        return query
+      }
       $table.bootstrapTable(this.options)
-      $table.bootstrapTable('refresh', {
-        query: this.query
-      });
       this.itemId = null;
       this.showOptions = false;
     },
@@ -519,7 +518,7 @@ export default {
       let $table = $('#table');
       $('#itemForm')[0].reset();
       $table.bootstrapTable('destroy');
-      this.query = {};
+      query = {};
       this.itemId = null;
       this.itemName = null;
       this.trade = 0;
@@ -533,7 +532,6 @@ export default {
       $itemType.selectpicker('val', []);
       $itemType.selectpicker('refresh');
       this.options.columns = this.columns;
-      this.options.queryParams = this.query;
       $table.bootstrapTable(this.options)
       this.showOptions = false;
     },
@@ -777,6 +775,24 @@ export default {
       var seconds2 = this.timeToSeconds(time2);
       return Math.abs(seconds1 - seconds2);
     },
+    handleChildClick() {
+      this.closeRecipe();
+      this.itemName = localStorage.getItem('recipeId');
+      let $table = $('#table');
+      $table.bootstrapTable('destroy');
+      query = {
+        id: parseInt(this.itemName)
+      };
+      this.options.columns = this.columns;
+      this.options.queryParams = function (params) {
+        query.pageSize = params.pageSize;
+        query.pageNumber = params.pageNumber;
+        return query
+      }
+      $table.bootstrapTable(this.options)
+      this.itemId = null;
+      this.showOptions = false;
+    },
     eorzeaTime() {
       const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
       const etSeconds = currentTimeStampInSeconds * 720 / 35;
@@ -845,6 +861,11 @@ export default {
     if (this.isStr(worldCookie)) {
       this.worldName = Base64.decode(worldCookie);
     } else this.worldName = "中国";
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'recipeId') {
+        this.handleChildClick();
+      }
+    });
   }
 }
 </script>
