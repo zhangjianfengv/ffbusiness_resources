@@ -173,6 +173,13 @@
         href="https://garlandtools.cn/db/" target="_blank">GarlandTools Database</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
       All Rights Reserved.
     </div>
+
+
+    <div>
+      <ImagePopover ref="customComponentRef"/>
+    </div>
+
+
   </div>
 </template>
 <style>
@@ -192,10 +199,12 @@ import $ from "jquery";
 import Tree from "@/components/Tree.vue";
 import Base64 from "@/plugins/base64.js";
 import {initTooltip} from "@thewakingsands/kit-tooltip";
+import Vue from "vue";
+import ImagePopover from "@/components/ImagePopover.vue";
 
 let query = {};
 export default {
-  components: {Tree},
+  components: {ImagePopover, Tree},
   mixins: [tableMixin],
   props: ['themeColor'],
   watch: {
@@ -224,68 +233,86 @@ export default {
       field: 'id',
       title: 'id'
     }, {
+      // formatter: (value, row) => {
+      //   let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
+      //   return '<ImagePopover :id="' + row.id + '" />';
+      // },
       formatter: (value, row) => {
-        let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
-        return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
+        let vm = new Vue({
+          render: h => h('div', [
+            h('custom-component', {
+              props: {
+                id: row.id
+              },
+              ref: 'customComponentRef' // 设置组件引用
+            })
+          ])
+        });
+        const tempDiv = document.createElement('div');
+        vm.$mount(tempDiv);
+        const html = tempDiv.innerHTML;
+        vm.$destroy();
+        return html;
       },
       title: '图标'
-    }, {
-      field: 'name',
-      formatter: (value, row) => {
-        return '<span data-ck-item-id="' + row.id + '">' + value + '</span>';
-      },
-      title: '名称'
-    }, {
-      field: 'description',
-      title: '描述'
-    }, {
-      field: 'levelEquip',
-      title: '等级'
-    }, {
-      field: 'levelItem',
-      title: '品级'
-    }, {
-      field: 'stackSize',
-      title: '堆叠'
-    }, {
-      field: 'job',
-      title: '职业',
-      formatter: (value) => {
-        if (value === '冒险者') {
-          return ''
-        } else return value;
-      }
-    }, {
-      field: 'canBeHq',
-      title: '高品质',
-      formatter: (value) => {
-        return value === false ? '' : '✔'
-      }
-    }, {
-      field: 'isUnique',
-      title: '独占',
-      formatter: (value) => {
-        return value === true ? '✔' : ''
-      }
-    }, {
-      field: 'isCrestWorthy',
-      title: '珍稀',
-      formatter: (value) => {
-        return value === true ? '✔' : ''
-      }
-    }, {
-      field: 'isUntradable',
-      title: '可出售',
-      formatter: (value) => {
-        return value === false ? '✔' : ''
-      }
-    }, {
-      field: 'isDyeable',
-      title: '可分解',
-      formatter: (value) => {
-        return value === true ? '✔' : ''
-      }
     },
+      {
+        field: 'name',
+        formatter: (value, row) => {
+          return '<span data-ck-item-id="' + row.id + '">' + value + '</span>';
+        },
+        title: '名称'
+      }, {
+        field: 'description',
+        title: '描述'
+      }, {
+        field: 'levelEquip',
+        title: '等级'
+      }, {
+        field: 'levelItem',
+        title: '品级'
+      }, {
+        field: 'stackSize',
+        title: '堆叠'
+      }, {
+        field: 'job',
+        title: '职业',
+        formatter: (value) => {
+          if (value === '冒险者') {
+            return ''
+          } else return value;
+        }
+      }, {
+        field: 'canBeHq',
+        title: '高品质',
+        formatter: (value) => {
+          return value === false ? '' : '✔'
+        }
+      }, {
+        field: 'isUnique',
+        title: '独占',
+        formatter: (value) => {
+          return value === true ? '✔' : ''
+        }
+      }, {
+        field: 'isCrestWorthy',
+        title: '珍稀',
+        formatter: (value) => {
+          return value === true ? '✔' : ''
+        }
+      }, {
+        field: 'isUntradable',
+        title: '可出售',
+        formatter: (value) => {
+          return value === false ? '✔' : ''
+        }
+      }, {
+        field: 'isDyeable',
+        title: '可分解',
+        formatter: (value) => {
+          return value === true ? '✔' : ''
+        }
+      },
       {
         field: 'gather',
         title: '采集',
