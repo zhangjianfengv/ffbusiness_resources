@@ -4,7 +4,7 @@
         @click="toggle"
         @dblclick="makeFolder">
       <span style="font-size: large">
-         <a class="black-link-style" target="_blank" :href="'/#/item?id='+item.itemId">{{ item.itemName }}</a>{{
+         <a class="black-link-style" @change="closeRecipe" :href="'/#/item?id='+item.itemId">{{ item.itemName }}</a>{{
           item.amount ? ('X' + item.amount) : ''
         }}
        </span>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import $ from "jquery";
+
 export default {
   name: "Tree", props: {
     item: Object
@@ -44,6 +46,8 @@ export default {
       if (this.isFolder) {
         this.isOpen = !this.isOpen;
       }
+    }, closeRecipe() {
+      $('#recipeModal').modal('toggle');
     },
     makeFolder: function () {
       if (!this.isFolder) {

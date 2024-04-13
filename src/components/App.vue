@@ -124,16 +124,8 @@
           <div class="modal-body">
             <!--            body begin-->
             <div>
-              <h6>
-                2024年3月26日
-              </h6>
-              <span style="font-size: smaller">
-                1.物品价格走势图默认剔除（置空，并非删除）远离大多数数值的数据点。具体为超出平均值±标准差的两倍的数据
-            </span></div>
-            <br>
-            <div>
-              <h6>
-                2024年3月28日
+              <h6 style="padding-left: 16px">
+                2024年4月4日
               </h6>
               <span style="font-size: smaller">
                 1.安卓app适配了返回键和全面屏手势，返回不会直接退出
@@ -143,9 +135,27 @@
               <h6>
                 2023年3月29日
               </h6>
-              <span style="font-size: smaller">
-                1.安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）
-            </span>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>新增<u>家具预览</u>页面</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2023年4月9日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>安卓APP已经支持QQ登录</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年4月13日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>物品详情和成本页面</u>可预览指定家具</li>
+                <li><u>物品详情和成本页面</u>显示物品各级分类名称</li>
+                <li><u>物品详情和成本页面</u>可以输入ID来检索物品</li>
+              </ul>
             </div>
             <!--            body end-->
           </div>

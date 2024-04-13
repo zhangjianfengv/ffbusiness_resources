@@ -2,7 +2,7 @@
   <div id="app">
     <b-form inline id="itemForm">
       <div class="input-wrapper">
-        <b-form-input list="input-list" autocomplete="off" v-model="itemName" placeholder="物品名" value=""
+        <b-form-input list="input-list" autocomplete="off" v-model="itemName" placeholder="物品名或者物品ID" value=""
                       @keyup.enter="searchItem"></b-form-input>
         <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
                        @change="hideSelect">
@@ -166,6 +166,24 @@
         </div>
       </div>
     </div>
+    <div aria-hidden="true" class="modal fade" id="previewModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="previewLabel">物品预览</h4>
+          </div>
+          <div class="modal-body" style="text-align: center">
+            <img class="previewItem" :src="currentPreview"
+                 alt="莫古用力找也找不到照片库啵!"
+                 v-on:error="handleImageError">
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal" @click="closePreview" type="button"><i
+                  class="bi bi-power"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;">
       本站基础物品数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
                                      href="https://github.com/thewakingsands/" target="_blank">CafeMaker</a>&nbsp;和&nbsp;<a
@@ -185,12 +203,8 @@
 <style>
 </style>
 <style scoped>
-.recipe {
-  padding-left: 60px;
-}
-
-ul {
-  padding: 0;
+.previewItem {
+  width: 100%;
 }
 </style>
 <script>
@@ -255,34 +269,38 @@ export default {
         return html;
       },
       title: '图标'
+    }, {
+      field: 'name',
+      formatter: (value, row) => {
+        return '<span data-ck-item-id="' + row.id + '">' + value + '</span>';
+      },
+      title: '名称'
+    }, {
+      field: 'description',
+      title: '描述'
+    }, {
+      field: 'levelEquip',
+      title: '等级'
+    }, {
+      field: 'levelItem',
+      title: '品级'
+    }, {
+      field: 'stackSize',
+      title: '堆叠'
+    }, {
+      field: 'job',
+      title: '职业',
+      formatter: (value) => {
+        if (value === '冒险者') {
+          return ''
+        } else return value;
+      }
     },
       {
-        field: 'name',
-        formatter: (value, row) => {
-          return '<span data-ck-item-id="' + row.id + '">' + value + '</span>';
-        },
-        title: '名称'
-      }, {
-        field: 'description',
-        title: '描述'
-      }, {
-        field: 'levelEquip',
-        title: '等级'
-      }, {
-        field: 'levelItem',
-        title: '品级'
-      }, {
-        field: 'stackSize',
-        title: '堆叠'
-      }, {
-        field: 'job',
-        title: '职业',
-        formatter: (value) => {
-          if (value === '冒险者') {
-            return ''
-          } else return value;
-        }
-      }, {
+        field: 'itemType',
+        title: '分类'
+      },
+      {
         field: 'canBeHq',
         title: '高品质',
         formatter: (value) => {
@@ -314,6 +332,21 @@ export default {
         }
       },
       {
+        title: '家具预览',
+        align: 'center',
+        formatter: (value, row) => {
+          if (row.preview) {
+            let template = '<b-button  squared variant="outline-dark" @click="seeGather(row)"><i class="bi bi-image"></i></b-button>';
+            return this.vueFormatter({
+              template: template,
+              data: {row},
+              methods: {
+                seeGather: this.seePreview
+              }
+            })
+          } else return '';
+        }
+      }, {
         field: 'gather',
         title: '采集',
         align: 'center',
@@ -425,12 +458,14 @@ export default {
       options: options,
       nameOptions: [],
       singeCost: 0,
-      itemName: '',
+      itemName: null,
       itemId: this.$route.query.id,
       trade: null,
       timer: null,
       canBeHq: null,
       canMake: null,
+      defaultUrl: 'https://preview.linshaosoft.com/preview/',
+      currentPreview: 'https://static.ff14pvp.top/icon/icon/placeholder.png',
       levelItem: null,
       levelEquip: null,
       gil: null,
@@ -469,9 +504,10 @@ export default {
     searchItem() {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
+      let checkNumber1 = this.checkNumber(this.itemName);
       query = {
-        id: this.itemId,
-        name: this.itemId ? null : this.itemName,
+        id: checkNumber1 ? parseInt(this.itemName) : this.$route.query.id ? this.$route.query.id : null,
+        name: checkNumber1 ? null : this.itemName,
         description: $('#description').val(),
         itemUICategory: $('#itemUICategory').val(),
         levelItem: this.levelItem,
@@ -678,6 +714,21 @@ export default {
         }
       });
       this.showOptions = false;
+    }, seePreview(row) {
+      fetch('/ffbusiness/itemNew/furniture/' + row.id)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            this.currentPreview = this.defaultUrl + data.icon + '.jpg?v=2';
+            $('#previewModal').modal('show');
+          })
+          .catch(error => {
+            console.error('Error fetching items:', error);
+          });
     },
     eorzeaTime() {
       const currentTimeStampInSeconds = Date.now() / 1000;//TODO:需不需要math.floor?
@@ -697,11 +748,22 @@ export default {
       }
       this.singeCost = total;
     },
+    handleImageError(event) {
+      if (event.target.src.startsWith(this.defaultUrl))
+        event.target.src = event.target.src.replace(this.defaultUrl, 'https://preview.linshaosoft.com/lpreview/l/').replace(".jpg", '.png');
+      else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
+    },
     closeRecipe() {
       $('#recipeModal').modal('toggle');
+    }, closePreview() {
+      $('#previewModal').modal('toggle');
     },
     closeSource() {
       $('#sourceModal').modal('toggle');
+    },
+    checkNumber(inputValue) {
+      const numberPattern = /^\d+(\.\d+)?$/;
+      return inputValue && numberPattern.test(inputValue);
     },
     closeGather() {
       $('#gatherModal').modal('toggle');
