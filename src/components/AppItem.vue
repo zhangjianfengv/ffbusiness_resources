@@ -209,7 +209,7 @@ i.bi-wikipedia:hover {
   text-decoration: underline;
 }
 
-i.bi-wikipedia:hover {
+i.bi-wikipedia {
   color: black;
   text-decoration: none;
 }
