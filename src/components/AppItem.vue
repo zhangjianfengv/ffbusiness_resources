@@ -205,6 +205,7 @@
 }
 
 i.bi-wikipedia:hover {
+  color: midnightblue;
   text-decoration: underline;
 }
 </style>
@@ -261,8 +262,8 @@ export default {
     }, {
       field: 'name',
       formatter: (value, row) => {
-        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard text-primary" @click="copyText(row)"></i>&nbsp;<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:'
-            + value + '"><i class="bi bi-wikipedia text-primary"></i></a></span>';
+        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard" @click="copyText(row)"></i>&nbsp;<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:'
+            + value + '"><i class="bi bi-wikipedia"></i></a></span>';
         return this.vueFormatter({
           template: template,
           data: {row},
