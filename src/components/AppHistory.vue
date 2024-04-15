@@ -388,6 +388,4 @@ export default {
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
   }
 }
-
-
 </script>

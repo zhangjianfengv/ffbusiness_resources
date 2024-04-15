@@ -154,7 +154,6 @@ import Base64 from '../plugins/base64'
 import LineChart from "@/components/LineChart.vue";
 import BarChart from "@/components/BarChart.vue";
 import moment from "moment";
-import {initTooltip} from "@thewakingsands/kit-tooltip";
 
 let queryMarketable = {
   worldName: '中国',
@@ -207,7 +206,7 @@ export default {
           sortable: true,
           formatter: function iconFormatter(value, row) {
             let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<span data-ck-item-id="' + row.itemId + '">' + value + '</span>';
+            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
           },
           title: '物品名称'
         }, {
@@ -509,22 +508,6 @@ export default {
     }
   },
   mounted() {
-    initTooltip({
-      context: {
-        apiBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/item',  // xivapi 或 cafemaker 的 url；最后不要有斜线
-        iconBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/i', // 图标 cdn 的 url；最后不要有斜线
-        defaultHq: true,  // 是否默认显示 HQ 数据
-        hideSeCopyright: false, // 是否隐藏 SE 版权信息
-      },
-      links: {
-        detectWikiLinks: true,  // 是否自动识别 wiki 物品链接
-        itemNameAttribute: 'data-ck-item-name', // 自定义悬浮窗时，声明物品名字的属性
-        itemIdAttribute: 'data-ck-item-id', // 自定义悬浮窗时，声明物品 ID 的属性
-        actionNameAttribute: 'data-ck-action-name', // 自定义悬浮窗时，声明技能名字的属性
-        actionIdAttribute: 'data-ck-action-id', // 自定义悬浮窗时，声明技能 ID 的属性
-        rootContainer: document.body, // 监控的根元素
-      },
-    })
     $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {

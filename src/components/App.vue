@@ -134,14 +134,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2023年3月29日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>新增<u>家具预览</u>页面</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2023年4月9日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -153,10 +145,19 @@
                 2024年4月13日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品详情和成本页面</u>可预览指定家具</li>
-                <li><u>物品详情和成本页面</u>显示物品各级分类名称</li>
-                <li><u>物品详情和成本页面</u>可以输入ID来检索物品</li>
-                <li><u>物品详情和成本页面</u>查看配方时点击材料不会再打开新标签页，同时修复了相关的安卓app兼容问题</li>
+                <li><u>物品详情和成本</u>页面可预览指定家具</li>
+                <li><u>物品详情和成本</u>页面显示物品各级分类名称</li>
+                <li><u>物品详情和成本</u>页面可以输入ID来检索物品</li>
+                <li><u>物品详情和成本</u>页面查看配方时点击材料不会再打开新标签页，同时修复了相关的安卓app兼容问题</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2023年4月15日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>物品详情和成本</u>页面可以直接跳转维基或者复制物品名</li>
+                <li><u>市场统计</u>页面点击物品名可跳转<u>物品详情和成本</u>页面</li>
               </ul>
             </div>
             <!--            body end-->
