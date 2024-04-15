@@ -203,11 +203,6 @@
 .previewItem {
   width: 100%;
 }
-
-i.bi-wikipedia:hover {
-  color: midnightblue;
-  text-decoration: underline;
-}
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -262,7 +257,7 @@ export default {
     }, {
       field: 'name',
       formatter: (value, row) => {
-        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard" @click="copyText(row)"></i>&nbsp;<a style="color: #343a40" href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:'
+        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard" @click="copyText(row)"></i>&nbsp;<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:'
             + value + '"><i class="bi bi-wikipedia"></i></a></span>';
         return this.vueFormatter({
           template: template,
