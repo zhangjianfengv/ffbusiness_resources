@@ -261,13 +261,13 @@ export default {
     }, {
       field: 'name',
       formatter: (value, row) => {
-        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard text-primary" @click="copyText(row)"></i>&nbsp;<i class="bi bi-wikipedia text-primary" @click="wiki(row)"></i></span>>';
+        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard text-primary" @click="copyText(row)"></i>&nbsp;<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:'
+            + value + '"><i class="bi bi-wikipedia text-primary"></i></a></span>';
         return this.vueFormatter({
           template: template,
           data: {row},
           methods: {
-            copyText: this.copyText,
-            wiki: this.wiki
+            copyText: this.copyText
           }
         })
       },
@@ -851,9 +851,6 @@ export default {
       setTimeout(() => {
         this.showMessage = false;
       }, 3000);
-    },
-    wiki(text) {
-      window.location.href = "https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:" + text.name;
     },
     closeRecipe() {
       $('#recipeModal').modal('toggle');
