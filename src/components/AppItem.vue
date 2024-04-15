@@ -208,6 +208,11 @@ i.bi-wikipedia:hover {
   color: midnightblue;
   text-decoration: underline;
 }
+
+i.bi-wikipedia:hover {
+  color: black;
+  text-decoration: none;
+}
 </style>
 <script>
 import tableMixin from '../mixins/table'
