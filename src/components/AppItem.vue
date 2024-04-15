@@ -203,6 +203,10 @@
 .previewItem {
   width: 100%;
 }
+
+i.bi-wikipedia:hover {
+  text-decoration: underline;
+}
 </style>
 <script>
 import tableMixin from '../mixins/table'
