@@ -39,9 +39,8 @@
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" @click="resetQueryParams()"
                 type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
-      <!-- 提示框 -->
       <transition name="fade">
-        <div class="message" v-if="showMessage">{{ message }}</div>
+        <div class="message text-success" v-if="showMessage">{{ message }}</div>
       </transition>
     </b-form>
     <div>
@@ -258,7 +257,7 @@ export default {
     }, {
       field: 'name',
       formatter: (value, row) => {
-        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard" @click="copyText(row)"></i>&nbsp;<i class="bi bi-wikipedia" @click="wiki(row)"></i></span>>';
+        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard text-primary" @click="copyText(row)"></i>&nbsp;<i class="bi bi-wikipedia text-primary" @click="wiki(row)"></i></span>>';
         return this.vueFormatter({
           template: template,
           data: {row},
