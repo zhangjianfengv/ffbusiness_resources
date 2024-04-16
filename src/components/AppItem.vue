@@ -40,7 +40,7 @@
       <b-button squared variant="outline-dark" class="mx-1" @click="resetQueryParams()"
                 type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
       <transition name="fade">
-        <div class="message text-success" v-if="showMessage">{{ message }}</div>
+        <div class="message text-primary" v-if="showMessage">{{ message }}</div>
       </transition>
     </b-form>
     <div>
@@ -188,11 +188,34 @@
         </div>
       </div>
     </div>
+    <div aria-hidden="true" aria-labelledby="summaryTable1" class="modal fade" id="summaryModal1" role="dialog"
+         tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel1"></h4>
+          </div>
+          <div class="modal-body">
+            <div>
+              <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
+                             @change="changeSummaryScale(summaryScale)"></b-form-select>
+              <span>※均价已剔除偏离其他值过多的数据</span>
+            </div>
+            <LineChart v-if="loaded" :chart-data="chartData"/>
+            <BarChart v-if="loaded" :chart-data="chartData1"/>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSummaryTable()" type="button"><i
+                class="bi bi-power"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;">
       本站基础物品数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
-                                     href="https://github.com/thewakingsands/" target="_blank">CafeMaker</a>&nbsp;和&nbsp;<a
+                                     href="https://github.com/thewakingsands/" target="_blank">肥肥咖啡</a>&nbsp;和&nbsp;<a
         style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
-        href="https://garlandtools.cn/db/" target="_blank">GarlandTools Database</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
+        href="https://garlandtools.cn/db/" target="_blank">花环数据库</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
       All Rights Reserved.
     </div>
   </div>
@@ -209,10 +232,13 @@ import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Tree from "@/components/Tree.vue";
 import Base64 from "@/plugins/base64.js";
+import moment from "moment/moment.js";
+import BarChart from "@/components/BarChart.vue";
+import LineChart from "@/components/LineChart.vue";
 
 let query = {};
 export default {
-  components: {Tree},
+  components: {LineChart, BarChart, Tree},
   mixins: [tableMixin],
   props: ['themeColor'],
   watch: {
@@ -257,8 +283,8 @@ export default {
     }, {
       field: 'name',
       formatter: (value, row) => {
-        let template = '<span>' + row.name + '&nbsp;<i class="bi bi-clipboard" @click="copyText(row)"></i>&nbsp;<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:'
-            + value + '"><i class="bi bi-wikipedia"></i></a></span>';
+        let template = '<span>' + row.name + '&nbsp;<i id="cli' + row.id + '" @click="copyText(row)" class="bi bi-clipboard"></i>&nbsp;' +
+            '<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:' + value + '"><i class="bi bi-wikipedia"></i></a></span>';
         return this.vueFormatter({
           template: template,
           data: {row},
@@ -371,7 +397,25 @@ export default {
             })
           } else return '';
         }
-      }, {
+      },
+      {
+        title: '趋势图',
+        width: 100,
+        formatter: (value, row) => {
+          let template = '';
+          if (row.isUntradable === false)
+            template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-database"></i></b-button>';
+          return this.vueFormatter({
+            template: template,
+            data: {row},
+            methods: {
+              clickRow: this.openSummary
+            }
+          })
+        }
+      }
+      ,
+      {
         title: '查看配方',
         formatter: (value, row) => {
           if (row.craft) {
@@ -464,10 +508,25 @@ export default {
       gil: null,
       canGather: null,
       materials: [],
+      copyIcon: 'clipboard',
       craftCount: 1,
       errorText: '',
       itemTypes: [],
       treeData: {},
+      chartData: {},
+      searchText: null,
+      chartData1: {},
+      summaryScale: '7',
+      summaryItemId: null,
+      summaryOptions: [
+        {value: '3', text: '3天'},
+        {value: '7', text: '7天'},
+        {value: '15', text: '15天'},
+        {value: '30', text: '30天'},
+        {value: '90', text: '90天'},
+        {value: '180', text: '180天'},
+        {value: 'all', text: '所有时间'}
+      ],
       message: '复制成功!',
       showMessage: false,
       tempItemId: 0,
@@ -479,6 +538,10 @@ export default {
   },
   activated() {
     const vm = this;
+    const worldCookie = this.$cookies.get('world');
+    if (this.isStr(worldCookie)) {
+      this.worldName = Base64.decode(worldCookie);
+    } else this.worldName = "中国";
     let id = this.$route.query.id
     if (id) {
       $.ajax({
@@ -828,25 +891,41 @@ export default {
         event.target.src = event.target.src.replace(this.defaultUrl, 'https://preview.linshaosoft.com/lpreview/l/').replace(".jpg", '.png');
       else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
     },
-    copyText(text) {
-      const el = document.createElement('textarea')
-      el.value = text.name
-      el.style.width = '0'
-      el.style.height = '0'
-      el.style.opacity = '0'
-      el.style.position = 'absolute'
-      document.body.appendChild(el)
-      el.select();
-      el.setSelectionRange(0, 99999); // 适配 iOS
+    copyText(row) {
+      this.replaceElementClass('cli' + row.id)
+      const element = document.createElement('textarea')
+      element.value = row.name
+      element.style.width = '0'
+      element.style.height = '0'
+      element.style.opacity = '0'
+      element.style.position = 'absolute'
+      document.body.appendChild(element)
+      element.select();
+      element.setSelectionRange(0, 99999); // 适配 iOS
       const success = document.execCommand('copy')
       if (!success) {
-        prompt('请手动复制以下内容', text)
-      } else $('#copySuccess').show();
-      document.body.removeChild(el)
-      this.showMessage = true;
-      setTimeout(() => {
-        this.showMessage = false;
-      }, 3000);
+        prompt('请手动复制以下内容', row)
+      }
+      document.body.removeChild(element)
+      // this.showMessage = true;
+      // setTimeout(() => {
+      //   this.showMessage = false;
+      // }, 3000);
+    },
+    // 获取具有指定 id 和 class 的元素，并进行类替换
+    replaceElementClass(id) {
+      // 获取元素
+      const element = document.getElementById(id);
+      // 检查元素是否存在并且具有指定的 class
+      if (element && element.classList.contains('bi-clipboard-fill')) {
+        // 如果元素具有 bi-clipboard-fill 类，则替换为 bi-clipboard 类
+        element.classList.remove('bi-clipboard-fill');
+        element.classList.add('bi-clipboard');
+      } else if (element && element.classList.contains('bi-clipboard')) {
+        // 如果元素具有 bi-clipboard 类，则替换为 bi-clipboard-fill 类
+        element.classList.remove('bi-clipboard');
+        element.classList.add('bi-clipboard-fill');
+      }
     },
     closeRecipe() {
       $('#recipeModal').modal('toggle');
@@ -862,6 +941,66 @@ export default {
     },
     closeGather() {
       $('#gatherModal').modal('toggle');
+    },
+    openSummary(row) {
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
+      $('#SummaryLabel1').html(this.worldName + '&nbsp;<img src="' + url +
+          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
+      $('#summaryModal1').modal('show');
+      this.summaryItemId = row.id;
+      this.changeSummaryScale(this.summaryScale);
+    },
+    changeSummaryScale(scale) {
+      const vm = this;
+      let format = "yyyyMMDD";
+      $.ajax({
+        url: "/ffbusiness/summary/query", method: "post",
+        data: JSON.stringify({
+          itemId: vm.summaryItemId,
+          startDate: scale === "all" ? '20230209' : moment().subtract(parseInt(scale), 'days').format(format),
+          endDate: moment().format(format),
+          worldName: vm.worldName
+        }),
+        contentType: "application/json", success: function (data) {
+          let labels = data.dates;
+          let realLabels = [];
+          for (let l of labels) {
+            realLabels.push(moment(l).subtract(1, "days").format(format));//因为后端日期总是加一天
+          }
+          let priceData = data.values[0].value;
+          const mean = priceData.reduce((acc, val) => acc + val, 0) / priceData.length;
+          const stdDev = Math.sqrt(priceData.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / priceData.length);
+          // 定义阈值为平均值加上标准差的两倍
+          const threshold = mean + (2 * stdDev);
+          // 将超出阈值的数据点替换为null
+          const filteredData = priceData.map(value => value > threshold ? null : value);
+          vm.chartData = {
+            labels: realLabels,
+            datasets: [
+              {
+                label: '均价',
+                backgroundColor: '#df9ba1',
+                data: filteredData
+              }
+            ]
+          };
+          vm.loaded = true;
+          vm.chartData1 = {
+            labels: realLabels,
+            datasets: [
+              {
+                label: '售出数',
+                backgroundColor: '#5ba585',
+                data: data.values[1].value
+              }
+            ]
+          };
+          vm.loaded = true;
+        }
+      });
+    },
+    closeSummaryTable() {
+      $('#summaryModal1').modal('toggle');
     }
   },
   mounted() {

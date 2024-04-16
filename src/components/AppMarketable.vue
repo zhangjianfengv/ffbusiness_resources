@@ -134,11 +134,6 @@
 a, a:hover {
   color: #343a40;
 }
-
-.modal-select {
-  width: 80px;
-}
-
 @media screen and (max-width: 1000px) {
   .modal {
     max-width: 100%; /* 当设备宽度小于或等于600px时，弹框宽度为设备宽度的100% */

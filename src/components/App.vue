@@ -169,6 +169,8 @@
                 <li>新增<u>7.0基准测试</u>页面，可查看7.0跑分软件的说明及下载跑分软件。页面大部分由<a
                     href="https://na.finalfantasyxiv.com/benchmark/">官方页面</a>翻译而来，页面底部download按钮为官方下载源，如果下载速度过慢可尝试百度网盘下载
                 </li>
+                <li><u>物品详情和成本</u>页面可查看所有可出售物品的价格销量走势
+                </li>
               </ul>
             </div>
             <!--            body end-->
@@ -192,6 +194,10 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   select.form-control, .form-control.dropdown, .dropdown-menu {
     max-width: 220px !important;
   }
+}
+
+.modal-select {
+  width: 80px;
 }
 
 .input-wrapper {
