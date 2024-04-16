@@ -14,6 +14,7 @@ import AppCurrent from "@/components/AppCurrent.vue";
 import AppMy from "@/components/AppMy.vue";
 import About from "@/components/About.vue";
 import AppPreview from "@/components/AppPreview.vue";
+import HtmlViewer from "@/components/HtmlViewer.vue";
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -32,6 +33,11 @@ const routes = [
     {path: '/my/', name: 'AppMy', component: AppMy},
     {path: '/about/', name: 'AppMy', component: About},
     {path: '/furniture/', name: 'AppPreview', component: AppPreview},
+    {
+        path: '/bench/',
+        name: 'HtmlViewer',
+        component: HtmlViewer
+    },
     {path: '/item/', component: AppItem}
 ]
 const router = new VueRouter({
