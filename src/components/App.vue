@@ -12,6 +12,7 @@
             <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
+            <b-nav-item to="/bench" exact-path exact-active-class="active">7.0基准测试</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
             <div class="container1">
               <a class="top-button n-link-style"
@@ -158,6 +159,16 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>物品详情和成本</u>页面可以直接跳转维基或者复制物品名</li>
                 <li><u>市场统计</u>页面点击物品名可跳转<u>物品详情和成本</u>页面</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2023年4月16日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>新增<u>7.0基准测试</u>页面，可查看7.0跑分软件的说明及下载跑分软件。页面大部分由<a
+                    href="https://na.finalfantasyxiv.com/benchmark/">官方页面</a>翻译而来，页面底部download按钮为官方下载源，如果下载速度过慢可尝试百度网盘下载
+                </li>
               </ul>
             </div>
             <!--            body end-->
