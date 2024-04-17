@@ -199,7 +199,6 @@
             <div>
               <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
                              @change="changeSummaryScale(summaryScale)"></b-form-select>
-              <span>※均价已剔除偏离其他值过多的数据</span>
             </div>
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
@@ -907,10 +906,6 @@ export default {
         prompt('请手动复制以下内容', row)
       }
       document.body.removeChild(element)
-      // this.showMessage = true;
-      // setTimeout(() => {
-      //   this.showMessage = false;
-      // }, 3000);
     },
     // 获取具有指定 id 和 class 的元素，并进行类替换
     replaceElementClass(id) {
@@ -968,19 +963,13 @@ export default {
             realLabels.push(moment(l).subtract(1, "days").format(format));//因为后端日期总是加一天
           }
           let priceData = data.values[0].value;
-          const mean = priceData.reduce((acc, val) => acc + val, 0) / priceData.length;
-          const stdDev = Math.sqrt(priceData.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / priceData.length);
-          // 定义阈值为平均值加上标准差的两倍
-          const threshold = mean + (2 * stdDev);
-          // 将超出阈值的数据点替换为null
-          const filteredData = priceData.map(value => value > threshold ? null : value);
           vm.chartData = {
             labels: realLabels,
             datasets: [
               {
                 label: '均价',
                 backgroundColor: '#df9ba1',
-                data: filteredData
+                data: priceData
               }
             ]
           };
