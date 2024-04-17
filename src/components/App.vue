@@ -86,6 +86,9 @@
               <h4 class="alert-heading">使用技巧</h4>
               <ul>
                 <li>
+                  各个页面均不需要输入完整物品名即可进行关键词查询
+                </li>
+                <li>
                   配方成本计算可点击<i class="bi bi-x-square"></i>按钮删除某个已经有的材料不计入总成本
                 </li>
                 <li>
@@ -139,14 +142,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2023年4月9日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>安卓APP已经支持QQ登录</li>
-              </ul>
-            </div>
             <div>
               <h6 style="padding-left: 16px">
                 2024年4月13日
