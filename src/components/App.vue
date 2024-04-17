@@ -299,6 +299,7 @@ export default {
     answer() {
       $('#answer').modal('show');
     }, applyColor() {
+      const vm = this;
       const currentColor = this.themeColor;
       const navbar = document.querySelectorAll('#navbar');
       const dropDown = document.querySelectorAll('#dropdown-form');
@@ -315,12 +316,31 @@ export default {
       dropDown.forEach(link => {
         link.style.backgroundColor = currentColor;
       });
+      vm.setNavbarTextColor(document.getElementById('navbar'));
       localStorage.setItem('themeColor', currentColor);
     },
     toLogin() {
       QC.Login.showPopup({
         appId: Base64.decode("MTAyMDc1MDIx"),
         redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
+      });
+    },
+    isLightColor(color) {
+      // 将颜色转换为RGB值
+      const rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+      if (!rgb) return false;
+      // 计算亮度
+      const brightness = (parseInt(rgb[1]) * 299 + parseInt(rgb[2]) * 587 + parseInt(rgb[3]) * 114) / 1000;
+      // 根据亮度判断颜色是否为浅色
+      return brightness > 125; // 这个阈值可以根据实际需要调整
+    }
+    , setNavbarTextColor(navbar) {
+      const computedStyle = window.getComputedStyle(navbar);
+      const backgroundColor = computedStyle.backgroundColor;
+      let newColor = this.isLightColor(backgroundColor) ? 'black' : 'white';
+      const selectorAll = document.querySelectorAll('.nav-link');
+      selectorAll.forEach(link => {
+        link.style.color = newColor;
       });
     },
     modalHidden() {
