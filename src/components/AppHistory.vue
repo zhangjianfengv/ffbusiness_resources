@@ -110,7 +110,7 @@ export default {
       return !this.itemName
     }, buyerNameState() {
       if (!this.isStr(this.buyerName)) return null;
-      else return this.isStr(this.itemName)
+      else return this.isStr(this.itemName) || this.login
     }
   },
   watch: {
@@ -261,12 +261,13 @@ export default {
       itemTypeOptions: [],
       clickWorldName: null,
       selectedValue: '',
+      login: false,
       showOptions: false
     }
   },
   methods: {
     searchItem() {
-      if (this.buyerNameInvalidState) {
+      if (this.buyerNameInvalidState && !this.login) {
         this.$bvModal.show('modal-sm')
         return;
       }
@@ -379,6 +380,10 @@ export default {
     }
   },
   mounted() {
+    const userCookie = this.$cookies.get('user');
+    if (this.isStr(userCookie)) {
+      this.login = true;
+    }
     $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
