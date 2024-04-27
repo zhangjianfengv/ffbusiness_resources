@@ -830,7 +830,7 @@ export default {
             return response.json();
           })
           .then(data => {
-            this.currentPreview = this.defaultUrl + data.icon + '.jpg?v=2';
+            this.currentPreview = this.defaultUrl + data.icon + '.jpg?v=3';
             $('#previewModal').modal('show');
           })
           .catch(error => {
