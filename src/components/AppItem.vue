@@ -2,18 +2,17 @@
   <div id="app">
     <b-form inline id="itemForm">
       <div class="input-wrapper">
-        <b-form-input list="input-list" autocomplete="off" v-model="itemName" placeholder="物品名或者物品ID" value=""
+        <b-form-input autocomplete="off" v-model="itemName" placeholder="物品名或者物品ID" value=""
                       @keyup.enter="searchItem"></b-form-input>
         <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
                        @change="hideSelect">
           <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
         </b-form-select>
       </div>
-      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-input class="form-control" v-model="levelEquip" placeholder="等级" type="text" value=""></b-form-input>
       <b-form-input class="form-control" v-model="levelItem" placeholder="品级" type="text" value=""></b-form-input>
       <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
-      <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+      <bt-select v-model="itemTypes" ref="typeSelect" id="itemType">
       </bt-select>
       <b-form-checkbox v-model="canMake" style="margin: 5px 9px" value="true" unchecked-value="false"
                        @change="searchItem()">

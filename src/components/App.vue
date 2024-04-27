@@ -8,10 +8,10 @@
           <b-navbar-nav>
             <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
             <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
+            <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
+            <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/item" exact-path exact-active-class="active">物品详情和成本</b-nav-item>
             <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
-            <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
-            <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
             <b-nav-item to="/bench" exact-path exact-active-class="active">7.0基准测试</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
             <div class="container1">
@@ -144,18 +144,7 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年4月13日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品详情和成本</u>页面可预览指定家具</li>
-                <li><u>物品详情和成本</u>页面显示物品各级分类名称</li>
-                <li><u>物品详情和成本</u>页面可以输入ID来检索物品</li>
-                <li><u>物品详情和成本</u>页面查看配方时点击材料不会再打开新标签页，同时修复了相关的安卓app兼容问题</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
-                2023年4月15日
+                2024年4月15日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>物品详情和成本</u>页面可以直接跳转维基或者复制物品名</li>
@@ -164,13 +153,22 @@
             </div>
             <div>
               <h6 style="padding-left: 16px">
-                2023年4月16日
+                2024年4月16日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>新增<u>7.0基准测试</u>页面，可查看7.0跑分软件的说明及下载跑分软件。页面大部分由<a
                     href="https://na.finalfantasyxiv.com/benchmark/">官方页面</a>翻译而来，页面底部download按钮为官方下载源，如果下载速度过慢可尝试百度网盘下载
                 </li>
                 <li><u>物品详情和成本</u>页面可查看所有可出售物品的价格销量走势，<b>此页面的走势图不过滤数据</b>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年4月27日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了<u>实时物价页面</u>同时存在两个物品名称建议下拉框的问题,会导致选中物品名建议触发搜索不起作用
                 </li>
               </ul>
             </div>

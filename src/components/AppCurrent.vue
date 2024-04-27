@@ -2,14 +2,13 @@
   <div id="app">
     <b-form inline id="queryCurrent" @reset="onReset">
       <div class="input-wrapper">
-        <b-form-input list="input-list" autocomplete="off" v-model="itemName" placeholder="物品名"
+        <b-form-input autocomplete="off" v-model="itemName" placeholder="物品名"
                       value="" @keyup.enter="searchItem"></b-form-input>
         <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
                        @change="hideSelect">
           <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
         </b-form-select>
       </div>
-      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
       <b-button squared variant="outline-dark" class="mx-1" @click="searchItem()" type="button"><i
           class="bi bi-search"></i>
