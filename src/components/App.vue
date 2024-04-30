@@ -147,15 +147,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年4月15日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品详情和成本</u>页面可以直接跳转维基或者复制物品名</li>
-                <li><u>市场统计</u>页面点击物品名可跳转<u>物品详情和成本</u>页面</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年4月16日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -171,7 +162,16 @@
                 2024年4月27日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li>修复了<u>实时物价页面</u>同时存在两个物品名称建议下拉框的问题,会导致选中物品名建议触发搜索不起作用
+                <li>修复了<u>实时物价</u>页面同时存在两个物品名称建议下拉框的问题,会导致选中物品名建议触发搜索不起作用
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年4月30日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>市场统计</u>页面分类筛选新增“雇员筹集”父分类，可过滤采矿、园艺、捕鱼、战斗雇员中的一个或者多个职业筹集委托可带回来的物品，<u>销售履历</u>和<u>物品详情和成本</u>页面同样支持过滤
                 </li>
               </ul>
             </div>
