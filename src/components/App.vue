@@ -147,18 +147,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年4月16日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>新增<u>7.0基准测试</u>页面，可查看7.0跑分软件的说明及下载跑分软件。页面大部分由<a
-                    href="https://na.finalfantasyxiv.com/benchmark/">官方页面</a>翻译而来，页面底部download按钮为官方下载源，如果下载速度过慢可尝试百度网盘下载
-                </li>
-                <li><u>物品详情和成本</u>页面可查看所有可出售物品的价格销量走势，<b>此页面的走势图不过滤数据</b>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年4月27日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -172,6 +160,16 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>市场统计</u>页面分类筛选新增“雇员筹集”父分类，可过滤采矿、园艺、捕鱼、战斗雇员中的一个或者多个职业筹集委托可带回来的物品，<u>销售履历</u>和<u>物品详情和成本</u>页面同样支持过滤
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年5月1日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>
+                  提示：由于目前有多个后端服务进行了负载均衡，因为代码问题（现已修复）导致5月1日更新的30天市场统计连续运行了多次，所以显示的“排序较上次”等排名变化大多显示为“持平”，但不影响售出总数，交易次数和趋势图数据
                 </li>
               </ul>
             </div>
