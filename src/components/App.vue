@@ -92,6 +92,9 @@
                   各个页面均不需要输入完整物品名即可进行关键词查询
                 </li>
                 <li>
+                  网站绝大部分页面均适配手机端浏览
+                </li>
+                <li>
                   配方成本计算可点击<i class="bi bi-x-square"></i>按钮删除某个已经有的材料不计入总成本
                 </li>
                 <li>
@@ -147,15 +150,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年4月27日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>修复了<u>实时物价</u>页面同时存在两个物品名称建议下拉框的问题,会导致选中物品名建议触发搜索不起作用
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年4月30日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -171,6 +165,14 @@
                 <li>
                   提示：由于目前有多个后端服务进行了负载均衡，因为代码问题（现已修复）导致5月1日更新的30天市场统计连续运行了多次，所以显示的“排序较上次”等排名变化大多显示为“持平”，但不影响售出总数，交易次数和趋势图数据
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年5月4日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了<u>市场统计</u>页面更新时间一览有时候未及时更新的问题</li>
               </ul>
             </div>
             <!--            body end-->
