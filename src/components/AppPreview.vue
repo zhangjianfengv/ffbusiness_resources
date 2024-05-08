@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       items: [], // 存储从后端获取的物品数据
-      defaultUrl: 'https://applet.ff14pvp.top/preview/',
+      defaultUrl: 'https://sta2.ff14pvp.top/preview/',
       fallback: ''
     };
   },
@@ -103,7 +103,7 @@ export default {
     },
     handleImageError(event) {
       if (event.target.src.startsWith(this.defaultUrl))
-        event.target.src = event.target.src.replace(this.defaultUrl, 'https://applet.ff14pvp.top/lpreview/l/').replace(".jpg", '.png');
+        event.target.src = event.target.src.replace(this.defaultUrl, 'https://sta2.ff14pvp.top/lpreview/l/').replace(".jpg", '.png');
       else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
     }
   }
