@@ -33,7 +33,7 @@
             sm="6"
             class="mb-4">
           <b-card style="text-align: center" :title="item.itemName" img-top>
-            <img :src="defaultUrl+item.url+'.jpg?v=3'"
+            <img :src="defaultUrl+item.url+'.jpg?v=0'"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
           </b-card>
@@ -63,7 +63,7 @@ export default {
   data() {
     return {
       items: [], // 存储从后端获取的物品数据
-      defaultUrl: 'https://preview.linshaosoft.com/preview/',
+      defaultUrl: 'https://applet.ff14pvp.top/preview/',
       fallback: ''
     };
   },
@@ -103,7 +103,7 @@ export default {
     },
     handleImageError(event) {
       if (event.target.src.startsWith(this.defaultUrl))
-        event.target.src = event.target.src.replace(this.defaultUrl, 'https://preview.linshaosoft.com/lpreview/l/').replace(".jpg", '.png');
+        event.target.src = event.target.src.replace(this.defaultUrl, 'https://applet.ff14pvp.top/lpreview/l/').replace(".jpg", '.png');
       else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
     }
   }
