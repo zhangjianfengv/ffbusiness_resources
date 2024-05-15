@@ -379,6 +379,24 @@ export default {
             })
           } else return '';
         }
+      }, {
+        field: 'guYuan',
+        title: '雇员筹集',
+        align: 'center',
+        formatter: (value) => {
+          switch (value) {
+            case 0:
+              return '';
+            case 1:
+              return '捕鱼';
+            case 2:
+              return '狩猎';
+            case 3:
+              return '采矿';
+            case 4:
+              return '采伐';
+          }
+        }
       },
       {
         title: 'NPC购买兑换',

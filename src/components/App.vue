@@ -175,6 +175,14 @@
                 <li>修复了<u>市场统计</u>页面更新时间一览有时候未及时更新的问题</li>
               </ul>
             </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年5月15日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>物品详情和成本</u>页面表格新增展示雇员（是否）可带类型</li>
+              </ul>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">

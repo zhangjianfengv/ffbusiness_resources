@@ -3,7 +3,7 @@
     <b-form inline id="queryCurrent" @reset="onReset">
       <div class="input-wrapper">
         <b-form-input autocomplete="off" v-model="itemName" placeholder="物品名"
-                      value="" @keyup.enter="searchItem"></b-form-input>
+                      value="" @keyup.enter.prevent="searchItem"></b-form-input>
         <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
                        @change="hideSelect">
           <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
