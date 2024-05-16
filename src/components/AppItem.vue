@@ -388,13 +388,13 @@ export default {
             case 0:
               return '';
             case 1:
-              return '捕鱼';
+              return '捕鱼人';
             case 2:
-              return '狩猎';
+              return '战斗精英/魔法导师';
             case 3:
-              return '采矿';
+              return '采矿工';
             case 4:
-              return '采伐';
+              return '园艺工';
           }
         }
       },

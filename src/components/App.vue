@@ -150,16 +150,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年5月1日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>
-                  提示：由于目前有多个后端服务进行了负载均衡，因为代码问题（现已修复）导致5月1日更新的30天市场统计连续运行了多次，所以显示的“排序较上次”等排名变化大多显示为“持平”，但不影响售出总数，交易次数和趋势图数据
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年5月4日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -171,7 +161,15 @@
                 2024年5月15日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品详情和成本</u>页面表格新增展示雇员（是否）可带类型</li>
+                <li><u>物品详情和成本</u>页面表格新增展示此物品可由哪种职业的雇员筹集委托带回</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年5月16日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了<u>实时物价</u>页面回车键触发搜索不起作用的问题(如果只需要查询物价可以将此页面存为书签)</li>
               </ul>
             </div>
             <!--            body end-->
