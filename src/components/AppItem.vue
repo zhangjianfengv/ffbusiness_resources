@@ -106,7 +106,7 @@
                 </b-form-select-option>
               </b-form-select>
               <b-form-input id="sb-inline" class="mt-1" v-model="craftCount" type="number" inline></b-form-input>
-              <ul>
+              <ul style="padding-left: 0">
                 <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{
                     value.num * craftCount
                   }}个*{{
