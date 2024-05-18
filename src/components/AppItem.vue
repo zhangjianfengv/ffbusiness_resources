@@ -115,7 +115,7 @@
                   <span @click="deleteItem(key)"><i class="bi bi-x-square"></i></span>
                 </li>
               </ul>
-              <span>&nbsp;&nbsp;&nbsp;&nbsp;成本总计{{
+              <span>成本总计{{
                   (this.errorText === '' || !this.errorText) ? (this.singeCost * craftCount) : '（某个材料无在售，请尝试切换至大区）'
                 }}</span>
             </div>
