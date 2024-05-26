@@ -848,7 +848,7 @@ export default {
             return response.json();
           })
           .then(data => {
-            this.currentPreview = this.defaultUrl + data.icon + '.jpg?v=0';
+            this.currentPreview = this.defaultUrl + data.icon + '.jpg?v=1';
             $('#previewModal').modal('show');
           })
           .catch(error => {

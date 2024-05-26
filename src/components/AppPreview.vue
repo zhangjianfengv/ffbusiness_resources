@@ -33,7 +33,7 @@
             sm="6"
             class="mb-4">
           <b-card style="text-align: center" :title="item.itemName" img-top>
-            <img :src="defaultUrl+item.url+'.jpg?v=0'"
+            <img :src="defaultUrl+item.url+'.jpg?v=1'"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
           </b-card>
