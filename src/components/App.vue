@@ -174,6 +174,14 @@
                 <li>修复了<u>实时物价</u>页面回车键触发搜索不起作用的问题(如果只需要查询物价可以将此页面存为书签)</li>
               </ul>
             </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年5月27日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>更新了黑话检索的时装关键词列表</li>
+              </ul>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
