@@ -45,7 +45,8 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <b-modal id="network" size="sm" ok-only ok- squared variant="outline-dark" title="提示">网络异常，正在重试....
+    <b-modal id="network" size="sm" ok-only ok- squared variant="outline-dark" title="提示">
+      喔唷，网络崩溃啦！X﹏X。不过别急，可能等你看完这条信息就好了
     </b-modal>
   </div>
 </template>
