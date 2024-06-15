@@ -171,7 +171,7 @@
                 2024年6月15日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>7.0基准测试</u>页面的跑分软件下载链接更新为<a href="https://sqex.to/ffxiv-bench">https://sqex.to/ffxiv-bench</a>备用的百度网盘下载也做了更新
+                <li><u>7.0基准测试</u>页面的跑分软件下载链接更新为<a href="https://sqex.to/ffxiv-bench">https://sqex.to/ffxiv-bench</a>。备用的百度网盘下载也做了更新
                 </li>
               </ul>
             </div>
