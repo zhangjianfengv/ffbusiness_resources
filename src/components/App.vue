@@ -152,22 +152,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年5月4日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>修复了<u>市场统计</u>页面更新时间一览有时候未及时更新的问题</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年5月15日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品详情和成本</u>页面表格新增展示此物品可由哪种职业的雇员筹集委托带回</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年5月16日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -180,6 +164,15 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>更新了黑话检索的时装关键词列表</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年6月15日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>7.0基准测试</u>页面的跑分软件下载链接更新为<a href="https://sqex.to/ffxiv-bench">https://sqex.to/ffxiv-bench</a>备用的百度网盘下载也做了更新
+                </li>
               </ul>
             </div>
             <!--            body end-->
