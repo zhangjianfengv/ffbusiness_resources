@@ -62,6 +62,7 @@
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
     </b-form>
+    <Collect></Collect>
     <b-modal id="modal-sm" size="sm" ok-only ok- squared variant="outline-dark" title="提示">角色名查询须指定物品
     </b-modal>
     <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
@@ -92,6 +93,7 @@
 import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Base64 from '../plugins/base64'
+import Collect from "@/components/Collect.vue";
 
 let query = {
   worldName: '中国',
@@ -102,6 +104,7 @@ if (window.matchMedia("(max-width: 767px)").matches) {
   mobile = true;
 }
 export default {
+  components: {Collect},
   mixins: [tableMixin],
   props: ['themeColor'],
   computed: {
@@ -312,33 +315,34 @@ export default {
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
     operateCollect(row) {
-      let $table = $('#table');
-      const userCookie = this.$cookies.get('user');
-      if (!userCookie) {
-        this.$router.push({name: 'AppMy'});
-        return;
-      }
-      if (!row.collect) {
-        $.ajax({
-          url: "/ffbusiness/listItem/add",
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({itemId: row.itemId}),
-          success: function (data) {
-            $table.bootstrapTable('refresh', {silent: true})
-          }
-        });
-      } else {
-        $.ajax({
-          url: "/ffbusiness/listItem/del",
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({itemId: row.itemId}),
-          success: function (data) {
-            $table.bootstrapTable('refresh', {silent: true})
-          }
-        });
-      }
+      $('#collectModal').modal('show');
+      // let $table = $('#table');
+      // const userCookie = this.$cookies.get('user');
+      // if (!userCookie) {
+      //   this.$router.push({name: 'AppMy'});
+      //   return;
+      // }
+      // if (!row.collect) {
+      //   $.ajax({
+      //     url: "/ffbusiness/listItem/add",
+      //     method: "post",
+      //     contentType: "application/json",
+      //     data: JSON.stringify({itemId: row.itemId}),
+      //     success: function (data) {
+      //       $table.bootstrapTable('refresh', {silent: true})
+      //     }
+      //   });
+      // } else {
+      //   $.ajax({
+      //     url: "/ffbusiness/listItem/del",
+      //     method: "post",
+      //     contentType: "application/json",
+      //     data: JSON.stringify({itemId: row.itemId}),
+      //     success: function (data) {
+      //       $table.bootstrapTable('refresh', {silent: true})
+      //     }
+      //   });
+      // }
     },
     queryCurrentForm() {
       let tempItemId;
