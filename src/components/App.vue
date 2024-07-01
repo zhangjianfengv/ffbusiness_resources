@@ -150,14 +150,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年5月16日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>修复了<u>实时物价</u>页面回车键触发搜索不起作用的问题(如果只需要查询物价可以将此页面存为书签)</li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年5月27日
@@ -173,6 +166,17 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>7.0基准测试</u>页面的跑分软件下载链接更新为<a href="https://sqex.to/ffxiv-bench">https://sqex.to/ffxiv-bench</a>。备用的百度网盘下载也做了更新
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年7月1日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>
+                  2023年的销售履历数据已经恢复，为了避免磁盘满了等各种原因导致其他功能无法使用，仅其中一个服务器可以查询，每个访问者有三分之一的概率会分配到那个服务器，不定期会轮换
+                </li>
+                <li>修复了由此导致的市场统计数据异常问题</li>
               </ul>
             </div>
             <!--            body end-->
