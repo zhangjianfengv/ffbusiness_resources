@@ -150,7 +150,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
             <div>
               <h6 style="padding-left: 16px">
                 2024年5月27日
