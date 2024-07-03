@@ -31,9 +31,10 @@
             lg="3"
             md="4"
             sm="6"
+            xs="12"
             class="mb-4">
           <b-card style="text-align: center" :title="item.itemName" img-top>
-            <img :src="defaultUrl+item.url+'.jpg?v=1'"
+            <img style="width: 100%; height: auto;" :src="defaultUrl+item.url+'.jpg?v=1'"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
           </b-card>
@@ -43,17 +44,6 @@
   </div>
 </template>
 <style scoped>
-img {
-  width: 24%; /* 在PC上默认宽度 */
-}
-
-/* 在小屏幕设备上（例如移动设备）设置输入框宽度为100% */
-@media only screen and (max-width: 768px) {
-  img {
-    width: 100%;
-  }
-}
-
 .card-body {
   padding: 0;
 }
