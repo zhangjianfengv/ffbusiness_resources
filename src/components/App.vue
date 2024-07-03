@@ -150,14 +150,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年5月27日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>更新了黑话检索的时装关键词列表</li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年6月15日
@@ -176,6 +169,14 @@
                   2023年的销售履历数据已经恢复，为了避免磁盘满了等各种原因导致其他功能无法使用，仅其中一个服务器可以查询，每个访问者有三分之一的概率会分配到那个服务器，不定期会轮换
                 </li>
                 <li>修复了由此导致的市场统计数据异常问题</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年7月3日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>家具预览</u>页面，每张预览图的宽度调整到480px，适配1080p屏幕</li>
               </ul>
             </div>
             <!--            body end-->
