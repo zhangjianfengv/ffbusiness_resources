@@ -44,7 +44,7 @@
 </template>
 <style scoped>
 img {
-  width: 480px; /* 在PC上默认宽度 */
+  width: 24%; /* 在PC上默认宽度 */
 }
 
 /* 在小屏幕设备上（例如移动设备）设置输入框宽度为100% */

@@ -176,7 +176,7 @@
                 2024年7月3日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>家具预览</u>页面，每张预览图的宽度调整到480px，适配1080p屏幕</li>
+                <li><u>家具预览</u>页面，每张预览图的宽度调整为按比例缩放，适配1080p屏幕</li>
               </ul>
             </div>
             <!--            body end-->
