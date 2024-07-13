@@ -444,7 +444,6 @@ export default {
             pageSize: 50,
             filterControl: true,
             paginationUseIntermediate: true,
-            showSearchClearButton: true,
             paginationSuccessivelySize: 1,
             paginationPagesBySide: 1,
             pageList: [10, 20, 50, 150, 450]
