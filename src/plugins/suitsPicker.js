@@ -10,6 +10,7 @@ Vue.component('su-select', {
         " :value='suit' v-for='suit in suits'>{{option}}</option></select>",
     mounted: function () {
         const vm = this;
+        let suits = $('#suits');
         $.ajax({
             url: "/ffbusiness/itemNew/suits/all",
             async: true,
@@ -17,7 +18,24 @@ Vue.component('su-select', {
             contentType: "application/json",
             success: function (data) {
                 vm.suits = data.suits;
+                for (let i = 0; i < data.length; i++) {
+                    suits.append("<option value='" + data[i] + "'>" + data[i] + "</option>");
+                }
+                $('#suits').selectpicker('refresh');
             }
+        });
+        suits.on('changed.bs.select', function () {
+            vm.$emit('input', suits.val());
+            suits.selectpicker('refresh');
         })
+    },
+    watch: {},
+    updated: function () {
+        this.$nextTick(function () {
+            $(this.$el).selectpicker('refresh');
+        })
+    },
+    destroyed: function () {
+        $(this.$el).selectpicker('destroy');
     }
 })

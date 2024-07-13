@@ -10,7 +10,6 @@
         </b-form-select>
       </div>
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
-      <su-select id="suits" :options="suits" v-model="suit" ref="su-select"></su-select>
       <b-button squared variant="outline-dark" class="mx-1" @click="searchItem()" type="button"><i
           class="bi bi-search"></i>
       </b-button>
@@ -18,10 +17,6 @@
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
-      <b-form-checkbox id="hq" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
-                       @change="queryMaterial()"
-                       switch>材料
-      </b-form-checkbox>
       <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="filterData()"
                        switch>HQ
@@ -31,10 +26,19 @@
                        @change="loadMore()" switch>更多
       </b-form-checkbox>
       <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
+      <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
+      <b-form-checkbox id="sm" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
+                       @change="querySuit()"
+                       switch>材料
+      </b-form-checkbox>
+      <b-button squared variant="outline-dark" class="mx-1" @click="querySuit()" type="button"><i
+          class="bi bi-search"></i>
+      </b-button>
     </b-form>
-    <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
+    <b-modal id="modal-item" size="sm" ok-only ok-squared variant="outline-dark" title="提示">查询条件无匹配物品
     </b-modal>
     <table id="currentTable"></table>
+    <table id="suitTable"></table>
     <b-card no-body class="mb-1">
       <b-card-header header-tag="header" class="p-1" role="tab">
         <b-button block v-b-toggle.accordion-3 squared variant="outline-dark">切换最近销售履历</b-button>
@@ -64,42 +68,6 @@ import Base64 from '../plugins/base64'
 import moment from "moment";
 
 let optionCurrent = {
-  dataField: 'currents',
-  pagination: "true",
-  columns: [{
-    field: 'worldName',
-    title: '服务器',
-    filterControl: 'select'
-  }, {
-    field: 'retainerName',
-    title: '雇员名',
-    filterControl: 'select'
-  }, {
-    field: 'hq',
-    formatter: (value) => {
-      return (value === true || value === 'true') ? '✔' : '✗'
-    },
-    title: '高品质',
-    filterControl: 'select'
-  }, {
-    field: 'total',
-    formatter: (value, row) => {
-      let exp = /\B(?=(\d{3})+(?!\d))/g;
-      return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
-    },
-    title: '总计'
-  }], method: 'post',
-  pageNumber: 1,
-  pageSize: 5,
-  toolbar: '#queryCurrent',
-  filterControl: true,
-  paginationUseIntermediate: true,
-  showSearchClearButton: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  pageList: [10, 20, 50, 150, 450]
-};
-let optionSuit = {
   dataField: 'currents',
   pagination: "true",
   columns: [{
@@ -166,6 +134,9 @@ export default {
         }
       }, 500);
     },
+    suit: function (newValue) {
+      this.querySuit(newValue);
+    },
   },
   computed: {
     imageUrl() {
@@ -181,6 +152,8 @@ export default {
       maximum: 0,
       itemName: null,
       date: null,
+      suits: [],
+      suit: '',
       selectedValue: '',
       showOptions: false,
       itemId: '0',
@@ -421,6 +394,64 @@ export default {
           }
         });
       } else vm.$bvModal.show('modal-item');
+    }, querySuit(newValue) {
+      const vm = this;
+      if (!vm.isStr(newValue)) newValue = vm.suit;
+      let $currentTable = $('#currentTable');
+      let suitTable = $('#suitTable');
+      let $historyTable = $('#historyTable');
+      $currentTable.bootstrapTable('destroy');
+      suitTable.bootstrapTable('destroy');
+      $historyTable.bootstrapTable('destroy');
+      $('#loading-indicator').show();
+      $.ajax({
+        url: "/ffbusiness/currentData/suit",
+        async: true,
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({suitMaterial: vm.suitMaterial, suitName: newValue, dc: vm.worldName}),
+        success: function (data) {
+          $('#loading-indicator').hide();
+          suitTable.bootstrapTable({
+            data: data,
+            pagination: "true",
+            columns: [{
+              field: 'itemName',
+              title: '物品名',
+            }, {
+              field: 'worldName',
+              title: '服务器',
+              filterControl: 'select'
+            }, {
+              field: 'retainerName',
+              title: '雇员名',
+            }, {
+              field: 'hq',
+              formatter: (value) => {
+                return (value === true || value === 'true') ? '✔' : '✗'
+              },
+              title: '高品质',
+              filterControl: 'select'
+            }, {
+              field: 'total',
+              formatter: (value, row) => {
+                let exp = /\B(?=(\d{3})+(?!\d))/g;
+                return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '个=' + value.toString().replace(exp, ",")
+              },
+              title: '总计'
+            }], method: 'post',
+            pageNumber: 1,
+            pageSize: 50,
+            toolbar: '#queryCurrent',
+            filterControl: true,
+            paginationUseIntermediate: true,
+            showSearchClearButton: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            pageList: [10, 20, 50, 150, 450]
+          });
+        }
+      });
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },

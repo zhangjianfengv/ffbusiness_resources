@@ -150,16 +150,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年6月15日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>7.0基准测试</u>页面的跑分软件下载链接更新为<a href="https://sqex.to/ffxiv-bench">https://sqex.to/ffxiv-bench</a>。备用的百度网盘下载也做了更新
-                </li>
-              </ul>
-            </div>
             <div>
               <h6 style="padding-left: 16px">
                 2024年7月1日
@@ -177,6 +167,15 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>家具预览</u>页面，每张预览图的宽度调整为按比例缩放，适配1080p屏幕</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年7月13日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>实时物价</u>页面新增预置套装批量查询整套价格/整套材料价格功能（均取大区内最低的一个价格,如果是查询材料，则“总计”栏的数量为套装内各个散件的同一个材料需求数之和，<b>并非卖家单雇员位数量</b>），目前已经预置640战斗职业装备和620生产采集装备，该功能仍在完善
+                </li>
               </ul>
             </div>
             <!--            body end-->
