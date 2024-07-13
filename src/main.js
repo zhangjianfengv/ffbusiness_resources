@@ -4,6 +4,7 @@ import {BootstrapVue} from 'bootstrap-vue'
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './plugins/table.js'
 import './plugins/selectpicker'
+import './plugins/suitsPicker.js'
 import $ from 'jquery'
 import AppHistory from "@/components/AppHistory.vue";
 import AppMarketable from "@/components/AppMarketable.vue";
