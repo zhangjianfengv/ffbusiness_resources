@@ -21,8 +21,8 @@ Vue.component('su-select', {
                 for (let i = 0; i < data.length; i++) {
                     suits.append("<option value='" + data[i] + "'>" + data[i] + "</option>");
                 }
-                suits.val(null);
-                vm.$emit('input', null);
+                suits.val('620刻木匠');
+                vm.$emit('input', '620刻木匠');
                 suits.selectpicker('refresh');
             }
         });

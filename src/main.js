@@ -16,6 +16,7 @@ import AppMy from "@/components/AppMy.vue";
 import About from "@/components/About.vue";
 import AppPreview from "@/components/AppPreview.vue";
 import HtmlViewer from "@/components/HtmlViewer.vue";
+import AppBatch from "@/components/AppBatch.vue";
 
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
@@ -31,6 +32,7 @@ const routes = [
     {path: '/history/', component: AppHistory},
     {path: '/marketable/', component: AppMarketable},
     {path: '/current/', name: 'AppCurrent', component: AppCurrent},
+    {path: '/batch/', name: 'AppBatch', component: AppBatch},
     {path: '/my/', name: 'AppMy', component: AppMy},
     {path: '/about/', name: 'AppMy', component: About},
     {path: '/furniture/', name: 'AppPreview', component: AppPreview},
