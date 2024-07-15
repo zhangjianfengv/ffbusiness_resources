@@ -84,7 +84,7 @@ export default {
       selectedValue: '',
       onlyHq: 0,
       suitMaterial: 0,
-      worldName: '中国',
+      worldName: '陆行鸟',
       worldNames: [
         {"value": "陆行鸟", "text": "陆行鸟"},
         {"value": "猫小胖", "text": "猫小胖"},
