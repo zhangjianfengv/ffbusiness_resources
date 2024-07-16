@@ -203,7 +203,7 @@ export default {
                   sortable: true,
                   formatter: (value, row) => {
                     let exp = /\B(?=(\d{3})+(?!\d))/g;
-                    return row.pricePerUnit.toString().replace(exp, ",")
+                    return value.toString().replace(exp, ",")
                   },
                   title: '单价'
                 }, {
@@ -211,11 +211,11 @@ export default {
                   sortable: true,
                   formatter: (value) => {
                     let exp = /\B(?=(\d{3})+(?!\d))/g;
-                    return row.quantity.toString().replace(exp, ",")
+                    return value.toString().replace(exp, ",")
                   },
                   footerFormatter: (value) => {
-                    var field = this.field
-                    return '$' + value.map(function (row) {
+                    const field = this.field;
+                    return value.map(function (row) {
                       return +row[field].substring(1)
                     }).reduce(function (sum, i) {
                       return sum + i
@@ -230,8 +230,8 @@ export default {
                     return value.toString().replace(exp, ",")
                   },
                   footerFormatter: (value) => {
-                    var field = this.field
-                    return '$' + value.map(function (row) {
+                    const field = this.field;
+                    return '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">' + value.map(function (row) {
                       return +row[field].substring(1)
                     }).reduce(function (sum, i) {
                       return sum + i
