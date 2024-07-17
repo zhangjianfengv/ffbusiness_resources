@@ -48,7 +48,7 @@
     </div>
     <b-modal id="network" size="sm" ok-only ok-squared variant="outline-dark" title="提示">
       <!--      喔唷，网络崩溃啦！X﹏X。不过别急，可能等你看完这条信息就好了-->
-      universalis近期开发接口服务不稳定，如果服务器多次查询失败后将尝试随机查询，无法指定大区，您也可尝试直接打开<a
+      universalis近期开发接口服务不稳定，如果服务器多次查询失败后将尝试查询中国，无法指定大区，您也可尝试直接打开<a
         :href="uhref" target="_blank">{{ uhref }}</a>
     </b-modal>
   </div>
