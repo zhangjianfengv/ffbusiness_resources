@@ -26,7 +26,7 @@
                        @change="loadMore()" switch>更多
       </b-form-checkbox>
       <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
-      <a :href="uhref" target="_blank">universalis</a>
+      <a :href="uhref" target="_blank">数据源</a>
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
     </b-modal>
@@ -160,28 +160,28 @@ export default {
         {"value": "猫小胖", "text": "猫小胖"},
         {"value": "莫古力", "text": "莫古力"},
         {"value": "豆豆柴", "text": "豆豆柴"},
-        {"value": "中国", "text": "中国"},
-        {
-          label: '国际服',
-          options: [
-            {"value": "Aether", "text": "Aether"},
-            {"value": "Crystal", "text": "Crystal"},
-            {"value": "Elemental", "text": "Elemental"},
-            {"value": "Gaia", "text": "Gaia"},
-            {"value": "Mana", "text": "Mana"},
-            {"value": "Primal", "text": "Primal"},
-            {"value": "Chaos", "text": "Chaos"},
-            {"value": "Light", "text": "Light"},
-            {"value": "Materia", "text": "Materia"},
-            {"value": "Meteor", "text": "Meteor"},
-            {"value": "Dynamis", "text": "Dynamis"},
-            {"value": "Japan", "text": "Japan"},
-            {"value": "North-America", "text": "North-America"},
-            {"value": "Europe", "text": "Europe"},
-            {"value": "Oceania", "text": "Oceania"},
-            {"value": "한국", "text": "한국"}
-          ]
-        }
+        // {"value": "中国", "text": "中国"},
+        // {
+        //   label: '国际服',
+        //   options: [
+        //     {"value": "Aether", "text": "Aether"},
+        //     {"value": "Crystal", "text": "Crystal"},
+        //     {"value": "Elemental", "text": "Elemental"},
+        //     {"value": "Gaia", "text": "Gaia"},
+        //     {"value": "Mana", "text": "Mana"},
+        //     {"value": "Primal", "text": "Primal"},
+        //     {"value": "Chaos", "text": "Chaos"},
+        //     {"value": "Light", "text": "Light"},
+        //     {"value": "Materia", "text": "Materia"},
+        //     {"value": "Meteor", "text": "Meteor"},
+        //     {"value": "Dynamis", "text": "Dynamis"},
+        //     {"value": "Japan", "text": "Japan"},
+        //     {"value": "North-America", "text": "North-America"},
+        //     {"value": "Europe", "text": "Europe"},
+        //     {"value": "Oceania", "text": "Oceania"},
+        //     {"value": "한국", "text": "한국"}
+        //   ]
+        // }
       ]
     }
   },
