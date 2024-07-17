@@ -26,7 +26,7 @@
                        @change="loadMore()" switch>更多
       </b-form-checkbox>
       <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
-      <a :href="uhref" target="_blank">{{ uhref }}</a>
+      <a :href="uhref" target="_blank">universalis</a>
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
     </b-modal>
@@ -299,7 +299,7 @@ export default {
           })
           .catch(error => {
             console.log("failed with error:", error);
-            vm.$bvModal.show('network');
+            // vm.$bvModal.show('network');
             vm.raceAndHandle([request2, request1])
                 .then((result) => {
                   vm.doJob(result, vm, $currentTable, $historyTable);
