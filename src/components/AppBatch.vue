@@ -89,30 +89,7 @@ export default {
         {"value": "陆行鸟", "text": "陆行鸟"},
         {"value": "猫小胖", "text": "猫小胖"},
         {"value": "莫古力", "text": "莫古力"},
-        {"value": "豆豆柴", "text": "豆豆柴"},
-        {"value": "中国", "text": "中国"},
-        {
-          label: '国际服',
-          options: [
-            {"value": "Aether", "text": "Aether"},
-            {"value": "Crystal", "text": "Crystal"},
-            {"value": "Elemental", "text": "Elemental"},
-            {"value": "Gaia", "text": "Gaia"},
-            {"value": "Mana", "text": "Mana"},
-            {"value": "Primal", "text": "Primal"},
-            {"value": "Chaos", "text": "Chaos"},
-            {"value": "Light", "text": "Light"},
-            {"value": "Materia", "text": "Materia"},
-            {"value": "Meteor", "text": "Meteor"},
-            {"value": "Dynamis", "text": "Dynamis"},
-            {"value": "Japan", "text": "Japan"},
-            {"value": "North-America", "text": "North-America"},
-            {"value": "Europe", "text": "Europe"},
-            {"value": "Oceania", "text": "Oceania"},
-            {"value": "한국", "text": "한국"}
-          ]
-        }
-      ]
+        {"value": "豆豆柴", "text": "豆豆柴"}]
     }
   },
   methods: {
