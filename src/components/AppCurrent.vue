@@ -46,7 +46,9 @@
       </div>
     </div>
     <b-modal id="network" size="sm" ok-only ok- squared variant="outline-dark" title="提示">
-      喔唷，网络崩溃啦！X﹏X。不过别急，可能等你看完这条信息就好了
+      <!--      喔唷，网络崩溃啦！X﹏X。不过别急，可能等你看完这条信息就好了-->
+      universalis近期开发接口服务不稳定，如果服务器多次查询失败后将尝试随机查询，无法指定大区，您也可尝试直接打开 <a
+        :href="uhref">{{ uhref }}</a>
     </b-modal>
   </div>
 </template>
@@ -134,6 +136,9 @@ export default {
         return currentDomain + '/icon/placeholder.png';
       return currentDomain + '/icon/' + itemId + '.png';
     },
+    uhref() {
+      return `https://universalis.app/market/${this.itemId}`;
+    }
   },
   data() {
     return {
