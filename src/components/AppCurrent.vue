@@ -437,13 +437,13 @@ export default {
   mounted() {
     $('#loading-indicator').hide();
     const vm = this;
-    this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
-      if (modalId === 'network') {
-        setTimeout(function () {
-          vm.$bvModal.hide('network')
-        }, 3000);
-      }
-    })
+    // this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
+    //   if (modalId === 'network') {
+    //     setTimeout(function () {
+    //       vm.$bvModal.hide('network')
+    //     }, 3000);
+    //   }
+    // })
     const worldCookie = this.$cookies.get('world');
     let worldName;
     if (this.isStr(worldCookie)) {
