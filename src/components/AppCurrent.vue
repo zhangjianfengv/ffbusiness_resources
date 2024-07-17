@@ -26,7 +26,7 @@
                        @change="loadMore()" switch>更多
       </b-form-checkbox>
       <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
-      <a :href="uhref" target="_blank">数据源</a>
+      <a :href="uhref" target="_blank"><img width="24" height="24" src="/u.png" alt="u.png"></a>
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
     </b-modal>
