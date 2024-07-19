@@ -148,14 +148,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年7月3日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>家具预览</u>页面，每张预览图的宽度调整为按比例缩放，适配1080p屏幕</li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年7月13日
@@ -172,6 +165,14 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>由于universalis API服务近期不稳定,目前跟批量查询实时物价有关系的功能暂时不可用，包括我的关注和成本查询
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年7月19日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>实时物价</u>页面新增五分钟缓存，提高了已经获取到结果时切换大区的速度，同时减轻服务器压力</li>
               </ul>
             </div>
             <!--            body end-->
