@@ -163,7 +163,7 @@
                 2024年7月17日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li>由于universalis API服务近期不稳定,目前跟批量查询实时物价有关系的功能暂时不可用，包括我的关注和成本查询
+                <li>由于universalis API服务近期不稳定,目前跟实时物价有关系的功能可能会暂时不可用，包括我的关注和成本查询
                 </li>
               </ul>
             </div>

@@ -21,10 +21,10 @@
                        @change="filterData()"
                        switch>HQ
       </b-form-checkbox>
-      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"
-                       style="margin: 5px 9px"
-                       @change="loadMore()" switch>更多
-      </b-form-checkbox>
+      <!--      <b-form-checkbox id="loadMore" v-model="maximum" name="check-button" value="1" unchecked-value="0"-->
+      <!--                       style="margin: 5px 9px"-->
+      <!--                       @change="loadMore()" switch>更多-->
+      <!--      </b-form-checkbox>-->
       <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
       <!--      <a :href="uhref" target="_blank"><img width="24" height="24" src="/u.png" alt="u.png"></a>-->
     </b-form>
@@ -152,7 +152,7 @@ export default {
       nameOptions: [],
       timer: null,
       onlyHq: 0,
-      worldName: '中国',
+      worldName: '陆行鸟',
       childWorld: null,
       unFilteredData: [],
       worldNames: [
@@ -453,6 +453,8 @@ export default {
     const param = this.$route.params.worldName;
     if (param) worldName = param;
     const itemId = this.$route.params.itemId;
+    //TODO 暂不支持跨大区
+    if (worldName === "中国") worldName = "陆行鸟";
     if (worldName) {
       switch (worldName) {
         case "陆行鸟":
