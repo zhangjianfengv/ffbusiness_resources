@@ -4,7 +4,7 @@
       <b-form-input id="nameKeyword" autocomplete="off" v-model="keyword" placeholder="关键词"
                     value=""></b-form-input>
       <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
-      <b-form-select v-model="worldName" :options="worldNames" @change="querySuit"></b-form-select>
+      <b-form-select v-model="worldName" :options="worldNames"></b-form-select>
       <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
       <b-form-checkbox id="sm" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="querySuit()"
