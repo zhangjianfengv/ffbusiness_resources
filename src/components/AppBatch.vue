@@ -97,7 +97,7 @@ export default {
         field: 'quantity',
         sortable: true,
         formatter: (value, row) => {
-          if (row.itemName.includes("戒指")) value = value * 2;
+          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
           let exp = /\B(?=(\d{3})+(?!\d))/g;
           return value.toString().replace(exp, ",")
         },
@@ -113,7 +113,7 @@ export default {
         field: 'total',
         sortable: true,
         formatter: (value, row) => {
-          if (row.itemName.includes("戒指")) value = value * 2;
+          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
           let exp = /\B(?=(\d{3})+(?!\d))/g;
           return value.toString().replace(exp, ",")
         },
