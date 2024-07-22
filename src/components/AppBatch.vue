@@ -28,6 +28,11 @@
 </style>
 <script>
 
+
+import tableMixin from '../mixins/table'
+import $ from "jquery";
+import Base64 from '../plugins/base64'
+
 let selections = [];
 
 function getIdSelections() {
@@ -43,14 +48,6 @@ function responseHandler(res) {
   return res
 }
 
-function detailFormatter(index, row) {
-  var html = []
-  $.each(row, function (key, value) {
-    html.push('<p><b>' + key + ':</b> ' + value + '</p>')
-  })
-  return html.join('')
-}
-
 window.operateEvents = {
   'click .remove': function (e, value, row, index) {
     $('#suits').bootstrapTable('remove', {
@@ -59,10 +56,6 @@ window.operateEvents = {
     })
   }
 }
-import tableMixin from '../mixins/table'
-import $ from "jquery";
-import Base64 from '../plugins/base64'
-
 export default {
   mixins: [tableMixin],
   name: 'current',
@@ -125,20 +118,21 @@ export default {
           $('#loading-indicator').hide();
           suitTable.bootstrapTable('destroy').bootstrapTable({
             data: data,
-            pagination: "true",
             method: 'post',
-            pageNumber: 1,
-            pageSize: 50,
             showExport: true,
             showFooter: true,
+            clickToSelect: true,
+            responseHandler: responseHandler,
             toolbar: '#queryForm',
             icons: {export: "bi bi-download"},
-            paginationUseIntermediate: true,
-            paginationSuccessivelySize: 1,
-            paginationPagesBySide: 1,
-            pageList: [10, 20, 50, 150, 450],
             columns:
                 [
+                  {
+                    field: 'state',
+                    checkbox: true,
+                    align: 'center',
+                    valign: 'middle'
+                  },
                   {
                     title: 'ID',
                     field: 'itemId',
@@ -188,12 +182,11 @@ export default {
                     return value.toString().replace(exp, ",")
                   },
                   footerFormatter: (value) => {
-                    const field = this.field;
-                    return value.map(function (row) {
-                      return +row[field].substring(1)
-                    }).reduce(function (sum, i) {
-                      return sum + i
-                    }, 0)
+                    let total = 0;
+                    for (let i = 0; i < value.length; i++) {
+                      total += parseFloat(data[i].quantity);
+                    }
+                    return total
                   },
                   title: '数量'
                 }, {
@@ -203,13 +196,13 @@ export default {
                     let exp = /\B(?=(\d{3})+(?!\d))/g;
                     return value.toString().replace(exp, ",")
                   },
-                  footerFormatter: (value) => {
-                    const field = this.field;
-                    return '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">' + value.map(function (row) {
-                      return +row[field].substring(1)
-                    }).reduce(function (sum, i) {
-                      return sum + i
-                    }, 0)
+                  footerFormatter: (data) => {
+                    let total = 0;
+                    for (let i = 0; i < data.length; i++) {
+                      total += parseFloat(data[i].total);
+                    }
+                    let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
+                    return s + total
                   },
                   title: '小计'
                 }, {
@@ -269,12 +262,9 @@ export default {
     let worldName;
     if (this.isStr(worldCookie)) {
       worldName = Base64.decode(worldCookie);
+      this.worldName = worldName;
     } else {
       this.worldName = '陆行鸟'
-      this.itemTypes = [];
-      let suits = $suits
-      suits.selectpicker('val', ['620刻木匠']);
-      suits.selectpicker('refresh');
     }
   }
 }
