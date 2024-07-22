@@ -28,13 +28,10 @@
 </style>
 <script>
 
-
-const $table = $('#table');
-const $remove = $('#remove');
 let selections = [];
 
 function getIdSelections() {
-  return $.map($table.bootstrapTable('getSelections'), function (row) {
+  return $.map($('#suits').bootstrapTable('getSelections'), function (row) {
     return row.id
   })
 }
@@ -56,7 +53,7 @@ function detailFormatter(index, row) {
 
 window.operateEvents = {
   'click .remove': function (e, value, row, index) {
-    $table.bootstrapTable('remove', {
+    $('#suits').bootstrapTable('remove', {
       field: 'id',
       values: [row.id]
     })
@@ -80,11 +77,11 @@ export default {
       keyword: null,
       date: null,
       suits: [],
-      suit: null,
+      suit: "620刻木匠",
       selectedValue: '',
       onlyHq: 0,
       suitMaterial: 0,
-      worldName: '陆行鸟',
+      worldName: null,
       worldNames: [
         {"value": "陆行鸟", "text": "陆行鸟"},
         {"value": "猫小胖", "text": "猫小胖"},
@@ -109,6 +106,7 @@ export default {
       this.showOptions = false;
     },
     querySuit(newValue) {
+      const $remove = $('#remove');
       const vm = this;
       let suitTable = $('#suitTable');
       suitTable.bootstrapTable('destroy');
@@ -134,7 +132,6 @@ export default {
             showExport: true,
             showFooter: true,
             toolbar: '#queryForm',
-            mobileResponsive: true,
             icons: {export: "bi bi-download"},
             paginationUseIntermediate: true,
             paginationSuccessivelySize: 1,
@@ -215,6 +212,10 @@ export default {
                     }, 0)
                   },
                   title: '小计'
+                }, {
+                  field: 'localDateTime',
+                  sortable: true,
+                  title: '更新时间'
                 },
                   {
                     field: 'operate',
@@ -261,17 +262,19 @@ export default {
     },
   },
   mounted() {
-    $('#suits').selectpicker();
+    let $suits = $('#suits');
+    $suits.selectpicker();
     $('#loading-indicator').hide();
     const worldCookie = this.$cookies.get('world');
     let worldName;
     if (this.isStr(worldCookie)) {
       worldName = Base64.decode(worldCookie);
-    }
-    const param = this.$route.params.worldName;
-    if (param) worldName = param;
-    if (worldName) {
-      this.worldName = worldName;
+    } else {
+      this.worldName = '陆行鸟'
+      this.itemTypes = [];
+      let suits = $suits
+      suits.selectpicker('val', ['620刻木匠']);
+      suits.selectpicker('refresh');
     }
   }
 }
