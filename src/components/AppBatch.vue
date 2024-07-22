@@ -15,8 +15,11 @@
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
     </b-form>
-    <table id="suitTable">
-    </table>
+    <BootstrapTable id="suitTable"
+                    ref="table"
+                    :columns="columns"
+                    :options="options"
+                    @on-post-body="vueFormatterPostBody"></BootstrapTable>
     <div id="loading-indicator" class="text-center">
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
@@ -27,11 +30,10 @@
 <style scoped>
 </style>
 <script>
-
-
 import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Base64 from '../plugins/base64'
+import moment from "moment";
 
 let selections = [];
 
@@ -48,14 +50,6 @@ function responseHandler(res) {
   return res
 }
 
-window.operateEvents = {
-  'click .remove': function (e, value, row, index) {
-    $('#suits').bootstrapTable('remove', {
-      field: 'id',
-      values: [row.id]
-    })
-  }
-}
 export default {
   mixins: [tableMixin],
   name: 'current',
@@ -66,10 +60,127 @@ export default {
     },
   },
   data() {
+    let columns = [
+      {
+        field: 'state',
+        checkbox: true,
+        align: 'center',
+        valign: 'middle'
+      },
+      {
+        title: 'ID',
+        field: 'itemId',
+        align: 'center',
+        valign: 'middle',
+        sortable: true,
+        footerFormatter: (value) => {
+          return '总计'
+        },
+      },
+      {
+        field: 'itemName',
+        sortable: true,
+        formatter: function iconFormatter(value, row) {
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
+          return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
+        },
+        title: '物品名称'
+      }, {
+        field: 'worldName',
+        title: '服务器',
+        sortable: true
+      }, {
+        field: 'retainerName',
+        title: '雇员名',
+        sortable: true
+      }, {
+        field: 'hq',
+        formatter: (value) => {
+          return (value === true || value === 'true') ? '✔' : '✗'
+        },
+        title: '高品质',
+        sortable: true,
+      }, {
+        field: 'pricePerUnit',
+        sortable: true,
+        formatter: (value, row) => {
+          let exp = /\B(?=(\d{3})+(?!\d))/g;
+          return value.toString().replace(exp, ",")
+        },
+        title: '单价'
+      }, {
+        field: 'quantity',
+        sortable: true,
+        formatter: (value) => {
+          let exp = /\B(?=(\d{3})+(?!\d))/g;
+          return value.toString().replace(exp, ",")
+        },
+        footerFormatter: (value) => {
+          let total = 0;
+          for (let i = 0; i < value.length; i++) {
+            total += parseFloat(data[i].quantity);
+          }
+          return total
+        },
+        title: '数量'
+      }, {
+        field: 'total',
+        sortable: true,
+        formatter: (value, row) => {
+          let exp = /\B(?=(\d{3})+(?!\d))/g;
+          return value.toString().replace(exp, ",")
+        },
+        footerFormatter: (data) => {
+          let total = 0;
+          for (let i = 0; i < data.length; i++) {
+            total += parseFloat(data[i].total);
+          }
+          let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
+          return s + total
+        },
+        title: '小计'
+      }, {
+        field: 'localDateTime',
+        sortable: true,
+        formatter: (value, row) => {
+          return value === null ? moment.unix(row.lastReviewTime).format('YYYY-MM-DD HH:mm:ss') : value
+        },
+        title: '更新时间'
+      },
+      {
+        field: 'operate',
+        title: '删除',
+        align: 'center',
+        clickToSelect: false,
+        formatter: (value, row) => {
+          return this.vueFormatter({
+            template: '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-trash"></i></b-button>',
+            data: {row},
+            methods: {
+              clickRow: this.rmRow
+            }
+          })
+        }
+      }];
+    let tableData = [];
+    let options = {
+      data: tableData,
+      method: 'post',
+      showExport: true,
+      showFooter: true,
+      clickToSelect: true,
+      responseHandler: responseHandler,
+      toolbar: '#queryForm',
+      icons: {export: "bi bi-download"},
+      columns: columns
+    };
     return {
       keyword: null,
       date: null,
+      tableData: [],
       suits: [],
+      options: options,
+      columns: columns,
       suit: "620刻木匠",
       selectedValue: '',
       onlyHq: 0,
@@ -115,117 +226,9 @@ export default {
           dc: vm.worldName
         }),
         success: function (data) {
+          vm.tableData = data;
           $('#loading-indicator').hide();
-          suitTable.bootstrapTable('destroy').bootstrapTable({
-            data: data,
-            method: 'post',
-            showExport: true,
-            showFooter: true,
-            clickToSelect: true,
-            responseHandler: responseHandler,
-            toolbar: '#queryForm',
-            icons: {export: "bi bi-download"},
-            columns:
-                [
-                  {
-                    field: 'state',
-                    checkbox: true,
-                    align: 'center',
-                    valign: 'middle'
-                  },
-                  {
-                    title: 'ID',
-                    field: 'itemId',
-                    align: 'center',
-                    valign: 'middle',
-                    sortable: true,
-                    footerFormatter: (value) => {
-                      return '总计'
-                    },
-                  },
-                  {
-                    field: 'itemName',
-                    sortable: true,
-                    formatter: function iconFormatter(value, row) {
-                      let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
-                      return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
-                    },
-                    title: '物品名称'
-                  }, {
-                  field: 'worldName',
-                  title: '服务器',
-                  sortable: true
-                }, {
-                  field: 'retainerName',
-                  title: '雇员名',
-                  sortable: true
-                }, {
-                  field: 'hq',
-                  formatter: (value) => {
-                    return (value === true || value === 'true') ? '✔' : '✗'
-                  },
-                  title: '高品质',
-                  sortable: true,
-                }, {
-                  field: 'pricePerUnit',
-                  sortable: true,
-                  formatter: (value, row) => {
-                    let exp = /\B(?=(\d{3})+(?!\d))/g;
-                    return value.toString().replace(exp, ",")
-                  },
-                  title: '单价'
-                }, {
-                  field: 'quantity',
-                  sortable: true,
-                  formatter: (value) => {
-                    let exp = /\B(?=(\d{3})+(?!\d))/g;
-                    return value.toString().replace(exp, ",")
-                  },
-                  footerFormatter: (value) => {
-                    let total = 0;
-                    for (let i = 0; i < value.length; i++) {
-                      total += parseFloat(data[i].quantity);
-                    }
-                    return total
-                  },
-                  title: '数量'
-                }, {
-                  field: 'total',
-                  sortable: true,
-                  formatter: (value, row) => {
-                    let exp = /\B(?=(\d{3})+(?!\d))/g;
-                    return value.toString().replace(exp, ",")
-                  },
-                  footerFormatter: (data) => {
-                    let total = 0;
-                    for (let i = 0; i < data.length; i++) {
-                      total += parseFloat(data[i].total);
-                    }
-                    let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
-                    return s + total
-                  },
-                  title: '小计'
-                }, {
-                  field: 'localDateTime',
-                  sortable: true,
-                  title: '更新时间'
-                },
-                  {
-                    field: 'operate',
-                    title: '删除',
-                    align: 'center',
-                    clickToSelect: false,
-                    events: window.operateEvents,
-                    formatter: (value, row) => {
-                      return [
-                        '<a class="remove" href="javascript:void(0)" title="Remove">',
-                        '<i class="bi bi-trash"></i>',
-                        '</a>'
-                      ].join('')
-                    },
-                  }
-                ]
-          })
+          suitTable.bootstrapTable('destroy').bootstrapTable(this.options)
           suitTable.on('check.bs.table uncheck.bs.table ' +
               'check-all.bs.table uncheck-all.bs.table',
               function () {
@@ -249,6 +252,11 @@ export default {
       });
     }, isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    }, rmRow(val) {
+      $('#suits').bootstrapTable('remove', {
+        field: 'id',
+        values: [val.id]
+      });
     },
     formatNumber(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
