@@ -3,6 +3,7 @@
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
       <b-form-input id="nameKeyword" autocomplete="off" v-model="keyword" placeholder="关键词"
                     value=""></b-form-input>
+      <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
       <b-form-select v-model="worldName" :options="worldNames" @change="querySuit"></b-form-select>
       <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
       <b-form-checkbox id="sm" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
@@ -16,10 +17,10 @@
       </b-button>
     </b-form>
     <BootstrapTable id="suitTable"
-                    ref="table"
+                    ref="suitTable"
                     :columns="columns"
-                    :options="options"
-                    @on-post-body="vueFormatterPostBody"></BootstrapTable>
+                    :options="tableOptions"
+                    @on-post-body="vueFormatterPostBody"/>
     <div id="loading-indicator" class="text-center">
       <div class="spinner-border" role="status">
         <span class="sr-only">Loading...</span>
@@ -35,24 +36,14 @@ import $ from "jquery";
 import Base64 from '../plugins/base64'
 import moment from "moment";
 
-let selections = [];
-
-function getIdSelections() {
-  return $.map($('#suits').bootstrapTable('getSelections'), function (row) {
-    return row.id
-  })
-}
-
-function responseHandler(res) {
-  $.each(res.rows, function (i, row) {
-    row.state = $.inArray(row.id, selections) !== -1
-  })
-  return res
-}
-
+let queryParam = {
+  suitMaterial: 0,
+  suitName: '620刻木匠',
+  dc: '陆行鸟'
+};
 export default {
   mixins: [tableMixin],
-  name: 'current',
+  name: 'batch',
   props: ['themeColor'],
   watch: {
     suit: function (newValue) {
@@ -61,12 +52,6 @@ export default {
   },
   data() {
     let columns = [
-      {
-        field: 'state',
-        checkbox: true,
-        align: 'center',
-        valign: 'middle'
-      },
       {
         title: 'ID',
         field: 'itemId',
@@ -111,14 +96,15 @@ export default {
       }, {
         field: 'quantity',
         sortable: true,
-        formatter: (value) => {
+        formatter: (value, row) => {
+          if (row.itemName.includes("戒指")) value = value * 2;
           let exp = /\B(?=(\d{3})+(?!\d))/g;
           return value.toString().replace(exp, ",")
         },
         footerFormatter: (value) => {
           let total = 0;
           for (let i = 0; i < value.length; i++) {
-            total += parseFloat(data[i].quantity);
+            total += parseFloat(value[i].quantity);
           }
           return total
         },
@@ -127,6 +113,7 @@ export default {
         field: 'total',
         sortable: true,
         formatter: (value, row) => {
+          if (row.itemName.includes("戒指")) value = value * 2;
           let exp = /\B(?=(\d{3})+(?!\d))/g;
           return value.toString().replace(exp, ",")
         },
@@ -140,7 +127,7 @@ export default {
         },
         title: '小计'
       }, {
-        field: 'localDateTime',
+        field: 'cacheTime',
         sortable: true,
         formatter: (value, row) => {
           return value === null ? moment.unix(row.lastReviewTime).format('YYYY-MM-DD HH:mm:ss') : value
@@ -151,25 +138,27 @@ export default {
         field: 'operate',
         title: '删除',
         align: 'center',
-        clickToSelect: false,
         formatter: (value, row) => {
           return this.vueFormatter({
-            template: '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-trash"></i></b-button>',
+            template: '<b-button  squared variant="outline-dark" @click="removeRow(row)"><i class="bi bi-trash"></i></b-button>',
             data: {row},
             methods: {
-              clickRow: this.rmRow
+              removeRow: this.rmRow
             }
           })
         }
       }];
-    let tableData = [];
     let options = {
-      data: tableData,
+      url: '/ffbusiness/currentData/list',
+      queryParams: function () {
+        return queryParam;
+      },
       method: 'post',
       showExport: true,
       showFooter: true,
-      clickToSelect: true,
-      responseHandler: responseHandler,
+      search: true,
+      searchAlign: 'left',
+      searchSelector: '#search',
       toolbar: '#queryForm',
       icons: {export: "bi bi-download"},
       columns: columns
@@ -179,11 +168,11 @@ export default {
       date: null,
       tableData: [],
       suits: [],
-      options: options,
+      tableOptions: options,
       columns: columns,
+      searchText: null,
       suit: "620刻木匠",
       selectedValue: '',
-      onlyHq: 0,
       suitMaterial: 0,
       worldName: null,
       worldNames: [
@@ -194,68 +183,37 @@ export default {
     }
   },
   methods: {
+    querySuit(newValue) {
+      const vm = this;
+      let suitTable = $('#suitTable');
+      suitTable.bootstrapTable('destroy');
+      queryParam = {
+        suitMaterial: vm.suitMaterial,
+        suitName: vm.isStr(newValue) ? newValue : vm.isStr(vm.keyword) ? vm.keyword : vm.suit,
+        dc: vm.worldName
+      };
+      suitTable.bootstrapTable(this.tableOptions);
+    },
     onReset(event) {
       event.preventDefault()
       this.keyword = null;
-      this.worldName = "中国";
-      this.onlyHq = 0;
+      this.searchText = null;
+      this.worldName = "陆行鸟";
       let worldName = $('#worldName');
       worldName.selectpicker('val', '中国');
       worldName.selectpicker('refresh');
       let suits = $('#suits');
-      suits.selectpicker('val', null);
+      suits.selectpicker('val', '620刻木匠');
       suits.selectpicker('refresh');
       let table = $('#suitTable');
       table.bootstrapTable('destroy');
-      this.showOptions = false;
     },
-    querySuit(newValue) {
-      const $remove = $('#remove');
-      const vm = this;
-      let suitTable = $('#suitTable');
-      suitTable.bootstrapTable('destroy');
-      $('#loading-indicator').show();
-      $.ajax({
-        url: "/ffbusiness/currentData/list",
-        async: true,
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify({
-          suitMaterial: vm.suitMaterial,
-          suitName: vm.isStr(newValue) ? newValue : vm.isStr(vm.keyword) ? vm.keyword : vm.suit,
-          dc: vm.worldName
-        }),
-        success: function (data) {
-          vm.tableData = data;
-          $('#loading-indicator').hide();
-          suitTable.bootstrapTable('destroy').bootstrapTable(this.options)
-          suitTable.on('check.bs.table uncheck.bs.table ' +
-              'check-all.bs.table uncheck-all.bs.table',
-              function () {
-                $remove.prop('disabled', !suitTable.bootstrapTable('getSelections').length)
-                // save your data, here just save the current page
-                selections = getIdSelections()
-                // push or splice the selections if you want to save all data selections
-              })
-          suitTable.on('all.bs.table', function (e, name, args) {
-            console.log(name, args)
-          })
-          $remove.click(function () {
-            const ids = getIdSelections();
-            suitTable.bootstrapTable('remove', {
-              field: 'id',
-              values: ids
-            })
-            $remove.prop('disabled', true)
-          })
-        }
-      });
-    }, isStr(val) {
+    isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     }, rmRow(val) {
-      $('#suits').bootstrapTable('remove', {
-        field: 'id',
-        values: [val.id]
+      $('#suitTable').bootstrapTable('remove', {
+        field: 'itemId',
+        values: [val.itemId]
       });
     },
     formatNumber(number) {

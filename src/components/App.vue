@@ -148,31 +148,21 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年7月13日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>实时物价</u>页面新增预置套装批量查询整套价格/整套材料价格功能（均取大区内最低的一个价格,如果是查询材料，则“总计”栏的数量为套装内各个散件的同一个材料需求数之和，<b>并非卖家单雇员位数量</b>），目前已经预置640战斗职业装备和620生产采集装备，该功能仍在完善
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年7月17日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>由于universalis API服务近期不稳定,目前跟实时物价有关系的功能可能会暂时不可用，包括我的关注和成本查询
-                </li>
-              </ul>
-            </div>
             <div>
               <h6 style="padding-left: 16px">
                 2024年7月19日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>实时物价</u>页面新增五分钟缓存，提高了已经获取到结果时切换大区的速度，同时减轻服务器压力</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年7月22日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>新增<u>批量物价</u>页面，可批量查询物品价格/配方各初级材料价格及总计价格，均取大区内最低的一个价格
+                </li>
               </ul>
             </div>
             <!--            body end-->
