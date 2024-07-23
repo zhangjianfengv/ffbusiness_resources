@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
-      <b-form-input id="nameKeyword" autocomplete="off" v-model="keyword" placeholder="关键词"
+      <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词"
                     value=""></b-form-input>
       <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
       <b-form-select v-model="worldName" :options="worldNames"></b-form-select>
@@ -149,7 +149,7 @@ export default {
         }
       }];
     let options = {
-      url: '/ffbusiness/currentData/list',
+      url: null,
       queryParams: function () {
         return queryParam;
       },
@@ -192,6 +192,7 @@ export default {
         suitName: vm.isStr(newValue) ? newValue : vm.isStr(vm.keyword) ? vm.keyword : vm.suit,
         dc: vm.worldName
       };
+      this.tableOptions.url = '/ffbusiness/currentData/list';
       suitTable.bootstrapTable(this.tableOptions);
     },
     onReset(event) {
