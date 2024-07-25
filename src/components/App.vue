@@ -11,7 +11,7 @@
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
             <b-nav-item to="/batch" exact-path exact-active-class="active">批量物价</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
-            <b-nav-item to="/item" exact-path exact-active-class="active">物品配方成本</b-nav-item>
+            <b-nav-item to="/item" exact-path exact-active-class="active">物品来源和成本</b-nav-item>
             <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
             <b-nav-item to="/bench" exact-path exact-active-class="active">7.0基准测试</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
@@ -98,7 +98,7 @@
                   网站绝大部分页面均适配手机端浏览
                 </li>
                 <li>
-                  2023年的销售履历数据已经恢复，为了避免磁盘满了等各种原因导致其他功能无法使用，仅其中一个服务器可以查询，每个访问者有三分之一的概率会分配到那个服务器，不定期会轮换
+                  2023年的销售履历数据已经恢复，为了避免磁盘满了等各种原因导致其他功能无法使用，并不是每次查询都会分配到那个服务器
                 </li>
                 <li>
                   物品名可直接输入拼音，不区分大小写
@@ -134,6 +134,7 @@
         <div>
           <p>网站已经更新，以下是更新内容：</p>
           <ul>
+            <li>新增批量查询物价页面</li>
             <li>物品名称建议功能支持拼音检索</li>
             <li>新增切换主题配色功能，位于登录区</li>
           </ul>
@@ -153,7 +154,8 @@
                 2024年7月19日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>实时物价</u>页面新增五分钟缓存，提高了已经获取到结果时切换大区的速度，同时减轻服务器压力</li>
+                <li><u>实时物价</u>页面新增五分钟缓存，提高了已经获取到结果时切换大区的速度，同时减轻服务器压力(对时效性几乎没有影响，缓存时间只有五分钟，且数据上报也存在延迟)
+                </li>
               </ul>
             </div>
             <div>
@@ -315,7 +317,7 @@ export default {
       });
     },
     modalHidden() {
-      localStorage.setItem('hideModal', 'true');
+      localStorage.setItem('hideModal0', 'true');
     },
     logOut() {
       window.location.href = window.location.origin + '/ffbusiness/user/logOut';
@@ -348,7 +350,7 @@ export default {
         if (!data.nickname) vm.user = {nickname: '暗之战士'};
       }
     });
-    if (!localStorage.getItem('hideModal')) {
+    if (!localStorage.getItem('hideModal0')) {
       this.showModal = true;
     }
     let item = localStorage.getItem('themeColor');
