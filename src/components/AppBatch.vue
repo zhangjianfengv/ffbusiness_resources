@@ -137,9 +137,9 @@ export default {
           let total = 0;
           for (let i = 0; i < value.length; i++) {
             let row = value[i];
-            // if (row.itemName.includes("戒指") || row.itemName.includes("指环"))
-            //   total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity) * 2;
-            total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity);
+            if (row.itemName.includes("戒指") || row.itemName.includes("指环"))
+              total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity) * 2;
+            else total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity);
           }
           return total
         },
@@ -157,9 +157,9 @@ export default {
           let total = 0;
           for (let i = 0; i < data.length; i++) {
             let needTotal = data[i].needTotal;
-            // if (data[i].itemName.includes("戒指") || data[i].itemName.includes("指环"))
-            //   total += parseFloat(needTotal ? needTotal : data[i].total) * 2;
-            total += parseFloat(needTotal ? needTotal : data[i].total);
+            if (data[i].itemName.includes("戒指") || data[i].itemName.includes("指环"))
+              total += parseFloat(needTotal ? needTotal : data[i].total) * 2;
+            else total += parseFloat(needTotal ? needTotal : data[i].total);
           }
           let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
           return s + total
