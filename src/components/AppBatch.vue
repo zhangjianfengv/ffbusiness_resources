@@ -97,7 +97,6 @@ export default {
         field: 'quantity',
         sortable: true,
         formatter: (value, row) => {
-          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
           let exp = /\B(?=(\d{3})+(?!\d))/g;
           return value.toString().replace(exp, ",")
         },
@@ -113,7 +112,6 @@ export default {
         field: 'total',
         sortable: true,
         formatter: (value, row) => {
-          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
           let exp = /\B(?=(\d{3})+(?!\d))/g;
           return value.toString().replace(exp, ",")
         },
@@ -125,7 +123,48 @@ export default {
           let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
           return s + total
         },
-        title: '小计'
+        title: '金额'
+      }, {
+        field: 'needQuantity',
+        sortable: true,
+        formatter: (value, row) => {
+          if (!value) value = row.quantity;
+          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
+          let exp = /\B(?=(\d{3})+(?!\d))/g;
+          return value.toString().replace(exp, ",")
+        },
+        footerFormatter: (value) => {
+          let total = 0;
+          for (let i = 0; i < value.length; i++) {
+            let row = value[i];
+            if (row.itemName.includes("戒指") || row.itemName.includes("指环"))
+              total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity) * 2;
+            total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity);
+          }
+          return total
+        },
+        title: '需求数量'
+      }, {
+        field: 'needTotal',
+        sortable: true,
+        formatter: (value, row) => {
+          if (!value) value = row.total;
+          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
+          let exp = /\B(?=(\d{3})+(?!\d))/g;
+          return value.toString().replace(exp, ",")
+        },
+        footerFormatter: (data) => {
+          let total = 0;
+          for (let i = 0; i < data.length; i++) {
+            let needTotal = data[i].needTotal;
+            if (data[i].itemName.includes("戒指") || data[i].itemName.includes("指环"))
+              total += parseFloat(needTotal ? needTotal : data[i].total) * 2;
+            total += parseFloat(needTotal ? needTotal : data[i].total);
+          }
+          let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
+          return s + total
+        },
+        title: '需求金额'
       }, {
         field: 'cacheTime',
         sortable: true,

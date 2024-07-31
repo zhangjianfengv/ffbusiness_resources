@@ -167,6 +167,15 @@
                 </li>
               </ul>
             </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年7月31日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价</u>页面新增"需求数量"、"需求金额"栏，便于了解所需材料情况和市场在售情况
+                </li>
+              </ul>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
