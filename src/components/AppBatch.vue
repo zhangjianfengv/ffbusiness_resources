@@ -8,7 +8,7 @@
       <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
       <b-form-checkbox id="sm" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="querySuit()"
-                       switch>材料
+                       switch>材料成本
       </b-form-checkbox>
       <b-button squared variant="outline-dark" class="mx-1" @click="querySuit()" type="button"><i
           class="bi bi-search"></i>
