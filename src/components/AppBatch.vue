@@ -38,7 +38,7 @@ import moment from "moment";
 
 let queryParam = {
   suitMaterial: 0,
-  suitName: '620刻木匠',
+  suitName: '地图',
   dc: '陆行鸟'
 };
 export default {
@@ -107,7 +107,7 @@ export default {
           }
           return total
         },
-        title: '数量'
+        title: '出售数量'
       }, {
         field: 'total',
         sortable: true,
@@ -123,16 +123,33 @@ export default {
           let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
           return s + total
         },
-        title: '金额'
-      }, {
+        title: '出售金额'
+      },
+      // {
+      //   field: 'needQuantity',
+      //   sortable: true,
+      //   formatter: (value, row) => {
+      //     if (!value) value = row.quantity;
+      //     if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
+      //     let exp = /\B(?=(\d{3})+(?!\d))/g;
+      //     return value.toString().replace(exp, ",")
+      //   },
+      //   footerFormatter: (value) => {
+      //     let total = 0;
+      //     for (let i = 0; i < value.length; i++) {
+      //       let row = value[i];
+      //       if (row.itemName.includes("戒指") || row.itemName.includes("指环"))
+      //         total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity) * 2;
+      //       else total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity);
+      //     }
+      //     return total
+      //   },
+      //   title: '需求数量'
+      // },
+      {
         field: 'needQuantity',
-        sortable: true,
-        formatter: (value, row) => {
-          if (!value) value = row.quantity;
-          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
-          let exp = /\B(?=(\d{3})+(?!\d))/g;
-          return value.toString().replace(exp, ",")
-        },
+        title: '需求数量',
+        formatter: this.needQuantityFormatter,
         footerFormatter: (value) => {
           let total = 0;
           for (let i = 0; i < value.length; i++) {
@@ -143,7 +160,6 @@ export default {
           }
           return total
         },
-        title: '需求数量'
       }, {
         field: 'needTotal',
         sortable: true,
@@ -154,15 +170,15 @@ export default {
           return value.toString().replace(exp, ",")
         },
         footerFormatter: (data) => {
-          let total = 0;
+          let sum = 0;
           for (let i = 0; i < data.length; i++) {
             let needTotal = data[i].needTotal;
             if (data[i].itemName.includes("戒指") || data[i].itemName.includes("指环"))
-              total += parseFloat(needTotal ? needTotal : data[i].total) * 2;
-            else total += parseFloat(needTotal ? needTotal : data[i].total);
+              sum += parseFloat(needTotal ? needTotal : data[i].total) * 2;
+            else sum += parseFloat(needTotal ? needTotal : data[i].total);
           }
           let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
-          return s + total
+          return s + sum
         },
         title: '需求金额'
       }, {
@@ -206,11 +222,12 @@ export default {
       keyword: null,
       date: null,
       tableData: [],
+      inputTimeout: null,
       suits: [],
       tableOptions: options,
       columns: columns,
       searchText: null,
-      suit: "620刻木匠",
+      suit: "地图",
       selectedValue: '',
       suitMaterial: 0,
       worldName: null,
@@ -243,11 +260,41 @@ export default {
       worldName.selectpicker('val', '中国');
       worldName.selectpicker('refresh');
       let suits = $('#suits');
-      suits.selectpicker('val', '620刻木匠');
+      suits.selectpicker('val', '地图');
       suits.selectpicker('refresh');
       let table = $('#suitTable');
       table.bootstrapTable('destroy');
     },
+    handleInput(event, index) {
+      // 清除之前的定时器
+      clearTimeout(this.inputTimeout);
+      // 设置新的定时器，延迟500毫秒调用更新函数
+      this.inputTimeout = setTimeout(() => {
+        this.updateQuantity(index, event.target.value);
+      }, 500);
+    },
+    // 格式化器函数，显示带逗号的数字
+    needQuantityFormatter(value, row, index) {
+      let val = value;
+      if (!value) val = row.quantity;
+      if (row.itemName.includes("戒指") || row.itemName.includes("指环")) val *= 2;
+      return `<input type="number" class="form-control" value="${val}" oninput=" window.updateQuantity(${index}, this.value)">`;
+    },
+    // updateFooter(data) {
+    //   let total = 0;
+    //   this.tableData.forEach(row => {
+    //     let value = row.needQuantity ? row.needQuantity : row.quantity;
+    //     total += value;
+    //   });
+    //   let sum = 0;
+    //   for (let i = 0; i < data.length; i++) {
+    //     let needTotal = data[i].needTotal;
+    //     sum += parseFloat(needTotal ? needTotal : data[i].total);
+    //   }
+    //   $('#suitTable > tfoot:nth-child(3) > tr:nth-child(1) > th:nth-child(9) > div:nth-child(1)').html(total)
+    //   let value1 = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">' + sum;
+    //   $('#suitTable > tfoot:nth-child(3) > tr:nth-child(1) > th:nth-child(10) > div:nth-child(1)').html(value1)
+    // },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     }, rmRow(val) {
@@ -272,6 +319,19 @@ export default {
     } else {
       this.worldName = '陆行鸟'
     }
+    // 在全局范围内定义updateQuantity函数
+    window.updateQuantity = (index, value) => {
+      const vm = this;
+      clearTimeout(this.inputTimeout);
+      this.inputTimeout = setTimeout(() => {
+        let $suitTable = $('#suitTable');
+        let data = $suitTable.bootstrapTable('getData');
+        data[index].needQuantity = Number(value);
+        data[index].needTotal = data[index].needQuantity * data[index].pricePerUnit;
+        $suitTable.bootstrapTable('load', data)
+        vm.tableData = data;
+      }, 500)
+    };
   }
 }
 </script>

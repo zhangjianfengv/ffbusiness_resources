@@ -149,15 +149,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年7月19日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>实时物价</u>页面新增五分钟缓存，提高了已经获取到结果时切换大区的速度，同时减轻服务器压力(对时效性几乎没有影响，缓存时间只有五分钟，且数据上报也存在延迟)
-                </li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年7月22日
@@ -173,6 +165,15 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>批量物价</u>页面新增"需求数量"、"需求金额"栏，便于了解所需材料情况和市场在售情况
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年8月9日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价</u>页面需求数量可调整，修改数量后需求金额和总计金额会自动重新计算
                 </li>
               </ul>
             </div>
