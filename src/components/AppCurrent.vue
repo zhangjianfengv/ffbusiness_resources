@@ -88,7 +88,7 @@ let optionCurrent = {
     title: '总计'
   }], method: 'post',
   pageNumber: 1,
-  pageSize: 50,
+  pageSize: 10,
   toolbar: '#queryCurrent',
   filterControl: true,
   paginationUseIntermediate: true,

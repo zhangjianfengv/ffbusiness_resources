@@ -4,7 +4,7 @@
       <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词"
                     value=""></b-form-input>
       <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
-      <b-form-select v-model="worldName" :options="worldNames"></b-form-select>
+      <b-form-select id="worldSelect" v-model="worldName" :options="worldNames"></b-form-select>
       <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
       <b-form-checkbox id="sm" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="querySuit()"
@@ -230,7 +230,7 @@ export default {
       suit: "地图",
       selectedValue: '',
       suitMaterial: 0,
-      worldName: null,
+      worldName: '陆行鸟',
       worldNames: [
         {"value": "陆行鸟", "text": "陆行鸟"},
         {"value": "猫小胖", "text": "猫小胖"},
@@ -319,6 +319,7 @@ export default {
     } else {
       this.worldName = '陆行鸟'
     }
+    $('#worldSelect').selectpicker('refresh');
     // 在全局范围内定义updateQuantity函数
     window.updateQuantity = (index, value) => {
       const vm = this;
