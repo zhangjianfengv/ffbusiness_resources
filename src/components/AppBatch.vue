@@ -4,7 +4,14 @@
       <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词"
                     value=""></b-form-input>
       <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
-      <b-form-select id="worldSelect" v-model="worldName" :options="worldNames"></b-form-select>
+      <b-form-select id="worldName" v-model="worldName">
+        <b-form-select-option style="font-weight: bold;font-style: italic" value="陆行鸟">陆行鸟</b-form-select-option>
+        <b-form-select-option style="font-weight: bold;font-style: italic;" value="猫小胖">猫小胖</b-form-select-option>
+        <b-form-select-option style="font-weight: bold;font-style: italic;" value="莫古力">莫古力</b-form-select-option>
+        <b-form-select-option style="font-weight: bold;font-style: italic;" value="豆豆柴">豆豆柴</b-form-select-option>
+        <b-form-select-option selected style="font-weight: bold;font-style: italic;" value="中国">中国
+        </b-form-select-option>
+      </b-form-select>
       <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
       <b-form-checkbox id="sm" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="querySuit()"
@@ -125,27 +132,6 @@ export default {
         },
         title: '出售金额'
       },
-      // {
-      //   field: 'needQuantity',
-      //   sortable: true,
-      //   formatter: (value, row) => {
-      //     if (!value) value = row.quantity;
-      //     if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
-      //     let exp = /\B(?=(\d{3})+(?!\d))/g;
-      //     return value.toString().replace(exp, ",")
-      //   },
-      //   footerFormatter: (value) => {
-      //     let total = 0;
-      //     for (let i = 0; i < value.length; i++) {
-      //       let row = value[i];
-      //       if (row.itemName.includes("戒指") || row.itemName.includes("指环"))
-      //         total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity) * 2;
-      //       else total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity);
-      //     }
-      //     return total
-      //   },
-      //   title: '需求数量'
-      // },
       {
         field: 'needQuantity',
         title: '需求数量',
@@ -154,9 +140,7 @@ export default {
           let total = 0;
           for (let i = 0; i < value.length; i++) {
             let row = value[i];
-            if (row.itemName.includes("戒指") || row.itemName.includes("指环"))
-              total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity) * 2;
-            else total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity);
+            total += parseFloat(row.needQuantity ? row.needQuantity : row.quantity);
           }
           return total
         },
@@ -165,7 +149,6 @@ export default {
         sortable: true,
         formatter: (value, row) => {
           if (!value) value = row.total;
-          if (row.itemName.includes("戒指") || row.itemName.includes("指环")) value = value * 2;
           let exp = /\B(?=(\d{3})+(?!\d))/g;
           return value.toString().replace(exp, ",")
         },
@@ -173,9 +156,7 @@ export default {
           let sum = 0;
           for (let i = 0; i < data.length; i++) {
             let needTotal = data[i].needTotal;
-            if (data[i].itemName.includes("戒指") || data[i].itemName.includes("指环"))
-              sum += parseFloat(needTotal ? needTotal : data[i].total) * 2;
-            else sum += parseFloat(needTotal ? needTotal : data[i].total);
+            sum += parseFloat(needTotal ? needTotal : data[i].total);
           }
           let s = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
           return s + sum
@@ -265,36 +246,12 @@ export default {
       let table = $('#suitTable');
       table.bootstrapTable('destroy');
     },
-    handleInput(event, index) {
-      // 清除之前的定时器
-      clearTimeout(this.inputTimeout);
-      // 设置新的定时器，延迟500毫秒调用更新函数
-      this.inputTimeout = setTimeout(() => {
-        this.updateQuantity(index, event.target.value);
-      }, 500);
-    },
     // 格式化器函数，显示带逗号的数字
     needQuantityFormatter(value, row, index) {
       let val = value;
       if (!value) val = row.quantity;
-      if (row.itemName.includes("戒指") || row.itemName.includes("指环")) val *= 2;
       return `<input type="number" class="form-control" value="${val}" oninput=" window.updateQuantity(${index}, this.value)">`;
     },
-    // updateFooter(data) {
-    //   let total = 0;
-    //   this.tableData.forEach(row => {
-    //     let value = row.needQuantity ? row.needQuantity : row.quantity;
-    //     total += value;
-    //   });
-    //   let sum = 0;
-    //   for (let i = 0; i < data.length; i++) {
-    //     let needTotal = data[i].needTotal;
-    //     sum += parseFloat(needTotal ? needTotal : data[i].total);
-    //   }
-    //   $('#suitTable > tfoot:nth-child(3) > tr:nth-child(1) > th:nth-child(9) > div:nth-child(1)').html(total)
-    //   let value1 = '<img src="https://static.ff14pvp.top/icon/icon/1.png" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">' + sum;
-    //   $('#suitTable > tfoot:nth-child(3) > tr:nth-child(1) > th:nth-child(10) > div:nth-child(1)').html(value1)
-    // },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     }, rmRow(val) {
@@ -319,7 +276,6 @@ export default {
     } else {
       this.worldName = '陆行鸟'
     }
-    $('#worldSelect').selectpicker('refresh');
     // 在全局范围内定义updateQuantity函数
     window.updateQuantity = (index, value) => {
       const vm = this;
