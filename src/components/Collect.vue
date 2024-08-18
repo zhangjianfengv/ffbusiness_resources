@@ -46,6 +46,13 @@ export default {
       collections: []
     }
   },
+  watch: {
+    collections(newVal) {
+      if (newVal.length) {
+        this.setDefaultSelection();  // collections有新值时重新设置默认选项
+      }
+    }
+  },
   methods: {
     addItemsToCollections() {
       $.ajax({
@@ -79,6 +86,16 @@ export default {
           this.collections = data;
         }
       });
+    },
+    setDefaultSelection() {
+      const defaultCollection = this.collections.find(
+          collection => collection.listName === '默认收藏夹'
+      );
+      if (defaultCollection) {
+        this.selectedCollections = [defaultCollection.id];
+      } else if (this.collections.length > 0) {
+        this.selectedCollections = [this.collections[0].id];
+      }
     }
   },
   mounted() {
