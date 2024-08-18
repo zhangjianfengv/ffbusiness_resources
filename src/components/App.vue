@@ -66,7 +66,7 @@
       <div class="modal-dialog">
         <div class="modal-content" style="max-width: 380px">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">常见问题</h4>
+            <h4 id="myModalLabel1" class="modal-title" style="margin: 0 auto">常见问题</h4>
           </div>
           <div class="modal-body">
             1.Q:为什么销售履历查询有时候非常慢？<br>

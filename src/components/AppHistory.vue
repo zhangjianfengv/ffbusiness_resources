@@ -315,34 +315,8 @@ export default {
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
     operateCollect(row) {
-      // $('#collectModal').modal('show');
-      let $table = $('#table');
-      const userCookie = this.$cookies.get('user');
-      if (!userCookie) {
-        this.$router.push({name: 'AppMy'});
-        return;
-      }
-      if (!row.collect) {
-        $.ajax({
-          url: "/ffbusiness/listItem/add",
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({itemId: row.itemId}),
-          success: function (data) {
-            $table.bootstrapTable('refresh', {silent: true})
-          }
-        });
-      } else {
-        $.ajax({
-          url: "/ffbusiness/listItem/del",
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({itemId: row.itemId}),
-          success: function (data) {
-            $table.bootstrapTable('refresh', {silent: true})
-          }
-        });
-      }
+      localStorage.setItem('operatingItem', row.itemId);
+      $('#collectModal').modal('show');
     },
     queryCurrentForm() {
       let tempItemId;
