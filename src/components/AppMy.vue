@@ -69,11 +69,12 @@ export default {
     }
   },
   methods: {
-    isStr(val) {
-      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
-    }, changeList() {
+    changeList() {
       $('#loading-indicator').show();
       $('#content').hide();
+      this.refreshData()
+    },
+    refreshData() {
       $.ajax({
         url: "/ffbusiness/currentData/batchCurrent",
         method: "post",
@@ -95,6 +96,9 @@ export default {
       } catch (error) {
       }
     },
+    isStr(val) {
+      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    }
   },
   mounted() {
     const userCookie = this.$cookies.get('user');
@@ -111,17 +115,7 @@ export default {
           this.listOptions = data;
           let listId = data[0].id;
           this.selectedList = listId;
-          $.ajax({
-            url: "/ffbusiness/currentData/batchCurrent",
-            method: "post",
-            contentType: "application/json",
-            data: JSON.stringify({listId: listId}),
-            success: (data) => {
-              this.realData = data;
-              $('#loading-indicator').hide();
-              $('#content').show();
-            }
-          });
+          this.refreshData();
         }
       });
     }

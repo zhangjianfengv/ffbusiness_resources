@@ -149,16 +149,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年7月22日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>新增<u>批量物价</u>页面，可批量查询物品价格/配方各初级材料价格及总计价格，均取大区内最低的一个价格
-                </li>
-              </ul>
-            </div>
             <div>
               <h6 style="padding-left: 16px">
                 2024年7月31日
@@ -174,6 +164,18 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>批量物价</u>页面需求数量可调整，修改数量后需求金额和总计金额会自动重新计算
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年8月20日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>销售履历</u>页面表格“收藏”列点击按钮可进行新建/删除收藏夹、往各个收藏夹增删物品的操作，一个用户可以有多个收藏夹，未添加此项功能之前已经收藏的物品已经保存至“默认收藏夹”
+                </li>
+                <li><u>我的关注</u>页面可进行切换收藏夹，查询不同的收藏夹的物品价格的操作
                 </li>
               </ul>
             </div>

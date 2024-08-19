@@ -12,7 +12,7 @@
         <BootstrapTable :id="'citem-' + index" :columns="columns1" :options="tableOptions1"></BootstrapTable>
       </b-card-body>
       <template #footer>
-        <b-button href="#" @click="cancelCollect" squared variant="outline-dark" type="button">取消收藏</b-button>
+        <!--        <b-button href="#" @click="cancelCollect" squared variant="outline-dark" type="button">取消收藏</b-button>-->
       </template>
     </b-card>
 
@@ -28,7 +28,7 @@
         <BootstrapTable :id="'hitem-' + index" :columns="columns2" :options="tableOptions2"></BootstrapTable>
       </b-card-body>
       <template #footer>
-        <b-button @click="cancelCollect" href="#" squared variant="outline-dark" type="button">取消收藏</b-button>
+        <!--        <b-button @click="cancelCollect" href="#" squared variant="outline-dark" type="button">取消收藏</b-button>-->
       </template>
     </b-card>
   </b-card-group>
@@ -73,14 +73,15 @@ export default {
     },
     cancelCollect() {
       this.show = false;
-      $.ajax({
-        url: "/ffbusiness/listItem/del",
-        method: "post",
-        contentType: "application/json",
-        data: JSON.stringify({itemId: this.item.itemId}),
-        success: function (data) {
-        }
-      });
+      //接口已经废弃
+      // $.ajax({
+      //   url: "/ffbusiness/listItem/del",
+      //   method: "post",
+      //   contentType: "application/json",
+      //   data: JSON.stringify({itemId: this.item.itemId}),
+      //   success: function (data) {
+      //   }
+      // });
     },
   },
   data() {

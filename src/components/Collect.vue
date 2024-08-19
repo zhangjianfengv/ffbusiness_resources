@@ -1,29 +1,40 @@
 <template>
+
+
   <div>
-    <div aria-hidden="true" aria-labelledby="note" class="modal fade" id="collectModal" role="dialog" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content" style="max-width: 380px">
-          <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel" style="margin: 0 auto">{{ modalTitle }}</h5>
-          </div>
-          <div class="modal-body">
-            <b-form-checkbox-group v-model="selectedCollections">
-              <b-form-checkbox v-for="collection in collections" :key="collection.id" :value="collection.id">
-                {{ collection.listName }}({{ collection.count }})
-              </b-form-checkbox>
-            </b-form-checkbox-group>
-            <b-button @click="showNewCollectionInput = true" v-if="!showNewCollectionInput">新建收藏夹</b-button>
-            <div v-if="showNewCollectionInput">
-              <b-form-input v-model="newCollectionName" placeholder="最多可输入20个字"></b-form-input>
-              <b-button @click="createCollection">新建</b-button>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <b-button @click="addItemsOrDel">确定</b-button>
-          </div>
-        </div>
+    <!-- 第一个 modal -->
+    <b-modal
+        id="first-modal"
+        ref="firstModal"
+        :title=modalTitle
+        ok-title="确定"
+        cancel-title="取消"
+        @ok="addItemsOrDel"
+    >
+      <b-form-checkbox-group v-model="selectedCollections">
+        <b-form-checkbox v-for="collection in collections" :key="collection.id" :value="collection.id">
+          {{ collection.listName }}({{ collection.count }}) <span @click="showDelModal(collection)"><i
+            class="bi bi-x-square"></i></span>
+        </b-form-checkbox>
+      </b-form-checkbox-group>
+      <b-button @click="showNewCollectionInput = true" v-if="!showNewCollectionInput">新建收藏夹</b-button>
+      <div v-if="showNewCollectionInput">
+        <b-form-input v-model="newCollectionName" placeholder="最多可输入20个字"></b-form-input>
+        <b-button @click="createCollection">确认新建</b-button>
       </div>
-    </div>
+    </b-modal>
+
+    <b-modal
+        id="delete-confirmation"
+        ref="deleteModal"
+        title="确认删除"
+        cancel-title="取消"
+        ok-title="确定"
+        style="z-index: 1050 !important; position: fixed;"
+        @ok="confirmDelete"
+    >
+      <p class="my-4">确定要删除收藏夹<b>{{ listToDelete.listName }}</b>？</p>
+    </b-modal>
   </div>
 </template>
 
@@ -45,7 +56,8 @@ export default {
       newCollectionName: '',
       modalTitle: '添加到收藏夹',
       selectedCollections: [],
-      collections: []
+      collections: [],
+      listToDelete: {id: 0, listName: ''}
     }
   },
   watch: {
@@ -101,13 +113,30 @@ export default {
         }
       });
     },
+    showDelModal(list) {
+      this.listToDelete = list;
+      // 当第一个 modal 确认按钮被点击时，显示第二个 modal
+      this.$refs.firstModal.hide(); // 可选：关闭第一个 modal
+      this.$refs.deleteModal.show(); // 显示第二个 modal
+    },
+    confirmDelete() {
+      $.ajax({
+        url: "/ffbusiness/userList/del",
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({listId: this.listToDelete.id}),
+        success: (data) => {
+          this.listCollection();
+        }
+      });
+    },
     onModalShow() {
       this.$emit('modal-show');
     },
     showModal() {
       let item = localStorage.getItem('operatingItemName');
-      this.modalTitle = localStorage.getItem('collected') === 'true' ? '选择在哪些收藏夹保留' + item : '添加' + item + '到收藏夹';
-      $('#collectModal').modal('toggle');
+      this.modalTitle = localStorage.getItem('collected') === 'true' ? '选择在哪些收藏夹保留 ' + item : '添加 ' + item + ' 到收藏夹';
+      this.$refs.firstModal.show();
     },
     setDefaultSelection() {
       if (localStorage.getItem('collected') === 'true') {
