@@ -4,12 +4,12 @@
       <div class="modal-dialog">
         <div class="modal-content" style="max-width: 380px">
           <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel" style="margin: 0 auto">添加到收藏夹</h5>
+            <h5 class="modal-title" id="myModalLabel" style="margin: 0 auto">{{ modalTitle }}</h5>
           </div>
           <div class="modal-body">
             <b-form-checkbox-group v-model="selectedCollections">
               <b-form-checkbox v-for="collection in collections" :key="collection.id" :value="collection.id">
-                {{ collection.listName }}
+                {{ collection.listName }}({{ collection.count }})
               </b-form-checkbox>
             </b-form-checkbox-group>
             <b-button @click="showNewCollectionInput = true" v-if="!showNewCollectionInput">新建收藏夹</b-button>
@@ -18,7 +18,9 @@
               <b-button @click="createCollection">新建</b-button>
             </div>
           </div>
-          <b-button @click="addItemsToCollections">确定</b-button>
+          <div class="modal-footer">
+            <b-button @click="addItemsOrDel">确定</b-button>
+          </div>
         </div>
       </div>
     </div>
@@ -39,9 +41,9 @@ export default {
   },
   data() {
     return {
-      showModal: false,
       showNewCollectionInput: false,
       newCollectionName: '',
+      modalTitle: '添加到收藏夹',
       selectedCollections: [],
       collections: []
     }
@@ -54,14 +56,25 @@ export default {
     }
   },
   methods: {
-    addItemsToCollections() {
-      $.ajax({
+    addItemsOrDel() {
+      if (localStorage.getItem("collected") === 'true') $.ajax({
+        url: "/ffbusiness/listItem/update",
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({listIds: this.selectedCollections, itemId: localStorage.getItem("operatingItem")}),
+        success: (data) => {
+          $('#collectModal').modal('toggle');
+          this.$emit('modal-hide');
+        }
+      });
+      else $.ajax({
         url: "/ffbusiness/listItem/add",
         method: "post",
         contentType: "application/json",
         data: JSON.stringify({listIds: this.selectedCollections, itemId: localStorage.getItem("operatingItem")}),
         success: (data) => {
           $('#collectModal').modal('toggle');
+          this.$emit('modal-hide');
         }
       });
     },
@@ -78,28 +91,45 @@ export default {
     },
     listCollection() {
       $.ajax({
-        url: "/ffbusiness/userList/list",
-        method: "get",
+        url: "/ffbusiness/listItem/itemInList",
+        method: "post",
         contentType: "application/json",
-        data: null,
+        data: JSON.stringify({itemId: localStorage.getItem("operatingItem")}),
         success: (data) => {
+          this.showNewCollectionInput = false;
           this.collections = data;
         }
       });
     },
+    onModalShow() {
+      this.$emit('modal-show');
+    },
+    showModal() {
+      let item = localStorage.getItem('operatingItemName');
+      this.modalTitle = localStorage.getItem('collected') === 'true' ? '选择在哪些收藏夹保留' + item : '添加' + item + '到收藏夹';
+      $('#collectModal').modal('toggle');
+    },
     setDefaultSelection() {
-      const defaultCollection = this.collections.find(
-          collection => collection.listName === '默认收藏夹'
-      );
-      if (defaultCollection) {
-        this.selectedCollections = [defaultCollection.id];
-      } else if (this.collections.length > 0) {
-        this.selectedCollections = [this.collections[0].id];
+      if (localStorage.getItem('collected') === 'true') {
+        const ids = this.collections
+            .filter(item => item.inList)
+            .map(item => item.id);
+        this.selectedCollections = ids;
+      } else {
+        const defaultCollection = this.collections.find(
+            collection => collection.listName === '默认收藏夹'
+        );
+        if (defaultCollection) {
+          this.selectedCollections = [defaultCollection.id];
+        } else if (this.collections.length > 0) {
+          this.selectedCollections = [this.collections[0].id];
+        }
       }
     }
   },
   mounted() {
-    this.listCollection();
+    const modalElement = document.getElementById('collectModal');
+    modalElement.addEventListener('show.bs.modal', this.onModalShow);
   }
 }
 </script>

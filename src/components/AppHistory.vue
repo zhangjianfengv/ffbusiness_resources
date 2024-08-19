@@ -62,7 +62,7 @@
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
     </b-form>
-    <Collect></Collect>
+    <Collect @modal-show="handleModalShow" @modal-hide="handleModalHide" ref="collectComponent"></Collect>
     <b-modal id="modal-sm" size="sm" ok-only ok- squared variant="outline-dark" title="提示">角色名查询须指定物品
     </b-modal>
     <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
@@ -314,10 +314,6 @@ export default {
       let id = row.itemId;
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
-    operateCollect(row) {
-      localStorage.setItem('operatingItem', row.itemId);
-      $('#collectModal').modal('show');
-    },
     queryCurrentForm() {
       let tempItemId;
       let tempItemName;
@@ -346,7 +342,22 @@ export default {
           }
         });
       } else vm.$bvModal.show('modal-item');
-    }, isStr(val) {
+    },
+    operateCollect(row) {
+      localStorage.setItem('operatingItem', row.itemId);
+      localStorage.setItem('operatingItemName', row.itemName);
+      localStorage.setItem('collected', row.collect);
+      this.$refs.collectComponent.listCollection();
+      this.$refs.collectComponent.showModal();
+    },
+    handleModalShow() {
+      console.log('父组件检测到 Collect 模态框显示');
+      // 在这里执行父组件的相关逻辑
+    }, handleModalHide() {
+      let $table = $('#table');
+      $table.bootstrapTable('refresh', {silent: true})
+    }
+    , isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
     formatNumber(number) {

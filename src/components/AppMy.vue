@@ -7,6 +7,11 @@
                 @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>
     </div>
     <div id="content" v-if="login">
+      <b-form inline>
+        <b-form-select v-model="selectedList" @change="changeList">
+          <option v-for="list in listOptions" :value="list.id" :key="list.id">{{ list.listName }}</option>
+        </b-form-select>
+      </b-form>
       <div>
         <Tables v-for="(item, index) in realData" :index="index" :item="item">
         </Tables>
@@ -58,12 +63,28 @@ export default {
   data() {
     return {
       login: false,
+      listOptions: [],
+      selectedList: null,
       realData: null
     }
   },
   methods: {
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    }, changeList() {
+      $('#loading-indicator').show();
+      $('#content').hide();
+      $.ajax({
+        url: "/ffbusiness/currentData/batchCurrent",
+        method: "post",
+        contentType: "application/json",
+        data: JSON.stringify({listId: this.selectedList}),
+        success: (data) => {
+          this.realData = data;
+          $('#loading-indicator').hide();
+          $('#content').show();
+        }
+      });
     },
     toLogin() {
       try {
@@ -76,21 +97,31 @@ export default {
     },
   },
   mounted() {
-    const vm = this;
     const userCookie = this.$cookies.get('user');
     if (this.isStr(userCookie)) {
       this.login = true;
       $('#loading-indicator').show();
       $('#content').hide();
       $.ajax({
-        url: "/ffbusiness/currentData/batchCurrent",
-        method: "post",
+        url: "/ffbusiness/userList/list",
+        method: "get",
         contentType: "application/json",
-        data: JSON.stringify({}),
-        success: function (data) {
-          vm.realData = data;
-          $('#loading-indicator').hide();
-          $('#content').show();
+        data: null,
+        success: (data) => {
+          this.listOptions = data;
+          let listId = data[0].id;
+          this.selectedList = listId;
+          $.ajax({
+            url: "/ffbusiness/currentData/batchCurrent",
+            method: "post",
+            contentType: "application/json",
+            data: JSON.stringify({listId: listId}),
+            success: (data) => {
+              this.realData = data;
+              $('#loading-indicator').hide();
+              $('#content').show();
+            }
+          });
         }
       });
     }
