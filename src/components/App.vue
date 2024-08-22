@@ -151,15 +151,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年7月31日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价</u>页面新增"需求数量"、"需求金额"栏，便于了解所需材料情况和市场在售情况
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年8月9日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -167,7 +158,6 @@
                 </li>
               </ul>
             </div>
-
             <div>
               <h6 style="padding-left: 16px">
                 2024年8月20日
@@ -177,6 +167,15 @@
                 </li>
                 <li><u>我的关注</u>页面可进行切换收藏夹，查询不同的收藏夹的物品价格的操作
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年8月22日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>市场统计</u>页面新增"交易额"指标</li>
+                <li><u>市场统计</u>页面趋势图新增360天时间范围</li>
               </ul>
             </div>
             <!--            body end-->

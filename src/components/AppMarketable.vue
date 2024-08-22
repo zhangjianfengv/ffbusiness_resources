@@ -62,7 +62,7 @@
           <b-form-select-option selected value="1">交易次数倒序</b-form-select-option>
           <b-form-select-option value="2">售出总数倒序</b-form-select-option>
           <b-form-select-option value="3">均价倒序</b-form-select-option>
-          <!--          <b-form-select-option value="4">销量上升最多</b-form-select-option>-->
+          <b-form-select-option value="4">交易额倒序</b-form-select-option>
         </b-form-select>
         <b-button squared variant="outline-dark" class="mx-1" @click="filterMarketable()" type="button"><i
             class="bi bi-search"></i>
@@ -134,6 +134,7 @@
 a, a:hover {
   color: #343a40;
 }
+
 @media screen and (max-width: 1000px) {
   .modal {
     max-width: 100%; /* 当设备宽度小于或等于600px时，弹框宽度为设备宽度的100% */
@@ -180,6 +181,7 @@ export default {
         {value: '30', text: '30天'},
         {value: '90', text: '90天'},
         {value: '180', text: '180天'},
+        {value: '360', text: '360天'},
         {value: 'all', text: '所有时间'}
       ],
       columns: [
@@ -250,7 +252,17 @@ export default {
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
             else return "无此物品";
           },
-        }, {
+        }
+        , {
+          field: 'marketShare',
+          sortable: true,
+          formatter: (value) => {
+            return this.formatNumber(value);
+          },
+          visible: false,
+          title: '交易额',
+        }
+        , {
           field: 'pricePerUnit',
           sortable: true,
           formatter: (value) => {
@@ -523,7 +535,7 @@ export default {
       if (val === '4') {
         table.bootstrapTable('refreshOptions', {
           sortOrder: 'desc',
-          sortName: 'quantityIndexChange',
+          sortName: 'marketShare',
           columns: this.columns
         })
       }
