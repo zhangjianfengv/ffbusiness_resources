@@ -257,7 +257,7 @@ export default {
           field: 'marketShare',
           sortable: true,
           formatter: (value) => {
-            return this.formatNumber(value);
+            return value ? this.formatNumber(value) : 0;
           },
           visible: true,
           title: '交易总额',
