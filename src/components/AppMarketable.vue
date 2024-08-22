@@ -260,7 +260,7 @@ export default {
             return this.formatNumber(value);
           },
           visible: true,
-          title: '交易额',
+          title: '交易总额',
         }
         , {
           field: 'pricePerUnit',
