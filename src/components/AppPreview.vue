@@ -103,27 +103,19 @@ export default {
         event.target.src = event.target.src.replace(this.defaultUrl, 'https://sta2.ff14pvp.top/lpreview/l/').replace(".jpg", '.png');
       else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
     },
+
     updateMessage() {
       const now = moment();
       const cycleStartDate = moment('2024-08-20 23:00:00');
       const announcementPeriod = 4; // 公示期天数
       const drawPeriod = 5; // 抽选期天数
-      // 计算当前周期的起点
-      const daysSinceStart = now.diff(cycleStartDate, 'days');
-      const currentCycleStart = cycleStartDate.add(Math.floor(daysSinceStart / (announcementPeriod + drawPeriod)) * (announcementPeriod + drawPeriod), 'days');
-      // 计算当前周期的各个时间点
-      const announcementStart = currentCycleStart;
-      const announcementEnd = currentCycleStart.clone().add(announcementPeriod, 'days');
-      const drawStart = announcementEnd.clone().add(1, 'seconds');
-      const drawEnd = currentCycleStart.clone().add(announcementPeriod + drawPeriod, 'days').subtract(1, 'seconds');
-      if (now.isBetween(announcementStart, announcementEnd)) {
-        this.message = `当前为公示期，于${announcementEnd.format('YYYY年MM月DD日HH:mm:ss')}开始可参加抽选`;
-      } else if (now.isBetween(drawStart, drawEnd)) {
-        this.message = `当前可参加抽选，于${drawEnd.format('YYYY年MM月DD日HH:mm:ss')}公示结果`;
-      } else if (now.isBefore(announcementStart)) {
-        this.message = `还未开始，预计于${announcementStart.format('YYYY年MM月DD日HH:mm:ss')}开始公示期`;
+      let diff = now.diff(cycleStartDate, 'seconds');
+      let secondsDay = 86400;
+      const secondsSinceStart = diff % ((announcementPeriod + drawPeriod) * secondsDay);
+      if (secondsSinceStart < 4 * secondsDay) {
+        this.message = `当前为公示期，于${now.add(announcementPeriod * secondsDay - secondsSinceStart, 'seconds').format('YYYY年MM月DD日HH:mm:ss')}开始可参加抽选`;
       } else {
-        this.message = `抽选期已结束，感谢您的参与。`;
+        this.message = `当前可参加抽选，于${now.add((announcementPeriod + drawPeriod) * secondsDay - secondsSinceStart, 'seconds').format('YYYY年MM月DD日HH:mm:ss')}公示结果`;
       }
     },
   }, beforeDestroy() {
