@@ -259,7 +259,7 @@ export default {
           formatter: (value) => {
             return this.formatNumber(value);
           },
-          visible: false,
+          visible: true,
           title: '交易额',
         }
         , {
