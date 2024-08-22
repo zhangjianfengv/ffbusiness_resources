@@ -5,11 +5,11 @@
                     value=""></b-form-input>
       <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
       <b-form-select id="worldName" v-model="worldName">
-        <b-form-select-option style="font-weight: bold;font-style: italic" value="陆行鸟">陆行鸟</b-form-select-option>
-        <b-form-select-option style="font-weight: bold;font-style: italic;" value="猫小胖">猫小胖</b-form-select-option>
-        <b-form-select-option style="font-weight: bold;font-style: italic;" value="莫古力">莫古力</b-form-select-option>
-        <b-form-select-option style="font-weight: bold;font-style: italic;" value="豆豆柴">豆豆柴</b-form-select-option>
-        <b-form-select-option selected style="font-weight: bold;font-style: italic;" value="中国">中国
+        <b-form-select-option value="陆行鸟">陆行鸟</b-form-select-option>
+        <b-form-select-option value="猫小胖">猫小胖</b-form-select-option>
+        <b-form-select-option value="莫古力">莫古力</b-form-select-option>
+        <b-form-select-option value="豆豆柴">豆豆柴</b-form-select-option>
+        <b-form-select-option value="中国">中国
         </b-form-select-option>
       </b-form-select>
       <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
