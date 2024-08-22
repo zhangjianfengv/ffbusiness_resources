@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
-      <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词"
+      <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词" @keyup.enter="querySuit"
                     value=""></b-form-input>
       <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
       <b-form-select id="worldName" v-model="worldName">
-        <b-form-select-option value="陆行鸟">陆行鸟</b-form-select-option>
-        <b-form-select-option value="猫小胖">猫小胖</b-form-select-option>
-        <b-form-select-option value="莫古力">莫古力</b-form-select-option>
-        <b-form-select-option value="豆豆柴">豆豆柴</b-form-select-option>
-        <b-form-select-option value="中国">中国
+        <b-form-select-option :value="'陆行鸟'">陆行鸟</b-form-select-option>
+        <b-form-select-option :value="'猫小胖'">猫小胖</b-form-select-option>
+        <b-form-select-option :value="'莫古力'">莫古力</b-form-select-option>
+        <b-form-select-option :value="'豆豆柴'">豆豆柴</b-form-select-option>
+        <b-form-select-option :value="'中国'">中国
         </b-form-select-option>
       </b-form-select>
       <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
@@ -212,11 +212,6 @@ export default {
       selectedValue: '',
       suitMaterial: 0,
       worldName: '陆行鸟',
-      worldNames: [
-        {"value": "陆行鸟", "text": "陆行鸟"},
-        {"value": "猫小胖", "text": "猫小胖"},
-        {"value": "莫古力", "text": "莫古力"},
-        {"value": "豆豆柴", "text": "豆豆柴"}]
     }
   },
   methods: {
