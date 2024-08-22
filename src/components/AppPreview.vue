@@ -2,6 +2,7 @@
   <div>
     <div style="text-align: center" class="mt-2 mb-2">
       <b-container fluid>
+        <b-alert show>{{ message }}</b-alert>
         <b-button squared class="ml-2" variant="outline-dark" @click="fetchItems">全部</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(57)">家具</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(76)">庭具</b-button>
@@ -49,15 +50,21 @@
 }
 </style>
 <script>
+import moment from "moment";
+
 export default {
   data() {
     return {
       items: [], // 存储从后端获取的物品数据
       defaultUrl: 'https://sta2.ff14pvp.top/preview/',
+      message: '',
+      intervalId: null,
       fallback: ''
     };
   },
   mounted() {
+    this.updateMessage();
+    this.intervalId = setInterval(this.updateMessage, 60000); // 每分钟更新一次
     this.fetchItems();
   },
   methods: {
@@ -95,9 +102,34 @@ export default {
       if (event.target.src.startsWith(this.defaultUrl))
         event.target.src = event.target.src.replace(this.defaultUrl, 'https://sta2.ff14pvp.top/lpreview/l/').replace(".jpg", '.png');
       else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
-    }
+    },
+    updateMessage() {
+      const now = moment();
+      const cycleStartDate = moment('2024-08-20 23:00:00');
+      const announcementPeriod = 4; // 公示期天数
+      const drawPeriod = 5; // 抽选期天数
+      // 计算当前周期的起点
+      const daysSinceStart = now.diff(cycleStartDate, 'days');
+      const currentCycleStart = cycleStartDate.add(Math.floor(daysSinceStart / (announcementPeriod + drawPeriod)) * (announcementPeriod + drawPeriod), 'days');
+      // 计算当前周期的各个时间点
+      const announcementStart = currentCycleStart;
+      const announcementEnd = currentCycleStart.clone().add(announcementPeriod, 'days');
+      const drawStart = announcementEnd.clone().add(1, 'seconds');
+      const drawEnd = currentCycleStart.clone().add(announcementPeriod + drawPeriod, 'days').subtract(1, 'seconds');
+      if (now.isBetween(announcementStart, announcementEnd)) {
+        this.message = `当前为公示期，于${announcementEnd.format('YYYY年MM月DD日HH:mm:ss')}开始可参加抽选`;
+      } else if (now.isBetween(drawStart, drawEnd)) {
+        this.message = `当前可参加抽选，于${drawEnd.format('YYYY年MM月DD日HH:mm:ss')}公示结果`;
+      } else if (now.isBefore(announcementStart)) {
+        this.message = `还未开始，预计于${announcementStart.format('YYYY年MM月DD日HH:mm:ss')}开始公示期`;
+      } else {
+        this.message = `抽选期已结束，感谢您的参与。`;
+      }
+    },
+  }, beforeDestroy() {
+    clearInterval(this.intervalId);
   }
-};
+}
 </script>
 
 <style>
