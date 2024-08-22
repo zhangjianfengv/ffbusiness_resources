@@ -216,13 +216,12 @@ export default {
   },
   methods: {
     querySuit(newValue) {
-      const vm = this;
       let suitTable = $('#suitTable');
       suitTable.bootstrapTable('destroy');
       queryParam = {
-        suitMaterial: vm.suitMaterial,
-        suitName: vm.isStr(newValue) ? newValue : vm.isStr(vm.keyword) ? vm.keyword : vm.suit,
-        dc: vm.worldName
+        suitMaterial: this.suitMaterial,
+        suitName: this.isStr(newValue) ? newValue : this.isStr(this.keyword) ? this.keyword : this.suit,
+        dc: this.worldName
       };
       this.tableOptions.url = '/ffbusiness/currentData/list';
       suitTable.bootstrapTable(this.tableOptions);
@@ -268,9 +267,7 @@ export default {
     if (this.isStr(worldCookie)) {
       worldName = Base64.decode(worldCookie);
       this.worldName = worldName;
-    } else {
-      this.worldName = '陆行鸟'
-    }
+    } else this.worldName = '陆行鸟'
     // 在全局范围内定义updateQuantity函数
     window.updateQuantity = (index, value) => {
       const vm = this;
