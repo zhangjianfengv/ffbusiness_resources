@@ -216,6 +216,7 @@
         href="https://garlandtools.cn/db/" target="_blank">花环数据库</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
       All Rights Reserved.
     </div>
+    <b-modal ref="m-sm" ok-only size="sm" title="提示">复制isearch指令成功</b-modal>
   </div>
 </template>
 <style>
@@ -281,13 +282,14 @@ export default {
     }, {
       field: 'name',
       formatter: (value, row) => {
-        let template = '<span>' + row.name + '&nbsp;<i id="cli' + row.id + '" @click="copyText(row)" class="bi bi-clipboard"></i>&nbsp;' +
+        let template = '<span>' + row.name + '&nbsp;<img src="/isearch.png" alt="isearch" height="20px" @click="copyIsearch(row)"/>&nbsp;<i id="cli' + row.id + '" @click="copyText(row)" class="bi bi-clipboard"></i>&nbsp;' +
             '<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:' + value + '"><i class="bi bi-wikipedia"></i></a></span>';
         return this.vueFormatter({
           template: template,
           data: {row},
           methods: {
-            copyText: this.copyText
+            copyText: this.copyText,
+            copyIsearch: this.copySearch,
           }
         })
       },
@@ -920,8 +922,26 @@ export default {
       element.setSelectionRange(0, 99999); // 适配 iOS
       const success = document.execCommand('copy')
       if (!success) {
-        prompt('请手动复制以下内容', row)
+        prompt('请手动复制以下内容', row.name)
       }
+      document.body.removeChild(element)
+    },
+    copySearch(row) {
+      const element = document.createElement('textarea')
+      let value = 'isearch ' + row.name;
+      element.value = value
+      element.style.width = '0'
+      element.style.height = '0'
+      element.style.opacity = '0'
+      element.style.position = 'absolute'
+      document.body.appendChild(element)
+      element.select();
+      element.setSelectionRange(0, 99999); // 适配 iOS
+      const success = document.execCommand('copy')
+      if (!success) {
+        prompt('请手动复制以下内容', value)
+      }
+      this.$refs['m-sm'].show()
       document.body.removeChild(element)
     },
     // 获取具有指定 id 和 class 的元素，并进行类替换

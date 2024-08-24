@@ -144,15 +144,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年8月9日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价</u>页面需求数量可调整，修改数量后需求金额和总计金额会自动重新计算
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年8月20日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -170,6 +161,15 @@
                 <li><u>市场统计</u>页面新增"交易额"指标(预计9月1日才能全部更新)</li>
                 <li><u>市场统计</u>页面趋势图新增360天时间范围</li>
                 <li><u>家具预览</u>页面新增房屋抽选提醒</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年8月24日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>物品来源和成本</u>页面表格可复制isearch游戏内搜索物品指令
+                </li>
               </ul>
             </div>
             <!--            body end-->
