@@ -928,7 +928,7 @@ export default {
     },
     copySearch(row) {
       const element = document.createElement('textarea')
-      let value = 'isearch ' + row.name;
+      let value = '/isearch ' + row.name;
       element.value = value
       element.style.width = '0'
       element.style.height = '0'
