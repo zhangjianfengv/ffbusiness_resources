@@ -282,8 +282,8 @@ export default {
     }, {
       field: 'name',
       formatter: (value, row) => {
-        let template = '<span>' + row.name + '&nbsp;<img src="/isearch.png" alt="isearch" height="20px" @click="copyIsearch(row)"/>&nbsp;<i id="cli' + row.id + '" @click="copyText(row)" class="bi bi-clipboard"></i>&nbsp;' +
-            '<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:' + value + '"><i class="bi bi-wikipedia"></i></a></span>';
+        let template = '<span>' + row.name + '&nbsp;<i id="cli' + row.id + '" @click="copyText(row)" class="bi bi-clipboard"></i>&nbsp;' +
+            '<i class="bi bi-terminal" @click="copyIsearch(row)"></i>&nbsp;<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:' + value + '"><i class="bi bi-wikipedia"></i></a></span>';
         return this.vueFormatter({
           template: template,
           data: {row},
