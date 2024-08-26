@@ -736,6 +736,8 @@ export default {
               title: '消耗',
             }],
             mobileResponsive: true,
+            pagination: "true",
+            sidePagination: "client",
             pageNumber: 1,
             pageSize: 5,
             paginationUseIntermediate: true,
@@ -852,8 +854,8 @@ export default {
           };
           $sourceTable.bootstrapTable(options);
           vm.currentIntervalId = setInterval(function () {
-            $sourceTable.bootstrapTable('refreshOptions', options);
-          }, 1000);
+            $sourceTable.bootstrapTable('refresh', {silent: true});
+          }, 10000);
         }
       });
       this.showOptions = false;
