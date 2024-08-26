@@ -541,7 +541,9 @@ export default {
         {value: '7', text: '7天'},
         {value: '15', text: '15天'},
         {value: '30', text: '30天'},
+        {value: '60', text: '60天'},
         {value: '90', text: '90天'},
+        {value: '180', text: '180天'},
         {value: '360', text: '360天'},
         {value: 'all', text: '所有时间'}
       ],
@@ -734,6 +736,12 @@ export default {
               title: '消耗',
             }],
             mobileResponsive: true,
+            pageNumber: 1,
+            pageSize: 5,
+            paginationUseIntermediate: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            pageList: [10, 20, 100, 200, 500, 1000],
             checkOnInit: true
           });
         }
@@ -832,6 +840,14 @@ export default {
               title: '采集时间'
             }],
             mobileResponsive: true,
+            pagination: "true",
+            sidePagination: "client",
+            pageNumber: 1,
+            pageSize: 5,
+            paginationUseIntermediate: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            pageList: [10, 20, 100, 200, 500, 1000],
             checkOnInit: true
           };
           $sourceTable.bootstrapTable(options);
