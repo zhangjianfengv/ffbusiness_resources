@@ -797,48 +797,8 @@ export default {
               },
               title: 'ET'
             }, {
-              formatter: (value, row) => {
-                if (row.type && row.et1) {
-                  let s;
-                  const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
-                  const etSeconds = currentTimeStampInSeconds * 720 / 35;
-                  const hours = Math.floor(etSeconds / 3600) % 24;
-                  const minutes = Math.floor((etSeconds % 3600) / 60);
-                  let et1 = row.et1;
-                  let et2 = row.et2;
-                  let diff1;
-                  let diff2 = null;
-                  if (et2) {
-                    if (et2 && hours >= et2) {
-                      et1 = et1 + ':00';
-                      et2 = et2 + ':00';
-                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
-                      diff2 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et2);
-                    } else if (hours >= et1) {
-                      et1 = et1 + ':00';
-                      et2 = et2 + ':00';
-                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
-                      diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
-                    } else {
-                      et1 = et1 + ':00';
-                      et2 = et2 + ':00';
-                      diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
-                      diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
-                    }
-                  } else {
-                    if (hours >= et1) {
-                      et1 = et1 + ':00';
-                      diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
-                    } else {
-                      et1 = et1 + ':00';
-                      diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
-                    }
-                  }
-                  if (diff1) s = '距离' + et1 + '还有' + Math.floor(diff1 * 35 / 720 / 60) + '分' + Math.floor((diff1 * 35 / 720) % 60) + '秒<br/>'
-                  if (diff2) s = s + '距离' + et2 + '还有' + Math.floor(diff2 * 35 / 720 / 60) + '分' + Math.floor((diff2 * 35 / 720) % 60) + '秒<br/>'
-                  return s;
-                } else return '';
-              },
+              formatter: vm.gatherTimeFormatter,
+              field: 'gatherTime',
               title: '采集时间'
             }],
             mobileResponsive: true,
@@ -854,7 +814,15 @@ export default {
           };
           $sourceTable.bootstrapTable(options);
           vm.currentIntervalId = setInterval(function () {
-            $sourceTable.bootstrapTable('refresh', {silent: true});
+            let currentData = $sourceTable.bootstrapTable('getData');
+            currentData.forEach(row => {
+              $sourceTable.bootstrapTable('updateCellByUniqueId', {
+                id: row.id,
+                field: 'gatherTime',
+                value: vm.gatherTimeFormatter('', row),
+                reinit: false
+              });
+            });
           }, 10000);
         }
       });
@@ -874,6 +842,48 @@ export default {
           .catch(error => {
             console.error('Error fetching items:', error);
           });
+    },
+    gatherTimeFormatter(value, row) {
+      if (row.type && row.et1) {
+        let s;
+        const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+        const etSeconds = currentTimeStampInSeconds * 720 / 35;
+        const hours = Math.floor(etSeconds / 3600) % 24;
+        const minutes = Math.floor((etSeconds % 3600) / 60);
+        let et1 = row.et1;
+        let et2 = row.et2;
+        let diff1;
+        let diff2 = null;
+        if (et2) {
+          if (et2 && hours >= et2) {
+            et1 = et1 + ':00';
+            et2 = et2 + ':00';
+            diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+            diff2 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et2);
+          } else if (hours >= et1) {
+            et1 = et1 + ':00';
+            et2 = et2 + ':00';
+            diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+            diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
+          } else {
+            et1 = et1 + ':00';
+            et2 = et2 + ':00';
+            diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
+            diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
+          }
+        } else {
+          if (hours >= et1) {
+            et1 = et1 + ':00';
+            diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+          } else {
+            et1 = et1 + ':00';
+            diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
+          }
+        }
+        if (diff1) s = '距离' + et1 + '还有' + Math.floor(diff1 * 35 / 720 / 60) + '分' + Math.floor((diff1 * 35 / 720) % 60) + '秒<br/>'
+        if (diff2) s = s + '距离' + et2 + '还有' + Math.floor(diff2 * 35 / 720 / 60) + '分' + Math.floor((diff2 * 35 / 720) % 60) + '秒<br/>'
+        return s;
+      } else return '';
     },
     timeToSeconds(time) {
       const parts = time.split(':');
