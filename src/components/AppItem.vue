@@ -772,6 +772,9 @@ export default {
           let options = {
             data: data,
             columns: [{
+              field: 'id',
+              visible: false
+            }, {
               field: 'locationName',
               title: '地图'
             }, {
@@ -806,6 +809,7 @@ export default {
             sidePagination: "client",
             pageNumber: 1,
             pageSize: 15,
+            uniqueId: 'id',
             paginationUseIntermediate: true,
             paginationSuccessivelySize: 1,
             paginationPagesBySide: 1,
@@ -844,6 +848,7 @@ export default {
           });
     },
     gatherTimeFormatter(value, row) {
+      const vm = this;
       if (row.type && row.et1) {
         let s;
         const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
