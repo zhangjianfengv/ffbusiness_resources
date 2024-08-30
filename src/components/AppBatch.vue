@@ -33,6 +33,23 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+
+    <b-modal
+        id="first-modal"
+        ref="firstModal"
+        :title=modalTitle
+        ok-title="确定"
+        cancel-title="取消"
+        @ok="addItemsOrDel"
+    >
+
+
+      <b-form-input v-model="newCollectionName" placeholder="最多可输入20个字"></b-form-input>
+
+
+    </b-modal>
+
+
   </div>
 </template>
 <style scoped>
@@ -203,6 +220,7 @@ export default {
       keyword: null,
       date: null,
       tableData: [],
+      modalTitle: "保存当前物品和数量",
       inputTimeout: null,
       suits: [],
       tableOptions: options,
