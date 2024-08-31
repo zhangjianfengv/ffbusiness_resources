@@ -25,7 +25,7 @@
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
-      <span>※如果输入了关键词则查询会自动忽略预置关键词和套装的当前选项</span>
+      <span>※如果输入了关键词则查询以关键词为准</span>
     </b-form>
     <BootstrapTable id="suitTable"
                     ref="suitTable"
