@@ -168,7 +168,7 @@
                 2024年8月31日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li>
+                <li><u>批量物价</u>页面预置套装列表可以选择自己的收藏夹
                 </li>
                 <li><u>批量物价</u>页面可批量收藏物品，物品和需求数量均会保存
                 </li>
