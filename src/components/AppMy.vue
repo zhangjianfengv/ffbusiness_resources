@@ -11,6 +11,9 @@
         <b-form-select v-model="selectedList" @change="changeList">
           <option v-for="list in listOptions" :value="list.id" :key="list.id">{{ list.listName }}</option>
         </b-form-select>
+        <b-button squared variant="outline-dark" class="mx-1" @click="changeList" type="button"><i
+            class="bi bi-search"></i>
+        </b-button>
       </b-form>
       <div>
         <FavoriteComponent v-for="(item, index) in realData" :index="index" :item="item">
@@ -114,7 +117,7 @@ export default {
         success: (data) => {
           this.listOptions = data;
           this.selectedList = data[0].id;
-          // this.refreshData();
+          $('#loading-indicator').hide();
         }
       });
     }
