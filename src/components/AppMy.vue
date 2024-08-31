@@ -105,7 +105,6 @@ export default {
     const userCookie = this.$cookies.get('user');
     if (this.isStr(userCookie)) {
       this.login = true;
-      $('#loading-indicator').show();
       $('#content').hide();
       $.ajax({
         url: "/ffbusiness/userList/list",
