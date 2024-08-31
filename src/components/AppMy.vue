@@ -13,8 +13,8 @@
         </b-form-select>
       </b-form>
       <div>
-        <Tables v-for="(item, index) in realData" :index="index" :item="item">
-        </Tables>
+        <FavoriteComponent v-for="(item, index) in realData" :index="index" :item="item">
+        </FavoriteComponent>
       </div>
     </div>
     <div id="loading-indicator" class="text-center">
@@ -53,12 +53,13 @@ button {
 <script>
 
 import Base64 from "@/plugins/base64.js";
-import Tables from "@/components/Tables.vue";
+import Tables from "@/components/FavoriteComponent.vue";
+import FavoriteComponent from "@/components/FavoriteComponent.vue";
 import $ from "jquery";
 
 export default {
   name: "AppMy",
-  components: {Tables},
+  components: {FavoriteComponent, Tables},
   props: ['themeColor'],
   data() {
     return {
@@ -113,9 +114,8 @@ export default {
         data: null,
         success: (data) => {
           this.listOptions = data;
-          let listId = data[0].id;
-          this.selectedList = listId;
-          this.refreshData();
+          this.selectedList = data[0].id;
+          // this.refreshData();
         }
       });
     }

@@ -20,8 +20,12 @@
       <b-button squared variant="outline-dark" class="mx-1" @click="querySuit()" type="button"><i
           class="bi bi-search"></i>
       </b-button>
+      <b-button squared variant="outline-dark" class="mx-1" @click="openModal()" type="button"><i
+          class="bi bi-star"></i>
+      </b-button>
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
+      <span>※如果输入了关键词则查询会自动忽略预置关键词和套装的当前选项</span>
     </b-form>
     <BootstrapTable id="suitTable"
                     ref="suitTable"
@@ -40,7 +44,7 @@
         :title=modalTitle
         ok-title="确定"
         cancel-title="取消"
-        @ok="addItemsOrDel"
+        @ok="saveBatch"
     >
 
 
@@ -219,8 +223,9 @@ export default {
     return {
       keyword: null,
       date: null,
+      newCollectionName: null,
       tableData: [],
-      modalTitle: "保存当前物品和数量",
+      modalTitle: "批量保存当前列表物品和数量",
       inputTimeout: null,
       suits: [],
       tableOptions: options,
@@ -257,12 +262,36 @@ export default {
       suits.selectpicker('refresh');
       let table = $('#suitTable');
       table.bootstrapTable('destroy');
+    }, saveBatch() {
+      let $suitTable = $('#suitTable');
+      let initData = $suitTable.bootstrapTable('getData');
+      let data = this.tableData.length > 0 ? this.tableData : initData;
+      let listName = this.newCollectionName;
+      if (this.isStr(listName))
+        $.ajax({
+          url: "/ffbusiness/listItem/batch",
+          async: true,
+          method: "post",
+          contentType: "application/json",
+          data: JSON.stringify({
+            listName: listName, items: data.map(item => ({
+              itemId: item.itemId,
+              itemNum: item.needQuantity ? item.needQuantity : item.quantity
+            }))
+          }),
+          success: function (data) {
+          }
+        });
     },
     // 格式化器函数，显示带逗号的数字
     needQuantityFormatter(value, row, index) {
       let val = value;
       if (!value) val = row.quantity;
       return `<input type="number" class="form-control" value="${val}" oninput=" window.updateQuantity(${index}, this.value)">`;
+    }, // 格式化器函数，显示带逗号的数字
+    openModal() {
+      this.$refs.firstModal.show();
+      this.newCollectionName = this.isStr(this.keyword) ? this.keyword : this.suit;
     },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;

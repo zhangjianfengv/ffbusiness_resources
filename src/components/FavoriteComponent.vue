@@ -43,7 +43,7 @@ import moment from "moment";
 import $ from "jquery";
 
 export default {
-  name: 'Tables',
+  name: 'FavoriteComponent',
   props: {
     item: {
       type: Object,

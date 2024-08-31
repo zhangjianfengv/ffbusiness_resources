@@ -142,17 +142,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年8月20日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>销售履历</u>页面表格“收藏”列点击按钮可进行新建/删除收藏夹、往各个收藏夹增删物品的操作，一个用户可以有多个收藏夹，未添加此项功能之前已经收藏的物品已经保存至“默认收藏夹”
-                </li>
-                <li><u>我的关注</u>页面可进行切换收藏夹，查询不同的收藏夹的物品价格的操作
-                </li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年8月22日
@@ -169,6 +159,18 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>物品来源和成本</u>页面表格可复制isearch游戏内搜索物品指令
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年8月31日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>
+                </li>
+                <li><u>批量物价</u>页面可批量收藏物品，物品和需求数量均会保存
                 </li>
               </ul>
             </div>
