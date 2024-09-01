@@ -263,6 +263,11 @@ export default {
       let table = $('#suitTable');
       table.bootstrapTable('destroy');
     }, saveBatch() {
+      const userCookie = this.$cookies.get('user');
+      if (!userCookie) {
+        this.$router.push({name: 'AppMy'});
+        return;
+      }
       let $suitTable = $('#suitTable');
       let initData = $suitTable.bootstrapTable('getData');
       let data = this.tableData.length > 0 ? this.tableData : initData;

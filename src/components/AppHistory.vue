@@ -344,6 +344,11 @@ export default {
       } else vm.$bvModal.show('modal-item');
     },
     operateCollect(row) {
+      const userCookie = this.$cookies.get('user');
+      if (!userCookie) {
+        this.$router.push({name: 'AppMy'});
+        return;
+      }
       localStorage.setItem('operatingItem', row.itemId);
       localStorage.setItem('operatingItemName', row.itemName);
       localStorage.setItem('collected', row.collect);
