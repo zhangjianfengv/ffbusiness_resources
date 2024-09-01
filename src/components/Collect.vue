@@ -14,7 +14,7 @@
       <b-form-checkbox-group v-model="selectedCollections">
         <b-form-checkbox v-for="collection in collections" :key="collection.id" :value="collection.id">
           {{ collection.listName }}({{ collection.count }}) <span @click="showDelModal(collection)"><i
-            class="bi bi-x-square"></i></span>
+            class="bi bi-x-square" style="font-size: 0.6rem"></i></span>
         </b-form-checkbox>
       </b-form-checkbox-group>
       <b-button @click="showNewCollectionInput = true" v-if="!showNewCollectionInput">新建收藏夹</b-button>
