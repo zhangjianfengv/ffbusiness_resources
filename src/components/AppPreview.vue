@@ -2,7 +2,7 @@
   <div>
     <div style="text-align: center" class="mt-2 mb-2">
       <b-container fluid>
-        <b-alert show>{{ message }}</b-alert>
+        <b-alert show dismissible variant="dark">{{ message }}</b-alert>
         <b-button squared class="ml-2" variant="outline-dark" @click="fetchItems">全部</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(57)">家具</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(76)">庭具</b-button>
@@ -35,7 +35,7 @@
             xs="12"
             class="mb-4">
           <b-card style="text-align: center" :title="item.itemName" img-top>
-            <img style="width: 100%; height: auto;" :src="defaultUrl+item.url+'.jpg?v=1'"
+            <img style="width: 100%; height: auto;" :src="defaultUrl+item.url+'.jpg?v=2'"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
           </b-card>
