@@ -176,7 +176,7 @@
             <h4 class="modal-title" style="margin: 0 auto" id="previewLabel">物品预览</h4>
           </div>
           <div class="modal-body" style="text-align: center">
-            <img class="previewItem" :src="currentPreview"
+            <img decoding="async" loading="lazy" class="previewItem" :src="currentPreview"
                  alt="莫古用力找也找不到照片库啵!"
                  v-on:error="handleImageError">
             <div class="modal-footer">
@@ -276,7 +276,7 @@ export default {
     }, {
       formatter: (value, row) => {
         let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
-        return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
+        return '<img decoding="async" loading="lazy"  src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
       },
       title: '图标'
     }, {
@@ -636,7 +636,7 @@ export default {
       $('#recipeList').hide();
       let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
       $('#recipeLabel').html('<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
+          '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
       $('#recipeModal').modal('show');
       $.ajax({
         url: "/ffbusiness/recipe/getOne", method: "post", contentType: "application/json",
@@ -657,7 +657,7 @@ export default {
       this.tempItemId = row.id;
       let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
       $('#recipeLabel').html('<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
+          '"decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
       $('#recipeModal').modal('show');
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
@@ -714,7 +714,7 @@ export default {
           $('#sourceModal').modal('show');
           let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
           $('#sourceLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;购买兑换');
+              '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;购买兑换');
           $sourceTable.bootstrapTable({
             data: data,
             columns: [{
@@ -730,7 +730,7 @@ export default {
             }, {
               formatter: (value, row) => {
                 let url = "https://static.ff14pvp.top/icon/icon/" + row.currencyId + '.png';
-                let s = '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">';
+                let s = '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">';
                 return s + 'X' + row.price;
               },
               title: '消耗',
@@ -768,7 +768,7 @@ export default {
           $('#gatherModal').modal('show');
           let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
           $('#gatherLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
+              '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
           let options = {
             data: data,
             columns: [{
@@ -1010,7 +1010,7 @@ export default {
     openSummary(row) {
       let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
       $('#SummaryLabel1').html(this.worldName + '&nbsp;<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
+          '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
       $('#summaryModal1').modal('show');
       this.summaryItemId = row.id;
       this.changeSummaryScale(this.summaryScale);

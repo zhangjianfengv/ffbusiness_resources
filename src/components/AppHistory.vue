@@ -158,10 +158,10 @@ export default {
         formatter: (value, row) => {
           let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
           if (row.hq)
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
+            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
                 ' decoding="async" width="16" height="16" alt="hq">';
           else
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
         },
         title: '物品名称'
       }, {

@@ -95,7 +95,7 @@ export default {
         sortable: true,
         formatter: function iconFormatter(value, row) {
           let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
-          return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
+          return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
         },
         title: '物品名称'
       }, {
