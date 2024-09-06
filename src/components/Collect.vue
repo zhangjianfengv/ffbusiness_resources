@@ -1,7 +1,7 @@
 <template>
 
 
-  <div>
+  <div id="collectModal">
     <!-- 第一个 modal -->
     <b-modal
         id="first-modal"
