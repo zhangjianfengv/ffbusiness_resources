@@ -75,7 +75,7 @@ export default {
         contentType: "application/json",
         data: JSON.stringify({listIds: this.selectedCollections, itemId: localStorage.getItem("operatingItem")}),
         success: (data) => {
-          $('#collectModal').modal('toggle');
+          // $('#collectModal').modal('toggle');
           this.$emit('modal-hide');
         }
       });
@@ -85,7 +85,7 @@ export default {
         contentType: "application/json",
         data: JSON.stringify({listIds: this.selectedCollections, itemId: localStorage.getItem("operatingItem")}),
         success: (data) => {
-          $('#collectModal').modal('toggle');
+          // $('#collectModal').modal('toggle');
           this.$emit('modal-hide');
         }
       });
