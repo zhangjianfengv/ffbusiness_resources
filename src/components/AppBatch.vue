@@ -3,7 +3,7 @@
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
       <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词" @keyup.enter="querySuit"
                     value=""></b-form-input>
-      <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
+      <!--      <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>-->
       <b-form-select id="worldName" v-model="worldName">
         <b-form-select-option :value="'陆行鸟'">陆行鸟</b-form-select-option>
         <b-form-select-option :value="'猫小胖'">猫小胖</b-form-select-option>

@@ -12,8 +12,8 @@
       <b-form-input v-model="buyerName" placeholder="购买者" type="text"
                     value="" :state="buyerNameState"></b-form-input>
       <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
-      <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
-      </bt-select>
+      <!--      <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">-->
+      <!--      </bt-select>-->
       <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
         <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</b-form-select-option>
         <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
