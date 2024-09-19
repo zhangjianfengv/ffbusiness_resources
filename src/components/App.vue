@@ -8,12 +8,11 @@
           <b-navbar-nav>
             <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
             <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
+            <b-nav-item to="/item" exact-path exact-active-class="active">物品来源和成本</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
             <b-nav-item to="/batch" exact-path exact-active-class="active">批量物价</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
-            <b-nav-item to="/item" exact-path exact-active-class="active">物品来源和成本</b-nav-item>
             <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
-            <b-nav-item to="/bench" exact-path exact-active-class="active">7.0基准测试</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
             <div class="container1">
               <a class="top-button n-link-style"
@@ -73,15 +72,12 @@
             A:销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是中国>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。如果确实有未优化的查询需求可使用https://www.ff14pvp.top(主域名容易超时)并结合刚刚新增的销售履历导出功能<br>
             2.Q:实时物价近期速度不太稳定？<br>
             A:基于统计的线路优化逻辑刚刚更新，近期应该会改善。如果是手机使用WI-FI浏览可开启数据网络加速，具体开启方式各个手机品牌不同，例如小米手机位于设置-WLAN-网络加速：<br>
-            <img src="/network.jpg" alt="手机设置网络加速" loading="lazy" width="340" height="297"><br>
+            <img src="/network.jpg" alt="手机设置网络加速" decoding="async" loading="lazy" width="340" height="297"><br>
             3.Q:为什么只有QQ登录？<br>
             A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
-            4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
-            A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成
-            <br>
-            5.Q:安卓app无法打开/功能异常/未包含更新笔记提到的功能？<br>
+            4.Q:安卓app无法打开/功能异常/未包含更新笔记提到的功能？<br>
             A:请重新下载安装<br>
-            6.Q:统计数据和预期不太一致？<br>
+            5.Q:统计数据和预期不太一致？<br>
             A:每日统计周期为当天8:15至次日8:15，数据每日均会增补，对于服务器均价取中位数，对于大区及跨区则取平均数。
           </div>
           <div>
