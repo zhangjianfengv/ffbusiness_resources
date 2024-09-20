@@ -8,9 +8,9 @@
           <b-navbar-nav>
             <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
             <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
-            <b-nav-item to="/item" exact-path exact-active-class="active">物品来源和成本</b-nav-item>
+            <b-nav-item to="/item" exact-path exact-active-class="active">物品来源</b-nav-item>
+            <b-nav-item to="/batch" exact-path exact-active-class="active">批量物价和成本</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
-            <b-nav-item to="/batch" exact-path exact-active-class="active">批量物价</b-nav-item>
             <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
             <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
@@ -69,9 +69,9 @@
           </div>
           <div class="modal-body">
             1.Q:为什么销售履历查询有时候非常慢？<br>
-            A:销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是中国>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。如果确实有未优化的查询需求可使用https://www.ff14pvp.top(主域名容易超时)并结合刚刚新增的销售履历导出功能<br>
+            A:销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是中国>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。如果确实有未优化的查询需求可使用https://www.ff14pvp.top(不带www域名容易超时)并结合刚刚新增的销售履历导出功能<br>
             2.Q:实时物价近期速度不太稳定？<br>
-            A:基于统计的线路优化逻辑刚刚更新，近期应该会改善。如果是手机使用WI-FI浏览可开启数据网络加速，具体开启方式各个手机品牌不同，例如小米手机位于设置-WLAN-网络加速：<br>
+            A:如果是手机使用WI-FI浏览可开启数据网络加速，具体开启方式各个手机品牌不同，例如小米手机位于设置-WLAN-网络加速：<br>
             <img src="/network.jpg" alt="手机设置网络加速" decoding="async" loading="lazy" width="340" height="297"><br>
             3.Q:为什么只有QQ登录？<br>
             A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
@@ -138,7 +138,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
             <div>
               <h6 style="padding-left: 16px">
                 2024年8月22日
@@ -154,19 +153,29 @@
                 2024年8月24日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品来源和成本</u>页面表格可复制isearch游戏内搜索物品指令
+                <li><u>物品来源</u>页面表格可复制isearch游戏内搜索物品指令
                 </li>
               </ul>
             </div>
-
             <div>
               <h6 style="padding-left: 16px">
                 2024年8月31日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价</u>页面预置套装列表可以选择自己的收藏夹
+                <li><u>批量物价和成本</u>页面预置套装列表可以选择自己的收藏夹
                 </li>
-                <li><u>批量物价</u>页面可批量收藏物品，物品和需求数量均会保存
+                <li><u>批量物价和成本</u>页面可批量收藏物品，物品和需求数量均会保存
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年9月20日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价和成本</u>页面可以计算单个物品的成本
+                </li>
+                <li>修复了<u>批量物价和成本</u>页面已知的问题
                 </li>
               </ul>
             </div>

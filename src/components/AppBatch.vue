@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
-      <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词" @keyup.enter="querySuit"
+      <b-form-input class="mx-1" id="nameKeyword" v-model="keyword" placeholder="关键词" @keyup.enter="querySuit"
                     value=""></b-form-input>
       <!--      <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>-->
-      <b-form-select id="worldName" v-model="worldName">
-        <b-form-select-option :value="'陆行鸟'">陆行鸟</b-form-select-option>
-        <b-form-select-option :value="'猫小胖'">猫小胖</b-form-select-option>
-        <b-form-select-option :value="'莫古力'">莫古力</b-form-select-option>
-        <b-form-select-option :value="'豆豆柴'">豆豆柴</b-form-select-option>
-        <b-form-select-option :value="'中国'">中国
-        </b-form-select-option>
-      </b-form-select>
-      <su-select id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
+      <su-select class="mx-1" id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
+      <select @change="querySuit()" class="mx-1" id="worldName" v-model="worldName">
+        <option value="陆行鸟">陆行鸟</option>
+        <option value="猫小胖">猫小胖</option>
+        <option value="莫古力">莫古力</option>
+        <option value="豆豆柴">豆豆柴</option>
+        <option value="中国">中国
+        </option>
+      </select>
       <b-form-checkbox id="sm" v-model="suitMaterial" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="querySuit()"
                        switch>材料成本
@@ -37,7 +37,37 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+    <div aria-hidden="true" class="modal fade" id="cost" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="recipeLabel"></h4>
+          </div>
+          <div class="modal-body recipe">
+            <div id="recipeList">
+              <b-form-input id="sb-inline" class="mt-1" v-model="craftCount" type="number" inline></b-form-input>
+              <ul style="padding-left: 0">
+                <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{
+                    value.num * craftCount
+                  }}个*{{
+                    value.price
+                  }}({{ value.worldName }})={{ value.num * value.price * craftCount }}
+                  <span @click="deleteItem(key)"><i class="bi bi-x-square"></i></span>
+                </li>
+              </ul>
+              <span>成本总计{{
+                  (this.errorText === '' || !this.errorText) ? (this.singeCost * craftCount) : '（某个材料无在售，请尝试切换至大区）'
+                }}</span>
+            </div>
+          </div>
 
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeRecipe" type="button"><i
+                class="bi bi-power"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
     <b-modal
         id="first-modal"
         ref="firstModal"
@@ -46,14 +76,8 @@
         cancel-title="取消"
         @ok="saveBatch"
     >
-
-
       <b-form-input v-model="newCollectionName" placeholder="最多可输入20个字"></b-form-input>
-
-
     </b-modal>
-
-
   </div>
 </template>
 <style scoped>
@@ -63,6 +87,7 @@ import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Base64 from '../plugins/base64'
 import moment from "moment";
+import Tree from "@/components/Tree.vue";
 
 let queryParam = {
   suitMaterial: 0,
@@ -70,6 +95,7 @@ let queryParam = {
   dc: '陆行鸟'
 };
 export default {
+  components: {Tree},
   mixins: [tableMixin],
   name: 'batch',
   props: ['themeColor'],
@@ -192,6 +218,21 @@ export default {
         title: '更新时间'
       },
       {
+        title: '材料成本计算',
+        formatter: (value, row) => {
+          if (row.craft) {
+            let template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-calculator"></i></b-button>';
+            return this.vueFormatter({
+              template: template,
+              data: {row},
+              methods: {
+                clickRow: this.openList
+              }
+            })
+          } else return '';
+        }
+      },
+      {
         field: 'operate',
         title: '删除',
         align: 'center',
@@ -223,6 +264,8 @@ export default {
     return {
       keyword: null,
       date: null,
+      craftCount: 1,
+      tempItemId: null,
       newCollectionName: null,
       tableData: [],
       modalTitle: "批量保存当前列表物品和数量",
@@ -235,6 +278,9 @@ export default {
       selectedValue: '',
       suitMaterial: 0,
       worldName: '陆行鸟',
+      materials: [],
+      errorText: null,
+      singeCost: 0,
     }
   },
   methods: {
@@ -254,14 +300,52 @@ export default {
       this.keyword = null;
       this.searchText = null;
       this.worldName = "陆行鸟";
-      let worldName = $('#worldName');
-      worldName.selectpicker('val', '中国');
-      worldName.selectpicker('refresh');
+      let $worldName = $('#worldName');
+      $worldName.selectpicker('val', '中国');
+      $worldName.selectpicker('refresh');
       let suits = $('#suits');
       suits.selectpicker('val', '地图');
       suits.selectpicker('refresh');
       let table = $('#suitTable');
       table.bootstrapTable('destroy');
+    },
+    openList(row) {
+      const vm = this;
+      $('#loading-indicator').show();
+      $('#recipeList').hide();
+      this.craftCount = 1;
+      this.tempItemId = row.itemId;
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
+      $('#recipeLabel').html('<img src="' + url +
+          '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.itemName + '&nbsp;材料成本计算');
+      $('#cost').modal('show');
+      $.ajax({
+        url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
+        data: JSON.stringify({itemId: row.itemId, worldName: this.worldName}),
+        success: function (data) {
+          $('#loading-indicator').hide();
+          $('#recipeList').show();
+          vm.materials = data.list;
+          if (data.list === null) {
+            vm.errorText = 'error'
+            return;
+          }
+          let total = 0;
+          for (let item in data.list) {
+            total += data.list[item].price * data.list[item].num;
+          }
+          vm.errorText = null;
+          vm.singeCost = total;
+        }
+      });
+    },
+    deleteItem(key) {
+      this.$delete(this.materials, key);
+      let total = 0;
+      for (let item in this.materials) {
+        total += this.materials[item].price * this.materials[item].num;
+      }
+      this.singeCost = total;
     }, saveBatch() {
       const userCookie = this.$cookies.get('user');
       if (!userCookie) {
@@ -298,6 +382,9 @@ export default {
       this.$refs.firstModal.show();
       this.newCollectionName = this.isStr(this.keyword) ? this.keyword : this.suit;
     },
+    closeRecipe() {
+      $('#cost').modal('toggle');
+    },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     }, rmRow(val) {
@@ -316,10 +403,17 @@ export default {
     $('#loading-indicator').hide();
     const worldCookie = this.$cookies.get('world');
     let worldName;
+    let $worldName = $('#worldName');
     if (this.isStr(worldCookie)) {
       worldName = Base64.decode(worldCookie);
       this.worldName = worldName;
-    } else this.worldName = '陆行鸟'
+      $worldName.selectpicker('val', worldName);
+      $worldName.selectpicker('refresh');
+    } else {
+      this.worldName = '陆行鸟'
+      $worldName.selectpicker('val', '陆行鸟');
+      $worldName.selectpicker('refresh');
+    }
     // 在全局范围内定义updateQuantity函数
     window.updateQuantity = (index, value) => {
       const vm = this;
