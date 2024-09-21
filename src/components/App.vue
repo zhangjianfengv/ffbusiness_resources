@@ -155,7 +155,7 @@
                 2024年8月24日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品来源</u>页面表格可复制isearch游戏内搜索物品指令
+                <li><u>物品来源</u>页面表格可复制isearch游戏内搜索物品指令，在游戏聊天框内粘贴按回车后可以查找自己是否有这个物品
                 </li>
               </ul>
             </div>
