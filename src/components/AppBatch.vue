@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
-      <b-form-input class="mx-1" id="nameKeyword" v-model="keyword" placeholder="关键词" @keyup.enter="querySuit"
+      <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词" @keyup.enter="querySuit"
                     value=""></b-form-input>
       <!--      <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>-->
       <su-select class="mx-1" id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
@@ -52,7 +52,10 @@
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
-      <span>※如果输入了关键词则查询以关键词为准</span>
+      <i class="bi bi-question-circle" id="tooltip-target-1"></i>
+      <b-tooltip target="tooltip-target-1" triggers="hover">
+        <span>如果输入了关键词则查询以关键词为准，可以选择自己的收藏夹和预置套装、关键词来代替输入关键词</span>
+      </b-tooltip>
     </b-form>
     <BootstrapTable id="suitTable"
                     ref="suitTable"
@@ -299,7 +302,7 @@ export default {
       tempItemId: null,
       newCollectionName: null,
       tableData: [],
-      modalTitle: "批量保存当前列表物品和数量",
+      modalTitle: "批量保存当前列表物品和需求数量",
       inputTimeout: null,
       suits: [],
       tableOptions: options,
