@@ -179,6 +179,15 @@
                 </li>
               </ul>
             </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年9月21日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了<u>批量物价和成本</u>页面保存了需求数量后，初次加载表格时没有使用需求数量来计算需求金额的问题
+                </li>
+              </ul>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">

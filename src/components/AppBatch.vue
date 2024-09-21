@@ -294,6 +294,20 @@ export default {
       };
       this.tableOptions.url = '/ffbusiness/currentData/list';
       suitTable.bootstrapTable(this.tableOptions);
+      // const vm = this;
+      // let dataModified = false; // 添加一个标志位，防止递归
+      // $suitTable.on('post-body.bs.table', function (e, data) {
+      //   if (!dataModified) { // 只在数据未修改时执行
+      //     for (let i = 0; i < data.length; i++) {
+      //       // data[i].needQuantity = Number(value);
+      //       data[i].needTotal = data[i].needQuantity * data[i].pricePerUnit;
+      //     }
+      //     // 设置标志位，防止无限递归
+      //     dataModified = true;
+      //     $('#suitTable').bootstrapTable('load', data);
+      //     vm.tableData = data;
+      //   }
+      // });
     },
     onReset(event) {
       event.preventDefault()
