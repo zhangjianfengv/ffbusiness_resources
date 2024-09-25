@@ -192,6 +192,15 @@
                 </li>
               </ul>
             </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年9月25日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>更新了<u>批量物价和成本</u>页面的7.0中文物品、配方、采集地点、金币购买等基础信息
+                </li>
+              </ul>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">
