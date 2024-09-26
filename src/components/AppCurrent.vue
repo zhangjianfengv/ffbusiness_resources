@@ -17,6 +17,9 @@
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
+      <b-button squared variant="outline-dark" class="mx-1" type="button" @click="jumpItem"><i
+          class="bi bi-binoculars"></i>
+      </b-button>
       <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="filterData()"
                        switch>HQ
@@ -309,6 +312,9 @@ export default {
                   console.log("Race and Handle failed with error:", error);
                 });
           });
+    },
+    jumpItem() {
+      window.location.href = "/#/item?id=" + this.itemId;
     },
     performPostRequest(operationName, url, data) {
       return fetch(url, {

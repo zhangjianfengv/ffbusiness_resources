@@ -52,7 +52,7 @@
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
-      <i class="bi bi-question-circle" id="tooltip-target-1"></i>
+      <i class="bi bi-question-circle mx-1" id="tooltip-target-1"></i>
       <b-tooltip target="tooltip-target-1" triggers="hover">
         <span>如果输入了关键词则查询以关键词为准，可以选择自己的收藏夹和预置套装、关键词来代替输入关键词</span>
       </b-tooltip>
