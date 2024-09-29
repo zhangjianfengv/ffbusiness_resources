@@ -197,6 +197,15 @@
                 </li>
               </ul>
             </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年9月29日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价和成本</u>页面预置690生产采集职业套装
+                </li>
+              </ul>
+            </div>
             <!--            body end-->
           </div>
           <div class="modal-footer">

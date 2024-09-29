@@ -121,7 +121,7 @@ import Tree from "@/components/Tree.vue";
 
 let queryParam = {
   suitMaterial: 0,
-  suitName: '地图',
+  suitName: '690刻木匠',
   dc: '陆行鸟'
 };
 export default {
@@ -308,7 +308,7 @@ export default {
       tableOptions: options,
       columns: columns,
       searchText: null,
-      suit: "地图",
+      suit: "690刻木匠",
       selectedValue: '',
       suitMaterial: 0,
       worldName: '陆行鸟',
@@ -352,7 +352,7 @@ export default {
       $worldName.selectpicker('val', '中国');
       $worldName.selectpicker('refresh');
       let suits = $('#suits');
-      suits.selectpicker('val', '地图');
+      suits.selectpicker('val', '690刻木匠');
       suits.selectpicker('refresh');
       let table = $('#suitTable');
       table.bootstrapTable('destroy');
