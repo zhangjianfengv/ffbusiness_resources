@@ -142,36 +142,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年8月22日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>市场统计</u>页面新增"交易额"指标</li>
-                <li><u>市场统计</u>页面趋势图新增360天时间范围</li>
-                <li><u>家具预览</u>页面新增房屋抽选提醒</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年8月24日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>物品来源</u>页面表格可复制isearch游戏内搜索物品指令，在游戏聊天框内粘贴按回车后可以查找自己是否有这个物品
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年8月31日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面预置套装列表可以选择自己的收藏夹
-                </li>
-                <li><u>批量物价和成本</u>页面可批量收藏物品，物品和需求数量均会保存
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年9月20日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -204,6 +174,15 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>批量物价和成本</u>页面预置690生产采集职业套装</li>
                 <li><u>批量物价和成本</u>页面对于无在售的物品，显示基本物品信息，可以计算成本</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年9月30日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价和成本</u>页面预置710战职套装和690食品药品</li>
+                <li>新增“飞空艇、潜水艇”分类</li>
               </ul>
             </div>
             <!--            body end-->
