@@ -140,24 +140,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年9月20日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面可以计算单个物品的成本
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年9月21日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面可以选择大区内任意服务器
-                </li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年9月26日
@@ -183,6 +166,17 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>批量物价和成本</u>页面预置710战职套装和690食品药品</li>
                 <li>新增“飞空艇、潜水艇”分类</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年10月5日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价和成本</u>页面对于套装例如"690刻木匠"优先显示HQ最低价</li>
+                <li>修复了<u>实时物价</u>页面的"更多"开关功能异常的问题</li>
+                <li>修复了<u>家具预览</u>页面的"全部"分类异常的问题</li>
+                <li>修复了<u>物品来源</u>页面的原因果和天文神典石兑换物品没有更新成诗学兑换的问题</li>
               </ul>
             </div>
             <!--            body end-->
