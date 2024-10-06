@@ -95,7 +95,6 @@ let optionCurrent = {
   toolbar: '#queryCurrent',
   filterControl: true,
   paginationUseIntermediate: true,
-  showSearchClearButton: true,
   paginationSuccessivelySize: 1,
   paginationPagesBySide: 1,
   pageList: [10, 20, 50, 150, 450]
@@ -251,7 +250,6 @@ export default {
         pageSize: 5,
         filterControl: true,
         paginationUseIntermediate: true,
-        showSearchClearButton: true,
         paginationSuccessivelySize: 1,
         paginationPagesBySide: 1,
         pageList: [10, 20, 40],
