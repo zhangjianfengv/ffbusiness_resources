@@ -140,16 +140,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年9月26日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>实时物价</u>页面可跳转<u>物品来源</u>页面
-                </li>
-              </ul>
-            </div>
             <div>
               <h6 style="padding-left: 16px">
                 2024年9月29日
@@ -177,6 +167,15 @@
                 <li>修复了<u>实时物价</u>页面的"更多"开关功能异常的问题</li>
                 <li>修复了<u>家具预览</u>页面的"全部"分类异常的问题</li>
                 <li>修复了<u>物品来源</u>页面的原因果和天文神典石兑换物品没有更新成诗学兑换的问题</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年10月11日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>更新雇员筹集分类-狩猎、采伐、采矿、捕鱼雇员可筹集物品至7.0版本</li>
+                <li>新增黑话检索的地图缩略词：g16-陈旧的银狼革地图、g17-陈旧的狞豹革地图</li>
               </ul>
             </div>
             <!--            body end-->
