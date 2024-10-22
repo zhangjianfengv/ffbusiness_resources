@@ -64,41 +64,6 @@ import $ from "jquery";
 import Base64 from '../plugins/base64'
 import moment from "moment";
 
-let optionCurrent = {
-  dataField: 'currents',
-  pagination: "true",
-  columns: [{
-    field: 'worldName',
-    title: '服务器',
-    filterControl: 'select'
-  }, {
-    field: 'retainerName',
-    title: '雇员名',
-    filterControl: 'select'
-  }, {
-    field: 'hq',
-    formatter: (value) => {
-      return (value === true || value === 'true') ? '✔' : '✗'
-    },
-    title: '高品质',
-    filterControl: 'select'
-  }, {
-    field: 'total',
-    formatter: (value, row) => {
-      let exp = /\B(?=(\d{3})+(?!\d))/g;
-      return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
-    },
-    title: '总计'
-  }], method: 'post',
-  pageNumber: 1,
-  pageSize: 10,
-  toolbar: '#queryCurrent',
-  filterControl: true,
-  paginationUseIntermediate: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  pageList: [10, 20, 50, 150, 450]
-};
 export default {
   mixins: [tableMixin],
   name: 'current',
@@ -154,6 +119,43 @@ export default {
       nameOptions: [],
       timer: null,
       onlyHq: 0,
+      optionCurrent:
+          {
+            dataField: 'currents',
+            pagination: "true",
+            columns: [{
+              field: 'worldName',
+              title: '服务器',
+              filterControl: 'select'
+            }, {
+              field: 'retainerName',
+              title: '雇员名',
+              filterControl: 'select'
+            }, {
+              field: 'hq',
+              formatter: (value) => {
+                return (value === true || value === 'true') ? '✔' : '✗'
+              },
+              title: '高品质',
+              filterControl: 'select'
+            }, {
+              field: 'total',
+              formatter: (value, row) => {
+                let exp = /\B(?=(\d{3})+(?!\d))/g;
+                return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
+              },
+              title: '总计'
+            }], method: 'post',
+            pageNumber: 1,
+            pageSize: 10,
+            toolbar: '#queryCurrent',
+            filterControl: true,
+            paginationUseIntermediate: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            onAll: this.changeTheme(this.themeColor),
+            pageList: [10, 20, 50, 150, 450]
+          },
       worldName: '陆行鸟',
       childWorld: null,
       unFilteredData: [],
@@ -206,12 +208,33 @@ export default {
       $historyTable.bootstrapTable('destroy');
       this.showOptions = false;
     },
-    doJob: function (result, vm, $currentTable, $historyTable) {
+    changeTheme(color) {
+      return function () {
+        const otherLinks = document.querySelectorAll('.page-link');
+        if (otherLinks) {
+          otherLinks.forEach(link => {
+            link.style.textDecoration = 'none';
+            link.style.borderRadius = '0 !important';
+            link.style.color = 'black';
+            link.style.borderColor = color;
+            link.style.backgroundColor = 'white';
+          });
+        }
+        const active = document.querySelectorAll('.pagination .page-item.active .page-link');
+        if (active) {
+          active.forEach(a => {
+            a.style.color = 'white';
+            a.style.borderColor = color;
+            a.style.backgroundColor = color;
+          })
+        }
+      };
+    }, doJob: function (result, vm, $currentTable, $historyTable) {
       let color = this.themeColor;
       $('#loading-indicator').hide();
-      optionCurrent.data = result;
+      vm.optionCurrent.data = result;
       vm.unFilteredData = result;
-      $currentTable.bootstrapTable(optionCurrent);
+      $currentTable.bootstrapTable(vm.optionCurrent);
       let options = {
         data: result,
         dataField: 'realHistoryDtos',
@@ -252,25 +275,8 @@ export default {
         paginationUseIntermediate: true,
         paginationSuccessivelySize: 1,
         paginationPagesBySide: 1,
-        pageList: [10, 20, 40],
-        onAll: function () {
-          const otherLinks = document.querySelectorAll('.page-link');
-          if (otherLinks) {
-            otherLinks.forEach(link => {
-              link.style.textDecoration = 'none';
-              link.style.borderRadius = '0 !important';
-              link.style.color = 'black';
-              link.style.borderColor = color;
-              link.style.backgroundColor = 'white';
-            });
-          }
-          const active = document.querySelector('.pagination .page-item.active .page-link');
-          if (active) {
-            active.style.color = 'white';
-            active.style.borderColor = color;
-            active.style.backgroundColor = color;
-          }
-        }
+        pageList: [10, 20, 40, 100, 200],
+        onAll: this.changeTheme(color)
       }
       $historyTable.bootstrapTable(options);
       let $button = $('button[title="Clear filters"]');
@@ -422,9 +428,9 @@ export default {
         data: JSON.stringify({worldName: this.worldName, itemId: this.itemId, maximum: maximum === '1'}),
         success: function (data) {
           let $currentTable = $('#currentTable');
-          optionCurrent.data = data;
+          vm.optionCurrent.data = data;
           vm.unFilteredData = data;
-          $currentTable.bootstrapTable('destroy').bootstrapTable(optionCurrent);
+          $currentTable.bootstrapTable('destroy').bootstrapTable(vm.optionCurrent);
           vm.filterData();
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }

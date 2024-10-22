@@ -142,24 +142,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年9月29日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面预置690生产采集职业套装</li>
-                <li><u>批量物价和成本</u>页面对于无在售的物品，显示基本物品信息，可以计算成本</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年9月30日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面预置710战职套装和690食品药品</li>
-                <li>新增“飞空艇、潜水艇”分类</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年10月5日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -176,6 +158,15 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>更新雇员筹集分类-狩猎、采伐、采矿、捕鱼雇员可筹集物品至7.0版本</li>
                 <li>新增黑话检索的地图缩略词：g16-陈旧的银狼革地图、g17-陈旧的狞豹革地图</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年10月22日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了<u>实时物价</u>页面的在售列表和售出列表分页条加载完成时和跳页时应用自定义主题颜色异常的问题
+                </li>
               </ul>
             </div>
             <!--            body end-->
