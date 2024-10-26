@@ -54,7 +54,7 @@
       </b-button>
       <i class="bi bi-question-circle mx-1" id="tooltip-target-1"></i>
       <b-tooltip target="tooltip-target-1" triggers="hover">
-        <span>如果输入了关键词则查询以关键词为准，可以选择自己的收藏夹和预置套装、关键词来代替输入关键词。对于套装例如"690刻木匠"优先显示HQ最低价</span>
+        <span>如果输入了关键词则查询以关键词为准，可以选择自己的收藏夹和预置套装、关键词来代替输入关键词。对于套装例如"690刻木匠"优先显示HQ最低价(每个物品最多搜索20条在售数据如果无HQ将显示NQ最低价)。注意如果创建了与已有预置收藏夹或关键词同名的收藏夹则将总是查询自建收藏夹包含的物品</span>
       </b-tooltip>
     </b-form>
     <BootstrapTable id="suitTable"
