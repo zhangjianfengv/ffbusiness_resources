@@ -144,17 +144,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年10月5日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面对于套装例如"690刻木匠"优先显示HQ最低价</li>
-                <li>修复了<u>实时物价</u>页面的"更多"开关功能异常的问题</li>
-                <li>修复了<u>家具预览</u>页面的"全部"分类异常的问题</li>
-                <li>修复了<u>物品来源</u>页面的原因果和天文神典石兑换物品没有更新成诗学兑换的问题</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年10月11日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -169,6 +158,14 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>修复了<u>实时物价</u>页面的在售列表和售出列表分页条加载完成时和跳页时应用自定义主题颜色异常的问题
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年11月4日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了<u>物品来源</u>页面家具预览按钮不显示的问题</li>
               </ul>
             </div>
             <!--            body end-->
