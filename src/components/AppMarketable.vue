@@ -99,7 +99,10 @@
             <div>
               <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
                              @change="changeSummaryScale(summaryScale)"></b-form-select>
-              <span>※均价已剔除偏离其他值过多的数据</span>
+              <b-form-select class="modal-select  mx-1" v-model="filterData" @change="changeSummaryScale(summaryScale)">
+                <b-form-select-option value="0">不过滤数据</b-form-select-option>
+                <b-form-select-option selected value="1">过滤数据</b-form-select-option>
+              </b-form-select>
             </div>
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
@@ -170,6 +173,7 @@ export default {
       max: null,
       sortType: "1",
       chartData: {},
+      filterData: "1",
       searchText: null,
       chartData1: {},
       summaryScale: '7',
@@ -484,7 +488,7 @@ export default {
               {
                 label: '均价',
                 backgroundColor: '#df9ba1',
-                data: filteredData
+                data: vm.filterData === "1" ? filteredData : priceData
               }
             ]
           };
