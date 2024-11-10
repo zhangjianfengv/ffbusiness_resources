@@ -191,7 +191,7 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
 }
 
 .modal-select {
-  width: 120px;
+  width: 80px;
 }
 
 .input-wrapper {

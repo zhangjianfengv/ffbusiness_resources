@@ -99,7 +99,8 @@
             <div>
               <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
                              @change="changeSummaryScale(summaryScale)"></b-form-select>
-              <b-form-select class="modal-select  mx-1" v-model="filterData" @change="changeSummaryScale(summaryScale)">
+              <b-form-select class="mx-1" style="width: 108px" v-model="filterData"
+                             @change="changeSummaryScale(summaryScale)">
                 <b-form-select-option value="0">不过滤数据</b-form-select-option>
                 <b-form-select-option selected value="1">过滤数据</b-form-select-option>
               </b-form-select>
