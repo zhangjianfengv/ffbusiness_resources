@@ -70,7 +70,9 @@
     <div aria-hidden="true" class="modal fade" id="cost" role="dialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+
+
+        <div class="modal-header">
             <h4 class="modal-title" style="margin: 0 auto" id="recipeLabel"></h4>
           </div>
           <div class="modal-body recipe">
@@ -108,9 +110,27 @@
     >
       <b-form-input v-model="newCollectionName" placeholder="最多可输入20个字"></b-form-input>
     </b-modal>
+    <div aria-hidden="true" class="modal fade" id="table-container" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+          </div>
+          <div class="modal-body">
+            <div
+                class="hover-table">
+              <table id="detailTable"></table>
+            </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
+
+
 </style>
 <script>
 import tableMixin from '../mixins/table'
@@ -153,7 +173,7 @@ export default {
           let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
           return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
         },
-        title: '物品名称'
+        title: '物品名称',
       }, {
         field: 'worldName',
         title: '服务器',
@@ -177,8 +197,14 @@ export default {
         field: 'pricePerUnit',
         sortable: true,
         formatter: (value, row) => {
-          let exp = /\B(?=(\d{3})+(?!\d))/g;
-          return value.toString().replace(exp, ",")
+          const formattedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '&nbsp;&nbsp;';
+          this.hoverRowData = row.detailData;
+          return `
+        ${formattedValue}
+        <i
+          class="bi bi-arrows-vertical"
+         onmouseover=" window.priceMouseOver()" onmouseleave=" window.priceMouseLeave()"/>
+      `;
         },
         title: '单价'
       }, {
@@ -293,7 +319,9 @@ export default {
       searchSelector: '#search',
       toolbar: '#queryForm',
       icons: {export: "bi bi-download"},
-      columns: columns
+      columns: columns,
+      showTable: false, // 控制悬浮表格的显示
+      hoverRowData: null, // 存储悬停行的数据
     };
     return {
       keyword: null,
@@ -328,20 +356,6 @@ export default {
       };
       this.tableOptions.url = '/ffbusiness/currentData/list';
       suitTable.bootstrapTable(this.tableOptions);
-      // const vm = this;
-      // let dataModified = false; // 添加一个标志位，防止递归
-      // $suitTable.on('post-body.bs.table', function (e, data) {
-      //   if (!dataModified) { // 只在数据未修改时执行
-      //     for (let i = 0; i < data.length; i++) {
-      //       // data[i].needQuantity = Number(value);
-      //       data[i].needTotal = data[i].needQuantity * data[i].pricePerUnit;
-      //     }
-      //     // 设置标志位，防止无限递归
-      //     dataModified = true;
-      //     $('#suitTable').bootstrapTable('load', data);
-      //     vm.tableData = data;
-      //   }
-      // });
     },
     onReset(event) {
       event.preventDefault()
@@ -446,6 +460,7 @@ export default {
     },
   },
   mounted() {
+    const vm = this;
     let $suits = $('#suits');
     $suits.selectpicker();
     $('#loading-indicator').hide();
@@ -474,6 +489,40 @@ export default {
         $suitTable.bootstrapTable('load', data)
         vm.tableData = data;
       }, 500)
+    };
+    window.priceMouseOver = () => {
+      this.showTable = true;
+      let modal = $('#table-container');
+      modal.on('shown.bs.modal', function () {
+        let options = {
+          data: vm.hoverRowData,
+          columns: [
+            {
+              field: 'pricePerUnit', title: '单价',
+              formatter: (value) => {
+                let exp = /\B(?=(\d{3})+(?!\d))/g;
+                return value.toString().replace(exp, ",")
+              }
+            },
+            {field: 'quantity', title: '数量'},
+            {
+              field: 'total', title: '总计',
+              formatter: (value) => {
+                let exp = /\B(?=(\d{3})+(?!\d))/g;
+                return value.toString().replace(exp, ",")
+              }
+            },
+            {field: 'worldName', title: '服务器'},
+          ]
+        }
+        $("#detailTable").bootstrapTable('destroy').bootstrapTable(options)
+      })
+      modal.modal('show');
+    };
+    window.priceMouseLeave = () => {
+      let modal = $('#table-container');
+      this.showTable = false; // 隐藏悬浮表格
+      modal.modal('toggle');
     };
   }
 }
