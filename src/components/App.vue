@@ -141,31 +141,32 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <h6 style="padding-left: 16px">
-              2024年11月4日
-            </h6>
-            <ul style="font-size: smaller;padding-left: 16px">
-              <li>修复了<u>物品来源</u>页面家具预览按钮不显示的问题</li>
-            </ul>
-          </div>
-          <div>
-            <h6 style="padding-left: 16px">
-              2024年11月10日
-            </h6>
-            <ul style="font-size: smaller;padding-left: 16px">
-              <li><u>市场统计</u>页面物品趋势图可选是否过滤数据</li>
-            </ul>
-          </div>
-          <div>
-            <h6 style="padding-left: 16px">
-              2024年11月21日
-            </h6>
-            <ul style="font-size: smaller;padding-left: 16px">
-              <li><u>批量物价和成本</u>页面展示每个物品详细在售列表(鼠标移动至单价列即可)
-              </li>
-            </ul>
-          </div>
-          <div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年11月4日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了<u>物品来源</u>页面家具预览按钮不显示的问题</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年11月10日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>市场统计</u>页面物品趋势图可选是否过滤数据</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年11月21日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价和成本</u>页面展示每个物品详细在售列表(鼠标移动至单价列即可)
+                </li>
+              </ul>
+            </div>
+
             <!--            body end-->
           </div>
           <div class="modal-footer">
