@@ -128,8 +128,7 @@
         <div>
           <p>网站已经更新，以下是更新内容：</p>
           <ul>
-            <li>新增批量物价和成本页面</li>
-            <li>市场统计页面新增交易额指标</li>
+            <li>批量物价和成本页面展示每个物品的详细在售列表而不是仅最低价</li>
           </ul>
         </div>
       </b-modal>
@@ -317,7 +316,7 @@ export default {
       });
     },
     modalHidden() {
-      localStorage.setItem('hideModal0', 'true');
+      localStorage.setItem('hideModal4', 'true');
     },
     logOut() {
       window.location.href = window.location.origin + '/ffbusiness/user/logOut';
@@ -350,7 +349,7 @@ export default {
         if (!data.nickname) vm.user = {nickname: '暗之战士'};
       }
     });
-    if (!localStorage.getItem('hideModal0')) {
+    if (!localStorage.getItem('hideModal4')) {
       this.showModal = true;
     }
     let item = localStorage.getItem('themeColor');
