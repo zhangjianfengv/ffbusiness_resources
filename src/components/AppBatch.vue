@@ -110,22 +110,6 @@
     >
       <b-form-input v-model="newCollectionName" placeholder="最多可输入20个字"></b-form-input>
     </b-modal>
-    <!--    <div aria-hidden="true" class="modal fade" id="table-container" role="dialog" tabindex="-1">-->
-    <!--      <div class="modal-dialog">-->
-    <!--        <div class="modal-content">-->
-    <!--          <div class="modal-header">-->
-    <!--          </div>-->
-    <!--          <div class="modal-body">-->
-    <!--            <div-->
-    <!--                class="hover-table">-->
-    <!--              <table id="detailTable"></table>-->
-    <!--            </div>-->
-    <!--          </div>-->
-    <!--          <div class="modal-footer">-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
   </div>
 </template>
 <style scoped>
@@ -215,11 +199,12 @@ export default {
         formatter: (value, row, index) => {
           const formattedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '&nbsp;&nbsp;';
           this.hoverRowData = row.detailData;
+          let currentWorldName = this.worldName;
           let container = '';
           if (row.detailData)
             this.hoverRowData.forEach(item => {
               const hqImage = item.hq === "true" ? '<img src="https://www.ff14pvp.top/hq.png" alt="HQ" style="width:20px;height:20px;">' : '';
-              const row = `<div>${item.pricePerUnit} * ${item.quantity} = ${item.total} (${hqImage}${item.worldName})</div>`;
+              const row = `<div>${item.pricePerUnit} * ${item.quantity} = ${item.total} (${hqImage}${item.worldName ? item.worldName : currentWorldName})</div>`;
               container += row;
             });
           return ' <div class="tooltip-container" onmouseenter="showTooltip(' + index + ')" onmouseleave="hideTooltip(' + index + ')">' +
@@ -341,8 +326,6 @@ export default {
       toolbar: '#queryForm',
       icons: {export: "bi bi-download"},
       columns: columns,
-      showTable: false, // 控制悬浮表格的显示
-      hoverRowData: null, // 存储悬停行的数据
     };
     return {
       keyword: null,
@@ -355,6 +338,7 @@ export default {
       modalTitle: "批量保存当前列表物品和需求数量",
       inputTimeout: null,
       suits: [],
+      hoverRowData: null, // 存储悬停行的数据
       tableOptions: options,
       columns: columns,
       searchText: null,
@@ -514,40 +498,6 @@ export default {
         $suitTable.bootstrapTable('load', data)
         vm.tableData = data;
       }, 500)
-    };
-    window.priceMouseOver = () => {
-      this.showTable = true;
-      let modal = $('#table-container');
-      modal.on('shown.bs.modal', function () {
-        let options = {
-          data: vm.hoverRowData,
-          columns: [
-            {
-              field: 'pricePerUnit', title: '单价',
-              formatter: (value) => {
-                let exp = /\B(?=(\d{3})+(?!\d))/g;
-                return value.toString().replace(exp, ",")
-              }
-            },
-            {field: 'quantity', title: '数量'},
-            {
-              field: 'total', title: '总计',
-              formatter: (value) => {
-                let exp = /\B(?=(\d{3})+(?!\d))/g;
-                return value.toString().replace(exp, ",")
-              }
-            },
-            {field: 'worldName', title: '服务器'},
-          ]
-        }
-        $("#detailTable").bootstrapTable('destroy').bootstrapTable(options)
-      })
-      modal.modal('show');
-    };
-    window.priceMouseLeave = () => {
-      let modal = $('#table-container');
-      this.showTable = false; // 隐藏悬浮表格
-      modal.modal('toggle');
     };
     window.showTooltip = function (index) {
       $('#tooltipdiv' + index).show();
