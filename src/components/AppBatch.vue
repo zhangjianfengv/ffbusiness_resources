@@ -72,7 +72,7 @@
         <div class="modal-content">
 
 
-        <div class="modal-header">
+          <div class="modal-header">
             <h4 class="modal-title" style="margin: 0 auto" id="recipeLabel"></h4>
           </div>
           <div class="modal-body recipe">
@@ -110,26 +110,42 @@
     >
       <b-form-input v-model="newCollectionName" placeholder="最多可输入20个字"></b-form-input>
     </b-modal>
-    <div aria-hidden="true" class="modal fade" id="table-container" role="dialog" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-          </div>
-          <div class="modal-body">
-            <div
-                class="hover-table">
-              <table id="detailTable"></table>
-            </div>
-          </div>
-          <div class="modal-footer">
-          </div>
-        </div>
-      </div>
-    </div>
+    <!--    <div aria-hidden="true" class="modal fade" id="table-container" role="dialog" tabindex="-1">-->
+    <!--      <div class="modal-dialog">-->
+    <!--        <div class="modal-content">-->
+    <!--          <div class="modal-header">-->
+    <!--          </div>-->
+    <!--          <div class="modal-body">-->
+    <!--            <div-->
+    <!--                class="hover-table">-->
+    <!--              <table id="detailTable"></table>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--          <div class="modal-footer">-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 <style scoped>
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
 
+.custom-tooltip {
+  position: absolute;
+  top: 100%; /* 放在触发元素下方 */
+  left: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  white-space: pre-wrap; /* 保留换行符 */
+  z-index: 10;
+  cursor: text;
+}
 
 </style>
 <script>
@@ -196,15 +212,20 @@ export default {
       }, {
         field: 'pricePerUnit',
         sortable: true,
-        formatter: (value, row) => {
+        formatter: (value, row, index) => {
           const formattedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '&nbsp;&nbsp;';
           this.hoverRowData = row.detailData;
-          return `
-        ${formattedValue}
-        <i
-          class="bi bi-arrows-vertical"
-         onmouseover=" window.priceMouseOver()" onmouseleave=" window.priceMouseLeave()"/>
-      `;
+          let container = '';
+          if (row.detailData)
+            this.hoverRowData.forEach(item => {
+              const hqImage = item.hq === "true" ? '<img src="https://www.ff14pvp.top/hq.png" alt="HQ" style="width:20px;height:20px;">' : '';
+              const row = `<div>${item.pricePerUnit} * ${item.quantity} = ${item.total} (${hqImage}${item.worldName})</div>`;
+              container += row;
+            });
+          return ' <div class="tooltip-container" onmouseenter="showTooltip(' + index + ')" onmouseleave="hideTooltip(' + index + ')">' +
+              '<span>' + formattedValue + '</span> ' +
+              '<div  id="tooltipdiv' + index +
+              '"  style="display: none"  class="custom-tooltip" > ' + container + '</div><i style="text-align: right;float: right" class="bi bi-database-fill-down"></i>';
         },
         title: '单价'
       }, {
@@ -326,6 +347,7 @@ export default {
     return {
       keyword: null,
       date: null,
+      activeTooltip: null, // 当前显示工具提示的行索引
       craftCount: 1,
       tempItemId: null,
       newCollectionName: null,
@@ -440,6 +462,9 @@ export default {
       if (!value) val = row.quantity;
       return `<input type="number" class="form-control" value="${val}" oninput=" window.updateQuantity(${index}, this.value)">`;
     }, // 格式化器函数，显示带逗号的数字
+    formatPrice(value) {
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
     openModal() {
       this.$refs.firstModal.show();
       this.newCollectionName = this.isStr(this.keyword) ? this.keyword : this.suit;
@@ -523,6 +548,12 @@ export default {
       let modal = $('#table-container');
       this.showTable = false; // 隐藏悬浮表格
       modal.modal('toggle');
+    };
+    window.showTooltip = function (index) {
+      $('#tooltipdiv' + index).show();
+    };
+    window.hideTooltip = function (index) {
+      $('#tooltipdiv' + index).hide();
     };
   }
 }
