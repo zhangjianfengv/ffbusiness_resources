@@ -166,6 +166,16 @@
                 </li>
               </ul>
             </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年11月30日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>预置国际服已经更新的720生产采集制作套装；时装关键词新增"科学家",
+                  "图拉尔"；头花关键词新增向日葵头花；调整了旧版本套装的显示顺序
+                </li>
+              </ul>
+            </div>
 
             <!--            body end-->
           </div>
