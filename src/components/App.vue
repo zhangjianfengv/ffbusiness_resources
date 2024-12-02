@@ -143,14 +143,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年11月4日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>修复了<u>物品来源</u>页面家具预览按钮不显示的问题</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年11月10日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -171,8 +163,17 @@
                 2024年11月30日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
-                <li>预置国际服已经更新的720生产采集制作套装；时装关键词新增"科学家"、
+                <li>预置国际服已经更新的720生产采集制作套装、710食药；时装关键词新增"科学家"、
                   "图拉尔商人"、“图拉尔旅行者”；头花关键词新增向日葵头花；调整了旧版本套装的显示顺序
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年12月2日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>修复了由于国际服配方数据源格式变化导致的720生产采集制作套装配方查看/成本计算功能无法使用的问题
                 </li>
               </ul>
             </div>
