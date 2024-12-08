@@ -1,9 +1,8 @@
 <template>
   <div id="app">
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
-      <b-form-input id="nameKeyword" v-model="keyword" placeholder="关键词" @keyup.enter="querySuit"
+      <b-form-input id="nameKeyword" v-model="keyword" placeholder="部分或完整物品名" @keyup.enter="querySuit"
                     value=""></b-form-input>
-      <!--      <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>-->
       <su-select class="mx-1" id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
       <select @change="querySuit()" class="mx-1" id="worldName" v-model="worldName">
         <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
