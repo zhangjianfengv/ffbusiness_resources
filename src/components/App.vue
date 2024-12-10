@@ -141,14 +141,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年11月10日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>市场统计</u>页面物品趋势图可选是否过滤数据</li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年11月21日
@@ -175,6 +168,14 @@
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>修复了由于国际服配方数据源格式变化导致的720生产采集制作套装配方查看/成本计算功能无法使用的问题
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年12月10日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>网站标题修改</li>
               </ul>
             </div>
             <!--            body end-->
