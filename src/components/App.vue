@@ -25,7 +25,7 @@
                  @click="note()"><i class="bi bi-clipboard-fill"></i></a>
               <a class="top-button n-link-style"
                  @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
-              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.1.0.apk"><i
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.2.0.apk"><i
                   class="bi bi-android"></i></a>
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
@@ -143,15 +143,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年11月21日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面展示每个物品详细在售列表(鼠标移动至单价列即可)
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年11月30日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -162,19 +153,20 @@
             </div>
             <div>
               <h6 style="padding-left: 16px">
-                2024年12月2日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>修复了由于国际服配方数据源格式变化导致的720生产采集制作套装配方查看/成本计算功能无法使用的问题
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年12月10日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>网站标题修改</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年12月12日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>
+                  修复了安卓app当各个页面正在显示弹框时使用返回功能键/手势会导致app无法操作的问题，需要重新下载安装（网站本身调整不需要重新安装app）
+                </li>
               </ul>
             </div>
             <!--            body end-->
