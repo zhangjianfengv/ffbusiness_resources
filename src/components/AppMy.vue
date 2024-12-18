@@ -7,9 +7,17 @@
                 @click="toLogin"><img style="display: block;" src="/bt_white_76X24.png" alt="QQ登录"/></b-button>
     </div>
     <div id="content" v-if="login">
+      <b-form inline>
+        <b-form-select v-model="selectedList" @change="changeList">
+          <option v-for="list in listOptions" :value="list.id" :key="list.id">{{ list.listName }}</option>
+        </b-form-select>
+        <b-button squared variant="outline-dark" class="mx-1" @click="changeList" type="button"><i
+            class="bi bi-search"></i>
+        </b-button>
+      </b-form>
       <div>
-        <Tables v-for="(item, index) in realData" :index="index" :item="item">
-        </Tables>
+        <FavoriteComponent v-for="(item, index) in realData" :index="index" :item="item">
+        </FavoriteComponent>
       </div>
     </div>
     <div id="loading-indicator" class="text-center">
@@ -48,46 +56,68 @@ button {
 <script>
 
 import Base64 from "@/plugins/base64.js";
-import Tables from "@/components/Tables.vue";
+import Tables from "@/components/FavoriteComponent.vue";
+import FavoriteComponent from "@/components/FavoriteComponent.vue";
 import $ from "jquery";
 
 export default {
   name: "AppMy",
-  components: {Tables},
+  components: {FavoriteComponent, Tables},
   props: ['themeColor'],
   data() {
     return {
       login: false,
+      listOptions: [],
+      selectedList: null,
       realData: null
     }
   },
   methods: {
-    isStr(val) {
-      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
-    },
-    toLogin() {
-      QC.Login.showPopup({
-        appId: Base64.decode("MTAyMDc1MDIx"),
-        redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
-      });
-    },
-  },
-  mounted() {
-    const vm = this;
-    const userCookie = this.$cookies.get('user');
-    if (this.isStr(userCookie)) {
-      this.login = true;
+    changeList() {
       $('#loading-indicator').show();
       $('#content').hide();
+      this.refreshData()
+    },
+    refreshData() {
       $.ajax({
         url: "/ffbusiness/currentData/batchCurrent",
         method: "post",
         contentType: "application/json",
-        data: JSON.stringify({}),
-        success: function (data) {
-          vm.realData = data;
+        data: JSON.stringify({listId: this.selectedList}),
+        success: (data) => {
+          this.realData = data;
           $('#loading-indicator').hide();
           $('#content').show();
+        }
+      });
+    },
+    toLogin() {
+      try {
+        QC.Login.showPopup({
+          appId: Base64.decode("MTAyMDc1MDIx"),
+          redirectURI: Base64.decode("aHR0cHMlM0ElMkYlMkZ3d3cuZmYxNHB2cC50b3AlMkZhcGklMkZvYXV0aCUyRnFxJTJGY2FsbGJhY2s=")
+        });
+      } catch (error) {
+      }
+    },
+    isStr(val) {
+      return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
+    }
+  },
+  mounted() {
+    const userCookie = this.$cookies.get('user');
+    if (this.isStr(userCookie)) {
+      this.login = true;
+      $('#content').hide();
+      $.ajax({
+        url: "/ffbusiness/userList/list",
+        method: "get",
+        contentType: "application/json",
+        data: null,
+        success: (data) => {
+          this.listOptions = data;
+          this.selectedList = data[0].id;
+          $('#loading-indicator').hide();
         }
       });
     }

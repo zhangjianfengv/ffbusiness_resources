@@ -2,18 +2,17 @@
   <div id="app">
     <b-form inline id="itemForm">
       <div class="input-wrapper">
-        <b-form-input list="input-list" autocomplete="off" v-model="itemName" placeholder="物品名" value=""
+        <b-form-input autocomplete="off" v-model="itemName" placeholder="物品名或者物品ID" value=""
                       @keyup.enter="searchItem"></b-form-input>
         <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
                        @change="hideSelect">
           <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
         </b-form-select>
       </div>
-      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-input class="form-control" v-model="levelEquip" placeholder="等级" type="text" value=""></b-form-input>
       <b-form-input class="form-control" v-model="levelItem" placeholder="品级" type="text" value=""></b-form-input>
       <b-form-input class="form-control" id="description" placeholder="描述" type="text" value=""></b-form-input>
-      <bt-select :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
+      <bt-select v-model="itemTypes" ref="typeSelect" id="itemType">
       </bt-select>
       <b-form-checkbox v-model="canMake" style="margin: 5px 9px" value="true" unchecked-value="false"
                        @change="searchItem()">
@@ -39,6 +38,9 @@
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" @click="resetQueryParams()"
                 type="button"><i class="bi bi-arrow-clockwise"></i></b-button>
+      <transition name="fade">
+        <div class="message text-primary" v-if="showMessage">{{ message }}</div>
+      </transition>
     </b-form>
     <div>
       <BootstrapTable id="table"
@@ -104,7 +106,7 @@
                 </b-form-select-option>
               </b-form-select>
               <b-form-input id="sb-inline" class="mt-1" v-model="craftCount" type="number" inline></b-form-input>
-              <ul>
+              <ul style="padding-left: 0">
                 <li style="list-style-type:none" v-for="(value, key) in materials">{{ key }}*{{
                     value.num * craftCount
                   }}个*{{
@@ -154,7 +156,8 @@
           <div class="modal-header">
             <h4 class="modal-title" style="margin: 0 auto" id="gatherLabel"></h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" style="text-align: center">
+            当前艾欧泽亚时间：&nbsp;<b>{{ ETStr }}</b><br><br>
             <BootstrapTable id="gatherTable"
                             ref="gatherTable"
                             @on-post-body="vueFormatterPostBody"/>
@@ -166,24 +169,61 @@
         </div>
       </div>
     </div>
+    <div aria-hidden="true" class="modal fade" id="previewModal" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="previewLabel">物品预览</h4>
+          </div>
+          <div class="modal-body" style="text-align: center">
+            <img decoding="async" loading="lazy" class="previewItem" :src="currentPreview"
+                 alt="莫古用力找也找不到照片库啵!"
+                 v-on:error="handleImageError">
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-dismiss="modal" @click="closePreview" type="button"><i
+                  class="bi bi-power"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div aria-hidden="true" aria-labelledby="summaryTable1" class="modal fade" id="summaryModal1" role="dialog"
+         tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="margin: 0 auto" id="SummaryLabel1"></h4>
+          </div>
+          <div class="modal-body">
+            <div>
+              <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
+                             @change="changeSummaryScale(summaryScale)"></b-form-select>
+            </div>
+            <LineChart v-if="loaded" :chart-data="chartData"/>
+            <BarChart v-if="loaded" :chart-data="chartData1"/>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal" @click="closeSummaryTable()" type="button"><i
+                class="bi bi-power"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;">
       本站基础物品数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
-                                     href="https://github.com/thewakingsands/" target="_blank">CafeMaker</a>&nbsp;和&nbsp;<a
+                                     href="https://github.com/thewakingsands/" target="_blank">肥肥咖啡</a>&nbsp;和&nbsp;<a
         style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
-        href="https://garlandtools.cn/db/" target="_blank">GarlandTools Database</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
+        href="https://garlandtools.cn/db/" target="_blank">花环数据库</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
       All Rights Reserved.
     </div>
+    <b-modal ref="m-sm" ok-only size="sm" title="提示">复制isearch指令成功</b-modal>
   </div>
 </template>
 <style>
 </style>
 <style scoped>
-.recipe {
-  padding-left: 60px;
-}
-
-ul {
-  padding: 0;
+.previewItem {
+  width: 100%;
 }
 </style>
 <script>
@@ -191,11 +231,13 @@ import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Tree from "@/components/Tree.vue";
 import Base64 from "@/plugins/base64.js";
-import {initTooltip} from "@thewakingsands/kit-tooltip";
+import moment from "moment/moment.js";
+import BarChart from "@/components/BarChart.vue";
+import LineChart from "@/components/LineChart.vue";
 
 let query = {};
 export default {
-  components: {Tree},
+  components: {LineChart, BarChart, Tree},
   mixins: [tableMixin],
   props: ['themeColor'],
   watch: {
@@ -211,8 +253,15 @@ export default {
             contentType: "application/json",
             data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
-              vm.nameOptions = data;
-              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
+              if (data) {
+                if (data.length > 1) {
+                  vm.showOptions = true;
+                  vm.nameOptions = data;
+                } else if (data.length === 1) {
+                  vm.showOptions = false;
+                  vm.itemName = data[0];
+                } else vm.showOptions = false;
+              } else vm.showOptions = false;
             }
           });
         }
@@ -220,19 +269,29 @@ export default {
     },
   },
   data() {
+    let query = {};
     let columns = [{
       field: 'id',
       title: 'id'
     }, {
       formatter: (value, row) => {
-        let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
-        return '<img src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
+        let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
+        return '<img decoding="async" loading="lazy"  src="' + url + '" width="32" height="32" alt="&nbsp;&nbsp;&nbsp;&nbsp;">';
       },
       title: '图标'
     }, {
       field: 'name',
       formatter: (value, row) => {
-        return '<span data-ck-item-id="' + row.id + '">' + value + '</span>';
+        let template = '<span>' + row.name + '&nbsp;<i id="cli' + row.id + '" @click="copyText(row)" class="bi bi-clipboard"></i>&nbsp;' +
+            '<i class="bi bi-terminal" @click="copyIsearch(row)"></i>&nbsp;<a href="https://ff14.huijiwiki.com/wiki/%E7%89%A9%E5%93%81:' + value + '"><i class="bi bi-wikipedia"></i></a></span>';
+        return this.vueFormatter({
+          template: template,
+          data: {row},
+          methods: {
+            copyText: this.copyText,
+            copyIsearch: this.copySearch,
+          }
+        })
       },
       title: '名称'
     }, {
@@ -255,43 +314,63 @@ export default {
           return ''
         } else return value;
       }
-    }, {
-      field: 'canBeHq',
-      title: '高品质',
-      formatter: (value) => {
-        return value === false ? '' : '✔'
-      }
-    }, {
-      field: 'isUnique',
-      title: '独占',
-      formatter: (value) => {
-        return value === true ? '✔' : ''
-      }
-    }, {
-      field: 'isCrestWorthy',
-      title: '珍稀',
-      formatter: (value) => {
-        return value === true ? '✔' : ''
-      }
-    }, {
-      field: 'isUntradable',
-      title: '可出售',
-      formatter: (value) => {
-        return value === false ? '✔' : ''
-      }
-    }, {
-      field: 'isDyeable',
-      title: '可分解',
-      formatter: (value) => {
-        return value === true ? '✔' : ''
-      }
     },
       {
+        field: 'itemType',
+        title: '分类'
+      },
+      {
+        field: 'canBeHq',
+        title: '高品质',
+        formatter: (value) => {
+          return value === false ? '' : '✔'
+        }
+      }, {
+        field: 'isUnique',
+        title: '独占',
+        formatter: (value) => {
+          return value === true ? '✔' : ''
+        }
+      }, {
+        field: 'isCrestWorthy',
+        title: '珍稀',
+        formatter: (value) => {
+          return value === true ? '✔' : ''
+        }
+      }, {
+        field: 'isUntradable',
+        title: '可出售',
+        formatter: (value) => {
+          return value === false ? '✔' : ''
+        }
+      }, {
+        field: 'isDyeable',
+        title: '可分解',
+        formatter: (value) => {
+          return value === true ? '✔' : ''
+        }
+      },
+      {
+        title: '家具预览',
+        align: 'center',
+        formatter: (value, row) => {
+          if (row.preview) {
+            let template = '<b-button  squared variant="outline-dark" @click="seeGather(row)"><i class="bi bi-image"></i></b-button>';
+            return this.vueFormatter({
+              template: template,
+              data: {row},
+              methods: {
+                seeGather: this.seePreview
+              }
+            })
+          } else return '';
+        }
+      }, {
         field: 'gather',
         title: '采集',
         align: 'center',
         formatter: (value, row) => {
-          if (row.gatherCount > 0 && !row.recipeCount) {
+          if (row.gatherCount > 0 && !row.recipeCount && !row.isDyeable) {
             let template = '<b-button  squared variant="outline-dark" @click="seeGather(row)"><i class="bi bi-snow2"></i></b-button>';
             return this.vueFormatter({
               template: template,
@@ -301,6 +380,24 @@ export default {
               }
             })
           } else return '';
+        }
+      }, {
+        field: 'guYuan',
+        title: '雇员筹集',
+        align: 'center',
+        formatter: (value) => {
+          switch (value) {
+            case 0:
+              return '';
+            case 1:
+              return '捕鱼人';
+            case 2:
+              return '战斗精英/魔法导师';
+            case 3:
+              return '采矿工';
+            case 4:
+              return '园艺工';
+          }
         }
       },
       {
@@ -318,7 +415,25 @@ export default {
             })
           } else return '';
         }
-      }, {
+      },
+      {
+        title: '趋势图',
+        width: 100,
+        formatter: (value, row) => {
+          let template = '';
+          if (row.isUntradable === false)
+            template = '<b-button  squared variant="outline-dark" @click="clickRow(row)"><i class="bi bi-database"></i></b-button>';
+          return this.vueFormatter({
+            template: template,
+            data: {row},
+            methods: {
+              clickRow: this.openSummary
+            }
+          })
+        }
+      }
+      ,
+      {
         title: '查看配方',
         formatter: (value, row) => {
           if (row.craft) {
@@ -398,28 +513,55 @@ export default {
       options: options,
       nameOptions: [],
       singeCost: 0,
-      itemName: '',
+      itemName: null,
       itemId: this.$route.query.id,
       trade: null,
       timer: null,
       canBeHq: null,
       canMake: null,
+      defaultUrl: 'https://sta2.ff14pvp.top/preview/',
+      currentPreview: 'https://static.ff14pvp.top/icon/icon/placeholder.png',
       levelItem: null,
       levelEquip: null,
       gil: null,
       canGather: null,
       materials: [],
+      copyIcon: 'clipboard',
       craftCount: 1,
       errorText: '',
       itemTypes: [],
       treeData: {},
+      chartData: {},
+      searchText: null,
+      chartData1: {},
+      summaryScale: '7',
+      summaryItemId: null,
+      summaryOptions: [
+        {value: '3', text: '3天'},
+        {value: '7', text: '7天'},
+        {value: '15', text: '15天'},
+        {value: '30', text: '30天'},
+        {value: '60', text: '60天'},
+        {value: '90', text: '90天'},
+        {value: '180', text: '180天'},
+        {value: '360', text: '360天'},
+        {value: 'all', text: '所有时间'}
+      ],
+      message: '复制成功!',
+      showMessage: false,
       tempItemId: 0,
+      ETStr: '00:00',
       selectedValue: '',
+      currentIntervalId: 0,
       showOptions: false
     }
   },
   activated() {
     const vm = this;
+    const worldCookie = this.$cookies.get('world');
+    if (this.isStr(worldCookie)) {
+      this.worldName = Base64.decode(worldCookie);
+    } else this.worldName = "中国";
     let id = this.$route.query.id
     if (id) {
       $.ajax({
@@ -441,9 +583,10 @@ export default {
     searchItem() {
       let $table = $('#table');
       $table.bootstrapTable('destroy');
+      let checkNumber1 = this.checkNumber(this.itemName);
       query = {
-        id: this.itemId,
-        name: this.itemId ? null : this.itemName,
+        id: checkNumber1 ? parseInt(this.itemName) : this.$route.query.id ? this.$route.query.id : null,
+        name: checkNumber1 ? null : this.itemName,
         description: $('#description').val(),
         itemUICategory: $('#itemUICategory').val(),
         levelItem: this.levelItem,
@@ -456,10 +599,12 @@ export default {
         canMake: this.canMake,
       };
       this.options.columns = this.columns;
+      this.options.queryParams = function (params) {
+        query.pageSize = params.pageSize;
+        query.pageNumber = params.pageNumber;
+        return query
+      }
       $table.bootstrapTable(this.options)
-      $table.bootstrapTable('refresh', {
-        query: query
-      });
       this.itemId = null;
       this.showOptions = false;
     },
@@ -489,9 +634,9 @@ export default {
       const vm = this;
       $('#loading-indicator').show();
       $('#recipeList').hide();
-      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
       $('#recipeLabel').html('<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
+          '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;配方');
       $('#recipeModal').modal('show');
       $.ajax({
         url: "/ffbusiness/recipe/getOne", method: "post", contentType: "application/json",
@@ -510,9 +655,9 @@ export default {
       $('#recipeList').hide();
       this.craftCount = 1;
       this.tempItemId = row.id;
-      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
       $('#recipeLabel').html('<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
+          '"decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;材料成本计算');
       $('#recipeModal').modal('show');
       $.ajax({
         url: "/ffbusiness/recipe/cost", method: "post", contentType: "application/json",
@@ -567,9 +712,9 @@ export default {
           let $sourceTable = $('#sourceTable');
           $sourceTable.bootstrapTable('destroy')
           $('#sourceModal').modal('show');
-          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
           $('#sourceLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;购买兑换');
+              '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;购买兑换');
           $sourceTable.bootstrapTable({
             data: data,
             columns: [{
@@ -584,13 +729,21 @@ export default {
               title: '位置'
             }, {
               formatter: (value, row) => {
-                let url = "https://static.ff14pvp.top/icon/icon/" + row.currencyId + '.png?eo-img.resize=w/32/h/32';
-                let s = '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">';
+                let url = "https://static.ff14pvp.top/icon/icon/" + row.currencyId + '.png';
+                let s = '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">';
                 return s + 'X' + row.price;
               },
               title: '消耗',
             }],
             mobileResponsive: true,
+            pagination: "true",
+            sidePagination: "client",
+            pageNumber: 1,
+            pageSize: 15,
+            paginationUseIntermediate: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            pageList: [10, 20, 100, 200, 500, 1000],
             checkOnInit: true
           });
         }
@@ -601,6 +754,8 @@ export default {
       this.itemName = this.selectedValue;
       this.searchItem();
     }, seeGather(row) {
+      clearInterval(this.currentIntervalId);
+      const vm = this;
       $.ajax({
         url: "/ffbusiness/itemGather/list",
         async: true,
@@ -611,12 +766,15 @@ export default {
           let $sourceTable = $('#gatherTable');
           $sourceTable.bootstrapTable('destroy')
           $('#gatherModal').modal('show');
-          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png?eo-img.resize=w/32/h/32';
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
           $('#gatherLabel').html('<img src="' + url +
-              '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
-          $sourceTable.bootstrapTable({
+              '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;采集地点');
+          let options = {
             data: data,
             columns: [{
+              field: 'id',
+              visible: false
+            }, {
               field: 'locationName',
               title: '地图'
             }, {
@@ -641,13 +799,132 @@ export default {
                 } else return '';
               },
               title: 'ET'
+            }, {
+              formatter: vm.gatherTimeFormatter,
+              field: 'gatherTime',
+              title: '采集时间'
             }],
             mobileResponsive: true,
+            pagination: "true",
+            sidePagination: "client",
+            pageNumber: 1,
+            pageSize: 15,
+            uniqueId: 'id',
+            paginationUseIntermediate: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            pageList: [10, 20, 100, 200, 500, 1000],
             checkOnInit: true
-          });
+          };
+          $sourceTable.bootstrapTable(options);
+          vm.currentIntervalId = setInterval(function () {
+            let currentData = $sourceTable.bootstrapTable('getData');
+            currentData.forEach(row => {
+              $sourceTable.bootstrapTable('updateCellByUniqueId', {
+                id: row.id,
+                field: 'gatherTime',
+                value: vm.gatherTimeFormatter('', row),
+                reinit: false
+              });
+            });
+          }, 10000);
         }
       });
       this.showOptions = false;
+    }, seePreview(row) {
+      fetch('/ffbusiness/itemNew/furniture/' + row.id)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            this.currentPreview = this.defaultUrl + data.icon + '.jpg?v=2';
+            $('#previewModal').modal('show');
+          })
+          .catch(error => {
+            console.error('Error fetching items:', error);
+          });
+    },
+    gatherTimeFormatter(value, row) {
+      const vm = this;
+      if (row.type && row.et1) {
+        let s;
+        const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+        const etSeconds = currentTimeStampInSeconds * 720 / 35;
+        const hours = Math.floor(etSeconds / 3600) % 24;
+        const minutes = Math.floor((etSeconds % 3600) / 60);
+        let et1 = row.et1;
+        let et2 = row.et2;
+        let diff1;
+        let diff2 = null;
+        if (et2) {
+          if (et2 && hours >= et2) {
+            et1 = et1 + ':00';
+            et2 = et2 + ':00';
+            diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+            diff2 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et2);
+          } else if (hours >= et1) {
+            et1 = et1 + ':00';
+            et2 = et2 + ':00';
+            diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+            diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
+          } else {
+            et1 = et1 + ':00';
+            et2 = et2 + ':00';
+            diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
+            diff2 = vm.timeDifferenceInSeconds(et2, hours + ':' + minutes);
+          }
+        } else {
+          if (hours >= et1) {
+            et1 = et1 + ':00';
+            diff1 = vm.timeDifferenceInSeconds('24:00', hours + ':' + minutes) + vm.timeDifferenceInSeconds('00:00', et1);
+          } else {
+            et1 = et1 + ':00';
+            diff1 = vm.timeDifferenceInSeconds(et1, hours + ':' + minutes);
+          }
+        }
+        if (diff1) s = '距离' + et1 + '还有' + Math.floor(diff1 * 35 / 720 / 60) + '分' + Math.floor((diff1 * 35 / 720) % 60) + '秒<br/>'
+        if (diff2) s = s + '距离' + et2 + '还有' + Math.floor(diff2 * 35 / 720 / 60) + '分' + Math.floor((diff2 * 35 / 720) % 60) + '秒<br/>'
+        return s;
+      } else return '';
+    },
+    timeToSeconds(time) {
+      const parts = time.split(':');
+      const hours = parseInt(parts[0]);
+      const minutes = parseInt(parts[1]);
+      return hours * 3600 + minutes * 60;
+    },
+    timeDifferenceInSeconds(time1, time2) {
+      var seconds1 = this.timeToSeconds(time1);
+      var seconds2 = this.timeToSeconds(time2);
+      return Math.abs(seconds1 - seconds2);
+    },
+    handleChildClick() {
+      this.closeRecipe();
+      this.itemName = localStorage.getItem('recipeId');
+      let $table = $('#table');
+      $table.bootstrapTable('destroy');
+      query = {
+        id: parseInt(this.itemName)
+      };
+      this.options.columns = this.columns;
+      this.options.queryParams = function (params) {
+        query.pageSize = params.pageSize;
+        query.pageNumber = params.pageNumber;
+        return query
+      }
+      $table.bootstrapTable(this.options)
+      this.itemId = null;
+      this.showOptions = false;
+    },
+    eorzeaTime() {
+      const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+      const etSeconds = currentTimeStampInSeconds * 720 / 35;
+      const hours = Math.floor(etSeconds / 3600) % 24;
+      const minutes = Math.floor((etSeconds % 3600) / 60);
+      this.ETStr = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
     },
     isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
@@ -660,33 +937,134 @@ export default {
       }
       this.singeCost = total;
     },
+    handleImageError(event) {
+      if (event.target.src.startsWith(this.defaultUrl))
+        event.target.src = event.target.src.replace(this.defaultUrl, 'https://sta2.ff14pvp.top/lpreview/l/').replace(".jpg", '.png');
+      else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
+    },
+    copyText(row) {
+      this.replaceElementClass('cli' + row.id)
+      const element = document.createElement('textarea')
+      element.value = row.name
+      element.style.width = '0'
+      element.style.height = '0'
+      element.style.opacity = '0'
+      element.style.position = 'absolute'
+      document.body.appendChild(element)
+      element.select();
+      element.setSelectionRange(0, 99999); // 适配 iOS
+      const success = document.execCommand('copy')
+      if (!success) {
+        prompt('请手动复制以下内容', row.name)
+      }
+      document.body.removeChild(element)
+    },
+    copySearch(row) {
+      const element = document.createElement('textarea')
+      let value = '/isearch ' + row.name;
+      element.value = value
+      element.style.width = '0'
+      element.style.height = '0'
+      element.style.opacity = '0'
+      element.style.position = 'absolute'
+      document.body.appendChild(element)
+      element.select();
+      element.setSelectionRange(0, 99999); // 适配 iOS
+      const success = document.execCommand('copy')
+      if (!success) {
+        prompt('请手动复制以下内容', value)
+      }
+      this.$refs['m-sm'].show()
+      document.body.removeChild(element)
+    },
+    // 获取具有指定 id 和 class 的元素，并进行类替换
+    replaceElementClass(id) {
+      // 获取元素
+      const element = document.getElementById(id);
+      // 检查元素是否存在并且具有指定的 class
+      if (element && element.classList.contains('bi-clipboard-fill')) {
+        // 如果元素具有 bi-clipboard-fill 类，则替换为 bi-clipboard 类
+        element.classList.remove('bi-clipboard-fill');
+        element.classList.add('bi-clipboard');
+      } else if (element && element.classList.contains('bi-clipboard')) {
+        // 如果元素具有 bi-clipboard 类，则替换为 bi-clipboard-fill 类
+        element.classList.remove('bi-clipboard');
+        element.classList.add('bi-clipboard-fill');
+      }
+    },
     closeRecipe() {
       $('#recipeModal').modal('toggle');
+    }, closePreview() {
+      $('#previewModal').modal('toggle');
     },
     closeSource() {
       $('#sourceModal').modal('toggle');
     },
+    checkNumber(inputValue) {
+      const numberPattern = /^\d+(\.\d+)?$/;
+      return inputValue && numberPattern.test(inputValue);
+    },
     closeGather() {
       $('#gatherModal').modal('toggle');
+    },
+    openSummary(row) {
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.id + '.png';
+      $('#SummaryLabel1').html(this.worldName + '&nbsp;<img src="' + url +
+          '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
+      $('#summaryModal1').modal('show');
+      this.summaryItemId = row.id;
+      this.changeSummaryScale(this.summaryScale);
+    },
+    changeSummaryScale(scale) {
+      const vm = this;
+      let format = "yyyyMMDD";
+      $.ajax({
+        url: "/ffbusiness/summary/query", method: "post",
+        data: JSON.stringify({
+          itemId: vm.summaryItemId,
+          startDate: scale === "all" ? '20230209' : moment().subtract(parseInt(scale), 'days').format(format),
+          endDate: moment().format(format),
+          worldName: vm.worldName
+        }),
+        contentType: "application/json", success: function (data) {
+          let labels = data.dates;
+          let realLabels = [];
+          for (let l of labels) {
+            realLabels.push(moment(l).subtract(1, "days").format(format));//因为后端日期总是加一天
+          }
+          let priceData = data.values[0].value;
+          vm.chartData = {
+            labels: realLabels,
+            datasets: [
+              {
+                label: '均价',
+                backgroundColor: '#df9ba1',
+                data: priceData
+              }
+            ]
+          };
+          vm.loaded = true;
+          vm.chartData1 = {
+            labels: realLabels,
+            datasets: [
+              {
+                label: '售出数',
+                backgroundColor: '#5ba585',
+                data: data.values[1].value
+              }
+            ]
+          };
+          vm.loaded = true;
+        }
+      });
+    },
+    closeSummaryTable() {
+      $('#summaryModal1').modal('toggle');
     }
   },
   mounted() {
-    initTooltip({
-      context: {
-        apiBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/item',  // xivapi 或 cafemaker 的 url；最后不要有斜线
-        iconBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/i', // 图标 cdn 的 url；最后不要有斜线
-        defaultHq: true,  // 是否默认显示 HQ 数据
-        hideSeCopyright: false, // 是否隐藏 SE 版权信息
-      },
-      links: {
-        detectWikiLinks: true,  // 是否自动识别 wiki 物品链接
-        itemNameAttribute: 'data-ck-item-name', // 自定义悬浮窗时，声明物品名字的属性
-        itemIdAttribute: 'data-ck-item-id', // 自定义悬浮窗时，声明物品 ID 的属性
-        actionNameAttribute: 'data-ck-action-name', // 自定义悬浮窗时，声明技能名字的属性
-        actionIdAttribute: 'data-ck-action-id', // 自定义悬浮窗时，声明技能 ID 的属性
-        rootContainer: document.body, // 监控的根元素
-      },
-    })
+    this.eorzeaTime();
+    setInterval(this.eorzeaTime, 1000);
     $('#itemType').selectpicker();
     $.ajax({
       url: "/ffbusiness/itemType/all", method: "post", contentType: "application/json", success: function (data) {
@@ -697,6 +1075,11 @@ export default {
     if (this.isStr(worldCookie)) {
       this.worldName = Base64.decode(worldCookie);
     } else this.worldName = "中国";
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'recipeId') {
+        this.handleChildClick();
+      }
+    });
   }
 }
 </script>

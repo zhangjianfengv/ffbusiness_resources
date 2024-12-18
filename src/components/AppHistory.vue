@@ -12,8 +12,8 @@
       <b-form-input v-model="buyerName" placeholder="购买者" type="text"
                     value="" :state="buyerNameState"></b-form-input>
       <b-form-input id="date" v-model="date" placeholder="日期" type="text"></b-form-input>
-      <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">
-      </bt-select>
+      <!--      <bt-select class="mx-1" :options="itemTypeOptions" v-model="itemTypes" ref="typeSelect" id="itemType">-->
+      <!--      </bt-select>-->
       <b-form-select v-model="worldName" id="worldName" @change="searchItem()">
         <b-form-select-option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</b-form-select-option>
         <b-form-select-option value="拉诺西亚">拉诺西亚</b-form-select-option>
@@ -62,6 +62,7 @@
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
       </b-button>
     </b-form>
+    <Collect @modal-show="handleModalShow" @modal-hide="handleModalHide" ref="collectComponent"></Collect>
     <b-modal id="modal-sm" size="sm" ok-only ok- squared variant="outline-dark" title="提示">角色名查询须指定物品
     </b-modal>
     <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
@@ -92,6 +93,7 @@
 import tableMixin from '../mixins/table'
 import $ from "jquery";
 import Base64 from '../plugins/base64'
+import Collect from "@/components/Collect.vue";
 
 let query = {
   worldName: '中国',
@@ -102,6 +104,7 @@ if (window.matchMedia("(max-width: 767px)").matches) {
   mobile = true;
 }
 export default {
+  components: {Collect},
   mixins: [tableMixin],
   props: ['themeColor'],
   computed: {
@@ -110,7 +113,7 @@ export default {
       return !this.itemName
     }, buyerNameState() {
       if (!this.isStr(this.buyerName)) return null;
-      else return this.isStr(this.itemName)
+      else return this.isStr(this.itemName) || this.login
     }
   },
   watch: {
@@ -124,10 +127,17 @@ export default {
             async: true,
             method: "post",
             contentType: "application/json",
-            data: JSON.stringify({name: this.itemName}),
+            data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
-              vm.nameOptions = data;
-              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
+              if (data) {
+                if (data.length > 1) {
+                  vm.showOptions = true;
+                  vm.nameOptions = data;
+                } else if (data.length === 1) {
+                  vm.showOptions = false;
+                  vm.itemName = data[0];
+                } else vm.showOptions = false;
+              } else vm.showOptions = false;
             }
           });
         }
@@ -146,12 +156,12 @@ export default {
       }, {
         field: 'itemName',
         formatter: (value, row) => {
-          let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
+          let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
           if (row.hq)
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
+            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
                 ' decoding="async" width="16" height="16" alt="hq">';
           else
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
         },
         title: '物品名称'
       }, {
@@ -254,12 +264,13 @@ export default {
       itemTypeOptions: [],
       clickWorldName: null,
       selectedValue: '',
+      login: false,
       showOptions: false
     }
   },
   methods: {
     searchItem() {
-      if (this.buyerNameInvalidState) {
+      if (this.buyerNameInvalidState && !this.login) {
         this.$bvModal.show('modal-sm')
         return;
       }
@@ -303,35 +314,6 @@ export default {
       let id = row.itemId;
       this.$router.push({name: 'AppCurrent', params: {itemId: id, worldName: row.worldName, itemName: row.itemName}});
     },
-    operateCollect(row) {
-      let $table = $('#table');
-      const userCookie = this.$cookies.get('user');
-      if (!userCookie) {
-        this.$router.push({name: 'AppMy'});
-        return;
-      }
-      if (!row.collect) {
-        $.ajax({
-          url: "/ffbusiness/listItem/add",
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({itemId: row.itemId}),
-          success: function (data) {
-            $table.bootstrapTable('refresh', {silent: true})
-          }
-        });
-      } else {
-        $.ajax({
-          url: "/ffbusiness/listItem/del",
-          method: "post",
-          contentType: "application/json",
-          data: JSON.stringify({itemId: row.itemId}),
-          success: function (data) {
-            $table.bootstrapTable('refresh', {silent: true})
-          }
-        });
-      }
-    },
     queryCurrentForm() {
       let tempItemId;
       let tempItemName;
@@ -360,7 +342,27 @@ export default {
           }
         });
       } else vm.$bvModal.show('modal-item');
-    }, isStr(val) {
+    },
+    operateCollect(row) {
+      const userCookie = this.$cookies.get('user');
+      if (!userCookie) {
+        this.$router.push({name: 'AppMy'});
+        return;
+      }
+      localStorage.setItem('operatingItem', row.itemId);
+      localStorage.setItem('operatingItemName', row.itemName);
+      localStorage.setItem('collected', row.collect);
+      this.$refs.collectComponent.listCollection();
+      this.$refs.collectComponent.showModal();
+    },
+    handleModalShow() {
+      console.log('父组件检测到 Collect 模态框显示');
+      // 在这里执行父组件的相关逻辑
+    }, handleModalHide() {
+      let $table = $('#table');
+      $table.bootstrapTable('refresh', {silent: true})
+    }
+    , isStr(val) {
       return val !== null && val !== undefined && val !== '' && val.replace(/(^s*)|(s*$)/g, "").length !== 0;
     },
     formatNumber(number) {
@@ -372,6 +374,10 @@ export default {
     }
   },
   mounted() {
+    const userCookie = this.$cookies.get('user');
+    if (this.isStr(userCookie)) {
+      this.login = true;
+    }
     $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
@@ -381,6 +387,4 @@ export default {
     $.ajax({url: "/ffbusiness/visitor/record", async: true, method: "post", contentType: "application/json"});
   }
 }
-
-
 </script>

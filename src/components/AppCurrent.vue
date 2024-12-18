@@ -1,15 +1,14 @@
 <template>
   <div id="app">
-    <b-form inline id="queryCurrent" @reset="onReset">
+    <b-form @submit.prevent inline id="queryCurrent" @reset="onReset">
       <div class="input-wrapper">
-        <b-form-input list="input-list" autocomplete="off" v-model="itemName" placeholder="物品名"
-                      value="" @keyup.enter="searchItem"></b-form-input>
+        <b-form-input id="nameKeyword" autocomplete="off" v-model="itemName" placeholder="物品名"
+                      value="" @keyup.enter="queryCurrentForm"></b-form-input>
         <b-form-select class="select-options" v-model="selectedValue" v-if="showOptions" @blur="hideSelect"
                        @change="hideSelect">
           <option v-for="option in nameOptions" :value="option" :key="option">{{ option }}</option>
         </b-form-select>
       </div>
-      <b-form-datalist id="input-list" :options="nameOptions"></b-form-datalist>
       <b-form-select v-model="worldName" :options="worldNames" @change="searchItem()"></b-form-select>
       <b-button squared variant="outline-dark" class="mx-1" @click="searchItem()" type="button"><i
           class="bi bi-search"></i>
@@ -17,6 +16,9 @@
       <b-button @click="clearFilterOption()" squared variant="outline-dark" type="button"><i class="bi bi-trash3"></i>
       </b-button>
       <b-button squared variant="outline-dark" class="mx-1" type="reset"><i class="bi bi-arrow-clockwise"></i>
+      </b-button>
+      <b-button squared variant="outline-dark" class="mx-1" type="button" @click="jumpItem"><i
+          class="bi bi-binoculars"></i>
       </b-button>
       <b-form-checkbox id="hq" v-model="onlyHq" style="margin: 5px 9px" value="1" unchecked-value="0"
                        @change="filterData()"
@@ -27,6 +29,7 @@
                        @change="loadMore()" switch>更多
       </b-form-checkbox>
       <b-img id="itemIcon" :src="imageUrl" fluid alt="icon" width="32px" height="32px"></b-img>
+      <!--      <a :href="uhref" target="_blank"><img width="24" height="24" src="/u.png" alt="u.png"></a>-->
     </b-form>
     <b-modal id="modal-item" size="sm" ok-only ok- squared variant="outline-dark" title="提示">查询条件无匹配物品
     </b-modal>
@@ -46,7 +49,10 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <b-modal id="network" size="sm" ok-only ok- squared variant="outline-dark" title="提示">网络异常，正在重试....
+    <b-modal id="network" size="sm" ok-only ok-squared variant="outline-dark" title="提示">
+      <!--      喔唷，网络崩溃啦！X﹏X。不过别急，可能等你看完这条信息就好了-->
+      universalis近期开发接口服务不稳定，如果服务器多次查询失败后将尝试查询中国，无法指定大区，您也可尝试直接打开<a
+        :href="uhref" target="_blank">{{ uhref }}</a>
     </b-modal>
   </div>
 </template>
@@ -58,42 +64,6 @@ import $ from "jquery";
 import Base64 from '../plugins/base64'
 import moment from "moment";
 
-let optionCurrent = {
-  dataField: 'currents',
-  pagination: "true",
-  columns: [{
-    field: 'worldName',
-    title: '服务器',
-    filterControl: 'select'
-  }, {
-    field: 'retainerName',
-    title: '雇员名',
-    filterControl: 'select'
-  }, {
-    field: 'hq',
-    formatter: (value) => {
-      return (value === true || value === 'true') ? '✔' : '✗'
-    },
-    title: '高品质',
-    filterControl: 'select'
-  }, {
-    field: 'total',
-    formatter: (value, row) => {
-      let exp = /\B(?=(\d{3})+(?!\d))/g;
-      return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
-    },
-    title: '总计'
-  }], method: 'post',
-  pageNumber: 1,
-  pageSize: 5,
-  toolbar: '#queryCurrent',
-  filterControl: true,
-  paginationUseIntermediate: true,
-  showSearchClearButton: true,
-  paginationSuccessivelySize: 1,
-  paginationPagesBySide: 1,
-  pageList: [10, 20, 50, 150, 450]
-};
 export default {
   mixins: [tableMixin],
   name: 'current',
@@ -109,10 +79,17 @@ export default {
             async: true,
             method: "post",
             contentType: "application/json",
-            data: JSON.stringify({name: this.itemName}),
+            data: JSON.stringify({name: this.itemName, all: true}),
             success: function (data) {
-              vm.nameOptions = data;
-              vm.showOptions = data && (data.length > 1 || newValue.toLowerCase().startsWith("g"))
+              if (data) {
+                if (data.length > 1) {
+                  vm.showOptions = true;
+                  vm.nameOptions = data;
+                } else if (data.length === 1) {
+                  vm.showOptions = false;
+                  vm.itemName = data[0];
+                } else vm.showOptions = false;
+              } else vm.showOptions = false;
             }
           });
         }
@@ -121,12 +98,15 @@ export default {
   },
   computed: {
     imageUrl() {
-      const currentDomain = "https://static.ff14pvp.top/icon/"; // 获取当前域名
+      const currentDomain = "https://static.ff14pvp.top/icon"; // 获取当前域名
       let itemId = this.itemId;
       if (itemId === '0' || itemId === 0 || !itemId)
         return currentDomain + '/icon/placeholder.png';
       return currentDomain + '/icon/' + itemId + '.png';
     },
+    uhref() {
+      return `https://universalis.app/market/${this.itemId}`;
+    }
   },
   data() {
     return {
@@ -139,7 +119,44 @@ export default {
       nameOptions: [],
       timer: null,
       onlyHq: 0,
-      worldName: '中国',
+      optionCurrent:
+          {
+            dataField: 'currents',
+            pagination: "true",
+            columns: [{
+              field: 'worldName',
+              title: '服务器',
+              filterControl: 'select'
+            }, {
+              field: 'retainerName',
+              title: '雇员名',
+              filterControl: 'select'
+            }, {
+              field: 'hq',
+              formatter: (value) => {
+                return (value === true || value === 'true') ? '✔' : '✗'
+              },
+              title: '高品质',
+              filterControl: 'select'
+            }, {
+              field: 'total',
+              formatter: (value, row) => {
+                let exp = /\B(?=(\d{3})+(?!\d))/g;
+                return row.pricePerUnit.toString().replace(exp, ",") + 'X' + row.quantity.toString().replace(exp, ",") + '=' + value.toString().replace(exp, ",")
+              },
+              title: '总计'
+            }], method: 'post',
+            pageNumber: 1,
+            pageSize: 10,
+            toolbar: '#queryCurrent',
+            filterControl: true,
+            paginationUseIntermediate: true,
+            paginationSuccessivelySize: 1,
+            paginationPagesBySide: 1,
+            onAll: this.changeTheme(this.themeColor),
+            pageList: [10, 20, 50, 150, 450]
+          },
+      worldName: '陆行鸟',
       childWorld: null,
       unFilteredData: [],
       worldNames: [
@@ -191,12 +208,33 @@ export default {
       $historyTable.bootstrapTable('destroy');
       this.showOptions = false;
     },
-    doJob: function (result, vm, $currentTable, $historyTable) {
+    changeTheme(color) {
+      return function () {
+        const otherLinks = document.querySelectorAll('.page-link');
+        if (otherLinks) {
+          otherLinks.forEach(link => {
+            link.style.textDecoration = 'none';
+            link.style.borderRadius = '0 !important';
+            link.style.color = 'black';
+            link.style.borderColor = color;
+            link.style.backgroundColor = 'white';
+          });
+        }
+        const active = document.querySelectorAll('.pagination .page-item.active .page-link');
+        if (active) {
+          active.forEach(a => {
+            a.style.color = 'white';
+            a.style.borderColor = color;
+            a.style.backgroundColor = color;
+          })
+        }
+      };
+    }, doJob: function (result, vm, $currentTable, $historyTable) {
       let color = this.themeColor;
       $('#loading-indicator').hide();
-      optionCurrent.data = result;
+      vm.optionCurrent.data = result;
       vm.unFilteredData = result;
-      $currentTable.bootstrapTable(optionCurrent);
+      $currentTable.bootstrapTable(vm.optionCurrent);
       let options = {
         data: result,
         dataField: 'realHistoryDtos',
@@ -235,28 +273,10 @@ export default {
         pageSize: 5,
         filterControl: true,
         paginationUseIntermediate: true,
-        showSearchClearButton: true,
         paginationSuccessivelySize: 1,
         paginationPagesBySide: 1,
-        pageList: [10, 20, 40],
-        onAll: function () {
-          const otherLinks = document.querySelectorAll('.page-link');
-          if (otherLinks) {
-            otherLinks.forEach(link => {
-              link.style.textDecoration = 'none';
-              link.style.borderRadius = '0 !important';
-              link.style.color = 'black';
-              link.style.borderColor = color;
-              link.style.backgroundColor = 'white';
-            });
-          }
-          const active = document.querySelector('.pagination .page-item.active .page-link');
-          if (active) {
-            active.style.color = 'white';
-            active.style.borderColor = color;
-            active.style.backgroundColor = color;
-          }
-        }
+        pageList: [10, 20, 40, 100, 200],
+        onAll: this.changeTheme(color)
       }
       $historyTable.bootstrapTable(options);
       let $button = $('button[title="Clear filters"]');
@@ -286,7 +306,7 @@ export default {
           })
           .catch(error => {
             console.log("failed with error:", error);
-            vm.$bvModal.show('network');
+            // vm.$bvModal.show('network');
             vm.raceAndHandle([request2, request1])
                 .then((result) => {
                   vm.doJob(result, vm, $currentTable, $historyTable);
@@ -296,6 +316,9 @@ export default {
                   console.log("Race and Handle failed with error:", error);
                 });
           });
+    },
+    jumpItem() {
+      window.location.href = "/#/item?id=" + this.itemId;
     },
     performPostRequest(operationName, url, data) {
       return fetch(url, {
@@ -405,9 +428,9 @@ export default {
         data: JSON.stringify({worldName: this.worldName, itemId: this.itemId, maximum: maximum === '1'}),
         success: function (data) {
           let $currentTable = $('#currentTable');
-          optionCurrent.data = data;
+          vm.optionCurrent.data = data;
           vm.unFilteredData = data;
-          $currentTable.bootstrapTable('destroy').bootstrapTable(optionCurrent);
+          $currentTable.bootstrapTable('destroy').bootstrapTable(vm.optionCurrent);
           vm.filterData();
           $('button[title="Clear filters"]').html('<i class="bi bi-trash3"></i>')
         }
@@ -425,13 +448,13 @@ export default {
   mounted() {
     $('#loading-indicator').hide();
     const vm = this;
-    this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
-      if (modalId === 'network') {
-        setTimeout(function () {
-          vm.$bvModal.hide('network')
-        }, 3000);
-      }
-    })
+    // this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
+    //   if (modalId === 'network') {
+    //     setTimeout(function () {
+    //       vm.$bvModal.hide('network')
+    //     }, 3000);
+    //   }
+    // })
     const worldCookie = this.$cookies.get('world');
     let worldName;
     if (this.isStr(worldCookie)) {
@@ -440,6 +463,8 @@ export default {
     const param = this.$route.params.worldName;
     if (param) worldName = param;
     const itemId = this.$route.params.itemId;
+    //TODO 暂不支持跨大区
+    if (worldName === "中国") worldName = "陆行鸟";
     if (worldName) {
       switch (worldName) {
         case "陆行鸟":

@@ -59,8 +59,10 @@
         <b-form-input id="max" placeholder="高价" type="number" value="" v-model="max"></b-form-input>
         <b-form-input id="search" class="mx-1" placeholder="模糊过滤" type="text" v-model="searchText"></b-form-input>
         <b-form-select id="sortType" v-model="sortType">
-          <b-form-select-option selected value="1">按交易次数排序</b-form-select-option>
-          <b-form-select-option value="2">按售出总数排序</b-form-select-option>
+          <b-form-select-option selected value="1">交易次数倒序</b-form-select-option>
+          <b-form-select-option value="2">售出总数倒序</b-form-select-option>
+          <b-form-select-option value="3">均价倒序</b-form-select-option>
+          <b-form-select-option value="4">交易额倒序</b-form-select-option>
         </b-form-select>
         <b-button squared variant="outline-dark" class="mx-1" @click="filterMarketable()" type="button"><i
             class="bi bi-search"></i>
@@ -97,7 +99,11 @@
             <div>
               <b-form-select class="modal-select" v-model="summaryScale" :options="summaryOptions"
                              @change="changeSummaryScale(summaryScale)"></b-form-select>
-              <span>※均价已剔除偏离其他值过多的数据</span>
+              <b-form-select class="mx-1" style="width: 108px" v-model="filterData"
+                             @change="changeSummaryScale(summaryScale)">
+                <b-form-select-option value="0">不过滤数据</b-form-select-option>
+                <b-form-select-option selected value="1">过滤数据</b-form-select-option>
+              </b-form-select>
             </div>
             <LineChart v-if="loaded" :chart-data="chartData"/>
             <BarChart v-if="loaded" :chart-data="chartData1"/>
@@ -133,10 +139,6 @@ a, a:hover {
   color: #343a40;
 }
 
-.modal-select {
-  width: 80px;
-}
-
 @media screen and (max-width: 1000px) {
   .modal {
     max-width: 100%; /* 当设备宽度小于或等于600px时，弹框宽度为设备宽度的100% */
@@ -152,7 +154,6 @@ import Base64 from '../plugins/base64'
 import LineChart from "@/components/LineChart.vue";
 import BarChart from "@/components/BarChart.vue";
 import moment from "moment";
-import {initTooltip} from "@thewakingsands/kit-tooltip";
 
 let queryMarketable = {
   worldName: '中国',
@@ -173,6 +174,7 @@ export default {
       max: null,
       sortType: "1",
       chartData: {},
+      filterData: "1",
       searchText: null,
       chartData1: {},
       summaryScale: '7',
@@ -184,6 +186,7 @@ export default {
         {value: '30', text: '30天'},
         {value: '90', text: '90天'},
         {value: '180', text: '180天'},
+        {value: '360', text: '360天'},
         {value: 'all', text: '所有时间'}
       ],
       columns: [
@@ -204,8 +207,8 @@ export default {
           field: 'name',
           sortable: true,
           formatter: function iconFormatter(value, row) {
-            let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
-            return '<img src="' + url + '" decoding="async" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<span data-ck-item-id="' + row.itemId + '">' + value + '</span>';
+            let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
+            return '<img src="' + url + '" decoding="async" loading="lazy" width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
           },
           title: '物品名称'
         }, {
@@ -236,7 +239,7 @@ export default {
             else if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return '无此物品';
           },
         }, {
           field: 'quantityIndexCurrent',
@@ -252,9 +255,19 @@ export default {
             if (value === 0) return "持平"
             else if (value > 0) return "<h4 style='display: inline;color: #1e7e34'>↓</h4>&nbsp;" + value;
             else if (value < 0) return "<h4 style='display: inline; color: #b94a48'>↑</h4>&nbsp;" + (-value);
-            else return "无此物品"
+            else return "无此物品";
           },
-        }, {
+        }
+        , {
+          field: 'marketShare',
+          sortable: true,
+          formatter: (value) => {
+            return value ? this.formatNumber(value) : 0;
+          },
+          visible: true,
+          title: '交易总额',
+        }
+        , {
           field: 'pricePerUnit',
           sortable: true,
           formatter: (value) => {
@@ -439,9 +452,9 @@ export default {
       });
     },
     openSummary(row) {
-      let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png?eo-img.resize=w/32/h/32';
+      let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
       $('#SummaryLabel').html(this.worldName + '&nbsp;<img src="' + url +
-          '" decoding="async" width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
+          '" decoding="async" loading="lazy"   width="32" height="32" alt="图标">' + row.name + '&nbsp;趋势')
       $('#summaryModal').modal('show');
       this.summaryItemId = row.itemId;
       this.changeSummaryScale(this.summaryScale);
@@ -476,7 +489,7 @@ export default {
               {
                 label: '均价',
                 backgroundColor: '#df9ba1',
-                data: filteredData
+                data: vm.filterData === "1" ? filteredData : priceData
               }
             ]
           };
@@ -507,22 +520,6 @@ export default {
     }
   },
   mounted() {
-    initTooltip({
-      context: {
-        apiBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/item',  // xivapi 或 cafemaker 的 url；最后不要有斜线
-        iconBaseUrl: 'https://' + window.location.hostname + '/ffbusiness/cafe/i', // 图标 cdn 的 url；最后不要有斜线
-        defaultHq: true,  // 是否默认显示 HQ 数据
-        hideSeCopyright: false, // 是否隐藏 SE 版权信息
-      },
-      links: {
-        detectWikiLinks: true,  // 是否自动识别 wiki 物品链接
-        itemNameAttribute: 'data-ck-item-name', // 自定义悬浮窗时，声明物品名字的属性
-        itemIdAttribute: 'data-ck-item-id', // 自定义悬浮窗时，声明物品 ID 的属性
-        actionNameAttribute: 'data-ck-action-name', // 自定义悬浮窗时，声明技能名字的属性
-        actionIdAttribute: 'data-ck-action-id', // 自定义悬浮窗时，声明技能 ID 的属性
-        rootContainer: document.body, // 监控的根元素
-      },
-    })
     $('#itemType').selectpicker();
     const worldCookie = this.$cookies.get('world');
     if (this.isStr(worldCookie)) {
@@ -533,11 +530,33 @@ export default {
       let $sortType1 = $('#sortType');
       let val = $sortType1.val();
       let table = $("#marketableTable");
-      table.bootstrapTable('refreshOptions', {
-        sortOrder: 'asc',
-        sortName: val === '2' ? 'quantityIndexCurrent' : 'numIndexCurrent',
-        columns: this.columns
-      })
+      if (val === '3') {
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'desc',
+          sortName: 'pricePerUnit',
+          columns: this.columns
+        });
+      }
+      if (val === '4') {
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'desc',
+          sortName: 'marketShare',
+          columns: this.columns
+        })
+      }
+      if (val === '1') {
+        table.bootstrapTable('showColumn', 'numIndexCurrent');
+        table.bootstrapTable('showColumn', 'numIndexChange');
+        table.bootstrapTable('showColumn', 'num');
+        table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
+        table.bootstrapTable('hideColumn', 'quantityIndexChange');
+        table.bootstrapTable('hideColumn', 'quantity');
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'asc',
+          sortName: 'numIndexCurrent',
+          columns: this.columns
+        })
+      }
       if (val === '2') {
         table.bootstrapTable('showColumn', 'quantityIndexCurrent');
         table.bootstrapTable('showColumn', 'quantityIndexChange');
@@ -545,13 +564,11 @@ export default {
         table.bootstrapTable('hideColumn', 'numIndexCurrent');
         table.bootstrapTable('hideColumn', 'num');
         table.bootstrapTable('hideColumn', 'numIndexChange');
-      } else {
-        table.bootstrapTable('showColumn', 'numIndexCurrent');
-        table.bootstrapTable('showColumn', 'numIndexChange');
-        table.bootstrapTable('showColumn', 'num');
-        table.bootstrapTable('hideColumn', 'quantityIndexCurrent');
-        table.bootstrapTable('hideColumn', 'quantityIndexChange');
-        table.bootstrapTable('hideColumn', 'quantity');
+        table.bootstrapTable('refreshOptions', {
+          sortOrder: 'asc',
+          sortName: 'quantityIndexCurrent',
+          columns: this.columns
+        })
       }
     })
   }

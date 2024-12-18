@@ -1,17 +1,18 @@
 <template>
-  <div id="app">
-    <div>
-      <b-navbar id="navbar" toggleable="sm"
-                type="dark">
+  <div>
+    <div id="app">
+      <b-navbar id="navbar" toggleable="sm" type="dark">
         <b-navbar-brand href="/">罗薇娜的手抄本</b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item to="/history" exact-path exact-active-class="active">销售履历</b-nav-item>
             <b-nav-item to="/marketable" exact-path exact-active-class="active">市场统计</b-nav-item>
-            <b-nav-item to="/item" exact-path exact-active-class="active">物品详情和成本</b-nav-item>
-            <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
+            <b-nav-item to="/item" exact-path exact-active-class="active">物品来源</b-nav-item>
+            <b-nav-item to="/batch" exact-path exact-active-class="active">批量物价和成本</b-nav-item>
             <b-nav-item to="/current" exact-path exact-active-class="active">实时物价</b-nav-item>
+            <b-nav-item to="/my" exact-path exact-active-class="active">我的关注</b-nav-item>
+            <b-nav-item to="/furniture" exact-path exact-active-class="active">家具预览</b-nav-item>
             <b-nav-item to="/about" exact-path exact-active-class="active">关于本站</b-nav-item>
             <div class="container1">
               <a class="top-button n-link-style"
@@ -24,7 +25,7 @@
                  @click="note()"><i class="bi bi-clipboard-fill"></i></a>
               <a class="top-button n-link-style"
                  @click="answer()"><i class="bi bi-question-circle-fill"></i></a>
-              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.0.0.apk"><i
+              <a class="top-button n-link-style" href="https://www.ff14pvp.top/package/LuoWeiNaV2.2.0.apk"><i
                   class="bi bi-android"></i></a>
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
@@ -34,8 +35,12 @@
                                       src="/favicon324c17f2.ico" alt="小程序"></a></div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
+            <b-container fluid class="text-with-border  defineFont">
+              艾&nbsp;{{ ETStr }}&nbsp;
+            </b-container>
             <b-nav-item right>
-              <b-img :src="imageUrl" fluid alt="icon" width="32px" height="32px" class="rounded-circle"></b-img>
+              <b-img :src="imageUrl" fluid alt="icon"
+                     width="32px" height="32px" class="rounded-circle"></b-img>
             </b-nav-item>
             <b-dropdown id="dropdown-form" :text="user.nickname+'，欢迎您！'" ref="dropdown" class="m-2">
               <b-dropdown-item><em>{{ user.nickname }}</em></b-dropdown-item>
@@ -60,37 +65,51 @@
       <div class="modal-dialog">
         <div class="modal-content" style="max-width: 380px">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel" style="margin: 0 auto">常见问题</h4>
+            <h4 id="myModalLabel1" class="modal-title" style="margin: 0 auto">常见问题</h4>
           </div>
           <div class="modal-body">
-            1.Q:为什么销售履历查询有时候非常慢？<br>
-            A:销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是中国>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。如果确实有未优化的查询需求可使用https://www.ff14pvp.top(主域名容易超时)并结合刚刚新增的销售履历导出功能<br>
-            2.Q:实时物价近期速度不太稳定？<br>
-            A:基于统计的线路优化逻辑刚刚更新，近期应该会改善。如果是手机使用WI-FI浏览可开启数据网络加速，具体开启方式各个手机品牌不同，例如小米手机位于设置-WLAN-网络加速：<br>
-            <img src="/network.jpg" alt="手机设置网络加速" loading="lazy" width="340" height="297"><br>
-            3.Q:为什么只有QQ登录？<br>
+            1.Q:如何设置自己的服务器<br>
+            A:在销售履历页面选择的服务器会自动保存，应用到所有页面的默认选项<br>
+            2.Q:如何加快销售履历的查询？<br>
+            A:销售履历数据由网站自行存储且数据量比较庞大，目前重点优化的查询有物品名关键词(或id)、日期、购买者以及区服筛选，数据并不分区服存储，所以查询效率往往是中国>服务器>大区。大部分情况下查询结果的总数会缓存以加快后续第二次查询。推荐使用https://www.ff14pvp.top而不是不带www的域名，并结合销售履历导出功能<br>
+            3.Q:如何加快实时物价的查询？<br>
+            A:如果是手机使用WI-FI浏览可开启数据网络加速，具体开启方式各个手机品牌不同，例如小米手机位于设置-WLAN-网络加速：<br>
+            <img src="/network.jpg" alt="手机设置网络加速" decoding="async" loading="lazy" width="340" height="297"><br>
+            4.Q:为什么只有QQ登录？<br>
             A:QQ微信等第三方登录实现简单，无需自行开发防脚本逻辑，无需验证码邮箱手机号。QQ登录过程网站只能获取到昵称头像等可以临时生成的信息<br>
-            4.Q:登陆后就只有收藏夹一个新增功能吗？<br>
-            A:不是的，计划是一个用户可以有多个收藏夹，可批量查价或者计算成本这些，但尚未开发完成
-            <br>
             5.Q:安卓app无法打开/功能异常/未包含更新笔记提到的功能？<br>
-            A:请重新下载安装
+            A:请重新下载安装<br>
+            6.Q:统计数据和预期不太一致？<br>
+            A:每日统计周期为当天8:15至次日8:15，数据每日均会增补，对于服务器均价取中位数，对于大区及跨区则取平均数。<br>
+            7.Q:销售履历页面未及时更新售出数据？<br>
+            A:销售履历五分钟更新一次，仅更新一定数量的热门物品和随机挑选的物品种类。
           </div>
           <div>
             <b-alert show variant="info">
               <h4 class="alert-heading">使用技巧</h4>
-              <p>
-                配方成本计算可点击<i class="bi bi-x-square"></i>按钮删除某个已经有的材料不计入总成本
-              </p>
-              <p>
-                物品名可直接输入拼音，不区分大小写
-              </p>
-              <p>
-                登录区有切换主题配色功能
-              </p>
-              <p>
-                黑话检索-输入指定快捷短语会出现关键词列表，选择关键词后会出现实际的可选物品列表（当只有一个选项时不会出现选择框）：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
-              </p>
+              <ul>
+                <li>
+                  物品名可直接输入拼音，不区分大小写
+                </li>
+                <li>
+                  登录区有切换主题配色功能
+                </li>
+                <li>
+                  若市场统计页面无法搜索到物品，可在物品来源页面查看物品趋势图，此页面的趋势图不过滤数据
+                </li>
+                <li>
+                  黑话检索-输入指定快捷短语会出现关键词列表，选择关键词后会出现实际的可选物品列表（当只有一个选项时会自动填入输入框）：<br>①"g"=藏宝图<br>"g10"=陈旧的瞪羚革地图<br>以此类推(绿图="g0")<br>②"f"=时装（富婆衣）<br>③"t"=各种头花<br>
+                </li>
+                <li>
+                  如果需要查询国服尚未更新的国际服物品价格及配方等数据，可在物品来源页面查询，最后一页开始为按照id排序的国际服物品，支持过滤'可出售'等等属性，此页面的英文物品名可以直接用于其他页面的搜索
+                </li>
+                <li>
+                  各个页面均不需要输入完整物品名即可进行关键词查询
+                </li>
+                <li>
+                  网站绝大部分页面均适配手机端浏览
+                </li>
+              </ul>
             </b-alert>
           </div>
           <div class="modal-footer">
@@ -109,8 +128,7 @@
         <div>
           <p>网站已经更新，以下是更新内容：</p>
           <ul>
-            <li>物品名称建议功能支持拼音检索</li>
-            <li>新增切换主题配色功能，位于登录区</li>
+            <li>批量物价和成本页面展示每个物品的详细在售列表而不是仅最低价</li>
           </ul>
         </div>
       </b-modal>
@@ -124,28 +142,32 @@
           <div class="modal-body">
             <!--            body begin-->
             <div>
-              <h6>
-                2024年3月26日
+              <h6 style="padding-left: 16px">
+                2024年11月30日
               </h6>
-              <span style="font-size: smaller">
-                1.物品价格走势图默认剔除（置空，并非删除）远离大多数数值的数据点。具体为超出平均值±标准差的两倍的数据
-            </span></div>
-            <br>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>预置国际服已经更新的720生产采集制作套装、710食药；时装关键词新增"科学家"、
+                  "图拉尔商人"、“图拉尔旅行者”；头花关键词新增向日葵头花；调整了旧版本套装的显示顺序
+                </li>
+              </ul>
+            </div>
             <div>
-              <h6>
-                2024年3月28日
+              <h6 style="padding-left: 16px">
+                2024年12月10日
               </h6>
-              <span style="font-size: smaller">
-                1.安卓app适配了返回键和全面屏手势，返回不会直接退出
-            </span></div>
-            <br>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>网站标题修改</li>
+              </ul>
+            </div>
             <div>
-              <h6>
-                2023年3月29日
+              <h6 style="padding-left: 16px">
+                2024年12月12日
               </h6>
-              <span style="font-size: smaller">
-                1.安卓app跳转维基时会在app内直接打开网页而不是跳转其他浏览器（需重新下载安装，版本号2.0）
-            </span>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>
+                  修复了安卓app当各个页面正在显示弹框时使用返回功能键/手势会导致app无法操作的问题，需要重新下载安装（网站本身调整不需要重新安装app）
+                </li>
+              </ul>
             </div>
             <!--            body end-->
           </div>
@@ -168,6 +190,10 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   select.form-control, .form-control.dropdown, .dropdown-menu {
     max-width: 220px !important;
   }
+}
+
+.modal-select {
+  width: 80px;
 }
 
 .input-wrapper {
@@ -219,6 +245,17 @@ select.form-control, .form-control.dropdown, .dropdown-menu {
   position: relative;
 }
 
+.defineFont {
+  font-family: '楷体', Arial, '华文仿宋', '微软雅黑', 'Microsoft YaHei', '宋体', SimSun, '思源宋体', 'Source Han Serif', '方正兰亭黑体', 'FZLanTingHei-R-GBK', '华文黑体', STHeiti, 'Noto Sans CJK', Helvetica, sans-serif;
+}
+
+.text-with-border {
+  width: fit-content; /* 让容器宽度根据文本内容自适应 */
+  color: white;
+  padding-right: 0;
+  font-weight: bold; /* 设置加粗样式 */
+}
+
 .select-options {
   position: absolute;
   top: calc(100% + 5px);
@@ -238,13 +275,16 @@ export default {
     return {
       user: {nickname: '用户'},
       showModal: false,
+      ETStr: '',
       themeColor: (localStorage.getItem('themeColor') || '#563d7c')
     }
   },
   computed: {
     imageUrl() {
-      let s = this.user.figureQQ + '';
-      return s.replace(/http:\/\//g, "https://");
+      let s = this.user.figureQQ;
+      if (s)
+        return s.replace(/http:\/\//g, "https://");
+      else return 'https://static.ff14pvp.top/icon/icon/placeholder.png';
     },
   },
   methods: {
@@ -279,7 +319,7 @@ export default {
       });
     },
     modalHidden() {
-      localStorage.setItem('hideModal', 'true');
+      localStorage.setItem('hideModal4', 'true');
     },
     logOut() {
       window.location.href = window.location.origin + '/ffbusiness/user/logOut';
@@ -287,12 +327,21 @@ export default {
     closeNote() {
       $('#note').modal('toggle');
     },
+    eorzeaTime() {
+      const currentTimeStampInSeconds = Date.now() / 1000;//需不需要math.floor?
+      const etSeconds = currentTimeStampInSeconds * 720 / 35;
+      const hours = Math.floor(etSeconds / 3600) % 24;
+      const minutes = Math.floor((etSeconds % 3600) / 60);
+      this.ETStr = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0');
+    },
     closeAnswer() {
       $('#answer').modal('toggle');
     }
   },
   mounted() {
     const vm = this;
+    this.eorzeaTime();
+    setInterval(this.eorzeaTime, 1000);
     $.ajax({
       url: "/ffbusiness/user/current",
       method: "post",
@@ -300,9 +349,10 @@ export default {
       data: JSON.stringify({}),
       success: function (data) {
         vm.user = data;
+        if (!data.nickname) vm.user = {nickname: '暗之战士'};
       }
     });
-    if (!localStorage.getItem('hideModal')) {
+    if (!localStorage.getItem('hideModal4')) {
       this.showModal = true;
     }
     let item = localStorage.getItem('themeColor');
