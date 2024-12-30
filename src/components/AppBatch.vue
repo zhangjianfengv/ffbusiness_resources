@@ -450,7 +450,8 @@ export default {
     },
     openModal() {
       this.$refs.firstModal.show();
-      this.newCollectionName = this.isStr(this.keyword) ? this.keyword : this.suit;
+      let part = this.isStr(this.keyword) ? this.keyword : this.suit;
+      this.newCollectionName = '收藏夹-' + part;
     },
     closeRecipe() {
       $('#cost').modal('toggle');
