@@ -143,16 +143,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年11月30日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>预置国际服已经更新的720生产采集制作套装、710食药；时装关键词新增"科学家"、
-                  "图拉尔商人"、“图拉尔旅行者”；头花关键词新增向日葵头花；调整了旧版本套装的显示顺序
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2024年12月10日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -167,6 +157,14 @@
                 <li>
                   修复了安卓app当各个页面正在显示弹框时使用返回功能键/手势会导致app无法操作的问题，需要重新下载安装（网站本身调整不需要重新安装app）
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年12月30日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价和成本</u>页面弹出收藏夹命名弹框时自动填充前缀为'收藏夹-'以尽量避免重名问题</li>
               </ul>
             </div>
             <!--            body end-->
