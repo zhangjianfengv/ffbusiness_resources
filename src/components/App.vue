@@ -141,14 +141,7 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年12月10日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>网站标题修改</li>
-              </ul>
-            </div>
+
             <div>
               <h6 style="padding-left: 16px">
                 2024年12月12日
@@ -165,6 +158,14 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>批量物价和成本</u>页面弹出收藏夹命名弹框时自动填充前缀为'收藏夹-'以尽量避免重名问题</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2025年1月13日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>使用与网站相同的方式加快小程序查价的响应速度</li>
               </ul>
             </div>
             <!--            body end-->

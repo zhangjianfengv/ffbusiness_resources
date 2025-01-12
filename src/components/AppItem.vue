@@ -213,7 +213,7 @@
       本站基础物品数据来源于&nbsp;<a style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
                                      href="https://github.com/thewakingsands/" target="_blank">肥肥咖啡</a>&nbsp;和&nbsp;<a
         style="text-align:center;color: #bbb;font-size: 12px;text-decoration: none;"
-        href="https://garlandtools.cn/db/" target="_blank">花环数据库</a>&nbsp;© 2024 SQUARE ENIX CO., LTD.
+        href="https://garlandtools.cn/db/" target="_blank">花环数据库</a>&nbsp;© 2025 SQUARE ENIX CO., LTD.
       All Rights Reserved.
     </div>
     <b-modal ref="m-sm" ok-only size="sm" title="提示">复制isearch指令成功</b-modal>
