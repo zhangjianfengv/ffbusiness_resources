@@ -30,9 +30,7 @@
               <a class="top-button n-link-style"
                  href="/luoweina.jpg"
                  id="linkWithHiddenText"
-                 target="_blank"><img v-b-tooltip.hover title="小程序" width="25px"
-                                      height="25px"
-                                      src="/favicon324c17f2.ico" alt="小程序"></a></div>
+                 target="_blank"><i class="bi bi-link-45deg"></i></a></div>
           </b-navbar-nav>
           <b-navbar-nav class="ml-auto">
             <b-container fluid class="text-with-border  defineFont">
