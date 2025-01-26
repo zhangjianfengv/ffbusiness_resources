@@ -139,17 +139,6 @@
           </div>
           <div class="modal-body">
             <!--            body begin-->
-
-            <div>
-              <h6 style="padding-left: 16px">
-                2024年12月12日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>
-                  修复了安卓app当各个页面正在显示弹框时使用返回功能键/手势会导致app无法操作的问题，需要重新下载安装（网站本身调整不需要重新安装app）
-                </li>
-              </ul>
-            </div>
             <div>
               <h6 style="padding-left: 16px">
                 2024年12月30日
@@ -164,6 +153,19 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li>使用与网站相同的方式加快小程序查价的响应速度</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2024年1月26日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li>
+                  <u>家具预览</u>页面默认只随机预览有高清图的家具，可切换模式
+                </li>
+                <li>
+                  <u>物品来源</u>页面只有有高清图的家具才显示家具预览按钮
+                </li>
               </ul>
             </div>
             <!--            body end-->

@@ -22,6 +22,10 @@
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(65)">房顶</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(75)">屋顶照明</b-button>
         <b-button squared class="ml-2" variant="outline-dark" @click="clickRow(64)">房产证书</b-button>
+        <b-form-checkbox id="hq" v-model="all" class="mx-1" value="part" unchecked-value="all"
+                         @change="changeMode"
+                         switch>仅大图
+        </b-form-checkbox>
       </b-container>
     </div>
     <b-container fluid>
@@ -58,6 +62,8 @@ export default {
       items: [], // 存储从后端获取的物品数据
       defaultUrl: 'https://sta2.ff14pvp.top/preview/',
       message: '',
+      all: 'part',
+      currentType: 0,
       intervalId: null,
       fallback: ''
     };
@@ -69,7 +75,8 @@ export default {
   },
   methods: {
     fetchItems() {
-      fetch('/ffbusiness/preview/random')
+      this.currentType = 0;
+      fetch('/ffbusiness/preview/random/' + this.all)
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -84,7 +91,8 @@ export default {
           });
     },
     clickRow(type) {
-      fetch('/ffbusiness/preview/type/' + type)
+      this.currentType = type;
+      fetch('/ffbusiness/preview/type/' + type + '/' + this.all)
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -98,12 +106,15 @@ export default {
             console.error('Error fetching items:', error);
           });
     },
+    changeMode() {
+      if (this.currentType !== 0) this.clickRow(this.currentType);
+      else this.fetchItems();
+    },
     handleImageError(event) {
       if (event.target.src.startsWith(this.defaultUrl))
         event.target.src = event.target.src.replace(this.defaultUrl, 'https://sta2.ff14pvp.top/lpreview/l/').replace(".jpg", '.png');
       else event.target.src = 'https://static.ff14pvp.top/icon/icon/placeholder.png'
     },
-
     updateMessage() {
       const now = moment();
       const cycleStartDate = moment('2024-08-20 23:00:00');
