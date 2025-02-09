@@ -141,14 +141,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2024年12月30日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li><u>批量物价和成本</u>页面弹出收藏夹命名弹框时自动填充前缀为'收藏夹-'以尽量避免重名问题</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2025年1月13日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -176,6 +168,14 @@
                 <li>
                   恢复部分误删除的数据
                 </li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2025年2月9日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>批量物价和成本</u> 物品名输入框和套装选择框只会同时存在一个，可点击按钮切换</li>
               </ul>
             </div>
             <!--            body end-->

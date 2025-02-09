@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <b-form @submit.prevent inline id="queryForm" @reset="onReset">
-      <b-form-input id="nameKeyword" v-model="keyword" placeholder="部分或完整物品名" @keyup.enter="querySuit"
+      <b-form-input id="nameKeyword" v-model="keyword" placeholder="部分或完整物品名"
+                    @keyup.enter="querySuit"
                     value=""></b-form-input>
-      <su-select class="mx-1" id="suits" :suits="suits" v-model="suit" ref="su-select"></su-select>
+      <su-select id="suits" ref="su-select" v-model="suit" :suits="suits"
+                 class="mx-1"></su-select>
       <select @change="querySuit()" class="mx-1" id="worldName" v-model="worldName">
         <option value="陆行鸟" style="font-weight: bold;font-style: italic">陆行鸟</option>
         <option value="拉诺西亚">拉诺西亚</option>
@@ -43,6 +45,8 @@
                        @change="querySuit()"
                        switch>材料成本
       </b-form-checkbox>
+      <b-button class="mx-1" squared type="button" variant="outline-dark"
+                @click="changeMode()"><i class="bi bi-arrow-down-up"></i></b-button>
       <b-button squared variant="outline-dark" class="mx-1" @click="querySuit()" type="button"><i
           class="bi bi-search"></i>
       </b-button>
@@ -158,16 +162,6 @@ export default {
   data() {
     let columns = [
       {
-        title: 'ID',
-        field: 'itemId',
-        align: 'center',
-        valign: 'middle',
-        sortable: true,
-        footerFormatter: (value) => {
-          return '总计'
-        },
-      },
-      {
         field: 'itemName',
         sortable: true,
         formatter: function iconFormatter(value, row) {
@@ -175,6 +169,9 @@ export default {
           return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
         },
         title: '物品名称',
+        footerFormatter: (value) => {
+          return '总计'
+        },
       }, {
         field: 'worldName',
         title: '服务器',
@@ -331,6 +328,7 @@ export default {
     return {
       keyword: null,
       date: null,
+      inputKeyword: false,
       activeTooltip: null, // 当前显示工具提示的行索引
       craftCount: 1,
       tempItemId: null,
@@ -363,6 +361,20 @@ export default {
       };
       this.tableOptions.url = '/ffbusiness/currentData/list';
       suitTable.bootstrapTable(this.tableOptions);
+    },
+    changeMode() {
+      if (this.inputKeyword === false) {
+        $('#nameKeyword').show();
+        $('#suits').hide();
+        $('.suitsPicker').hide();
+        this.inputKeyword = true;
+      } else {
+        $('#nameKeyword').hide();
+        $('#suits').show();
+        $('.suitsPicker').show();
+        this.inputKeyword = false;
+        this.keyword = null;
+      }
     },
     onReset(event) {
       event.preventDefault()
@@ -471,7 +483,9 @@ export default {
     },
   },
   mounted() {
-    const vm = this;
+    $('#nameKeyword').hide();
+    $('#suits').show();
+    $('.suitsPicker').show();
     let $suits = $('#suits');
     $suits.selectpicker();
     $('#loading-indicator').hide();
