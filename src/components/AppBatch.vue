@@ -57,9 +57,8 @@
       </b-button>
       <i class="bi bi-question-circle mx-1" id="tooltip-target-1"></i>
       <b-tooltip target="tooltip-target-1" triggers="hover">
-        <span>如果输入了物品名则查询以物品名为准，可以选择自己的收藏夹和预置套装、物品名关键词来代替输入物品名
-          。对于套装例如"690刻木匠"优先显示HQ最低价(每个物品最多搜索20条在售数据如果无HQ将显示NQ最低价)
-          。注意如果创建了与已有预置收藏夹或关键词同名的收藏夹则将覆盖预置</span>
+        <span>打开“材料成本”开关查询的是此套装制作一套所需的所有材料的数量、单价。可以选择自己的收藏夹和预置套装、物品名关键词或者直接输入物品名关键词来批量查询。
+          移至某一行的单价列会显示完整价格列表。注意如果创建了与预置同名的收藏夹则查询将覆盖预置</span>
       </b-tooltip>
     </b-form>
     <BootstrapTable id="suitTable"
