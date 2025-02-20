@@ -141,14 +141,6 @@
             <!--            body begin-->
             <div>
               <h6 style="padding-left: 16px">
-                2025年1月13日
-              </h6>
-              <ul style="font-size: smaller;padding-left: 16px">
-                <li>使用与网站相同的方式加快小程序查价的响应速度</li>
-              </ul>
-            </div>
-            <div>
-              <h6 style="padding-left: 16px">
                 2025年1月26日
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
@@ -176,6 +168,15 @@
               </h6>
               <ul style="font-size: smaller;padding-left: 16px">
                 <li><u>批量物价和成本</u>页面物品名输入框和套装选择框只会同时存在一个，可点击按钮切换</li>
+              </ul>
+            </div>
+            <div>
+              <h6 style="padding-left: 16px">
+                2025年2月20日
+              </h6>
+              <ul style="font-size: smaller;padding-left: 16px">
+                <li><u>销售履历</u>页面不展示物品ID</li>
+                <li>7.1版本基础物品数据更新完成</li>
               </ul>
             </div>
             <!--            body end-->
