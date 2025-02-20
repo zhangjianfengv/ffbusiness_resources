@@ -148,20 +148,14 @@ export default {
     let color = this.themeColor;
     let columns = [
       {
-        field: 'itemId',
-        title: '物品ID',
-        formatter: (value) => {
-          return '<a class="black-link-style" href="/#/item?id=' + value + '">' + value + '</a>'
-        }
-      }, {
         field: 'itemName',
         formatter: (value, row) => {
           let url = "https://static.ff14pvp.top/icon/icon/" + row.itemId + '.png';
           if (row.hq)
-            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + value + '<img src="/hq.png"' +
+            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>' + '<img src="/hq.png"' +
                 ' decoding="async" width="16" height="16" alt="hq">';
           else
-            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + value;
+            return '<img src="' + url + '" decoding="async" loading="lazy"  width="32" height="32" alt="图标">&nbsp;&nbsp;' + '<a class="black-link-style" href="/#/item?id=' + row.itemId + '">' + value + '</a>';
         },
         title: '物品名称'
       }, {
